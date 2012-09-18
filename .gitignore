@@ -1,0 +1,10 @@
+# Ignore all binary files
+*.class
+*.o
+*.so
+*.a
+*.lib
+*.dylib
+
+# Ignore generated headers
+include/libalexandria*

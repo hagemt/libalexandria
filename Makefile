@@ -25,7 +25,7 @@ RM=rm -rf
 # Flags
 #CFLAGS=-Wall -Wextra -DNDEBUG -I include/
 CFLAGS=-Wall -Wextra -g -pedantic -I include/ -fPIC
-FFLAGS=-shared -fPIC
+FFLAGS=-cpp -shared -fPIC -I include/ -fPIC
 JFLAGS=-classpath .:bindings/java
 
 all: bin/poc lib/libalexandria.so
@@ -33,15 +33,16 @@ all: bin/poc lib/libalexandria.so
 bindings/java/libalexandria/POC.class: bindings/java/libalexandria/POC.java
 	$(JC) $(JFLAGS) bindings/java/libalexandria/POC.java
 
+# XXX is this name system dependent?
 include/libalexandria_POC.h: bindings/java/libalexandria/POC.class
 	$(JH) $(JFLAGS) libalexandria.POC
 
-bindings/java/libalexandria_POC.c: include/libalexandria_POC.h
+bindings/java/laf_print.c: include/libalexandria_POC.h include/laf_print.h include/laf_constants.h
 
-libalexandria_POC.o: bindings/java/libalexandria_POC.c
-	$(CC) $(CFLAGS) -c bindings/java/libalexandria_POC.c
+bindings/java/laf_print.o: bindings/java/laf_print.c
+	$(CC) $(CFLAGS) -c bindings/java/laf_print.c -o bindings/java/laf_print.o
 
-lib/liblaf.so.0.1: laf_print.f
+lib/liblaf.so.0.1: laf_print.f include/laf_constants.h
 	$(FC) $(FFLAGS) laf_print.f -o lib/liblaf.so.0.1
 
 lib/liblaf.so.0: lib/liblaf.so.0.1
@@ -50,8 +51,8 @@ lib/liblaf.so.0: lib/liblaf.so.0.1
 lib/liblaf.so: lib/liblaf.so.0
 	$(LN) liblaf.so.0 lib/liblaf.so
 
-lib/libalexandria.so.0.1: libalexandria_POC.o lib/liblaf.so
-	$(LD) libalexandria_POC.o lib/liblaf.so -lc -lgfortran -o lib/libalexandria.so.0.1
+lib/libalexandria.so.0.1: bindings/java/laf_print.o lib/liblaf.so
+	$(LD) bindings/java/laf_print.o lib/liblaf.so -lc -lgfortran -o lib/libalexandria.so.0.1
 
 lib/libalexandria.so.0: lib/libalexandria.so.0.1
 	$(LN) libalexandria.so.0.1 lib/libalexandria.so.0
@@ -59,17 +60,18 @@ lib/libalexandria.so.0: lib/libalexandria.so.0.1
 lib/libalexandria.so: lib/libalexandria.so.0
 	$(LN) libalexandria.so.0 lib/libalexandria.so
 
-bin/poc: libalexandria_POC.o lib/liblaf.so
-	$(FC) libalexandria_POC.o lib/liblaf.so -lc -o bin/poc
+bin/poc: bindings/java/laf_print.o lib/liblaf.so
+	$(FC) bindings/java/laf_print.o lib/liblaf.so -lc -o bin/poc
 
 test: lib/libalexandria.so
-	echo "Testing..." | java -cp bindings/java -Djava.library.path=./lib:$(LD_LIBRARY_PATH) libalexandria.POC
+	java -cp bindings/java -Djava.library.path=./lib:$(LD_LIBRARY_PATH) libalexandria.POC
 
 clean:
 	$(RM) bin/*
 	$(RM) lib/*
 	$(RM) bindings/java/libalexandria/POC.class
+	$(RM) bindings/java/laf_print.o
 	$(RM) include/libalexandria_POC.h
-	$(RM) libalexandria_POC.o
+	$(RM) laf_print.o
 
 .PHONY: all test clean

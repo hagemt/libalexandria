@@ -15,12 +15,13 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LAF_PRINT_H
-#define LAF_PRINT_H
+#ifndef LAF_CONSTANTS_H
+#define LAF_CONSTANTS_H
 
-#include "laf_constants.h"
+#define LAF_VERSION 0x00000001
 
-void laf_printi_(void);
-void laf_print_(const char *, int);
+#define LAF_MAX_LEN 32
 
-#endif /* LAF_PRINT_H */
+#define COMPLEX_UNIT CMPLX(0,1)
+
+#endif /* LAF_CONSTANTS_H */

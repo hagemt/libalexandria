@@ -19,30 +19,33 @@
 #include <string.h>
 
 /* Fortran headers */
-#include "libalexandria_FTH.h"
+#include "laf_print.h"
 
-/* Java natives, proof of concept */
+/* Java natives, proof-of-concept */
 #include "libalexandria_POC.h"
+/* XXX is this ^ name system dependent? */
 
 JNIEXPORT void
 JNICALL Java_libalexandria_POC_print(JNIEnv *env, jclass jc, jstring jstr)
 {
 	size_t len;
 	const char *cstr;
+
 	/* Fetch modified UTF-8 characters */
 	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+
 	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] from JNI: '%s'\n", cstr);
+	fprintf(stderr, "[DEBUG] received '%s' from JNI:\n", cstr);
 	#endif
-	fprintf(stderr, "[DEBUG] Result of printing 'i':\n");
-	laf_printi_();
-	/* TODO get to work with passed string */
-	fprintf(stderr, "[DEBUG] Result of printing string:\n");
-	len = strnlen(cstr, LAF_MAX_LEN);
-	laf_print_(cstr, len);
+	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
+
 	/* Remember to release memory */
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
-	fprintf(stderr, "CLASS: %p\n", jc);
+
+	#ifndef NDEBUG
+	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", jc);
+	#endif
+	laf_printi_();
 }
 
 #define LAF_TEST_STR "Hello, World!"
@@ -50,7 +53,7 @@ JNICALL Java_libalexandria_POC_print(JNIEnv *env, jclass jc, jstring jstr)
 int
 main(void)
 {
-	laf_printi_();
+	/* Initial test for simple proof-of-concept */
 	laf_print_(LAF_TEST_STR, sizeof(LAF_TEST_STR));
 	return (EXIT_SUCCESS);
 }

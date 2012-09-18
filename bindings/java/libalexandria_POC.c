@@ -16,6 +16,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Fortran headers */
 #include "libalexandria_FTH.h"
@@ -26,15 +27,19 @@
 JNIEXPORT void
 JNICALL Java_libalexandria_POC_print(JNIEnv *env, jclass jc, jstring jstr)
 {
+	size_t len;
+	const char *cstr;
 	/* Fetch modified UTF-8 characters */
-	const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
 	#ifndef NDEBUG
 	fprintf(stderr, "[DEBUG] from JNI: '%s'\n", cstr);
 	#endif
+	fprintf(stderr, "[DEBUG] Result of printing 'i':\n");
 	laf_printi_();
 	/* TODO get to work with passed string */
-	//size_t len = strnlen(cstr, LAF_MAX_LEN);
-	//laf_print_(ctr, len);
+	fprintf(stderr, "[DEBUG] Result of printing string:\n");
+	len = strnlen(cstr, LAF_MAX_LEN);
+	laf_print_(cstr, len);
 	/* Remember to release memory */
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
 	fprintf(stderr, "CLASS: %p\n", jc);

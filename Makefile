@@ -1,11 +1,14 @@
+# Compilers
 CC=gcc
-FC=f77
+FC=gfortran
 JC=javac
-JH=javah
+# Utilities
+JH=javah -jni -d include/
 RM=rm -rf
-
-#CFLAGS=-Wall -Wextra -DNDEBUG
-CFLAGS=-Wall -Wextra -g -pedantic
+# Flags
+#CFLAGS=-Wall -Wextra -DNDEBUG -I include/
+CFLAGS=-Wall -Wextra -g -pedantic -I include/
+FFLAGS=-g -c
 JFLAGS=-classpath .:bindings/java
 
 all: poc
@@ -14,16 +17,16 @@ bindings/java/libalexandria/POC.class: bindings/java/libalexandria/POC.java
 	$(JC) $(JFLAGS) bindings/java/libalexandria/POC.java
 
 include/libalexandria_POC.h: bindings/java/libalexandria/POC.class
-	$(JH) $(JFLAGS) libalexandria.POC -o include/libalexandria_POC.h
+	$(JH) $(JFLAGS) libalexandria.POC
 
 libalexandria_POC.o: include/libalexandria_POC.h
 	$(CC) $(CFLAGS) -c bindings/java/libalexandria_POC.c
 
 laf_print.o: laf_print.f
-	$(FC) -c laf_print.f
+	$(FC) $(FFLAGS) laf_print.f
 
 poc: libalexandria_POC.o laf_print.o
-	$(CC) $(CFLAGS) libalexandria_POC.o laf_print.o -lc
+	$(FC) $(CFLAGS) libalexandria_POC.o laf_print.o -lc -o poc
 
 clean:
 	$(RM) bindings/java/libalexandria/POC.class

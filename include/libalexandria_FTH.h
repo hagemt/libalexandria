@@ -2,4 +2,4 @@
 #define LAF_MAX_LEN 32
 
 void laf_printi_(void);
-void laf_print_(const char *);
+void laf_print_(const char *, int);

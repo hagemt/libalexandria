@@ -13,8 +13,7 @@ Features
 The Library of Alexandria will provide:
 
 * A easy mechanism for any program to produce:
-     * maximum-likelihood estimates in an efficient manner
-
+     * Maximum-likelihood estimates in an efficient manner
 * Many other planned features, bridging many layers of abstraction
 
 History
@@ -22,6 +21,18 @@ History
 
 libalexandria began in September 2012 as a personal project.
 If you contribute to it, you may wish to add your name below.
+
+Building
+--------
+
+Currently, libalexandria uses `make`; however, anticipate this
+to change as the project evolves, in order to offer broader support.
+
+Developer testing of libalexandria involves:
+
+* gcc
+* gfortran
+* openjdk
 
 Contributors
 ------------

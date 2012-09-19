@@ -28,7 +28,6 @@
 JNIEXPORT void
 JNICALL Java_libalexandria_POC_print(JNIEnv *env, jclass jc, jstring jstr)
 {
-	size_t len;
 	const char *cstr;
 
 	/* Fetch modified UTF-8 characters */

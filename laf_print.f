@@ -27,7 +27,11 @@ C     -------------------------------------------------------------------------
 C     -------------------------------------------------------------------------
       SUBROUTINE laf_print(STR)
 C     -------------------------------------------------------------------------
-      CHARACTER*LAF_MAX_LEN STR
-      print *,'This string: "',STR,'" has length ',LEN(STR),'.'
+      INTEGER LENGTH
+      CHARACTER STR*(*)
+      LENGTH=LEN(STR)
+      if (LENGTH .LE. LAF_MAX_LEN) then
+        print *,'This string: "',STR,'" has length ',LENGTH,'.'
+      endif
 C     -------------------------------------------------------------------------
       END

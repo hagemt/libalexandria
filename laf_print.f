@@ -15,6 +15,7 @@ C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 #include "laf_constants.h"
+#define COMPLEX_UNIT CMPLX(0,1)
 
 C     -------------------------------------------------------------------------
       SUBROUTINE laf_printi
@@ -27,6 +28,6 @@ C     -------------------------------------------------------------------------
       SUBROUTINE laf_print(STR)
 C     -------------------------------------------------------------------------
       CHARACTER*LAF_MAX_LEN STR
-      print *,STR
+      print *,'This string: "',STR,'" has length ',LEN(STR),'.'
 C     -------------------------------------------------------------------------
       END

@@ -19,9 +19,6 @@
 #define LAF_CONSTANTS_H
 
 #define LAF_VERSION 0x00000001
-
-#define LAF_MAX_LEN 32
-
-#define COMPLEX_UNIT CMPLX(0,1)
+#define LAF_MAX_LEN 80
 
 #endif /* LAF_CONSTANTS_H */

@@ -42,8 +42,8 @@ bindings/java/laf_print.c: include/libalexandria_POC.h include/laf_print.h inclu
 bindings/java/laf_print.o: bindings/java/laf_print.c
 	$(CC) $(CFLAGS) -c bindings/java/laf_print.c -o bindings/java/laf_print.o
 
-lib/liblaf.so.0.1: laf_print.f include/laf_constants.h
-	$(FC) $(FFLAGS) laf_print.f -o lib/liblaf.so.0.1
+lib/liblaf.so.0.1: laf_svm.f laf_print.f include/laf_constants.h
+	$(FC) $(FFLAGS) laf_svm.f laf_print.f -o lib/liblaf.so.0.1
 
 lib/liblaf.so.0: lib/liblaf.so.0.1
 	$(LN) liblaf.so.0.1 lib/liblaf.so.0

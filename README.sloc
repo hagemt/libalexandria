@@ -1,0 +1,23 @@
+Generated using David A. Wheeler's 'SLOCCount'
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+109     bindings        java=81,ansic=28
+35      top_dir         fortran=35
+20      include         ansic=20
+0       bin             (none)
+0       doc             (none)
+0       lib             (none)
+
+Totals grouped by language (dominant language first):
+java:            81 (49.39%)
+ansic:           48 (29.27%)
+fortran:         35 (21.34%)
+
+Total Physical Source Lines of Code (SLOC)                = 164
+Development Effort Estimate, Person-Years (Person-Months) = 0.03 (0.36)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.14 (1.69)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.21
+Total Estimated Cost to Develop                           = $ 4,048
+ (average salary = $56,286/year, overhead = 2.40).

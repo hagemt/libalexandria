@@ -38,12 +38,12 @@ bindings/java/libalexandria/proof/POC.class: bindings/java/libalexandria/proof/P
 	$(JC) $(JFLAGS) bindings/java/libalexandria/proof/POC.java
 
 # XXX is this name system dependent?
-include/libalexandria_POC.h: bindings/java/libalexandria/proof/POC.class
+include/libalexandria_proof_POC.h: bindings/java/libalexandria/proof/POC.class
 	$(JH) $(JFLAGS) libalexandria.proof.POC
 
 # For libalexandriaF
 
-bindings/java/laF_print.c: include/libalexandria_POC.h include/laF_print.h include/laF_constants.h
+bindings/java/laF_print.c: include/libalexandria_proof_POC.h include/laF_print.h include/laF_constants.h
 
 bindings/java/laF_print.o: bindings/java/laF_print.c
 	$(CC) $(CFLAGS) -c bindings/java/laF_print.c -o bindings/java/laF_print.o

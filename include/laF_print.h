@@ -20,7 +20,15 @@
 
 #include "laF_constants.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cpluscplus */
+
 void laf_printi_(void);
 void laf_print_(char const*, int);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cpluscplus */
 
 #endif /* LAF_PRINT_H */

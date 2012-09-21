@@ -13,7 +13,6 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set(CMAKE_VERBOSE_MAKEFILE 1)
 set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
 
 add_library(alexandriaF laF_SVM.F laF_print.F)

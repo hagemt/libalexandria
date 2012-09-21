@@ -18,7 +18,7 @@ if(BUILD_TESTING)
   add_executable(simple_c_poc simple_poc.c)
   target_link_libraries(simple_c_poc alexandriaF)
   # CXX proof-of-concept
-  add_executable(simple_cxx_poc simple_poc.cpp)
+  add_executable(simple_cxx_poc simple_poc.cxx)
   target_link_libraries(simple_cxx_poc alexandriaF)
 endif(BUILD_TESTING)
 

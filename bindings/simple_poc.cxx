@@ -26,7 +26,7 @@ void println(const std::string &s) {
 	laf_print_(s.c_str(), s.length());
 }
 
-} /* namespace lac */
+} /* namespace lacxx */
 
 int main(int argc, char **argv) {
 	for (int i = 1; i < argc; ++i) {

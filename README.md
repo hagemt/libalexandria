@@ -62,10 +62,11 @@ If you contribute to it, you may wish to add your name below.
 Building
 --------
 
-Currently, libalexandria uses `make`; however, anticipate this
-to change as the project evolves, in order to offer broader support.
+Currently, libalexandria uses `make -f Makefile.poc`; however, we will
+transition as project evolves, in order to offer broader support for
+multiple platforms and configurations.
 
-Developer testing of libalexandria involves:
+Developer testing of libalexandria currently involves:
 
 * gcc
 * gfortran

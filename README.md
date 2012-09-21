@@ -11,7 +11,7 @@ Philosophy
 ----------
 
 libalexandria is envisioned to address a very defined Separation
-of Concerns: those being, specifically, and not otherwise:
+of Concerns, those being, specifically, and not otherwise:
 
 Simple Interface <-- (Efficient Bridge) --> Advanced Computation
 
@@ -26,7 +26,7 @@ maximize the speed and accuracy of computation.
 As such, the top layer of libalexandria is quite abstract,
 perhaps exceedingly (rediculously) so, by design. Here is where
 we allow ourselves this, in the name of the power that abstraction
-(see Liskov) give us, to organize concepts and communicate them to
+(see Liskov) gives us, to organize concepts and communicate them to
 our users with extreme clarity. No expense should be spared to
 maintain this transparency.
 
@@ -39,6 +39,9 @@ myriad interfaces to your wonderful heap of technical wizardry.
 
 (As an example, the prefix laF is used to reference .F codes.)
 
+Hopefully, you will agree that there are at least two concerns
+represented here, and so this division makes logical sense to you.
+If not, please discuss alternatives via the project wiki.
 So, that is it. Find your niche and start your engines.
 
 Features

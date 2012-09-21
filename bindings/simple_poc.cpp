@@ -14,35 +14,23 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
+#include <string>
 
 /* Fortran headers */
 #include "laF_print.h"
 
-/* Java natives, proof-of-concept */
-#include "libalexandria_proof_POC.h"
-/* XXX is this ^ name system dependent? */
+namespace lacxx {
 
-JNIEXPORT void
-JNICALL Java_libalexandria_proof_POC_print(JNIEnv *env, jclass jc, jstring jstr)
-{
-	const char *cstr;
+void println(const std::string &s) {
+	laf_print_(s.c_str(), s.length());
+}
 
-	/* Fetch modified UTF-8 characters */
-	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+} /* namespace lac */
 
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] received '%s' from JNI:\n", cstr);
-	#endif
-	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
-
-	/* Remember to release memory */
-	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
-
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", jc);
-	#endif
-	laf_printi_();
+int main(int argc, char **argv) {
+	for (int i = 1; i < argc; ++i) {
+		lacxx::println(string(argv[i]));
+	}
+	return 0;
 }

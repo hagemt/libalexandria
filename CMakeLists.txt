@@ -15,6 +15,16 @@
 
 cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 project(libalexandria C CXX Fortran Java)
+set(CMAKE_PROJECT_VERSION_MAJOR 0)
+set(CMAKE_PROJECT_VERSION_MINOR 1)
+set(CMAKE_PROJECT_VERSION_PATCH 0)
+set(CMAKE_PROJECT_VERSION_TWEAK 0)
+set(CMAKE_PROJECT_VERSION_HIGH
+  "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}")
+set(CMAKE_PROJECT_VERSION_LOW
+  "${CMAKE_PROJECT_VERSION_PATCH}.${CMAKE_PROJECT_VERSION_TWEAK}")
+set(CMAKE_PROJECT_VERSION
+  "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
 
 # Force a build type to be declared
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
@@ -36,33 +46,18 @@ option(BUILD_SHARED_LIBS "Produce shared libraries where possible" ON)
 
 if(BIND_JAVA)
   find_package(JNI)
-  if(JNI_FOUND)
-    message(STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
-    message(STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
-  else(JNI_FOUND)
-    message(FATAL "Could not find JNI.")
-  endif(JNI_FOUND)
+  if(NOT JNI_FOUND)
+    message(FATAL "Unable to find JNI. Please locate or disable BIND_JAVA")
+  endif(NOT JNI_FOUND)
 endif(BIND_JAVA)
+
+# TODO other libraries?
 
 ### Build
 
-if(BIND_JAVA)
-  add_subdirectory(bindings/java)
-endif(BIND_JAVA)
-
+# Main library components
 add_subdirectory(fortran)
-
-if(BUILD_TESTING)
-  # A simple proof-of-concept
-  add_executable(simple_poc bindings/java/laF_print.c)
-  target_link_libraries(simple_poc libalexandriaF)
-endif(BUILD_TESTING)
-
-if(BIND_JAVA)
-  include_directories(${JNI_INCLUDE_DIRS})
-  add_library(libalexandria bindings/java/laF_print.c)
-  target_link_libraries(libalexandria libalexandriaF ${JNI_LIBRARIES})
-endif(BIND_JAVA)
+add_subdirectory(bindings)
 
 ## TODO symbolic linking of library components
 
@@ -71,9 +66,16 @@ endif(BIND_JAVA)
 include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
+  # C Interface test
   add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_poc")
   set_tests_properties(simple_poc PROPERTIES
-    PASS_REGULAR_EXPRESSION "Hello, World!")
+    PASS_REGULAR_EXPRESSION "Hello, World!"
+    PASS_REGULAR_EXPRESSION "length\\s+13")
+  # Java bindings tests
+  if(BIND_JAVA)
+    set(JAVA_ARGS "-cp bindings/java -Djava.library.path=${LIBRARY_OUTPUT_PATH}")
+    add_test(interactive_poc "${JAVA_RUNTIME} ${JAVA_ARGS} libalexandria.proof.POC")
+  endif(BIND_JAVA)
 endif(BUILD_TESTING)
 
 ### Packaging

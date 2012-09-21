@@ -26,7 +26,7 @@
 /* XXX is this ^ name system dependent? */
 
 JNIEXPORT void
-JNICALL Java_libalexandria_proof_POC_print(JNIEnv *env, jclass jc, jstring jstr)
+JNICALL Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
 {
 	const char *cstr;
 

@@ -28,8 +28,8 @@ if(BIND_JAVA)
   find_package(Java COMPONENTS Runtime)
   if(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/poc.jar")
     set(JAVA_ARGS -Djava.library.path=${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} -jar)
-    add_test(interactive_poc "${Java_JAVA_EXECUTABLE}" ${JAVA_ARGS} "${EXECUTABLE_OUTPUT_PATH}/poc.jar" "Hello, World!")
-    set_tests_properties(simple_cxx_poc PROPERTIES
+    add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" ${JAVA_ARGS} "${EXECUTABLE_OUTPUT_PATH}/poc.jar" "Hello, World!")
+    set_tests_properties(simple_java_poc PROPERTIES
       PASS_REGULAR_EXPRESSION "Hello, World!")
   endif(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/poc.jar")
 endif(BIND_JAVA)

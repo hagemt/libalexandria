@@ -30,7 +30,7 @@ add_jar(poc libalexandria/proof/POC.java)
 # Generate JNI headers
 get_target_property(NATIVE_OUTPUT_DIR poc CLASS_DIR)
 set(JAVA_POC_CLASS "${NATIVE_OUTPUT_DIR}/POC.class")
-execute_process(COMMAND "${Java_JAVAH_EXECUTABLE}" -jni "${JAVA_POC_CLASS}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/include")
+#execute_process(COMMAND "${Java_JAVAH_EXECUTABLE}" -jni "${JAVA_POC_CLASS}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/include")
 
 # Build native library, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})

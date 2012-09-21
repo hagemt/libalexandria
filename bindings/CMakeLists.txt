@@ -13,8 +13,15 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set(CMAKE_VERBOSE_MAKEFILE 1)
-set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
+if(BUILD_TESTING)
+  # C proof-of-concept
+  add_executable(simple_c_poc simple_poc.c)
+  target_link_libraries(simple_c_poc alexandriaF)
+  # CXX proof-of-concept
+  add_executable(simple_cxx_poc simple_poc.cpp)
+  target_link_libraries(simple_cxx_poc alexandriaF)
+endif(BUILD_TESTING)
 
-add_library(alexandriaF laF_SVM.F laF_print.F)
-set_property(TARGET alexandriaF PROPERTY Fortran_FORMAT FIXED)
+if(BIND_JAVA)
+  add_subdirectory(java)
+endif(BIND_JAVA)

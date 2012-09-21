@@ -21,6 +21,6 @@
 #include "laF_constants.h"
 
 void laf_printi_(void);
-void laf_print_(const char *, int);
+void laf_print_(char const*, int);
 
 #endif /* LAF_PRINT_H */

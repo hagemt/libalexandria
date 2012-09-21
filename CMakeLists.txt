@@ -32,8 +32,8 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "${CMAKE_BUILD_TYPES}" FORCE)
 endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 # Specify some default directories
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
-set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
+set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
 ### Configuration
@@ -67,14 +67,16 @@ include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
   # C Interface test
-  add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_poc")
+  add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc")
   set_tests_properties(simple_poc PROPERTIES
-    PASS_REGULAR_EXPRESSION "Hello, World!"
-    PASS_REGULAR_EXPRESSION "length\\s+13")
+    PASS_REGULAR_EXPRESSION "Hello, World!")
+  add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_cpp_poc")
+  set_tests_properties(simple_poc PROPERTIES
+    PASS_REGULAR_EXPRESSION "Hello,World!")
   # Java bindings tests
   if(BIND_JAVA)
     set(JAVA_ARGS "-cp bindings/java -Djava.library.path=${LIBRARY_OUTPUT_PATH}")
-    add_test(interactive_poc "${JAVA_RUNTIME} ${JAVA_ARGS} libalexandria.proof.POC")
+    #add_test(interactive_poc "${JAVA_RUNTIME} ${JAVA_ARGS} libalexandria.proof.POC")
   endif(BIND_JAVA)
 endif(BUILD_TESTING)
 

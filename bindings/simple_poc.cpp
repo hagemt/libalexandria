@@ -30,7 +30,7 @@ void println(const std::string &s) {
 
 int main(int argc, char **argv) {
 	for (int i = 1; i < argc; ++i) {
-		lacxx::println(string(argv[i]));
+		lacxx::println(std::string(argv[i]));
 	}
 	return 0;
 }

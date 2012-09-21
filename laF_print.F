@@ -14,7 +14,7 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
-#include "laf_constants.h"
+#include "laF_constants.h"
 #define COMPLEX_UNIT CMPLX(0,1)
 
 C     -------------------------------------------------------------------------

@@ -19,14 +19,14 @@
 #include <string.h>
 
 /* Fortran headers */
-#include "laf_print.h"
+#include "laF_print.h"
 
 /* Java natives, proof-of-concept */
-#include "libalexandria_POC.h"
+#include "libalexandria_proof_POC.h"
 /* XXX is this ^ name system dependent? */
 
 JNIEXPORT void
-JNICALL Java_libalexandria_POC_print(JNIEnv *env, jclass jc, jstring jstr)
+JNICALL Java_libalexandria_proof_POC_print(JNIEnv *env, jclass jc, jstring jstr)
 {
 	const char *cstr;
 

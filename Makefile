@@ -21,38 +21,47 @@ JC=javac
 JH=javah -jni -d include/
 LD=gcc -shared
 LN=ln -sf
-RM=rm -rf
+RM=rm -rfv
 # Flags
-#CFLAGS=-Wall -Wextra -DNDEBUG -I include/
+#CFLAGS=-Wall -Wextra -DNDEBUG -I include/ -fPIC
 CFLAGS=-Wall -Wextra -g -pedantic -I include/ -fPIC
-FFLAGS=-cpp -shared -fPIC -I include/ -fPIC
+FFLAGS=-cpp -shared -fPIC -I include/
 JFLAGS=-classpath .:bindings/java
 
 all: bin/poc lib/libalexandria.so
 
-bindings/java/libalexandria/POC.class: bindings/java/libalexandria/POC.java
-	$(JC) $(JFLAGS) bindings/java/libalexandria/POC.java
+# FIXME break this into per-directory files? (or switch build system) CMake?
+
+# For Java/JNI bridge
+
+bindings/java/libalexandria/proof/POC.class: bindings/java/libalexandria/proof/POC.java
+	$(JC) $(JFLAGS) bindings/java/libalexandria/proof/POC.java
 
 # XXX is this name system dependent?
-include/libalexandria_POC.h: bindings/java/libalexandria/POC.class
-	$(JH) $(JFLAGS) libalexandria.POC
+include/libalexandria_POC.h: bindings/java/libalexandria/proof/POC.class
+	$(JH) $(JFLAGS) libalexandria.proof.POC
 
-bindings/java/laf_print.c: include/libalexandria_POC.h include/laf_print.h include/laf_constants.h
+# For libalexandriaF
 
-bindings/java/laf_print.o: bindings/java/laf_print.c
-	$(CC) $(CFLAGS) -c bindings/java/laf_print.c -o bindings/java/laf_print.o
+bindings/java/laF_print.c: include/libalexandria_POC.h include/laF_print.h include/laF_constants.h
 
-lib/liblaf.so.0.1: laf_svm.f laf_print.f include/laf_constants.h
-	$(FC) $(FFLAGS) laf_svm.f laf_print.f -o lib/liblaf.so.0.1
+bindings/java/laF_print.o: bindings/java/laF_print.c
+	$(CC) $(CFLAGS) -c bindings/java/laF_print.c -o bindings/java/laF_print.o
 
-lib/liblaf.so.0: lib/liblaf.so.0.1
-	$(LN) liblaf.so.0.1 lib/liblaf.so.0
+lib/libalexandriaF.so.0.1: laF_SVM.F laF_print.F include/laF_constants.h
+	$(FC) $(FFLAGS) laF_SVM.F laF_print.F -o lib/libalexandriaF.so.0.1
 
-lib/liblaf.so: lib/liblaf.so.0
-	$(LN) liblaf.so.0 lib/liblaf.so
+lib/libalexandriaF.so.0: lib/libalexandriaF.so.0.1
+	$(LN) libalexandriaF.so.0.1 lib/libalexandriaF.so.0
 
-lib/libalexandria.so.0.1: bindings/java/laf_print.o lib/liblaf.so
-	$(LD) bindings/java/laf_print.o lib/liblaf.so -lc -lgfortran -o lib/libalexandria.so.0.1
+lib/libalexandriaF.so: lib/libalexandriaF.so.0
+	$(LN) libalexandriaF.so.0 lib/libalexandriaF.so
+
+# For libalexandria
+# TODO needs java library path for JNI?
+
+lib/libalexandria.so.0.1: bindings/java/laF_print.o lib/libalexandriaF.so.0.1
+	$(LD) bindings/java/laF_print.o lib/libalexandriaF.so.0.1 -lc -lgfortran -o lib/libalexandria.so.0.1
 
 lib/libalexandria.so.0: lib/libalexandria.so.0.1
 	$(LN) libalexandria.so.0.1 lib/libalexandria.so.0
@@ -60,18 +69,21 @@ lib/libalexandria.so.0: lib/libalexandria.so.0.1
 lib/libalexandria.so: lib/libalexandria.so.0
 	$(LN) libalexandria.so.0 lib/libalexandria.so
 
-bin/poc: bindings/java/laf_print.o lib/liblaf.so
-	$(FC) bindings/java/laf_print.o lib/liblaf.so -lc -o bin/poc
+# For proof-of-concept
+
+bin/poc: bindings/java/laF_print.o lib/libalexandriaF.so
+	$(FC) bindings/java/laF_print.o lib/libalexandriaF.so -lc -o bin/poc
 
 test: lib/libalexandria.so
-	java -cp bindings/java -Djava.library.path=./lib:$(LD_LIBRARY_PATH) libalexandria.POC
+	java -cp bindings/java -Djava.library.path=./lib:$(LD_LIBRARY_PATH) libalexandria.proof.POC
 
 clean:
 	$(RM) bin/*
 	$(RM) lib/*
-	$(RM) bindings/java/libalexandria/POC.class
-	$(RM) bindings/java/laf_print.o
-	$(RM) include/libalexandria_POC.h
-	$(RM) laf_print.o
+	# TODO find a (better) way to remove all class and object files
+	$(RM) bindings/java/proof/*.class
+	$(RM) *.o bindings/java/*.o
+	# TODO find a way to remove all generated headers
+	$(RM) include/libalexandria_*.h
 
 .PHONY: all test clean

@@ -18,7 +18,7 @@
 #ifndef LAF_PRINT_H
 #define LAF_PRINT_H
 
-#include "laf_constants.h"
+#include "laF_constants.h"
 
 void laf_printi_(void);
 void laf_print_(const char *, int);

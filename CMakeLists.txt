@@ -45,9 +45,10 @@ option(BUILD_SHARED_LIBS "Produce shared libraries where possible" ON)
 ## Requirements
 
 if(BIND_JAVA)
+#  find_package(JNI PATHS "/home/teh/Downloads/jdk1.8.0" NO_DEFAULT_PATH)
   find_package(JNI)
   if(NOT JNI_FOUND)
-    message(FATAL "Unable to find JNI. Please locate or disable BIND_JAVA")
+    message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
   endif(NOT JNI_FOUND)
 endif(BIND_JAVA)
 
@@ -66,18 +67,7 @@ add_subdirectory(bindings)
 include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
-  # C Interface test
-  add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc")
-  set_tests_properties(simple_poc PROPERTIES
-    PASS_REGULAR_EXPRESSION "Hello, World!")
-  add_test(simple_poc "${EXECUTABLE_OUTPUT_PATH}/simple_cpp_poc")
-  set_tests_properties(simple_poc PROPERTIES
-    PASS_REGULAR_EXPRESSION "Hello,World!")
-  # Java bindings tests
-  if(BIND_JAVA)
-    set(JAVA_ARGS "-cp bindings/java -Djava.library.path=${LIBRARY_OUTPUT_PATH}")
-    #add_test(interactive_poc "${JAVA_RUNTIME} ${JAVA_ARGS} libalexandria.proof.POC")
-  endif(BIND_JAVA)
+  add_subdirectory(testing)
 endif(BUILD_TESTING)
 
 ### Packaging

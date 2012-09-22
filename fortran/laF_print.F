@@ -18,20 +18,20 @@ C     -------------------------------------------------------------------------
 #define COMPLEX_UNIT CMPLX(0,1)
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE laf_printi
+      SUBROUTINE LAF_PRINTI
 C     -------------------------------------------------------------------------
       print *,COMPLEX_UNIT
 C     -------------------------------------------------------------------------
-      END
+      END SUBROUTINE LAF_PRINTI
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE laf_print(STR)
+      SUBROUTINE LAF_PRINT(STR)
 C     -------------------------------------------------------------------------
-      INTEGER LENGTH
       CHARACTER STR*(*)
+      INTEGER LENGTH
       LENGTH=LEN(STR)
-      if (LENGTH .LE. LAF_MAX_LEN) then
-        print *,'This string: "',STR,'" has length ',LENGTH,'.'
-      endif
+      IF (LENGTH .LE. LAF_MAX_LEN) THEN
+        PRINT *,'This string: "',STR,'" has length ',LENGTH,'.'
+      ENDIF
 C     -------------------------------------------------------------------------
-      END
+      END SUBROUTINE LAF_PRINT

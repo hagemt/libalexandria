@@ -14,48 +14,36 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
-
-C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_HPOLY(V1,V2,D,K)
-C     -------------------------------------------------------------------------
-      CALL LAF_KERN_POLY(V1,V2,0,D,K)
-C     -------------------------------------------------------------------------
-      END
+#include "laF_constants.h"
 
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KERN_POLY(V1,V2,C,D,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(3) :: V1,V2
-      REAL :: D,K
+      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2
+      REAL :: C,D,K
 C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
       K=(DOT_PRODUCT(V1,V2)+C)**D
 C     -------------------------------------------------------------------------
-      END
+      END SUBROUTINE LAF_KERN_POLY
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_GAUSS_SIG(V1,V2,SIG,K)
+      SUBROUTINE LAF_KERN_GAUSS(V1,V2,GAM,SIG,K)
 C     -------------------------------------------------------------------------
-      CALL LAF_KERN_GAUSS(V1,V2,1/(2*SIG**2),K)
-C     -------------------------------------------------------------------------
-      END
-
-C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_GAUSS(V1,V2,GAM,K)
-C     -------------------------------------------------------------------------
-      REAL, DIMENSION(3) :: V1,V2,V
-      REAL :: GAM,K
+      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2,V
+      REAL :: GAM,SIG,K
       V=V1-V2
-C     Gaussian kernel creates infinite-dimensional Hilbert space, GAM > 0
+      IF (GAM .EQ. 0 .AND. SIG .NE. 0) GAM=1/(2*SIG**2)
+C     Gaussian kernel creates infinite-dimensional Hilbert space
       K=EXP(-GAM*SQRT(DOT_PRODUCT(V,V))**2)
 C     -------------------------------------------------------------------------
-      END
+      END SUBROUTINE LAF_KERN_GAUSS
 
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KERN_TANH(V1,V2,KAP,C,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(3) :: V1,V2
+      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2
       REAL :: KAP,C,K
-C     Hyperbolic tangent kernel, KAP > 0 and C < 0
-      K=TANH(KAP*DOT_PRODUCT(V1,V2)+C);
+C     Hyperbolic tangent kernel with positive parameters
+      K=TANH(KAP*DOT_PRODUCT(V1,V2)-C);
 C     -------------------------------------------------------------------------
-      END
+      END SUBROUTINE LAF_KERN_TANH

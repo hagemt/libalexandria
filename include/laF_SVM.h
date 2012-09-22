@@ -26,8 +26,6 @@ extern "C" {
 
 /* kernel functions for non-linear SVM */
 extern void laf_kern_gauss_;
-extern void laf_kern_gauss_sig_;
-extern void laf_kern_hpoly_;
 extern void laf_kern_poly_;
 extern void laf_kern_tanh_;
 /* TODO proper arguments */

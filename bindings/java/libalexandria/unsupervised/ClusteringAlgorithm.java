@@ -16,6 +16,11 @@
  */
 package libalexandria;
 
-public enum ModelType {
-	SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+import libalexandria.LearningModel;
+import libalexandria.ModelType;
+
+public abstract class ClusteringAlgorithm extends LearningModel {
+	protected ClusteringAlgorithm() {
+		super(ModelType.UNSUPERVISED);
+	}
 }

@@ -28,7 +28,21 @@ set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
-add_jar(poc libalexandria/proof/POC.java)
+add_jar(poc
+  libalexandria/LearningModel.java
+  libalexandria/ModelType.java
+  libalexandria/ann/NeuralNetwork.java
+  libalexandria/base/Feature.java
+  libalexandria/proof/POC.java
+  libalexandria/reinforcement/MarkovDecisionProcess.java
+  libalexandria/supervised/ClassificationAlgorithm.java
+  libalexandria/supervised/NonLinearSupportVectorMachine.java
+  libalexandria/supervised/RegressionAlgorithm.java
+  libalexandria/supervised/SupportVectorMachine.java
+  libalexandria/unsupervised/ClusteringAlgorithm.java
+  libalexandria/unsupervised/KMeans.java
+  libalexandria/unsupervised/SeparationAlgorithm.java
+)
 
 # Generate JNI headers
 add_custom_command(TARGET poc POST_BUILD

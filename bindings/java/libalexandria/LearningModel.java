@@ -18,19 +18,33 @@ package libalexandria;
 
 public abstract class LearningModel {
 	protected final ModelType type;
+	protected final boolean online;
 	protected String label;
 
 	protected LearningModel(ModelType type) {
 		this(type, type.name());
 	}
 
+	protected LearningModel(ModelType type, boolean online) {
+		this(type, type.name(), online);
+	}
+
 	protected LearningModel(ModelType type, String label) {
+		this(type, label, false);
+	}
+
+	protected LearningModel(ModelType type, String label, boolean online) {
 		this.type = type;
 		this.label = label;
+		this.online = online;
 	}
 
 	public ModelType getType() {
 		return type;
+	}
+
+	public boolean isOnline() {
+		return online;
 	}
 
 	public String getLabel() {

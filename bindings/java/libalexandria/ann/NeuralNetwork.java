@@ -16,6 +16,15 @@
  */
 package libalexandria;
 
-public enum ModelType {
-	SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+import libalexandria.LearningModel;
+import libalexandria.ModelType;
+
+public abstract class NeuralNetwork extends LearningModel {
+	protected NeuralNetwork(ModelType type) {
+		this(type, type.name());
+	}
+
+	protected NeuralNetwork(ModelType type, String label) {
+		super(type, label);
+	}
 }

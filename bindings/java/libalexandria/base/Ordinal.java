@@ -14,13 +14,10 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.unsupervised;
+package libalexandria.base;
 
-import libalexandria.LearningModel;
-import libalexandria.ModelType;
-
-public abstract class SeparationAlgorithm extends LearningModel {
-	protected SeparationAlgorithm() {
-		super(ModelType.UNSUPERVISED);
-	}
+public interface Ordinal<N extends Number> {
+	public boolean isFinite();
+	public boolean isCountable();
+	public N value();
 }

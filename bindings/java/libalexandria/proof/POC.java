@@ -16,10 +16,6 @@
  */
 package libalexandria.proof;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-
 public class POC {
 	static {
 		System.loadLibrary("alexandria");

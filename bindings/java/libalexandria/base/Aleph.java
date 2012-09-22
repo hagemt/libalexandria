@@ -14,13 +14,29 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.unsupervised;
+package libalexandria.base;
 
-import libalexandria.LearningModel;
-import libalexandria.ModelType;
+public enum Aleph implements Ordinal<Integer> {
+	NULL(0), ONE(1);
+	
+	private int value;
+	
+	private Aleph(int value) {
+		this.value = value;
+	}
 
-public abstract class SeparationAlgorithm extends LearningModel {
-	protected SeparationAlgorithm() {
-		super(ModelType.UNSUPERVISED);
+	@Override
+	public boolean isCountable() {
+		return (value == 0);
+	}
+
+	@Override
+	public boolean isFinite() {
+		return false;
+	}
+
+	@Override
+	public Integer value() {
+		return value;
 	}
 }

@@ -16,15 +16,44 @@
  */
 package libalexandria.base;
 
-public class Feature<T extends Comparable<T>> implements Comparable<Feature<T>> {
-	protected final T datum;
+public abstract class SampleSpace {
+	protected final Ordinal<Integer> cardinality;
+	protected final Number dimension;
+	protected String label;
 
-	protected Feature(T t) {
-		datum = t;
+	protected SampleSpace(Ordinal<Integer> cardinality, Number dimension) {
+		this.cardinality = cardinality;
+		this.dimension = dimension;
+	}
+	
+	protected SampleSpace(String label) {
+		this(Aleph.ONE, 1);
+		this.label = label;
+	}
+	
+	protected SampleSpace() {
+		this("");
 	}
 
-	@Override
-	public int compareTo(Feature<T> f) {
-		return datum.compareTo(f.datum);
+	public boolean isFinite() {
+		return cardinality.isFinite();
+	}
+
+	public boolean isEnumerable() {
+		return cardinality.isCountable();
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+	
+	public String setLabel(String label) {
+		String old = this.label;
+		if (label == null) {
+			this.label = "";
+		} else {
+			this.label = label;
+		}
+		return old;
 	}
 }

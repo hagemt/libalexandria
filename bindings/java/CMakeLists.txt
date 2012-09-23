@@ -22,17 +22,24 @@ else(Java_Development_FOUND)
 endif(Java_Development_FOUND)
 
 set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
-# TODO add_subdirectory(...)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
 add_jar(poc
+  libalexandria/Generate.java
+  libalexandria/LabelledEntity.java
   libalexandria/LearningModel.java
   libalexandria/ModelType.java
   libalexandria/ann/NeuralNetwork.java
+  libalexandria/base/ClosedInterval.java
+  libalexandria/base/ContinuousSampleSpace.java
+  libalexandria/base/DiscreteSampleSpace.java
   libalexandria/base/Feature.java
+  libalexandria/base/MetricSpace.java
+  libalexandria/base/Ordinal.java
+  libalexandria/base/SampleSpace.java
   libalexandria/proof/POC.java
   libalexandria/reinforcement/MarkovDecisionProcess.java
   libalexandria/supervised/ClassificationAlgorithm.java

@@ -52,14 +52,14 @@ add_jar(jpoc
 )
 
 # Generate JNI headers
-add_custom_command(TARGET poc POST_BUILD
+add_custom_command(TARGET jpoc POST_BUILD
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni
     -d "${CMAKE_SOURCE_DIR}/include" "libalexandria.proof.POC"
-  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/poc.dir"
+  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
   COMMENT "       Updating JNI headers..." VERBATIM)
 
 # Build native library, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})
-add_library(jalexandria laF_print.c laF_SVM.c)
+add_library(jalexandria SHARED jla_print.c jla_SVM.c)
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
-add_dependencies(jalexandria poc)
+add_dependencies(jalexandria jpoc)

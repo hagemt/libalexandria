@@ -42,6 +42,7 @@ option(BIND_C            "Produce bindings for C"    OFF)
 option(BIND_CXX          "Produce bindings for C++"  OFF)
 option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
+option(BUILD_TESTING     "Produce testing tree"      OFF)
 
 ## Requirements
 

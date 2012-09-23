@@ -16,4 +16,8 @@
 set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
 
 add_library(alexandria laF_SVM.F laF_print.F)
-set_property(TARGET alexandria PROPERTY Fortran_FORMAT FIXED)
+
+if(NOT BUILD_SHARED_LIBS)
+  target_link_libraries(alexandria gfortran)
+  set_target_properties(alexandria PROPERTIES COMPILE_FLAGS -fPIC)
+endif(NOT BUILD_SHARED_LIBS)

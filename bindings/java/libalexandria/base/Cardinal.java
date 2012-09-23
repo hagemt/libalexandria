@@ -16,14 +16,43 @@
  */
 package libalexandria.base;
 
-import libalexandria.LabelledEntity;
-
-public abstract class Feature extends LabelledEntity {
-	protected MetricSpace space;
-
-	protected Feature(String label) {
-		super(label);
+public final class Cardinal extends Ordinal<Integer> {
+	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
+	static {
+		ALEPH_NULL = new Cardinal(0, false);
+		ALEPH_ONE = new Cardinal(1, false);
+		ALEPH_TWO = new Cardinal(2, false);
 	}
 	
-	public abstract boolean isClosed();
+	private boolean finite;
+
+	public Cardinal(Integer value) {
+		this(value, true);
+	}
+	
+	public Cardinal(Integer value, boolean finite) {
+		super(value);
+		this.finite = finite;
+	}
+
+	@Override
+	public boolean isCountable() {
+		return finite || (value == 0);
+	}
+
+	@Override
+	public boolean isFinite() {
+		return finite;
+	}
+
+	@Override
+	public Integer value() {
+		return (finite) ? value : Integer.MAX_VALUE;
+	}
+
+	@Override
+	public int compareTo(Integer o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

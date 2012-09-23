@@ -17,5 +17,7 @@
 package libalexandria.supervised;
 
 public class NonLinearSupportVectorMachine extends SupportVectorMachine {
-	
+	protected NonLinearSupportVectorMachine(String label) {
+		super(label);
+	}
 }

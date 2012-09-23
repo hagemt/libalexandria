@@ -17,5 +17,7 @@
 package libalexandria.unsupervised;
 
 public class KMeans extends ClusteringAlgorithm {
-	
+	protected KMeans(String label) {
+		super(label);
+	}
 }

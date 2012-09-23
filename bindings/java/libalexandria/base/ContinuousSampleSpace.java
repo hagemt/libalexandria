@@ -17,5 +17,7 @@
 package libalexandria.base;
 
 public abstract class ContinuousSampleSpace extends SampleSpace {
-	protected ContinuousSampleSpace() { }
+	protected ContinuousSampleSpace(String label) {
+		super(label);
+	}
 }

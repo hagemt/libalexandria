@@ -20,7 +20,7 @@ import libalexandria.LearningModel;
 import libalexandria.ModelType;
 
 public abstract class ClusteringAlgorithm extends LearningModel {
-	protected ClusteringAlgorithm() {
-		super(ModelType.UNSUPERVISED);
+	protected ClusteringAlgorithm(String label) {
+		super(ModelType.UNSUPERVISED, label);
 	}
 }

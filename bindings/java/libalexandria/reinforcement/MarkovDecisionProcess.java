@@ -20,7 +20,7 @@ import libalexandria.LearningModel;
 import libalexandria.ModelType;
 
 public abstract class MarkovDecisionProcess extends LearningModel {
-	protected MarkovDecisionProcess() {
-		super(ModelType.REINFORCEMENT, true);
+	protected MarkovDecisionProcess(String label) {
+		super(ModelType.REINFORCEMENT, label, true);
 	}
 }

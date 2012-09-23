@@ -17,5 +17,7 @@
 package libalexandria.base;
 
 public abstract class DiscreteSampleSpace extends SampleSpace {
-	protected DiscreteSampleSpace() { }
+	protected DiscreteSampleSpace(String label) {
+		super(label);
+	}
 }

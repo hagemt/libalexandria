@@ -20,7 +20,7 @@ import libalexandria.LearningModel;
 import libalexandria.ModelType;
 
 public abstract class ClassificationAlgorithm extends LearningModel {
-	protected ClassificationAlgorithm() {
-		super(ModelType.SUPERVISED);
+	protected ClassificationAlgorithm(String label) {
+		super(ModelType.SUPERVISED, label);
 	}
 }

@@ -20,7 +20,7 @@ import libalexandria.LearningModel;
 import libalexandria.ModelType;
 
 public abstract class SeparationAlgorithm extends LearningModel {
-	protected SeparationAlgorithm() {
-		super(ModelType.UNSUPERVISED);
+	protected SeparationAlgorithm(String label) {
+		super(ModelType.UNSUPERVISED, label);
 	}
 }

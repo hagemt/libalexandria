@@ -14,29 +14,33 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.base;
+package libalexandria;
 
-public enum Aleph implements Ordinal<Integer> {
-	NULL(0), ONE(1);
+public abstract class LabelledEntity {
+	protected String label;
 	
-	private int value;
+	protected LabelledEntity() {
+		this(Generate.randomLabel());
+	}
 	
-	private Aleph(int value) {
-		this.value = value;
+	protected LabelledEntity(String label) {
+		if (label == null || label.isEmpty()) {
+			label = Generate.randomLabel();
+		}
+		this.label = label;
+	}
+	
+	public String getLabel() {
+		return label;
 	}
 
-	@Override
-	public boolean isCountable() {
-		return (value == 0);
-	}
-
-	@Override
-	public boolean isFinite() {
-		return false;
-	}
-
-	@Override
-	public Integer value() {
-		return value;
+	public String setLabel(String label) {
+		String oldLabel = this.label;
+		if (label == null) {
+			this.label = "";
+		} else {
+			this.label = label;
+		}
+		return oldLabel;
 	}
 }

@@ -16,23 +16,22 @@
  */
 package libalexandria.base;
 
-public abstract class SampleSpace {
-	protected final Ordinal<Integer> cardinality;
-	protected final Number dimension;
-	protected String label;
+import java.util.Vector;
 
-	protected SampleSpace(Ordinal<Integer> cardinality, Number dimension) {
-		this.cardinality = cardinality;
-		this.dimension = dimension;
-	}
+import libalexandria.LabelledEntity;
+
+public abstract class SampleSpace extends LabelledEntity {
+	protected Ordinal<Integer> cardinality;
+	protected Vector<Feature> features;
 	
 	protected SampleSpace(String label) {
-		this(Aleph.ONE, 1);
-		this.label = label;
+		this(3, label);
 	}
 	
-	protected SampleSpace() {
-		this("");
+	protected SampleSpace(int dimension, String label) {
+		super(label);
+		features = new Vector<Feature>(dimension);
+		cardinality = new Cardinal(0);
 	}
 
 	public boolean isFinite() {
@@ -41,19 +40,5 @@ public abstract class SampleSpace {
 
 	public boolean isEnumerable() {
 		return cardinality.isCountable();
-	}
-	
-	public String getLabel() {
-		return label;
-	}
-	
-	public String setLabel(String label) {
-		String old = this.label;
-		if (label == null) {
-			this.label = "";
-		} else {
-			this.label = label;
-		}
-		return old;
 	}
 }

@@ -16,8 +16,20 @@
  */
 package libalexandria.base;
 
-public interface Ordinal<N extends Number> {
-	public boolean isFinite();
-	public boolean isCountable();
-	public N value();
+public abstract class Ordinal<N extends Number> implements Comparable<N> {
+	protected final N value;
+	
+	protected Ordinal(N value) {
+		if (value.intValue() < 0) {
+			throw new IllegalArgumentException("ordinals are not negative");
+		}
+		this.value = value;
+	}
+	
+	public abstract boolean isFinite();
+	public abstract boolean isCountable();
+
+	public N value() {
+		return value;
+	}
 }

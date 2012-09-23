@@ -16,26 +16,17 @@
  */
 package libalexandria;
 
-public abstract class LearningModel {
+public abstract class LearningModel extends LabelledEntity {
 	protected final ModelType type;
 	protected final boolean online;
-	protected String label;
-
-	protected LearningModel(ModelType type) {
-		this(type, type.name());
-	}
-
-	protected LearningModel(ModelType type, boolean online) {
-		this(type, type.name(), online);
-	}
 
 	protected LearningModel(ModelType type, String label) {
 		this(type, label, false);
 	}
 
 	protected LearningModel(ModelType type, String label, boolean online) {
+		super(label);
 		this.type = type;
-		this.label = label;
 		this.online = online;
 	}
 
@@ -45,19 +36,5 @@ public abstract class LearningModel {
 
 	public boolean isOnline() {
 		return online;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public String setLabel(String label) {
-		String oldLabel = this.label;
-		if (label == null) {
-			this.label = "";
-		} else {
-			this.label = label;
-		}
-		return oldLabel;
 	}
 }

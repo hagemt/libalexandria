@@ -13,14 +13,13 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-if(BUILD_TESTING)
-  # C proof-of-concept
-  add_executable(simple_c_poc simple_poc.c)
-  target_link_libraries(simple_c_poc alexandriaF)
-  # CXX proof-of-concept
-  add_executable(simple_cxx_poc simple_poc.cxx)
-  target_link_libraries(simple_cxx_poc alexandriaF)
-endif(BUILD_TESTING)
+if(BIND_C)
+  add_subdirectory(c)
+endif(BIND_C)
+
+if(BIND_CXX)
+  add_subdirectory(cxx)
+endif(BIND_CXX)
 
 if(BIND_JAVA)
   add_subdirectory(java)

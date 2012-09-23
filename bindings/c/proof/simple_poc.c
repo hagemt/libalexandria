@@ -15,22 +15,17 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string>
-
-/* Fortran headers */
 #include "laF_print.h"
 
-namespace lacxx {
-
-void println(const std::string &s) {
-	laf_print_(s.c_str(), s.length());
-}
-
-} /* namespace lacxx */
-
-int main(int argc, char **argv) {
-	for (int i = 1; i < argc; ++i) {
-		lacxx::println(std::string(argv[i]));
+int
+main(int argc, char **argv)
+{
+	char *arg, *c;
+	int i, len;
+	for (i = 1; i < argc; ++i) {
+		arg = argv[i];
+		for (c = arg, len = 0; len < LAF_MAX_LEN && *c; ++len, ++c);
+		laf_print_(arg, len);
 	}
 	return 0;
 }

@@ -27,7 +27,7 @@ set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
-add_jar(poc
+add_jar(jpoc
   libalexandria/Generate.java
   libalexandria/LabelledEntity.java
   libalexandria/LearningModel.java
@@ -60,6 +60,6 @@ add_custom_command(TARGET poc POST_BUILD
 
 # Build native library, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})
-add_library(alexandria laF_print.c laF_SVM.c)
-target_link_libraries(alexandria alexandriaF ${JNI_LIBRARIES})
-add_dependencies(alexandria poc)
+add_library(jalexandria laF_print.c laF_SVM.c)
+target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
+add_dependencies(jalexandria poc)

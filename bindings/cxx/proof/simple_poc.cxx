@@ -15,18 +15,13 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include "laCXX_print.h"
 
-/* Fortran headers */
-#include "laF_print.h"
+#include <string>
 
-#define LAF_TEST_STR "Hello, World!"
-
-int
-main(void)
-{
-	/* Initial test for simple proof-of-concept */
-	laf_print_(LAF_TEST_STR, strnlen(LAF_TEST_STR, LAF_MAX_LEN));
-	return (EXIT_SUCCESS);
+int main(int argc, char **argv) {
+	for (int i = 1; i < argc; ++i) {
+		lacxx::println(std::string(argv[i]));
+	}
+	return 0;
 }

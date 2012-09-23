@@ -13,7 +13,9 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
+add_library(alexandriamm laCXX_print.cxx)
+target_link_libraries(alexandriamm alexandria)
 
-add_library(alexandria laF_SVM.F laF_print.F)
-set_property(TARGET alexandria PROPERTY Fortran_FORMAT FIXED)
+if(BUILD_TESTING)
+  add_subdirectory(proof)
+endif(BUILD_TESTING)

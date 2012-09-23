@@ -38,14 +38,14 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 
 ### Configuration
 
-option(BIND_JAVA "Produce bindings for Java" ON)
-
-option(BUILD_SHARED_LIBS "Produce shared libraries where possible" ON)
+option(BIND_C            "Produce bindings for C"    OFF)
+option(BIND_CXX          "Produce bindings for C++"  OFF)
+option(BIND_JAVA         "Produce bindings for Java" OFF)
+option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 
 ## Requirements
 
 if(BIND_JAVA)
-#  find_package(JNI PATHS "/home/teh/Downloads/jdk1.8.0" NO_DEFAULT_PATH)
   find_package(JNI)
   if(NOT JNI_FOUND)
     message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")

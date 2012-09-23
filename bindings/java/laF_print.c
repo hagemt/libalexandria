@@ -42,7 +42,7 @@ JNICALL Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jst
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
 
 	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", jc);
+	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", (void *)(jc));
 	#endif
 	laf_printi_();
 }

@@ -14,24 +14,27 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # C Interface test
-add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc")
-set_tests_properties(simple_c_poc PROPERTIES
-  PASS_REGULAR_EXPRESSION "Hello, World!")
+if(BIND_C)
+  add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc" "Hello, World!")
+  set_tests_properties(simple_c_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+endif(BIND_C)
 
 # CXX Interface test
-add_test(simple_cxx_poc "${EXECUTABLE_OUTPUT_PATH}/simple_cxx_poc" "Hello, World!")
-set_tests_properties(simple_cxx_poc PROPERTIES
-  PASS_REGULAR_EXPRESSION "Hello, World!")
+if(BIND_CXX)
+  add_test(simple_cxx_poc "${EXECUTABLE_OUTPUT_PATH}/simple_cxx_poc" "Hello, World!")
+  set_tests_properties(simple_cxx_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+endif(BIND_CXX)
 
-# Java bindings tests
+# Tests for Java bindings
 if(BIND_JAVA)
   find_package(Java COMPONENTS Runtime)
-  if(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/poc.jar")
+  if(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar")
     set(JAVA_ARGS -Djava.library.path=${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} -jar)
-    add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" ${JAVA_ARGS} "${EXECUTABLE_OUTPUT_PATH}/poc.jar" "Hello, World!")
-    set_tests_properties(simple_java_poc PROPERTIES
-      PASS_REGULAR_EXPRESSION "Hello, World!")
-  endif(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/poc.jar")
+    add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" ${JAVA_ARGS} "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar" "Hello, World!")
+    set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+  else(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar")
+    message("Skipping Java tests: unable to find Java runtime")
+  endif(Java_Runtime_FOUND AND EXISTS "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar")
 endif(BIND_JAVA)
 
 # TODO add tests as features are implemented

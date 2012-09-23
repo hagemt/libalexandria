@@ -14,19 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.proof;
 
-public class POC {
-	static {
-		System.loadLibrary("jalexandria");
-	}
+#include "laCXX_print.h"
 
-	/* Symbol for FORTRAN function */
-	public static native void println(String s);
+using std::string;
 
-	public static void main(String... args) {
-		for (String s : args) {
-			POC.println(s);
-		}
-	}
+void
+lacxx::println(const string &s)
+{
+	laf_print_(s.c_str(), s.length());
 }

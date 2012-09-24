@@ -23,6 +23,8 @@ set(CMAKE_PROJECT_VERSION_HIGH
   "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}")
 set(CMAKE_PROJECT_VERSION_LOW
   "${CMAKE_PROJECT_VERSION_PATCH}.${CMAKE_PROJECT_VERSION_TWEAK}")
+set(CMAKE_PROJECT_VERSION_SO
+  "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_TWEAK}")
 set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
 
@@ -44,6 +46,9 @@ option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
+configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
+install(FILES "${CMAKE_BINARY_DIR}/libalexandria.pc" DESTINATION lib/pkgconfig)
+
 ## Requirements
 
 if(BIND_JAVA)
@@ -59,6 +64,8 @@ endif(BIND_JAVA)
 
 # Main library components
 add_subdirectory(fortran)
+
+add_subdirectory(include)
 add_subdirectory(bindings)
 
 ## TODO symbolic linking of library components

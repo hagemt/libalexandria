@@ -13,22 +13,18 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
-
-add_library(alexandria laF_SVM.F laF_print.F)
-set_target_properties(alexandria PROPERTIES
-  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
-  VERSION   ${CMAKE_PROJECT_VERSION_SO}
-)
-
-if(NOT BUILD_SHARED_LIBS)
-  target_link_libraries(alexandria gfortran)
-  set_target_properties(alexandria PROPERTIES COMPILE_FLAGS -fPIC)
-endif(NOT BUILD_SHARED_LIBS)
+# TODO is this a poor method?
+file(GLOB_RECURSE STANDARD_HEADER_FILES la*.h)
+file(GLOB_RECURSE JNI_HEADER_FILES libalexandria*.h)
 
 install(
-  TARGETS alexandria
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  COMPONENT "Base Library"
+  FILES ${STANDARD_HEADER_FILES}
+  PUBLIC_HEADER DESTINATION include/libalexandria
+  COMPONENT "Standard Headers" OPTIONAL
+)
+
+install(
+  FILES ${JNI_HEADER_FILES}
+  PUBLIC_HEADER DESTINATION include/libalexandria/jla
+  COMPONENT "JNI Headers" OPTIONAL
 )

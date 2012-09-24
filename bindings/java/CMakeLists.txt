@@ -25,7 +25,7 @@ set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
-set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION}")
+set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
 add_jar(jpoc
   libalexandria/Generate.java
@@ -50,16 +50,28 @@ add_jar(jpoc
   libalexandria/unsupervised/KMeans.java
   libalexandria/unsupervised/SeparationAlgorithm.java
 )
+install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
 
 # Generate JNI headers
 add_custom_command(TARGET jpoc POST_BUILD
-  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni
-    -d "${CMAKE_SOURCE_DIR}/include" "libalexandria.proof.POC"
+  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include" "libalexandria.proof.POC"
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
   COMMENT "       Updating JNI headers..." VERBATIM)
+# FIXME can the working directory be fetched from add_jar?
 
 # Build native library, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})
 add_library(jalexandria SHARED jla_print.c jla_SVM.c)
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
+set_target_properties(jalexandria PROPERTIES
+  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+  VERSION   ${CMAKE_PROJECT_VERSION_SO}
+)
 add_dependencies(jalexandria jpoc)
+
+install(
+  TARGETS jalexandria
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  COMPONENT "Java Bindings" OPTIONAL
+)

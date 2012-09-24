@@ -15,7 +15,18 @@
 
 add_library(alexandriamm laCXX_print.cxx)
 target_link_libraries(alexandriamm alexandria)
+set_target_properties(alexandriamm PROPERTIES
+  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+  VERSION   ${CMAKE_PROJECT_VERSION_SO}
+)
 
 if(BUILD_TESTING)
   add_subdirectory(proof)
 endif(BUILD_TESTING)
+
+install(
+  TARGETS alexandriamm
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  COMPONENT "C++ Bindings" OPTIONAL
+)

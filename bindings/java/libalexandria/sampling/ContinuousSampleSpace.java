@@ -14,16 +14,10 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.base;
+package libalexandria.sampling;
 
-import libalexandria.LabelledEntity;
-
-public abstract class Feature extends LabelledEntity {
-	protected MetricSpace space;
-
-	protected Feature(String label) {
+public abstract class ContinuousSampleSpace extends SampleSpace {
+	protected ContinuousSampleSpace(String label) {
 		super(label);
 	}
-	
-	public abstract boolean isClosed();
 }

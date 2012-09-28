@@ -13,9 +13,10 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set_property(SOURCE laF_SVM.F laF_print.F PROPERTY Fortran_FORMAT FIXED)
+file(GLOB FORTRAN_SOURCES "*.F")
+set_property(SOURCE ${FORTRAN_SOURCES} PROPERTY Fortran_FORMAT FIXED)
 
-add_library(alexandria laF_SVM.F laF_print.F)
+add_library(alexandria ${FORTRAN_SOURCES})
 set_target_properties(alexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

@@ -1,15 +1,28 @@
-Data generated using David A. Wheeler's 'SLOCCount'.
+Creating filelist for bindings
+Creating filelist for fortran
+Creating filelist for include
+Creating filelist for testing
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
 
 SLOC	Directory	SLOC-by-Language (Sorted)
 360     bindings        java=311,ansic=34,cpp=15
 39      include         ansic=39
 31      fortran         fortran=31
+0       testing         (none)
+
 
 Totals grouped by language (dominant language first):
 java:           311 (72.33%)
 ansic:           73 (16.98%)
 fortran:         31 (7.21%)
 cpp:             15 (3.49%)
+
+
+
 
 Total Physical Source Lines of Code (SLOC)                = 430
 Development Effort Estimate, Person-Years (Person-Months) = 0.08 (0.99)
@@ -19,3 +32,9 @@ Schedule Estimate, Years (Months)                         = 0.21 (2.49)
 Estimated Average Number of Developers (Effort/Schedule)  = 0.40
 Total Estimated Cost to Develop                           = $ 11,137
  (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."

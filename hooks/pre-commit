@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+WORKING_DIR=`pwd`
+
+if [ ! -x "${GIT_COMMAND}" ]; then
+	export GIT_COMMAND=`which git`
+fi
+
+if [ ! -x "${SLOCCOUNT_COMMAND}" ]; then
+	export SLOCCOUNT_COMMAND=`which sloccount`
+fi
+
+if [ -z "${SLOCCOUNT_FILE}" ]; then
+	export SLOCCOUNT_FILE=${WORKING_DIR}/README.sloc
+fi
+
+# Run the SLOC command
+${SLOCCOUNT_COMMAND} ${WORKING_DIR}/{bindings,fortran,include,testing} > ${SLOCCOUNT_FILE}
+
+# Add the SLOC file
+${GIT_COMMAND} add ${SLOCCOUNT_FILE}

@@ -62,13 +62,17 @@ endif(BIND_JAVA)
 
 ### Build
 
-# Main library components
+## Main components
+
+# Fortran code
 add_subdirectory(fortran)
 
-add_subdirectory(include)
-add_subdirectory(bindings)
+## Optional components
 
-## TODO symbolic linking of library components
+# Process headers
+add_subdirectory(include)
+# Language bindings
+add_subdirectory(bindings)
 
 ### Testing
 

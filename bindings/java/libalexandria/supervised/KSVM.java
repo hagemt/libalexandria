@@ -16,8 +16,25 @@
  */
 package libalexandria.supervised;
 
-public class NonLinearSupportVectorMachine extends SupportVectorMachine {
-	protected NonLinearSupportVectorMachine(String label) {
+import libalexandria.functional.Kernel;
+import libalexandria.functional.Kernel.KernelType;
+
+public class KSVM extends SupportVectorMachine {
+	private Kernel kernel;
+	
+	protected KSVM(String label, KernelType type) {
 		super(label);
+		kernel = Kernel.get(type.name());
+	}
+	
+	public static void benchmark() {
+		for (KernelType t : KernelType.values()) {
+			KSVM ksvm = new KSVM(t.name() + "-svm", t);
+			ksvm.benchmarkKernel();
+		}
+	}
+	
+	public void benchmarkKernel() {
+		kernel.benchmark();
 	}
 }

@@ -32,20 +32,35 @@ add_jar(jpoc
   libalexandria/LabelledEntity.java
   libalexandria/LearningModel.java
   libalexandria/ModelType.java
+
+  libalexandria/ann/Cortex.java
+  libalexandria/ann/NativeWorker.java
   libalexandria/ann/NeuralNetwork.java
-  libalexandria/base/ClosedInterval.java
-  libalexandria/base/ContinuousSampleSpace.java
-  libalexandria/base/DiscreteSampleSpace.java
-  libalexandria/base/Feature.java
-  libalexandria/base/MetricSpace.java
-  libalexandria/base/Ordinal.java
-  libalexandria/base/SampleSpace.java
+
+  libalexandria/functional/Kernel.java
+  libalexandria/functional/KernelMap.java
+  libalexandria/functional/Parameterized.java
+  libalexandria/functional/ParameterTreeMap.java
+  libalexandria/functional/Wavelet.java
+
   libalexandria/proof/POC.java
+
   libalexandria/reinforcement/MarkovDecisionProcess.java
+
+  libalexandria/sampling/Cardinal.java
+  libalexandria/sampling/ClosedInterval.java
+  libalexandria/sampling/ContinuousSampleSpace.java
+  libalexandria/sampling/DiscreteSampleSpace.java
+  libalexandria/sampling/Feature.java
+  libalexandria/sampling/MetricSpace.java
+  libalexandria/sampling/Ordinal.java
+  libalexandria/sampling/SampleSpace.java
+
   libalexandria/supervised/ClassificationAlgorithm.java
-  libalexandria/supervised/NonLinearSupportVectorMachine.java
+  libalexandria/supervised/KSVM.java
   libalexandria/supervised/RegressionAlgorithm.java
   libalexandria/supervised/SupportVectorMachine.java
+
   libalexandria/unsupervised/ClusteringAlgorithm.java
   libalexandria/unsupervised/KMeans.java
   libalexandria/unsupervised/SeparationAlgorithm.java
@@ -54,14 +69,18 @@ install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
 
 # Generate JNI headers
 add_custom_command(TARGET jpoc POST_BUILD
-  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include" "libalexandria.proof.POC"
+  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include"
+    "libalexandria.ann.NativeWorker"
+    "libalexandria.functional.Kernel"
+    "libalexandria.proof.POC"
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
   COMMENT "       Updating JNI headers..." VERBATIM)
 # FIXME can the working directory be fetched from add_jar?
 
 # Build native library, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})
-add_library(jalexandria SHARED jla_print.c jla_SVM.c)
+file(GLOB NATIVE_SOURCES "jla_*.c")
+add_library(jalexandria SHARED ${NATIVE_SOURCES})
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
 set_target_properties(jalexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}

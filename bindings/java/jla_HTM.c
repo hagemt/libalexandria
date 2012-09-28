@@ -14,24 +14,38 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
 
-/* TODO implementation
- * Notes: We're going to pollute the namespace and add
- * needless abstraction with a native function for each
- * FORTRAN procedure. Can we coallese some stuff:
- * A single kernel function, takes enum id for flavor?
-*/
-
-#include "libalexandria_functional_Kernel.h"
+#include "libalexandria_ann_NativeWorker.h"
 
 /*
- * Class:     libalexandria_functional_Kernel
- * Method:    benchmark
- * Signature: ()V
+ * Class:     libalexandria_ann_NativeWorker
+ * Method:    operate
+ * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_Kernel_benchmark(JNIEnv *, jobject)
+Java_libalexandria_ann_NativeWorker_operate(JNIEnv *, jobject, jbyteArray, jbyteArray)
+{
+	return;
+}
+
+/*
+ * Class:     libalexandria_ann_NativeWorker
+ * Method:    wind
+ * Signature: ([B[[B)V
+ */
+JNIEXPORT void JNICALL
+Java_libalexandria_ann_NativeWorker_wind(JNIEnv *, jobject, jbyteArray, jobjectArray)
+{
+	return;
+}
+
+/*
+ * Class:     libalexandria_ann_NativeWorker
+ * Method:    unwind
+ * Signature: ([[B[B)V
+ */
+JNIEXPORT void JNICALL
+Java_libalexandria_ann_NativeWorker_unwind(JNIEnv *, jobject, jobjectArray, jbyteArray)
 {
 	return;
 }

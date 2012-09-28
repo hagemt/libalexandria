@@ -31,7 +31,7 @@
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_Kernel_benchmark(JNIEnv *, jobject)
+Java_libalexandria_functional_Kernel_benchmark(JNIEnv *env, jobject obj)
 {
 	return;
 }

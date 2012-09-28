@@ -23,7 +23,7 @@
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_operate(JNIEnv *, jobject, jbyteArray, jbyteArray)
+Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray a, jbyteArray b)
 {
 	return;
 }
@@ -34,7 +34,7 @@ Java_libalexandria_ann_NativeWorker_operate(JNIEnv *, jobject, jbyteArray, jbyte
  * Signature: ([B[[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_wind(JNIEnv *, jobject, jbyteArray, jobjectArray)
+Java_libalexandria_ann_NativeWorker_wind(JNIEnv *env, jobject obj, jbyteArray a, jobjectArray m)
 {
 	return;
 }
@@ -45,7 +45,7 @@ Java_libalexandria_ann_NativeWorker_wind(JNIEnv *, jobject, jbyteArray, jobjectA
  * Signature: ([[B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_unwind(JNIEnv *, jobject, jobjectArray, jbyteArray)
+Java_libalexandria_ann_NativeWorker_unwind(JNIEnv *env, jobject obj, jobjectArray m, jbyteArray a)
 {
 	return;
 }

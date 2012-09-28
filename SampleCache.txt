@@ -1,0 +1,29 @@
+BIND_C:BOOL=ON
+BIND_CXX:BOOL=ON
+BIND_JAVA:BOOL=ON
+BUILD_SHARED_LIBS:BOOL=ON
+BUILD_TESTING:BOOL=ON
+
+CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
+CMAKE_CXX_FLAGS_DEBUG:STRING=-g -pedantic
+
+CMAKE_C_FLAGS:STRING=-Wall -Wextra
+CMAKE_C_FLAGS_DEBUG:STRING=-g -pedantic
+
+CMAKE_Fortran_FLAGS:STRING=-Wall -Wextra
+CMAKE_Fortran_FLAGS_DEBUG:STRING=-g -pedantic
+
+CMAKE_Java_ARCHIVE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/jar
+CMAKE_Java_COMPILER:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javac
+CMAKE_Java_RUNTIME:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/java
+
+JAVA_AWT_INCLUDE_PATH:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
+JAVA_AWT_LIBRARY:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/jre/lib/amd64/libjawt.so
+JAVA_INCLUDE_PATH:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
+JAVA_INCLUDE_PATH2:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
+JAVA_JVM_LIBRARY:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/jre/lib/amd64/server/libjvm.so
+Java_JAR_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/jar
+Java_JAVAC_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javac
+Java_JAVADOC_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javadoc
+Java_JAVAH_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javah
+Java_JAVA_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/java

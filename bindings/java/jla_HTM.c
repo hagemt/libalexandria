@@ -17,14 +17,31 @@
 
 #include "libalexandria_ann_NativeWorker.h"
 
+#include <assert.h>
+
 /*
  * Class:     libalexandria_ann_NativeWorker
  * Method:    operate
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray a, jbyteArray b)
+Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
 {
+	jint i, len1, len2; jbyte *a1, *a2;
+	/* Fetch the arrays from java */
+	len1 = (*env)->GetArrayLength(env, arr1);
+	len2 = (*env)->GetArrayLength(env, arr2);
+	assert(len1 == len2);
+	a1 = (*env)->GetPrimitiveArrayCritical(env, arr1, 0);
+	a2 = (*env)->GetPrimitiveArrayCritical(env, arr2, 0);
+	assert(a1 && a2);
+	/* Do the operation */
+	for (i = 0; i < len1; ++i) {
+		a1[i] ^= a2[i];
+	}
+	/* Cleanup */
+	(*env)->ReleasePrimitiveArrayCritical(env, arr2, a2, 0);
+	(*env)->ReleasePrimitiveArrayCritical(env, arr1, a1, 0);
 	return;
 }
 

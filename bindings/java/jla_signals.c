@@ -14,24 +14,18 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
 
-/* TODO implementation
- * Notes: We're going to pollute the namespace and add
- * needless abstraction with a native function for each
- * FORTRAN procedure. Can we coallese some stuff:
- * A single kernel function, takes enum id for flavor?
-*/
+#include <stdio.h>
 
-#include "libalexandria_functional_kernel_Kernel.h"
+#include "libalexandria_functional_wavelets_Wavelet.h"
 
 /*
- * Class:     libalexandria_functional_kernel_Kernel
+ * Class:     libalexandria_functional_wavelets_Wavelet
  * Method:    benchmark
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernel_Kernel_benchmark(JNIEnv *env, jobject obj)
+Java_libalexandria_functional_wavelets_Wavelet_benchmark(JNIEnv *env, jobject obj)
 {
-	return;
+	fprintf(stderr, "[info] '%s' (feature not yet implemented)\n", "wavelets");
 }

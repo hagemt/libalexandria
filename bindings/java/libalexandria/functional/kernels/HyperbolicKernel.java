@@ -14,48 +14,22 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.sampling;
+package libalexandria.functional.kernels;
 
 /**
- * TODO maybe this was just a bad idea?
+ * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
+ * where KAPPA, C > 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-final class Cardinal extends Ordinal<Integer> {
-	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
-	static {
-		ALEPH_NULL = new Cardinal(0, false);
-		ALEPH_ONE = new Cardinal(1, false);
-		ALEPH_TWO = new Cardinal(2, false);
-	}
-	
-	private boolean finite;
-
-	public Cardinal(Integer value) {
-		this(value, true);
-	}
-	
-	public Cardinal(Integer value, boolean finite) {
-		super(value);
-		this.finite = finite;
-	}
-
-	@Override
-	public boolean isCountable() {
-		return finite || (value == 0);
-	}
-
-	@Override
-	public boolean isFinite() {
-		return finite;
-	}
-
-	@Override
-	public Integer value() {
-		return (finite) ? value : Integer.MAX_VALUE;
-	}
-
-	@Override
-	public int compareTo(Integer o) {
-		return -o.compareTo(value());
+public class HyperbolicKernel extends Kernel {
+	protected HyperbolicKernel(String label, double kappa, double constant) {
+		super(label, KernelType.TANH);
+		if (kappa <= 0 || constant <= 0) {
+			throw new IllegalArgumentException("parameters must be positive");
+		}
+		this.addParameter("kappa", kappa);
+		this.addParameter("constant", constant);
 	}
 }
+
+

@@ -14,8 +14,37 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria;
+package libalexandria.functional.params;
 
-public enum ModelType {
-	SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * 
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @param <N> 
+ */
+public class Paramiterator<N extends Number> implements Iterator<Parameter<N>> {
+	private final Iterator<Entry<String, N>> iterator;
+	
+	public Paramiterator(Map<String, N> m) {
+		iterator = m.entrySet().iterator();
+	}
+
+	@Override
+	public boolean hasNext() {
+		return iterator.hasNext();
+	}
+
+	@Override
+	public Parameter<N> next() {
+		Map.Entry<String, N> entry = iterator.next();
+		return new MutableParameter<N>(entry.getKey(), entry.getValue());
+	}
+
+	@Override
+	public void remove() {
+		iterator.remove();
+	}
 }

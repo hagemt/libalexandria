@@ -1,4 +1,20 @@
-package libalexandria.functional;
+/*
+ *    This file is part of libalexandria.
+ *
+ *    libalexandria is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    libalexandria is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Lesser General Public License
+ *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package libalexandria.functional.params;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -7,23 +23,22 @@ import java.util.TreeMap;
 import libalexandria.LabelledEntity;
 
 /**
- * 
+ * A convenient, generic, and efficient default implementation of a type with parameters.
+ * @see libalexandria.functional.params.Parameterized
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @param <N>
+ * @param <N> a numeric type
  */
-public class ParameterTreeMap<N extends Number> extends LabelledEntity implements Parameterized<N>, Iterable<String> {
-	protected Map<String, N> parameters;
+public abstract class ParameterMap<N extends Number> extends LabelledEntity implements Parameterized<N> {
+	private Map<String, N> parameters;
 	
-	public ParameterTreeMap(String label) {
+	protected ParameterMap(String label) {
 		super(label);
-		this.parameters = new TreeMap<String, N>();
+		parameters = new TreeMap<String, N>();
 	}
 	
-	public ParameterTreeMap(String label, ParameterTreeMap<? extends N> m) {
-		this(label);
-		if (m != null) {
-			this.parameters.putAll(m.parameters);
-		}
+	protected ParameterMap(ParameterMap<N> m) {
+		this(m.getLabel());
+		parameters.putAll(m.parameters);
 	}
 
 	@Override
@@ -79,7 +94,7 @@ public class ParameterTreeMap<N extends Number> extends LabelledEntity implement
 	}
 
 	@Override
-	public Iterator<String> iterator() {
-		return parameters.keySet().iterator();
+	public Iterator<Parameter<N>> iterator() {
+		return new Paramiterator<N>(parameters);
 	}
 }

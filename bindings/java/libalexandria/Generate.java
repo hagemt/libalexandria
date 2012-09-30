@@ -18,6 +18,11 @@ package libalexandria;
 
 import java.util.Random;
 
+/**
+ * Provides static methods to generate some standard entities, like labels
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
 public class Generate {
 	private static Random source;
 	private static final String[] pool;
@@ -50,16 +55,14 @@ public class Generate {
 				"Whiskey",
 				"Xray",
 				"Yankee",
-				"Zulu",
-				"Dash"
+				"Zulu"
 				};
 	}
-	
+
 	public static String randomLabel() {
 		return randomLabel(3);
 	}
 	
-	/* Should need to be synchronized, right? */
 	public static String randomLabel(int words) {
 		StringBuilder sb = new StringBuilder();
 		for (int max = pool.length - 1; words > 0; --words) {
@@ -68,7 +71,7 @@ public class Generate {
 		return sb.toString();
 	}
 
-	public static void reseed(long seed) {
+	public static synchronized void reseed(long seed) {
 		source.setSeed(seed);
 	}
 }

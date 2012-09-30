@@ -17,7 +17,6 @@
 package libalexandria.ann;
 
 import libalexandria.LearningModel;
-import libalexandria.ModelType;
 
 public abstract class NeuralNetwork extends LearningModel {
 	protected NeuralNetwork(ModelType type) {

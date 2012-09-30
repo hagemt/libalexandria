@@ -49,6 +49,7 @@ add_jar(jpoc
   ${JLA_SAMPLING_SOURCES}
   ${JLA_SUPERVISED_SOURCES}
   ${JLA_UNSUPERVISED_SOURCES}
+  ${JLA_PROOF_SOURCES}
   libalexandria/functional/wavelets/Wavelet.java
   libalexandria/reinforcement/MarkovDecisionProcess.java
 )
@@ -57,7 +58,7 @@ install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
 # Generate JNI headers
 add_custom_command(TARGET jpoc POST_BUILD
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include"
-    "libalexandria.ann.Cortex"
+    "libalexandria.ann.NativeWorker"
     "libalexandria.functional.kernels.Kernel"
     "libalexandria.functional.wavelets.Wavelet"
     "libalexandria.proof.POC"

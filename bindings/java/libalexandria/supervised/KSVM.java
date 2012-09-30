@@ -16,8 +16,8 @@
  */
 package libalexandria.supervised;
 
-import libalexandria.functional.Kernel;
-import libalexandria.functional.Kernel.KernelType;
+import libalexandria.functional.kernels.Kernel;
+import libalexandria.functional.kernels.Kernel.KernelType;
 
 public class KSVM extends SupportVectorMachine {
 	private Kernel kernel;
@@ -27,14 +27,8 @@ public class KSVM extends SupportVectorMachine {
 		kernel = Kernel.get(type.name());
 	}
 	
-	public static void benchmark() {
-		for (KernelType t : KernelType.values()) {
-			KSVM ksvm = new KSVM(t.name() + "-svm", t);
-			ksvm.benchmarkKernel();
-		}
-	}
-	
-	public void benchmarkKernel() {
+	@Override
+	public void benchmark() {
 		kernel.benchmark();
 	}
 }

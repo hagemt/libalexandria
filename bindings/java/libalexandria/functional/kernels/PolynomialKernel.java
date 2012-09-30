@@ -14,48 +14,26 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.sampling;
+package libalexandria.functional.kernels;
 
 /**
- * TODO maybe this was just a bad idea?
+ * A polynomial kernel has the form K(A,B) = (DOT(A,B)+C)^D
+ * where D is a positive number TODO what type of number?
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-final class Cardinal extends Ordinal<Integer> {
-	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
-	static {
-		ALEPH_NULL = new Cardinal(0, false);
-		ALEPH_ONE = new Cardinal(1, false);
-		ALEPH_TWO = new Cardinal(2, false);
+public class PolynomialKernel extends Kernel {
+	protected PolynomialKernel(String label, double degree, double constant) {
+		super(label, KernelType.POLY);
+		if (degree <= 0) {
+			throw new IllegalArgumentException("degree must be positive");
+		}
+		this.addParameter("degree", degree);
+		this.addParameter("constant", constant);
 	}
 	
-	private boolean finite;
-
-	public Cardinal(Integer value) {
-		this(value, true);
-	}
-	
-	public Cardinal(Integer value, boolean finite) {
-		super(value);
-		this.finite = finite;
-	}
-
-	@Override
-	public boolean isCountable() {
-		return finite || (value == 0);
-	}
-
-	@Override
-	public boolean isFinite() {
-		return finite;
-	}
-
-	@Override
-	public Integer value() {
-		return (finite) ? value : Integer.MAX_VALUE;
-	}
-
-	@Override
-	public int compareTo(Integer o) {
-		return -o.compareTo(value());
+	/* By default, make kernel homogeneous (C = 0) */
+	protected PolynomialKernel(String label, double degree) {
+		this(label, degree, 0);
 	}
 }
+

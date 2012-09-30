@@ -14,48 +14,17 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.sampling;
+package libalexandria;
 
 /**
- * TODO maybe this was just a bad idea?
+ * Allows certain types to provide mechanisms to produce performance data
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
  */
-final class Cardinal extends Ordinal<Integer> {
-	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
-	static {
-		ALEPH_NULL = new Cardinal(0, false);
-		ALEPH_ONE = new Cardinal(1, false);
-		ALEPH_TWO = new Cardinal(2, false);
-	}
-	
-	private boolean finite;
-
-	public Cardinal(Integer value) {
-		this(value, true);
-	}
-	
-	public Cardinal(Integer value, boolean finite) {
-		super(value);
-		this.finite = finite;
-	}
-
-	@Override
-	public boolean isCountable() {
-		return finite || (value == 0);
-	}
-
-	@Override
-	public boolean isFinite() {
-		return finite;
-	}
-
-	@Override
-	public Integer value() {
-		return (finite) ? value : Integer.MAX_VALUE;
-	}
-
-	@Override
-	public int compareTo(Integer o) {
-		return -o.compareTo(value());
-	}
+public interface Profileable {
+	/**
+	 * Runs code that tests computationally-intensive functions
+	 * Typically, this is done with native code through the JNI
+	 */
+	public void benchmark();
 }

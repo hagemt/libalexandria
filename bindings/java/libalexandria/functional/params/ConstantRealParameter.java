@@ -14,48 +14,33 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.sampling;
+package libalexandria.functional.params;
 
-/**
- * TODO maybe this was just a bad idea?
- * @author Tor E Hagemann <hagemt@rpi.edu>
+import java.util.Map.Entry;
+
+/*
+ * TODO review if this is necessary...
  */
-final class Cardinal extends Ordinal<Integer> {
-	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
-	static {
-		ALEPH_NULL = new Cardinal(0, false);
-		ALEPH_ONE = new Cardinal(1, false);
-		ALEPH_TWO = new Cardinal(2, false);
-	}
+
+public class ConstantRealParameter implements Parameter<Double> {
+	private final MutableParameter<Double> parameter;
 	
-	private boolean finite;
-
-	public Cardinal(Integer value) {
-		this(value, true);
-	}
-	
-	public Cardinal(Integer value, boolean finite) {
-		super(value);
-		this.finite = finite;
+	public ConstantRealParameter(String name, Double value) {
+		parameter = new MutableParameter<Double>(name, value);
 	}
 
 	@Override
-	public boolean isCountable() {
-		return finite || (value == 0);
+	public String getKey() {
+		return parameter.getKey();
 	}
 
 	@Override
-	public boolean isFinite() {
-		return finite;
+	public Double getValue() {
+		return parameter.getValue();
 	}
 
 	@Override
-	public Integer value() {
-		return (finite) ? value : Integer.MAX_VALUE;
-	}
-
-	@Override
-	public int compareTo(Integer o) {
-		return -o.compareTo(value());
+	public Entry<String, Double> entry() {
+		return new MutableParameter<Double>(parameter);
 	}
 }

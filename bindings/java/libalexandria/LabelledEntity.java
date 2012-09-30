@@ -16,24 +16,47 @@
  */
 package libalexandria;
 
+/**
+ * Provides any type with a label for purposes of identification.
+ * Labels are intentionally designed to provide non-null values.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
 public abstract class LabelledEntity {
 	protected String label;
 	
+	/**
+	 * By default, a label is generated.
+	 */
 	protected LabelledEntity() {
 		this(Generate.randomLabel());
 	}
 	
+	/**
+	 * Construct an entity with the given label.
+	 * Any null argument results in label generation.
+	 * @param label a textual identifier for this entity
+	 */
 	protected LabelledEntity(String label) {
-		if (label == null || label.isEmpty()) {
+		if (label == null) {
 			label = Generate.randomLabel();
 		}
 		this.label = label;
 	}
 	
+	/**
+	 * Fetch this entity's current label (identifier)
+	 * @return a textual identifier for this entity
+	 */
 	public String getLabel() {
 		return label;
 	}
 
+	/**
+	 * Assign this entity a given label (identifier)
+	 * @param label the new identifier for this entity
+	 * @return the previous label
+	 */
 	public String setLabel(String label) {
 		String oldLabel = this.label;
 		if (label == null) {
@@ -42,5 +65,10 @@ public abstract class LabelledEntity {
 			this.label = label;
 		}
 		return oldLabel;
+	}
+	
+	@Override
+	public String toString() {
+		return getLabel();
 	}
 }

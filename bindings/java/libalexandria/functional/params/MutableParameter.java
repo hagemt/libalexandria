@@ -14,23 +14,32 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
+package libalexandria.functional.params;
 
-#include "libalexandria_functional_kernels_Kernel.h"
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 
 /*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    benchmark
- * Signature: ()V
+ * TODO review if this is necessary...
  */
-JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
-{
-	/* TODO implementation
-	 * Notes: We're going to pollute the namespace and add
-	 * needless abstraction with a native function for each
-	 * FORTRAN procedure. Can we coallese some stuff:
-	 * A single kernel function, takes enum id for flavor?
-	*/
-	return;
+
+public class MutableParameter<N extends Number> extends SimpleEntry<String, N> implements Parameter<N> {
+	/**
+	 * @since libalexandria v0.1
+	 */
+	private static final long serialVersionUID = -6340640910422166874L;
+
+	protected MutableParameter(String key, N value) {
+		super(key, value);
+	}
+
+	public MutableParameter(MutableParameter<N> parameter) {
+		super(parameter);
+		/* TODO does this clone as desired? */
+	}
+
+	@Override
+	public Entry<String, N> entry() {
+		return this;
+	}
 }

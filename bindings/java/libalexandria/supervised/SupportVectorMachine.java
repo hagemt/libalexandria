@@ -16,7 +16,7 @@
  */
 package libalexandria.supervised;
 
-public class SupportVectorMachine extends ClassificationAlgorithm {
+public abstract class SupportVectorMachine extends ClassificationAlgorithm {
 	protected SupportVectorMachine(String label) {
 		super(label);
 	}

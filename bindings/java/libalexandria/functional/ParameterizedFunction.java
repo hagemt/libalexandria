@@ -14,23 +14,26 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
+package libalexandria.functional;
 
-#include "libalexandria_functional_kernels_Kernel.h"
+import libalexandria.functional.params.ParameterMap;
 
-/*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    benchmark
- * Signature: ()V
- */
-JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
-{
-	/* TODO implementation
-	 * Notes: We're going to pollute the namespace and add
-	 * needless abstraction with a native function for each
-	 * FORTRAN procedure. Can we coallese some stuff:
-	 * A single kernel function, takes enum id for flavor?
-	*/
-	return;
+public abstract class ParameterizedFunction<N extends Number> extends ParameterMap<N> implements Function<N> {
+	public ParameterizedFunction(String label) {
+		super(label);
+	}
+	
+	protected ParameterizedFunction(ParameterMap<N> m) {
+		super(m);
+	}
+	
+	public static void lookup(String label) {
+		// TODO make Kernel get() more generic here?
+	}
+	
+	/**
+	 * This will be great for introspection
+	 * @return
+	 */
+	public abstract Enum<? extends Enum<?>> getType();
 }

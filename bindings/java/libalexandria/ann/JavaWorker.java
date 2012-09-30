@@ -14,23 +14,18 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
+package libalexandria.ann;
 
-#include "libalexandria_functional_kernels_Kernel.h"
+public class JavaWorker extends Worker {
+	public JavaWorker(Cortex cortex) {
+		super(cortex);
+	}
 
-/*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    benchmark
- * Signature: ()V
- */
-JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
-{
-	/* TODO implementation
-	 * Notes: We're going to pollute the namespace and add
-	 * needless abstraction with a native function for each
-	 * FORTRAN procedure. Can we coallese some stuff:
-	 * A single kernel function, takes enum id for flavor?
-	*/
-	return;
+	@Override
+	public void operate(byte[] a, byte[] b) {
+		assert(a.length == b.length) : "lengths do not match";
+		for (int i = 0; i < a.length; ++i) {
+			a[i] ^= b[i];
+		}
+	}
 }

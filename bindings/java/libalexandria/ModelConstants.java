@@ -14,23 +14,12 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
+package libalexandria;
 
-#include "libalexandria_functional_kernels_Kernel.h"
+public interface ModelConstants {
+	public static final int MIN_HTM_DIMENSION = 32;
+	public static final int DEFAULT_HTM_DIMENSION = 32;
 
-/*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    benchmark
- * Signature: ()V
- */
-JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
-{
-	/* TODO implementation
-	 * Notes: We're going to pollute the namespace and add
-	 * needless abstraction with a native function for each
-	 * FORTRAN procedure. Can we coallese some stuff:
-	 * A single kernel function, takes enum id for flavor?
-	*/
-	return;
+	public static final int DEFAULT_RUN_TIME = 10000;
+	public static final int DEFAULT_JOIN_TIME = 1000;
 }

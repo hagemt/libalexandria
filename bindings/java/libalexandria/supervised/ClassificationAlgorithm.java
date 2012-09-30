@@ -17,7 +17,6 @@
 package libalexandria.supervised;
 
 import libalexandria.LearningModel;
-import libalexandria.ModelType;
 
 public abstract class ClassificationAlgorithm extends LearningModel {
 	protected ClassificationAlgorithm(String label) {

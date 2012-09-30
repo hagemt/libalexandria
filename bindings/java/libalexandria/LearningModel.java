@@ -16,8 +16,24 @@
  */
 package libalexandria;
 
-public abstract class LearningModel extends LabelledEntity {
+/**
+ * 
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
+public abstract class LearningModel extends LabelledEntity implements Profileable {
+	public static enum ModelType {
+		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+	}
+	
+	/**
+	 * Represents the mechanism of this model's operation
+	 */
 	protected final ModelType type;
+
+	/**
+	 * Represents whether or not this model can operate online
+	 */
 	protected final boolean online;
 
 	protected LearningModel(ModelType type, String label) {

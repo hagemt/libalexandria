@@ -47,7 +47,11 @@ option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
 configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
-install(FILES "${CMAKE_BINARY_DIR}/libalexandria.pc" DESTINATION lib/pkgconfig)
+install(FILES
+  "${CMAKE_BINARY_DIR}/libalexandria.pc"
+  DESTINATION lib/pkgconfig
+  COMPONENT "Developer Tools" OPTIONAL
+)
 
 ## Requirements
 

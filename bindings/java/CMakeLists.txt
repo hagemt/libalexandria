@@ -13,65 +13,53 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+# Setup to compile Java sources
 find_package(Java 1.6 COMPONENTS Development)
-
 if(Java_Development_FOUND)
   include(UseJava)
 else(Java_Development_FOUND)
   message(FATAL_ERROR "Unable to find build tools for Java!")
 endif(Java_Development_FOUND)
 
+# Set some Java arguments, FIXME better output dir?
 set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
+set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
+
+# Glob Java sources, FIXME dunno if I like this...
+file(GLOB JLA_SOURCES              libalexandria/*.java)
+file(GLOB JLA_ANN_SOURCES          libalexandria/ann/*.java)
+file(GLOB JLA_FUNCTIONAL_SOURCES   libalexandria/functional/*.java)
+file(GLOB JLA_KERNELS_SOURCES      libalexandria/functional/kernels/*.java)
+file(GLOB JLA_PARAMS_SOURCES       libalexandria/functional/params/*.java)
+file(GLOB JLA_SAMPLING_SOURCES     libalexandria/sampling/*.java)
+file(GLOB JLA_SUPERVISED_SOURCES   libalexandria/supervised/*.java)
+file(GLOB JLA_UNSUPERVISED_SOURCES libalexandria/unsupervised/*.java)
+file(GLOB JLA_PROOF_SOURCES        libalexandria/proof/*.java)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
 add_jar(jpoc
-  libalexandria/Generate.java
-  libalexandria/LabelledEntity.java
-  libalexandria/LearningModel.java
-  libalexandria/ModelType.java
-
-  libalexandria/ann/Cortex.java
-  libalexandria/ann/NativeWorker.java
-  libalexandria/ann/NeuralNetwork.java
-
-  libalexandria/functional/Kernel.java
-  libalexandria/functional/KernelMap.java
-  libalexandria/functional/Parameterized.java
-  libalexandria/functional/ParameterTreeMap.java
-  libalexandria/functional/Wavelet.java
-
-  libalexandria/proof/POC.java
-
+  ${JLA_SOURCES}
+  ${JLA_ANN_SOURCES}
+  ${JLA_FUNCTIONAL_SOURCES}
+  ${JLA_KERNEL_SOURCES}
+  ${JLA_PARAMS_SOURCES}
+  ${JLA_SAMPLING_SOURCES}
+  ${JLA_SUPERVISED_SOURCES}
+  ${JLA_UNSUPERVISED_SOURCES}
+  libalexandria/functional/wavelets/Wavelet.java
   libalexandria/reinforcement/MarkovDecisionProcess.java
-
-  libalexandria/sampling/Cardinal.java
-  libalexandria/sampling/ClosedInterval.java
-  libalexandria/sampling/ContinuousSampleSpace.java
-  libalexandria/sampling/DiscreteSampleSpace.java
-  libalexandria/sampling/Feature.java
-  libalexandria/sampling/MetricSpace.java
-  libalexandria/sampling/Ordinal.java
-  libalexandria/sampling/SampleSpace.java
-
-  libalexandria/supervised/ClassificationAlgorithm.java
-  libalexandria/supervised/KSVM.java
-  libalexandria/supervised/RegressionAlgorithm.java
-  libalexandria/supervised/SupportVectorMachine.java
-
-  libalexandria/unsupervised/ClusteringAlgorithm.java
-  libalexandria/unsupervised/KMeans.java
-  libalexandria/unsupervised/SeparationAlgorithm.java
 )
 install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
 
 # Generate JNI headers
 add_custom_command(TARGET jpoc POST_BUILD
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include"
-    "libalexandria.ann.NativeWorker"
-    "libalexandria.functional.Kernel"
+    "libalexandria.ann.Cortex"
+    "libalexandria.functional.kernels.Kernel"
+    "libalexandria.functional.wavelets.Wavelet"
     "libalexandria.proof.POC"
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
   COMMENT "       Updating JNI headers..." VERBATIM)
@@ -88,6 +76,7 @@ set_target_properties(jalexandria PROPERTIES
 )
 add_dependencies(jalexandria jpoc)
 
+# Specify install information
 install(
   TARGETS jalexandria
   ARCHIVE DESTINATION lib

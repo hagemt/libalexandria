@@ -20,14 +20,15 @@
 #include <assert.h>
 
 /*
- * Class:     libalexandria_ann_NativeWorker
+ * Class:     libalexandria_ann_Worker
  * Method:    operate
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
+Java_libalexandria_ann_Worker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
 {
-	jint i, len1, len2; jbyte *a1, *a2;
+	jint i, len1, len2;
+	jbyte *a1, *a2;
 	/* Fetch the arrays from java */
 	len1 = (*env)->GetArrayLength(env, arr1);
 	len2 = (*env)->GetArrayLength(env, arr2);
@@ -42,27 +43,5 @@ Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray
 	/* Cleanup */
 	(*env)->ReleasePrimitiveArrayCritical(env, arr2, a2, 0);
 	(*env)->ReleasePrimitiveArrayCritical(env, arr1, a1, 0);
-	return;
-}
-
-/*
- * Class:     libalexandria_ann_NativeWorker
- * Method:    wind
- * Signature: ([B[[B)V
- */
-JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_wind(JNIEnv *env, jobject obj, jbyteArray a, jobjectArray m)
-{
-	return;
-}
-
-/*
- * Class:     libalexandria_ann_NativeWorker
- * Method:    unwind
- * Signature: ([[B[B)V
- */
-JNIEXPORT void JNICALL
-Java_libalexandria_ann_NativeWorker_unwind(JNIEnv *env, jobject obj, jobjectArray m, jbyteArray a)
-{
 	return;
 }

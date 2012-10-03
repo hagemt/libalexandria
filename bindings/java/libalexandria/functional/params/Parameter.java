@@ -18,8 +18,44 @@ package libalexandria.functional.params;
 
 import java.util.Map.Entry;
 
-public interface Parameter<N extends Number> {
-	public String getKey();
-	public N getValue();
-	public Entry<String, N> entry();
+import libalexandria.LabelledEntity;
+
+/**
+ * Parameters are pairs of strings and some numeric type
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
+public class Parameter<N extends Number> extends LabelledEntity implements Entry<String, N> {
+	/**
+	 * @since libalexandria v0.1
+	 */
+	private static final long serialVersionUID = 3930637325779584462L;
+
+	private N value;
+	
+	protected Parameter(String key, N value) {
+		super(key);
+		this.value = value;
+	}
+	
+	protected Parameter(Entry<String, ? extends N> e) {
+		this(e.getKey(), e.getValue());
+	}
+	
+	@Override
+	public String getKey() {
+		return getLabel();
+	}
+
+	@Override
+	public N getValue() {
+		return value;
+	}
+
+	@Override
+	public N setValue(N value) {
+		N old = this.value;
+		this.value = value;
+		return old;
+	}
 }

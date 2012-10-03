@@ -58,6 +58,13 @@ public class Generate {
 				"Zulu"
 				};
 	}
+	
+	public static interface A<L extends LabelledEntity> {
+		boolean knows(String label);
+		L knownAs(String label);
+		L getDefault();
+		String toString();
+	}
 
 	public static String randomLabel() {
 		return randomLabel(3);

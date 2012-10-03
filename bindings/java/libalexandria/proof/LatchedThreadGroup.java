@@ -17,11 +17,12 @@
 package libalexandria.proof;
 
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
 import libalexandria.LearningModel;
 
-public class LatchedThreadGroup implements Runnable {
+public class LatchedThreadGroup implements Callable<Long> {
 	private final TreeMap<String, Thread> tasks;
 	private final CountDownLatch start_signal, ready_count, finished_count;
 	
@@ -48,17 +49,18 @@ public class LatchedThreadGroup implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public Long call() {
+		for (Thread t : tasks.values()) {
+			t.start();
+		}
 		try {
-			for (Thread t : tasks.values()) {
-				t.start();
-			}
 			ready_count.await();
 			start_signal.countDown();
 			finished_count.await();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return finished_count.getCount();
 	}
 	
 	@Override

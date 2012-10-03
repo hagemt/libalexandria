@@ -16,9 +16,13 @@
  */
 package libalexandria.functional;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
 import libalexandria.Profileable;
 
-public interface Function<T> extends Profileable {
-	public int arity();
-	public Class<T> returnType();
+public interface Function<T> extends Profileable, Callable<T> {
+	public int getArity();
+	public Class<T> getReturnType();
+	public Future<T> callLater();
 }

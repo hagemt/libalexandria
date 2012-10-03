@@ -18,6 +18,8 @@ package libalexandria.proof;
 
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import libalexandria.ModelConstants;
 import libalexandria.ann.Cortex;
@@ -41,14 +43,20 @@ public class POC implements ModelConstants {
 		ExecutorService pool = java.util.concurrent.Executors.newFixedThreadPool(proc_count);
 		LinkedList<LatchedThreadGroup> comparisons = new LinkedList<LatchedThreadGroup>();
 		/* Cortex comparison */
-		Cortex java_cortex = new Cortex("java-cortex", false);
-		Cortex native_cortex = new Cortex("native-cortex", true);
-		comparisons.add(new LatchedThreadGroup(java_cortex, native_cortex));
+		LatchedThreadGroup cortex = new LatchedThreadGroup(new Cortex("java", false), new Cortex("native", true));
+		comparisons.add(cortex);
 		// Woah, man, too many threads
 		System.out.println("libalexandria -- proof-of-concept active comparisons:");
 		for (LatchedThreadGroup tg : comparisons) {
 			System.out.println("\t" + tg);
+			try {
+				long result = pool.submit(tg).get(DEFAULT_JOIN_TIME + DEFAULT_JOIN_TIME, TimeUnit.MILLISECONDS);
+				System.out.println("\tAchieved the following result: " + result);
+			} catch (TimeoutException e) {
+				System.err.println("\tDid not complete in the expected time!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		pool.execute(comparisons.element());
 	}
 }

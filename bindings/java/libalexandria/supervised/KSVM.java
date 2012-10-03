@@ -17,14 +17,18 @@
 package libalexandria.supervised;
 
 import libalexandria.functional.kernels.Kernel;
-import libalexandria.functional.kernels.Kernel.KernelType;
+import libalexandria.functional.kernels.KernelType;
 
 public class KSVM extends SupportVectorMachine {
-	private Kernel kernel;
+	private final Kernel kernel;
 	
-	protected KSVM(String label, KernelType type) {
+	public KSVM(String label, KernelType type) {
+		this(label, type.getDefault());
+	}
+	
+	public KSVM(String label, Kernel k) {
 		super(label);
-		kernel = Kernel.get(type.name());
+		this.kernel = k;
 	}
 	
 	@Override

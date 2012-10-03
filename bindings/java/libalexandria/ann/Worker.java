@@ -61,7 +61,7 @@ public abstract class Worker extends LabelledEntity implements Runnable {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
-			System.err.println("[thread: " + label + "] has completed " + iterations + " iterations...");
+			System.err.println("[thread: " + this.getLabel() + "] has completed " + iterations + " iterations...");
 		}
 	}
 }

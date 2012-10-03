@@ -17,9 +17,15 @@
 package libalexandria;
 
 public interface ModelConstants {
-	public static final int MIN_HTM_DIMENSION = 32;
-	public static final int DEFAULT_HTM_DIMENSION = 32;
+	int MIN_HTM_DIMENSION = 32;
+	int DEFAULT_HTM_DIMENSION = 32;
 
-	public static final int DEFAULT_RUN_TIME = 10000;
-	public static final int DEFAULT_JOIN_TIME = 1000;
+	int DEFAULT_RUN_TIME = 10000;
+	int DEFAULT_JOIN_TIME = 1000;
+	
+	int DEFAULT_BUFFER_SIZE = 1024; 
+	
+	public static interface For<E extends Enum<E>> {
+		E getType();
+	}
 }

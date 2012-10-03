@@ -70,4 +70,10 @@ public interface Parameterized<N extends Number> extends Iterable<Parameter<N>> 
 	 * @return true if the parameter was renamed successfully, false otherwise
 	 */
 	public boolean renameParameter(String oldName, String newName);
+	
+	/**
+	 * Provides the service of iteration through parameters.
+	 * @return an iterator that may or may not support removal
+	 */
+	public Paramiterator<N> iterator();
 }

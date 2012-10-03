@@ -22,7 +22,7 @@ package libalexandria.functional.kernels;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
 public class PolynomialKernel extends Kernel {
-	protected PolynomialKernel(String label, double degree, double constant) {
+	public PolynomialKernel(String label, double degree, double constant) {
 		super(label, KernelType.POLY);
 		if (degree <= 0) {
 			throw new IllegalArgumentException("degree must be positive");
@@ -32,7 +32,7 @@ public class PolynomialKernel extends Kernel {
 	}
 	
 	/* By default, make kernel homogeneous (C = 0) */
-	protected PolynomialKernel(String label, double degree) {
+	public PolynomialKernel(String label, double degree) {
 		this(label, degree, 0);
 	}
 }

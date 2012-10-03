@@ -16,10 +16,11 @@
  */
 package libalexandria.functional.params;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
+import libalexandria.Copyable;
 import libalexandria.LabelledEntity;
 
 /**
@@ -28,15 +29,18 @@ import libalexandria.LabelledEntity;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @param <N> a numeric type
  */
-public abstract class ParameterMap<N extends Number> extends LabelledEntity implements Parameterized<N> {
+public class ParameterMap<N extends Number> extends LabelledEntity implements Parameterized<N>, Copyable<N> {
+	/**
+	 * Managed internally, takes the burden off implementing functions
+	 */
 	private Map<String, N> parameters;
 	
-	protected ParameterMap(String label) {
+	public ParameterMap(String label) {
 		super(label);
 		parameters = new TreeMap<String, N>();
 	}
 	
-	protected ParameterMap(ParameterMap<N> m) {
+	protected ParameterMap(ParameterMap<? extends N> m) {
 		this(m.getLabel());
 		parameters.putAll(m.parameters);
 	}
@@ -94,7 +98,16 @@ public abstract class ParameterMap<N extends Number> extends LabelledEntity impl
 	}
 
 	@Override
-	public Iterator<Parameter<N>> iterator() {
+	public Paramiterator<N> iterator() {
 		return new Paramiterator<N>(parameters);
+	}
+
+	@Override
+	public <P extends Entry<String, N>> ParameterMap<N> clone(String label, P... params) {
+		ParameterMap<N> copy = new ParameterMap<N>(label);
+		for (P p : params) {
+			copy.addParameter(p.getKey(), p.getValue());
+		}
+		return copy;
 	}
 }

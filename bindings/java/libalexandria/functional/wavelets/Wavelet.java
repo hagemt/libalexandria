@@ -16,45 +16,45 @@
  */
 package libalexandria.functional.wavelets;
 
-import libalexandria.functional.ParameterizedFunction;
+import libalexandria.ModelConstants;
+
+import libalexandria.functional.RealParameterizedFunction;
 
 /**
  * Describes an orthogonal function (group)
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class Wavelet extends ParameterizedFunction<Double> {
-	/**
-	 * Indicates whether or not a wavelet's form is continuous
-	 * @author Tor E Hagemann <hagemt@rpi.edu>
-	 * @since libalexandria v0.1
-	 */
-	public static enum WaveletType {
-		CONTINUOUS, DISCRETE;
-	}
+public class Wavelet extends RealParameterizedFunction<Double> implements ModelConstants.For<WaveletType> {
+	private final WaveletType type;
 	
-	private WaveletType type;
+	protected Wavelet(WaveletType type) {
+		this(type.toString(), type);
+	}
 
 	public Wavelet(String label, WaveletType type) {
 		super(label);
 		this.type = type;
 	}
-	
+
 	@Override
 	public WaveletType getType() {
 		return type;
 	}
 
 	@Override
-	public int arity() {
+	public int getArity() {
 		return 1;
 	}
 
 	@Override
-	public Class<Double> returnType() {
-		return Double.class;
-	}
+	public native void benchmark();
 
 	@Override
-	public native void benchmark();
+	public native Double call();
+
+	@Override
+	public boolean hasEnough() {
+		return getRemaining() > 3;
+	}
 }

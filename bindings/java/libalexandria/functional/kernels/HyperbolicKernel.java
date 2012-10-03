@@ -18,13 +18,15 @@ package libalexandria.functional.kernels;
 
 /**
  * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
- * where KAPPA, C > 0, which influence the rate of growth, note ^
+ * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
 public class HyperbolicKernel extends Kernel {
-	protected HyperbolicKernel(String label, double kappa, double constant) {
-		super(label, KernelType.TANH);
-		if (kappa <= 0 || constant <= 0) {
+	public static enum Nature { SIN, COS, TAN; }
+	
+	protected HyperbolicKernel(String label, Nature n, double kappa, double constant) {
+		super(label, KernelType.HYPER);
+		if (kappa <= 0 || -constant <= 0) {
 			throw new IllegalArgumentException("parameters must be positive");
 		}
 		this.addParameter("kappa", kappa);

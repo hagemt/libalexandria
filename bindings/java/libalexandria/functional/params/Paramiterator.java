@@ -19,6 +19,9 @@ package libalexandria.functional.params;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+
+import libalexandria.functional.params.Parameter;
 
 /**
  * 
@@ -39,12 +42,15 @@ public class Paramiterator<N extends Number> implements Iterator<Parameter<N>> {
 
 	@Override
 	public Parameter<N> next() {
-		Map.Entry<String, N> entry = iterator.next();
-		return new MutableParameter<N>(entry.getKey(), entry.getValue());
+		if (!iterator.hasNext()) {
+			throw new NoSuchElementException();
+		}
+		Entry<String, N> e = iterator.next();
+		return new Parameter<N>(e);
 	}
 
 	@Override
 	public void remove() {
-		iterator.remove();
+		throw new UnsupportedOperationException();
 	}
 }

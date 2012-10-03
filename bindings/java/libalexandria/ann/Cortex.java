@@ -70,13 +70,13 @@ public class Cortex extends LearningModel implements ModelConstants {
 
 	@Override
 	public void benchmark() {
-		System.out.println("[" + label + "] learning...");
+		System.out.println("[" + this.getLabel() + "] learning...");
 		try {
 			this.learn();
 			Thread.sleep(DEFAULT_RUN_TIME);
 			this.halt(DEFAULT_JOIN_TIME);
 		} catch (Exception e) {
-			System.err.println("[" + label + "] failed!");
+			System.err.println("[" + this.getLabel() + "] failed!");
 			e.printStackTrace();
 		}
 	}

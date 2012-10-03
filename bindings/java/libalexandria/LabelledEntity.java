@@ -23,7 +23,7 @@ package libalexandria;
  * @since libalexandria v0.1
  */
 public abstract class LabelledEntity {
-	protected String label;
+	private String label;
 	
 	/**
 	 * By default, a label is generated.

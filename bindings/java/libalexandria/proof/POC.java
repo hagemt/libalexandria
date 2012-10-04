@@ -34,8 +34,11 @@ public class POC implements ModelConstants {
 	
 	public static void main(String... args) {
 		// Simple POC
-		for (String s : args) {
-			POC.println(s);
+		if (args.length != 0) {
+			for (String s : args) {
+				POC.println(s);
+			}
+			return;
 		}
 		// Hell yeah threads!
 		int proc_count = Runtime.getRuntime().availableProcessors();

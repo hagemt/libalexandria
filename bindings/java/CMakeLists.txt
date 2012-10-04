@@ -57,8 +57,9 @@ install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")
 # Build native library, bound using JNI
 include_directories(
   ${JNI_INCLUDE_DIRS}
-  "${CMAKE_BINARY_DIR}/include/"
-  "${LIBRARY_INCLUDE_PATH}/libalexandria/jni"
+  "${CMAKE_BINARY_DIR}/include"
+  "${BASE_INCLUDE_PATH}"
+  "${BASE_INCLUDE_PATH}/libalexandria/jni"
 )
 file(GLOB NATIVE_SOURCES "jla_*.c" "jla_*.cxx")
 add_library(jalexandria SHARED ${NATIVE_SOURCES})

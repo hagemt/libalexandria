@@ -21,8 +21,8 @@
 #include "libalexandria.h"
 #include "libalexandria_proof_POC.h"
 
-JNIEXPORT void
-JNICALL Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
+JNIEXPORT void JNICALL
+Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
 {
 	const char *cstr;
 

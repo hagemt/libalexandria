@@ -27,19 +27,22 @@ endif(BIND_CXX)
 
 # Tests for Java bindings
 if(BIND_JAVA)
-  if(EXISTS "${Java_JAVA_EXECUTABLE}")
-    set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Library path for java runtime")
-    mark_as_advanced(JAVA_LIBRARY_PATH)
-    if(EXISTS "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar")
-      add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" -Djava.library.path=${JAVA_LIBRARY_PATH} -jar "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar" "Hello, World!")
-      set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
-    endif(EXISTS "${EXECUTABLE_OUTPUT_PATH}/jpoc.jar")
-  else(EXISTS "${Java_JAVA_EXECUTABLE}")
-    find_package(Java COMPONETNS Runtime)
+  # Make sure we can run Java code
+  if(NOT EXISTS "${Java_JAVA_EXECUTABLE}")
+    find_package(Java COMPONENTS Runtime)
     if(NOT Java_Runtime_FOUND)
-      message("Skipping Java tests: unable to find Java runtime")
+      message(FATAL_ERROR "Unable to find Java runtime!")
     endif(NOT Java_Runtime_FOUND)
-  endif(EXISTS "${Java_JAVA_EXECUTABLE}")
+  endif(NOT EXISTS "${Java_JAVA_EXECUTABLE}")
+  # Setup the library path, which all texts will need at run-time
+  set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
+  mark_as_advanced(JAVA_LIBRARY_PATH)
+  # Proof-of-concept test
+  set(POC_JAR_PATH "${EXECUTABLE_OUTPUT_PATH}/jar/jpoc.jar")
+  if(EXISTS "${POC_JAR_PATH}")
+    add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" -Djava.library.path=${JAVA_LIBRARY_PATH} -jar "${POC_JAR_PATH}" "Hello, World!")
+    set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+  endif(EXISTS "${POC_JAR_PATH}")
 endif(BIND_JAVA)
 
 # TODO add tests as features are implemented

@@ -21,12 +21,12 @@
 #include <assert.h>
 
 /*
- * Class:     libalexandria_ann_Worker
+ * Class:     libalexandria_ann_NativeWorker
  * Method:    operate
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_ann_Worker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
+Java_libalexandria_ann_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
 {
 	jint i, len1, len2;
 	jbyte *a1, *a2;

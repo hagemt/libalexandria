@@ -20,9 +20,11 @@ import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
+import libalexandria.LabelledEntity;
 import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
-public class LatchedThreadGroup implements Callable<Long> {
+public class LatchedThreadGroup extends LabelledEntity implements Callable<Long> {
 	private final TreeMap<String, Thread> tasks;
 	private final CountDownLatch start_signal, ready_count, finished_count;
 	
@@ -65,7 +67,10 @@ public class LatchedThreadGroup implements Callable<Long> {
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("{ participants: ");
+		StringBuilder sb = new StringBuilder(ModelConstants.DEFAULT_BUFFER_SIZE);
+		sb.append("{ ");
+		sb.append(getLabel());
+		sb.append(": ");
 		for (String s : tasks.keySet()) {
 			sb.append(s);
 			sb.append(' ');

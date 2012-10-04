@@ -26,7 +26,7 @@
 JNIEXPORT void JNICALL
 Java_libalexandria_functional_wavelets_Wavelet_benchmark(JNIEnv *env, jobject obj)
 {
-	info_operation_incomplete("Wavelet_benchmark");
+	laf_print_info_incomplete("Wavelet_benchmark");
 } 
 
 /*
@@ -37,7 +37,7 @@ Java_libalexandria_functional_wavelets_Wavelet_benchmark(JNIEnv *env, jobject ob
 JNIEXPORT jobject JNICALL
 Java_libalexandria_functional_wavelets_Wavelet_call(JNIEnv *env, jobject obj)
 {
-	info_operation_incomplete("Wavelet_call");
+	laf_print_info_incomplete("Wavelet_call");
 	return obj;
 }
 

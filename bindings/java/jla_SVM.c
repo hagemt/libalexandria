@@ -32,7 +32,7 @@ Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
 	 * FORTRAN procedure. Can we coallese some stuff:
 	 * A single kernel function, takes enum id for flavor?
 	*/
-	info_operation_incomplete("Kernel_benchmark");
+	laf_print_info_incomplete("Kernel_benchmark");
 	return;
 }
 
@@ -45,6 +45,6 @@ JNIEXPORT jobject JNICALL
 Java_libalexandria_functional_kernels_Kernel_call(JNIEnv *env, jobject obj)
 {
 	/* TODO decide right way to implement this */
-	info_operation_incomplete("Kernel_call");
+	laf_print_info_incomplete("Kernel_call");
 	return obj;
 }

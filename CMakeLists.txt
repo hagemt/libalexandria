@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 project(libalexandria C CXX Fortran Java)
 set(CMAKE_PROJECT_VERSION_MAJOR 0)
 set(CMAKE_PROJECT_VERSION_MINOR 1)
-set(CMAKE_PROJECT_VERSION_PATCH 0)
+set(CMAKE_PROJECT_VERSION_PATCH 1)
 set(CMAKE_PROJECT_VERSION_TWEAK 0)
 set(CMAKE_PROJECT_VERSION_HIGH
   "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}")
@@ -49,7 +49,7 @@ option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
-# PkgConfig file
+# pkg-config file
 configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
 install(FILES
   "${CMAKE_BINARY_DIR}/libalexandria.pc"
@@ -64,23 +64,21 @@ if(BIND_JAVA)
   if(NOT JNI_FOUND)
     message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
   endif(NOT JNI_FOUND)
+  # Set some arguments for Java for safe building
+  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
+  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
 endif(BIND_JAVA)
 
-# TODO FUTURE other libraries?
+# TODO FUTURE other libraries? like BLAS
 
 ### Build
 
 ## Main components
 
-# TODO FUTURE other code? (non-bindings)
-
-# Fortran code
-add_subdirectory(fortran)
-
-## Optional components
-
 # Process headers
 add_subdirectory(include)
+# Fortran code
+add_subdirectory(fortran)
 # Language bindings
 add_subdirectory(bindings)
 

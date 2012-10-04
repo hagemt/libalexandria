@@ -21,11 +21,7 @@ else(Java_Development_FOUND)
   message(FATAL_ERROR "Unable to find build tools for Java!")
 endif(Java_Development_FOUND)
 
-# Set some Java arguments, FIXME better output dir?
-set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
-set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
-
-# Glob Java sources, FIXME dunno if I like this...
+# Glob Java sources, FIXME dunno if I like this... but GLOB_RECURSE?
 file(GLOB JLA_SOURCES               libalexandria/*.java)
 file(GLOB JLA_ANN_SOURCES           libalexandria/ann/*.java)
 file(GLOB JLA_FUNCTIONAL_SOURCES    libalexandria/functional/*.java)
@@ -55,40 +51,27 @@ add_jar(jpoc
   ${JLA_UNSUPERVISED_SOURCES}
   ${JLA_PROOF_SOURCES}
 )
-# TODO how to add to components?
-install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
-
-# Generate JNI headers
-add_custom_command(TARGET jpoc POST_BUILD
-  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include/libalexandria/laJ"
-    "libalexandria.ann.NativeWorker"
-    "libalexandria.functional.kernels.Kernel"
-    "libalexandria.functional.wavelets.Wavelet"
-    "libalexandria.proof.POC"
-  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
-  COMMENT "       Updating JNI headers..." VERBATIM)
-# FIXME can the working directory be fetched from add_jar?
+# TODO how to add to components? maybe this w/ extra args
+install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")
 
 # Build native library, bound using JNI
-include_directories(${JNI_INCLUDE_DIRS} "${LIBRARY_INCLUDE_PATH}/libalexandria/jla")
+include_directories(
+  ${JNI_INCLUDE_DIRS}
+  "${CMAKE_BINARY_DIR}/include/"
+  "${LIBRARY_INCLUDE_PATH}/libalexandria/jni"
+)
 file(GLOB NATIVE_SOURCES "jla_*.c" "jla_*.cxx")
 add_library(jalexandria SHARED ${NATIVE_SOURCES})
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
+set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
 set_target_properties(jalexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
-add_dependencies(jalexandria jpoc)
-
-# Specify install information
+# Make sure javah was invoked (see ./include/libalexandria/jni/CMakeLists.txt
+add_dependencies(jalexandria javah)
 install(
   TARGETS jalexandria
   LIBRARY DESTINATION lib
-  COMPONENT "Java Bindings" OPTIONAL
-)
-# FIXME does this do
-install(
-  TARGETS jpoc
-  LIBRARY DESTINATION lib/jar
   COMPONENT "Java Bindings" OPTIONAL
 )

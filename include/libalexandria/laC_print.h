@@ -20,6 +20,6 @@
 
 #include "laF_print.h"
 
-void println(const char *, int);
+void println(const char *);
 
 #endif /* LAC_PRINT_H */

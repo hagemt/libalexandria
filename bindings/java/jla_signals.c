@@ -15,7 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "laF_signals.h"
+#include "libalexandria.h"
 #include "libalexandria_functional_wavelets_Wavelet.h"
 
 /*

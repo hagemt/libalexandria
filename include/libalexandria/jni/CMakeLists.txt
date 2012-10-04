@@ -13,7 +13,27 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-file(GLOB_RECURSE JNI_HEADER_FILES libalexandria_*.h)
+if(NOT Java_JAVAH_EXECUTABLE)
+  message(FATAL_ERROR "Cannot locate javah executable. Please specify or disable Java bindings")
+endif(NOT Java_JAVAH_EXECUTABLE)
+
+set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIRECTORY}" PROPERTY GENERATED TRUE)
+
+file(GLOB JNI_HEADER_FILES libalexandria_*.h)
+
+# Generate JNI headers TODO FUTURE much neater method
+add_custom_target(javah
+  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}"
+    "libalexandria.ann.NativeWorker"
+    "libalexandria.functional.kernels.Kernel"
+    "libalexandria.functional.wavelets.Wavelet"
+    "libalexandria.proof.POC"
+  DEPENDS jpoc "${CMAKE_JAVA_TARGET_OUTPUT_DIR}"
+  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
+  COMMENT "Updating JNI headers..." VERBATIM
+  SOURCES ${JNI_HEADER_FILES}
+)
+
 install(
   FILES ${JNI_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria/jni

@@ -13,15 +13,15 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-file(GLOB_RECURSE LAF_HEADER_FILES laF_*.h)
+file(GLOB LAF_HEADER_FILES laF_*.h)
 install(
   FILES ${LAF_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria
-  COMPONENT "Base Headers" OPTIONAL
+  COMPONENT "Fortran Headers" OPTIONAL
 )
 
 if(BIND_C)
-  file(GLOB_RECURSE LAC_HEADER_FILES laC_*.h)
+  file(GLOB LAC_HEADER_FILES laC_*.h)
   install(
     FILES ${LAC_HEADER_FILES}
     PUBLIC_HEADER DESTINATION include/libalexandria
@@ -30,7 +30,7 @@ if(BIND_C)
 endif(BIND_C)
 
 if(BIND_CXX)
-  file(GLOB_RECURSE LACXX_HEADER_FILES laCXX_*.h)
+  file(GLOB LACXX_HEADER_FILES laCXX_*.h)
   install(
     FILES ${LACXX_HEADER_FILES}
     PUBLIC_HEADER DESTINATION include/libalexandria

@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "laF_print.h"
+#include "libalexandria.h"
 #include "libalexandria_proof_POC.h"
 
 JNIEXPORT void

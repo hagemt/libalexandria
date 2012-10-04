@@ -15,7 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "laF_SVM.h"
+#include "libalexandria.h"
 #include "libalexandria_functional_kernels_Kernel.h"
 
 /*

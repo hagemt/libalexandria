@@ -15,9 +15,10 @@
 
 file(GLOB LAC_SOURCES "laC_*.c")
 
-add_library(alexandriac ${LAC_SOURCES})
-target_link_libraries(alexandriac alexandria)
-set_target_properties(alexandriac PROPERTIES
+# TODO rename library? or is consisent with C++ convension?
+add_library(alexandriam ${LAC_SOURCES})
+target_link_libraries(alexandriam alexandria)
+set_target_properties(alexandriam PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
@@ -27,7 +28,7 @@ if(BUILD_TESTING)
 endif(BUILD_TESTING)
 
 install(
-  TARGETS alexandriac
+  TARGETS alexandriam
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   COMPONENT "C Bindings" OPTIONAL

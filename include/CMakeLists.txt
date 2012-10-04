@@ -18,19 +18,20 @@ file(GLOB LAF_HEADERS RELATIVE "${LIBRARY_INCLUDE_PATH}" "libalexandria/laF_*.h"
 foreach(LAF_HEADER ${LAF_HEADERS})
   set(LAF_INCLUDES "#include \"${LAF_HEADER}\"
 ${LAF_INCLUDES}")
-endforeach(BASE_HEADER ${BASE_HEADERS})
+endforeach(LAF_HEADER ${LAF_HEADERS})
 configure_file(libalexandria.h.in libalexandria.h @ONLY)
 install(FILES
   "${CMAKE_BINARY_DIR}/libalexandria.h"
   DESTINATION include
-  COMPONENT "Base Headers" OPTIONAL
+  COMPONENT "Fortran Headers" OPTIONAL
 )
 
-
+# Global header installation
 install(
-  FILES libalexandria.h
+  FILES libalexandria.h libalexandria.hpp
   PUBLIC_HEADER DESTINATION include
-  COMPONENT "Base Headers" OPTIONAL
+  COMPONENT "Fortran Headers" OPTIONAL
 )
 
+# Each individual flavor of headers
 add_subdirectory(libalexandria)

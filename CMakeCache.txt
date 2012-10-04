@@ -1,3 +1,6 @@
+# This is a CMakeCache.user.txt template for linux developers
+# Note that CMakeCache.user.txt is in .gitignore
+
 BIND_C:BOOL=ON
 BIND_CXX:BOOL=ON
 BIND_JAVA:BOOL=ON

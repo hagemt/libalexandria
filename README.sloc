@@ -1,7 +1,9 @@
 Creating filelist for bindings
+Creating filelist for dev
 Creating filelist for fortran
+Creating filelist for hooks
 Creating filelist for include
-Creating filelist for testing
+Creating filelist for tests
 Categorizing files.
 Finding a working MD5 command....
 Found a working MD5 command.
@@ -9,28 +11,31 @@ Computing results.
 
 
 SLOC	Directory	SLOC-by-Language (Sorted)
-1032    bindings        java=930,ansic=87,cpp=15
-84      include         ansic=74,cpp=10
+1040    bindings        java=938,ansic=87,cpp=15
+83      include         ansic=74,cpp=9
 53      fortran         fortran=53
-0       testing         (none)
+12      hooks           sh=12
+0       dev             (none)
+0       tests           (none)
 
 
 Totals grouped by language (dominant language first):
-java:           930 (79.56%)
-ansic:          161 (13.77%)
-fortran:         53 (4.53%)
-cpp:             25 (2.14%)
+java:           938 (78.96%)
+ansic:          161 (13.55%)
+fortran:         53 (4.46%)
+cpp:             24 (2.02%)
+sh:              12 (1.01%)
 
 
 
 
-Total Physical Source Lines of Code (SLOC)                = 1,169
-Development Effort Estimate, Person-Years (Person-Months) = 0.24 (2.83)
+Total Physical Source Lines of Code (SLOC)                = 1,188
+Development Effort Estimate, Person-Years (Person-Months) = 0.24 (2.88)
  (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
-Schedule Estimate, Years (Months)                         = 0.31 (3.71)
+Schedule Estimate, Years (Months)                         = 0.31 (3.73)
  (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
-Estimated Average Number of Developers (Effort/Schedule)  = 0.76
-Total Estimated Cost to Develop                           = $ 31,831
+Estimated Average Number of Developers (Effort/Schedule)  = 0.77
+Total Estimated Cost to Develop                           = $ 32,374
  (average salary = $56,286/year, overhead = 2.40).
 SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
 SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.

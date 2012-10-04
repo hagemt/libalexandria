@@ -1,0 +1,27 @@
+#    This file is part of libalexandria.
+#
+#    libalexandria is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    libalexandria is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Library of Alexandria @EXTRA_LABELS@
+Description: Fast and easy-to-use machine learning mechanisms
+URL: http://hagemt.github.com/libalexandria/
+Version: @CMAKE_PROJECT_VERSION_SO@
+Libs: -L${libdir} -lalexandria @EXTRA_LIBRARIES@
+Cflags: -I${includedir} @EXTRA_INCLUDE_DIRS@

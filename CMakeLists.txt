@@ -36,26 +36,22 @@ endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 # Specify some default directories
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
-set(LIBRARY_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
+set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
+# TODO fix this...
 include("${PROJECT_SOURCE_DIR}/CMakeCache.user.txt" OPTIONAL)
-include_directories("${LIBRARY_INCLUDE_PATH}/libalexandria")
+include_directories("${BASE_INCLUDE_PATH}/libalexandria")
 
 ### Configuration
 
-# Build options
+## Build options
 option(BIND_C            "Produce bindings for C"    OFF)
 option(BIND_CXX          "Produce bindings for C++"  OFF)
 option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
-# pkg-config file
-configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
-install(FILES
-  "${CMAKE_BINARY_DIR}/libalexandria.pc"
-  DESTINATION lib/pkgconfig
-  COMPONENT "Developer Tools" OPTIONAL
-)
+## Development tools
+add_subdirectory(dev)
 
 ## Requirements
 
@@ -87,7 +83,7 @@ add_subdirectory(bindings)
 include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
-  add_subdirectory(testing)
+  add_subdirectory(tests)
 endif(BUILD_TESTING)
 
 ### Packaging

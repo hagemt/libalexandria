@@ -14,31 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include "laF_print.h"
-#include "libalexandria_proof_POC.h"
+#ifndef LAF_CONSTANTS_H
+#define LAF_CONSTANTS_H
 
-JNIEXPORT void
-JNICALL Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
-{
-	const char *cstr;
+#define LAF_VERSION 0x00000001
+#define LAF_MAX_LEN 80
 
-	/* Fetch modified UTF-8 characters */
-	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+#define LAF_INFO_INCOMPLETE "[info] '%s' (feature not yet implemented)\n"
 
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] received '%s' from JNI:\n", cstr);
-	#endif
-	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
-
-	/* Remember to release memory */
-	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
-
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", (void *)(jc));
-	#endif
-	laf_printi_();
-}
+#endif /* LAF_CONSTANTS_H */

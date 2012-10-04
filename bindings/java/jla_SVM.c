@@ -14,8 +14,8 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "laF_SVM.h"
 
+#include "laF_SVM.h"
 #include "libalexandria_functional_kernels_Kernel.h"
 
 /*
@@ -32,5 +32,19 @@ Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
 	 * FORTRAN procedure. Can we coallese some stuff:
 	 * A single kernel function, takes enum id for flavor?
 	*/
+	info_operation_incomplete("Kernel_benchmark");
 	return;
+}
+
+/*
+ * Class:     libalexandria_functional_kernels_Kernel
+ * Method:    call
+ * Signature: ()Ljava/lang/Double;
+ */
+JNIEXPORT jobject JNICALL
+Java_libalexandria_functional_kernels_Kernel_call(JNIEnv *env, jobject obj)
+{
+	/* TODO decide right way to implement this */
+	info_operation_incomplete("Kernel_call");
+	return obj;
 }

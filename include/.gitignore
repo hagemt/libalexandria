@@ -1,0 +1,3 @@
+# Ignore all pre-compiled headers
+*.gch
+*.pch

@@ -6,9 +6,10 @@ Some Tasks:
 * Conversion FORTRAN <-> C types (esp. arrays)
 * Flexible method for invoking models (w/ Android intent?)
 * Tests, tests, tests for everything
+* Figure out library requirements and add to top CMakeLists.txt
 
 Potential Hooks:
 
 * Check for license on all source files
 * Check for tests passing
-* Check for updated SLOC count
+* Check for updated SLOC count (done, but could be neater?)

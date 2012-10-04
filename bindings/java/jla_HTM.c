@@ -15,6 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "laF_HTM.h"
 #include "libalexandria_ann_NativeWorker.h"
 
 #include <assert.h>

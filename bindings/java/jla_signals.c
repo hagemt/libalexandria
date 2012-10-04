@@ -15,8 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-
+#include "laF_signals.h"
 #include "libalexandria_functional_wavelets_Wavelet.h"
 
 /*
@@ -27,5 +26,18 @@
 JNIEXPORT void JNICALL
 Java_libalexandria_functional_wavelets_Wavelet_benchmark(JNIEnv *env, jobject obj)
 {
-	fprintf(stderr, "[info] '%s' (feature not yet implemented)\n", "wavelets");
+	info_operation_incomplete("Wavelet_benchmark");
+} 
+
+/*
+ * Class:     libalexandria_functional_wavelets_Wavelet
+ * Method:    benchmark
+ * Signature: ()V
+ */
+JNIEXPORT jobject JNICALL
+Java_libalexandria_functional_wavelets_Wavelet_call(JNIEnv *env, jobject obj)
+{
+	info_operation_incomplete("Wavelet_call");
+	return obj;
 }
+

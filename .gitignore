@@ -6,6 +6,8 @@
 *.lib
 *.dylib
 
-# Ignore generated headers
-include/libalexandria_*
+# Ignore build dirs
 build*/*
+
+# Ignore user's version of CMakeCache.txt
+!CMakeCache.user.txt

@@ -22,19 +22,21 @@ else(Java_Development_FOUND)
 endif(Java_Development_FOUND)
 
 # Set some Java arguments, FIXME better output dir?
-set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}")
+set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
 set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
 
 # Glob Java sources, FIXME dunno if I like this...
-file(GLOB JLA_SOURCES              libalexandria/*.java)
-file(GLOB JLA_ANN_SOURCES          libalexandria/ann/*.java)
-file(GLOB JLA_FUNCTIONAL_SOURCES   libalexandria/functional/*.java)
-file(GLOB JLA_KERNELS_SOURCES      libalexandria/functional/kernels/*.java)
-file(GLOB JLA_PARAMS_SOURCES       libalexandria/functional/params/*.java)
-file(GLOB JLA_SAMPLING_SOURCES     libalexandria/sampling/*.java)
-file(GLOB JLA_SUPERVISED_SOURCES   libalexandria/supervised/*.java)
-file(GLOB JLA_UNSUPERVISED_SOURCES libalexandria/unsupervised/*.java)
-file(GLOB JLA_PROOF_SOURCES        libalexandria/proof/*.java)
+file(GLOB JLA_SOURCES               libalexandria/*.java)
+file(GLOB JLA_ANN_SOURCES           libalexandria/ann/*.java)
+file(GLOB JLA_FUNCTIONAL_SOURCES    libalexandria/functional/*.java)
+file(GLOB JLA_KERNELS_SOURCES       libalexandria/functional/kernels/*.java)
+file(GLOB JLA_PARAMS_SOURCES        libalexandria/functional/params/*.java)
+file(GLOB JLA_WAVELETS_SOURCES      libalexandria/functional/wavelets/*.java)
+file(GLOB JLA_SAMPLING_SOURCES      libalexandria/sampling/*.java)
+file(GLOB JLA_REINFORCEMENT_SOURCES libalexandria/reinforcement/*.java)
+file(GLOB JLA_SUPERVISED_SOURCES    libalexandria/supervised/*.java)
+file(GLOB JLA_UNSUPERVISED_SOURCES  libalexandria/unsupervised/*.java)
+file(GLOB JLA_PROOF_SOURCES         libalexandria/proof/*.java)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
@@ -46,18 +48,19 @@ add_jar(jpoc
   ${JLA_FUNCTIONAL_SOURCES}
   ${JLA_KERNEL_SOURCES}
   ${JLA_PARAMS_SOURCES}
+  ${JLA_WAVELETS_SOURCES}
   ${JLA_SAMPLING_SOURCES}
+  ${JLA_REINFORCEMENT_SOURCES}
   ${JLA_SUPERVISED_SOURCES}
   ${JLA_UNSUPERVISED_SOURCES}
   ${JLA_PROOF_SOURCES}
-  libalexandria/functional/wavelets/Wavelet.java
-  libalexandria/reinforcement/MarkovDecisionProcess.java
 )
+# TODO how to add to components?
 install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/lib/jar")
 
 # Generate JNI headers
 add_custom_command(TARGET jpoc POST_BUILD
-  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include"
+  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_SOURCE_DIR}/include/libalexandria/laJ"
     "libalexandria.ann.NativeWorker"
     "libalexandria.functional.kernels.Kernel"
     "libalexandria.functional.wavelets.Wavelet"
@@ -67,8 +70,8 @@ add_custom_command(TARGET jpoc POST_BUILD
 # FIXME can the working directory be fetched from add_jar?
 
 # Build native library, bound using JNI
-include_directories(${JNI_INCLUDE_DIRS})
-file(GLOB NATIVE_SOURCES "jla_*.c")
+include_directories(${JNI_INCLUDE_DIRS} "${LIBRARY_INCLUDE_PATH}/libalexandria/jla")
+file(GLOB NATIVE_SOURCES "jla_*.c" "jla_*.cxx")
 add_library(jalexandria SHARED ${NATIVE_SOURCES})
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
 set_target_properties(jalexandria PROPERTIES
@@ -80,7 +83,12 @@ add_dependencies(jalexandria jpoc)
 # Specify install information
 install(
   TARGETS jalexandria
-  ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
+  COMPONENT "Java Bindings" OPTIONAL
+)
+# FIXME does this do
+install(
+  TARGETS jpoc
+  LIBRARY DESTINATION lib/jar
   COMPONENT "Java Bindings" OPTIONAL
 )

@@ -13,18 +13,24 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# TODO is this a poor method?
-file(GLOB_RECURSE STANDARD_HEADER_FILES la*.h)
-file(GLOB_RECURSE JNI_HEADER_FILES libalexandria*.h)
-
-install(
-  FILES ${STANDARD_HEADER_FILES}
-  PUBLIC_HEADER DESTINATION include/libalexandria
-  COMPONENT "Standard Headers" OPTIONAL
+# Global header (TODO is this just a bad idea?)
+file(GLOB LAF_HEADERS RELATIVE "${LIBRARY_INCLUDE_PATH}" "libalexandria/laF_*.h")
+foreach(LAF_HEADER ${LAF_HEADERS})
+  set(LAF_INCLUDES "#include \"${LAF_HEADER}\"
+${LAF_INCLUDES}")
+endforeach(BASE_HEADER ${BASE_HEADERS})
+configure_file(libalexandria.h.in libalexandria.h @ONLY)
+install(FILES
+  "${CMAKE_BINARY_DIR}/libalexandria.h"
+  DESTINATION include
+  COMPONENT "Base Headers" OPTIONAL
 )
 
+
 install(
-  FILES ${JNI_HEADER_FILES}
-  PUBLIC_HEADER DESTINATION include/libalexandria/jla
-  COMPONENT "JNI Headers" OPTIONAL
+  FILES libalexandria.h
+  PUBLIC_HEADER DESTINATION include
+  COMPONENT "Base Headers" OPTIONAL
 )
+
+add_subdirectory(libalexandria)

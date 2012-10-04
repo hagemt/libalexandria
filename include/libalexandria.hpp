@@ -15,10 +15,16 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LAF_CONSTANTS_H
-#define LAF_CONSTANTS_H
+/* shared functions among bindings, "utilities" */
+#include "libalexandria.h"
 
-#define LAF_VERSION 0x00000001
-#define LAF_MAX_LEN 80
+#include <stdio.h>
 
-#endif /* LAF_CONSTANTS_H */
+inline void
+laf_print_info_incomplete(const char *feature) {
+	int len;
+	char buffer[LAF_MAX_LEN];
+	len = snprintf(buffer, LAF_INFO_INCOMPLETE, feature);
+	buffer[len] = '\0';
+	fprintf(stderr, buffer);
+}

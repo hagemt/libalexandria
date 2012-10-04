@@ -13,22 +13,31 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-file(GLOB LAC_SOURCES "laC_*.c")
-
-add_library(alexandriac ${LAC_SOURCES})
-target_link_libraries(alexandriac alexandria)
-set_target_properties(alexandriac PROPERTIES
-  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
-  VERSION   ${CMAKE_PROJECT_VERSION_SO}
-)
-
-if(BUILD_TESTING)
-  add_subdirectory(proof)
-endif(BUILD_TESTING)
-
+file(GLOB_RECURSE LAF_HEADER_FILES laF_*.h)
 install(
-  TARGETS alexandriac
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  COMPONENT "C Bindings" OPTIONAL
+  FILES ${LAF_HEADER_FILES}
+  PUBLIC_HEADER DESTINATION include/libalexandria
+  COMPONENT "Base Headers" OPTIONAL
 )
+
+if(BIND_C)
+  file(GLOB_RECURSE LAC_HEADER_FILES laC_*.h)
+  install(
+    FILES ${LAC_HEADER_FILES}
+    PUBLIC_HEADER DESTINATION include/libalexandria
+    COMPONENT "C Bindings" OPTIONAL
+  )
+endif(BIND_C)
+
+if(BIND_CXX)
+  file(GLOB_RECURSE LACXX_HEADER_FILES laCXX_*.h)
+  install(
+    FILES ${LACXX_HEADER_FILES}
+    PUBLIC_HEADER DESTINATION include/libalexandria
+    COMPONENT "C++ Bindings" OPTIONAL
+  )
+endif(BIND_CXX)
+
+if(BIND_JAVA)
+  add_subdirectory(jni)
+endif(BIND_JAVA)

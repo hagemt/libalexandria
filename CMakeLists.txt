@@ -36,16 +36,20 @@ endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 # Specify some default directories
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
-include_directories("${CMAKE_SOURCE_DIR}/include")
+set(LIBRARY_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
+include("${PROJECT_SOURCE_DIR}/CMakeCache.user.txt" OPTIONAL)
+include_directories("${LIBRARY_INCLUDE_PATH}/libalexandria")
 
 ### Configuration
 
+# Build options
 option(BIND_C            "Produce bindings for C"    OFF)
 option(BIND_CXX          "Produce bindings for C++"  OFF)
 option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
+# PkgConfig file
 configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
 install(FILES
   "${CMAKE_BINARY_DIR}/libalexandria.pc"
@@ -62,11 +66,13 @@ if(BIND_JAVA)
   endif(NOT JNI_FOUND)
 endif(BIND_JAVA)
 
-# TODO other libraries?
+# FUTURE other libraries?
 
 ### Build
 
 ## Main components
+
+# FUTURE other code? (non-bindings)
 
 # Fortran code
 add_subdirectory(fortran)

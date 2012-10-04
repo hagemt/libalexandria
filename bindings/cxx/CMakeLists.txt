@@ -13,7 +13,9 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-add_library(alexandriamm laCXX_print.cxx)
+file(GLOB LACXX_SOURCES "laCXX_*.cxx")
+
+add_library(alexandriamm ${LACXX_SOURCES})
 target_link_libraries(alexandriamm alexandria)
 set_target_properties(alexandriamm PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}

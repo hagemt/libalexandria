@@ -15,20 +15,11 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LAF_PRINT_H
-#define LAF_PRINT_H
+#ifndef LAC_PRINT_H
+#define LAC_PRINT_H
 
-#include "laF_constants.h"
+#include "laF_print.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cpluscplus */
+void println(const char *, int);
 
-void laf_printi_(void);
-void laf_print_(char const*, int);
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cpluscplus */
-
-#endif /* LAF_PRINT_H */
+#endif /* LAC_PRINT_H */

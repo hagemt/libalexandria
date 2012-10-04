@@ -7,5 +7,5 @@ includedir=${prefix}/include
 Name: Library of Alexandria
 Description: See https://github.com/hagemt/libalexandria
 Version: @CMAKE_PROJECT_VERSION@
-Libs: -L${libdir} -lalexandria
-Cflags: -I${includedir}/libalexandria
+Libs: -L${libdir} @LIBRARY_BINDINGS@
+Cflags: -I${includedir} @LIBRARY_BINDINGS_INCLUDES@

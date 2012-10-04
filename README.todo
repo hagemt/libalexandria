@@ -1,15 +1,19 @@
 Some Tasks:
 
+* Tests, tests, tests for everything as it is implemented (PRIORITY)
+* Ensure "next" branch merges cleanly into current master
+
 * Finish Java skeleton
 * Finish Java interface
 * Hook up to back-end via JNI
-* Conversion FORTRAN <-> C types (esp. arrays)
-* Flexible method for invoking models (w/ Android intent?)
-* Tests, tests, tests for everything
-* Figure out library requirements and add to top CMakeLists.txt
+* Flexible method for invoking models via Android intent
+
+* Conversion FORTRAN <-> C types (esp. array arguments and vectorization)
+* Figure out (Android/BLAS) library requirements and add to top CMakeLists.txt
+* Update gh-pages when dev/* merges to master
 
 Potential Hooks:
 
 * Check for license on all source files
-* Check for tests passing
+* Check for tests passing (merge clean build README to gh-pages)
 * Check for updated SLOC count (done, but could be neater?)

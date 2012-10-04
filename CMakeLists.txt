@@ -66,13 +66,13 @@ if(BIND_JAVA)
   endif(NOT JNI_FOUND)
 endif(BIND_JAVA)
 
-# FUTURE other libraries?
+# TODO FUTURE other libraries?
 
 ### Build
 
 ## Main components
 
-# FUTURE other code? (non-bindings)
+# TODO FUTURE other code? (non-bindings)
 
 # Fortran code
 add_subdirectory(fortran)

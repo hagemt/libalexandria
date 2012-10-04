@@ -15,9 +15,6 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* shared functions among bindings, "utilities" */
-#include "libalexandria.h"
-
 #include <stdio.h>
 
 inline void

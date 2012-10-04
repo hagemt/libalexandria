@@ -13,24 +13,18 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Global header (TODO is this just a bad idea?)
-file(GLOB LAF_HEADERS RELATIVE "${LIBRARY_INCLUDE_PATH}" "libalexandria/laF_*.h")
+# Configure global header
+file(GLOB LAF_HEADERS RELATIVE "${BASE_INCLUDE_PATH}" "libalexandria/laF_*.h")
 foreach(LAF_HEADER ${LAF_HEADERS})
   set(LAF_INCLUDES "#include \"${LAF_HEADER}\"
 ${LAF_INCLUDES}")
 endforeach(LAF_HEADER ${LAF_HEADERS})
 configure_file(libalexandria.h.in libalexandria.h @ONLY)
-install(FILES
-  "${CMAKE_BINARY_DIR}/libalexandria.h"
-  DESTINATION include
-  COMPONENT "Fortran Headers" OPTIONAL
-)
 
-# Global header installation
 install(
-  FILES libalexandria.h libalexandria.hpp
-  PUBLIC_HEADER DESTINATION include
-  COMPONENT "Fortran Headers" OPTIONAL
+  FILES "${CMAKE_BINARY_DIR}/libalexandria.h" libalexandria.hpp
+  DESTINATION include
+  COMPONENT "Base Headers" OPTIONAL
 )
 
 # Each individual flavor of headers

@@ -16,7 +16,7 @@
 file(GLOB FORTRAN_SOURCES "*.F")
 set_property(SOURCE ${FORTRAN_SOURCES} PROPERTY Fortran_FORMAT FIXED)
 
-add_library(alexandria ${FORTRAN_SOURCES} "${LIBRARY_INCLUDE_PATH}/libalexandria.hpp")
+add_library(alexandria ${FORTRAN_SOURCES} "${CMAKE_SOURCE_DIR}/include/libalexandria.hpp")
 set_target_properties(alexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

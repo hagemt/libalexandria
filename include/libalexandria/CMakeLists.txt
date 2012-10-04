@@ -17,7 +17,7 @@ file(GLOB LAF_HEADER_FILES laF_*.h)
 install(
   FILES ${LAF_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria
-  COMPONENT "Fortran Headers" OPTIONAL
+  COMPONENT "Base Headers" OPTIONAL
 )
 
 if(BIND_C)

@@ -16,21 +16,28 @@
  */
 package libalexandria.functional.kernels;
 
+import libalexandria.ModelConstants.Some;
+
 /**
  * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
  * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-public class HyperbolicKernel extends Kernel {
-	public static enum Nature { SIN, COS, TAN; }
+public class HyperbolicKernel extends Kernel implements Some<TrigFlavor> {
+	private TrigFlavor flavor;
 	
-	protected HyperbolicKernel(String label, Nature n, double kappa, double constant) {
+	protected HyperbolicKernel(String label, TrigFlavor flavor, double kappa, double constant) {
 		super(label, KernelType.HYPER);
 		if (kappa <= 0 || -constant <= 0) {
 			throw new IllegalArgumentException("parameters must be positive");
 		}
+		this.flavor = flavor;
 		this.addParameter("kappa", kappa);
 		this.addParameter("constant", constant);
+	}
+	
+	public TrigFlavor getFlavor() {
+		return flavor;
 	}
 }
 

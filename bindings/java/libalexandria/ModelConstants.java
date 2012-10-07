@@ -23,9 +23,15 @@ public interface ModelConstants {
 	int DEFAULT_RUN_TIME = 10000;
 	int DEFAULT_JOIN_TIME = 1000;
 	
-	int DEFAULT_BUFFER_SIZE = 1024; 
+	int DEFAULT_BUFFER_SIZE = 1024;
+	
+	String LA_PREFIX = "laJ";
 	
 	public static interface For<E extends Enum<E>> {
 		E getType();
+	}
+	
+	public static interface Some<E extends Enum<E>> {
+		E getFlavor();
 	}
 }

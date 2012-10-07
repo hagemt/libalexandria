@@ -16,30 +16,33 @@
  */
 package libalexandria.functional.kernels;
 
+import libalexandria.ModelConstants.Some;
+
 /**
  * A Gaussian kernel has the form K(A,B) = EXP(-GAMMA*NORM(A-B)^2)
  * where GAMMA > 0 and may instead be specified GAMMA = 1/2*SIGMA^2
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-public class GaussianKernel extends Kernel {
-	/**
-	 * Gaussian kernel functions are expressed in one of two styles
-	 * The "gamma" style is default, @see #GaussianKernel
-	 * @author Tor E Hagemann <hagemt@rpi.edu>
-	 */
-	public static enum Parameterization { GAMMA, SIGMA }
-
+public class GaussianKernel extends Kernel implements Some<StatFlavor> {
 	/**
 	 * The type of parameterization exhibited here
 	 */
-	private Parameterization type;
+	private StatFlavor flavor;
 
-	protected GaussianKernel(String label, Parameterization type, double value) {
+	protected GaussianKernel(String label, StatFlavor flavor, double value) {
 		super(label, KernelType.GAUSS);
 		if (value <= 0) {
 			throw new IllegalArgumentException("parameter must be positive");
 		}
-		this.type = (type == null) ? Parameterization.GAMMA : type;
-		this.addParameter(this.type.name().toLowerCase(), value);
+		this.flavor = (flavor == null) ? StatFlavor.GAMMA : flavor;
+		this.addParameter(this.flavor.toString(), value);
+	}
+	
+	/**
+	 * Fetch this Gaussian Kernel's type of parameterization
+	 * @return either GAMMA or SIGMA
+	 */
+	public StatFlavor getFlavor() {
+		return flavor;
 	}
 }

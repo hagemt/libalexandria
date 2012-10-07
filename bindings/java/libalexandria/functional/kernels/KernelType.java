@@ -16,12 +16,12 @@ public enum KernelType implements Generate.A<Kernel> {
 			new PolynomialKernel("LinearInhomogeneousUnit", 1, 1),
 			new PolynomialKernel("QuadraticInhomogeneousUnit", 2, 1)),
 	GAUSS(
-			new GaussianKernel("RadialBasisGammaUnit", GaussianKernel.Parameterization.GAMMA, 1),
-			new GaussianKernel("RadialBasisSigmaUnit", GaussianKernel.Parameterization.SIGMA, 1)),
+			new GaussianKernel("RadialBasisGammaUnit", StatFlavor.GAMMA, 1),
+			new GaussianKernel("RadialBasisSigmaUnit", StatFlavor.SIGMA, 1)),
 	HYPER(
-			new HyperbolicKernel("HyperbolicSineUnit", HyperbolicKernel.Nature.SIN, 1, -1),
-			new HyperbolicKernel("HyperbolicCosineUnit", HyperbolicKernel.Nature.COS, 1, -1),
-			new HyperbolicKernel("HyperbolicTangentUnit", HyperbolicKernel.Nature.TAN, 1, -1)),
+			new HyperbolicKernel("HyperbolicSineUnit", TrigFlavor.SIN, 1, -1),
+			new HyperbolicKernel("HyperbolicCosineUnit", TrigFlavor.COS, 1, -1),
+			new HyperbolicKernel("HyperbolicTangentUnit", TrigFlavor.TAN, 1, -1)),
 	USER;
 	
 	private TreeMap<String, Kernel> known_kernels;

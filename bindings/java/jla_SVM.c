@@ -36,6 +36,8 @@ Java_libalexandria_functional_kernels_Kernel_benchmark(JNIEnv *env, jobject obj)
 	return;
 }
 
+//void* GetDirectBufferAddress(JNIEnv* env, jobject buf);
+
 /*
  * Class:     libalexandria_functional_kernels_Kernel
  * Method:    call

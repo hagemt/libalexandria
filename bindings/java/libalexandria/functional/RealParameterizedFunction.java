@@ -1,7 +1,17 @@
 package libalexandria.functional;
 
-import java.nio.Buffer;
+import java.io.DataInput;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+
 import java.nio.ByteBuffer;
+
+import java.util.Collection;
+import java.util.Iterator;
+
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
@@ -9,20 +19,33 @@ import libalexandria.ModelConstants;
 import libalexandria.functional.params.ParameterMap;
 
 public abstract class RealParameterizedFunction<N extends Number> extends ParameterMap<N> implements Function<Double> {
-	private Buffer queue;
-	
-	protected void initializeBuffer() {
-		queue = ByteBuffer.allocateDirect(ModelConstants.DEFAULT_BUFFER_SIZE);
-	}
+	private ByteBuffer buffer;
+	private FileChannel results;
 
+	public void initialize() throws IOException {
+		buffer = alloc();
+		assert(buffer.isDirect());
+		/* TODO in memory? */
+		File temp_file = File.createTempFile(ModelConstants.LA_PREFIX, getLabel());
+		results = new RandomAccessFile(temp_file, "rw").getChannel();
+	}
+	
 	protected RealParameterizedFunction(String label) {
 		super(label);
-		initializeBuffer();
+		try {
+			initialize();
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
-	protected RealParameterizedFunction(ParameterMap<? extends N> base) {
+	protected RealParameterizedFunction(RealParameterizedFunction<? extends N> base) {
 		super(base);
-		initializeBuffer();
+		try {
+			initialize();
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 
 	@Override
@@ -31,19 +54,51 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	}
 	
 	@Override
-	public Future<Double> callLater() {
-		FutureTask<Double> result = null;
-		try {
-			result = new FutureTask<Double>(this);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public Future<Double> getFuture() {
+		return new FutureTask<Double>(this);
+	}
+
+	@Override
+	public Double call() throws Exception {
+		return new SynchronizationTask(this, results).call();
+	}
+
+	/* Required of subclasses */
+	private native ByteBuffer alloc();
+	protected abstract void sync(DataInput stream);
+	private native void free();
+
+	/* Provided as convenience to subclasses */
+	protected synchronized int remaining() {
+		return (buffer == null) ? 0 : buffer.remaining();
+	}
+	
+	public synchronized int offer(Collection<? extends N> c) {
+		int written = 0;
+		Iterator<? extends N> itr = c.iterator();
+		for (int r = remaining(); r >= Double.SIZE; ++written) {
+			if (itr.hasNext()) {
+				buffer.putDouble(itr.next().doubleValue());
+			} else {
+				// TODO name this thread / nix this thread?
+				new Thread(new SynchronizationTask(this, results)).start();
+				break;
+			}
 		}
-		return result;
+		return written;
+	}
+
+	/* Implemented functions of InterruptableChannel */
+	
+	@Override
+	public synchronized boolean isOpen() {
+		return (buffer != null);
 	}
 	
-	protected int getRemaining() {
-		return (queue == null) ? 0 : queue.remaining();
+	@Override
+	public synchronized void close() throws IOException {
+		buffer = null; free();
+		results.close();
 	}
 	
-	public abstract boolean hasEnough();
 }

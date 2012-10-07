@@ -16,13 +16,15 @@
  */
 package libalexandria.functional.kernels;
 
+import java.io.DataInput;
+
 import libalexandria.ModelConstants;
 import libalexandria.functional.RealParameterizedFunction;
 
 /**
- * Does not encapsulate computation of a kernel function,
- * instead, provides metadata concerning parameters and such.
+ * Does not encapsulate computation of a kernel function, instead, provides metadata concerning parameters and such.
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
  */
 public class Kernel extends RealParameterizedFunction<Double> implements ModelConstants.For<KernelType> {
 	/**
@@ -54,13 +56,8 @@ public class Kernel extends RealParameterizedFunction<Double> implements ModelCo
 	}
 
 	@Override
+	protected native void sync(DataInput stream);
+
+	@Override
 	public native void benchmark();
-
-	@Override
-	public boolean hasEnough() {
-		return getRemaining() > 4;
-	}
-
-	@Override
-	public native Double call();
 }

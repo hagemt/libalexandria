@@ -16,13 +16,15 @@
  */
 package libalexandria.functional;
 
+import java.nio.channels.InterruptibleChannel;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 import libalexandria.Profileable;
 
-public interface Function<T> extends Profileable, Callable<T> {
+public interface Function<T> extends Callable<T>, InterruptibleChannel, Profileable {
 	public int getArity();
 	public Class<T> getReturnType();
-	public Future<T> callLater();
+	public Future<T> getFuture();
 }

@@ -17,9 +17,10 @@
 package libalexandria.reinforcement;
 
 import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
 public abstract class MarkovDecisionProcess extends LearningModel {
 	protected MarkovDecisionProcess(String label) {
-		super(ModelType.REINFORCEMENT, label, true);
+		super(ModelConstants.ModelType.REINFORCEMENT, label, true);
 	}
 }

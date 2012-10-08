@@ -35,7 +35,7 @@ public class Cortex extends LearningModel implements ModelConstants {
 	}
 	
 	public Cortex(String label, int dimension, boolean isNative) {
-		super(ModelType.REINFORCEMENT, label, true);
+		super(ModelConstants.ModelType.REINFORCEMENT, label, true);
 		if (dimension < MIN_HTM_DIMENSION) {
 			throw new IllegalArgumentException("dimension must be sufficiently large");
 		}

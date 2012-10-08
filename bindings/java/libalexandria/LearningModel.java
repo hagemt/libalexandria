@@ -16,16 +16,14 @@
  */
 package libalexandria;
 
+import libalexandria.ModelConstants.ModelType;
+
 /**
  * 
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LearningModel extends LabelledEntity implements Profileable {
-	public static enum ModelType {
-		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
-	}
-	
+public abstract class LearningModel extends LabelledEntity implements ModelConstants.For<ModelType>, Profileable {
 	/**
 	 * Represents the mechanism of this model's operation
 	 */

@@ -17,13 +17,14 @@
 package libalexandria.ann;
 
 import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
 public abstract class NeuralNetwork extends LearningModel {
-	protected NeuralNetwork(ModelType type) {
+	protected NeuralNetwork(ModelConstants.ModelType type) {
 		this(type, type.name());
 	}
 
-	protected NeuralNetwork(ModelType type, String label) {
+	protected NeuralNetwork(ModelConstants.ModelType type, String label) {
 		super(type, label);
 	}
 }

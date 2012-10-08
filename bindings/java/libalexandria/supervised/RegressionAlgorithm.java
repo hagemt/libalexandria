@@ -17,9 +17,10 @@
 package libalexandria.supervised;
 
 import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
 public abstract class RegressionAlgorithm extends LearningModel {
 	protected RegressionAlgorithm(String label) {
-		super(ModelType.SUPERVISED, label);
+		super(ModelConstants.ModelType.SUPERVISED, label);
 	}
 }

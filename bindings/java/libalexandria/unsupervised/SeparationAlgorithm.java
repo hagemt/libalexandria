@@ -17,9 +17,10 @@
 package libalexandria.unsupervised;
 
 import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
 public abstract class SeparationAlgorithm extends LearningModel {
 	protected SeparationAlgorithm(String label) {
-		super(ModelType.UNSUPERVISED, label);
+		super(ModelConstants.ModelType.UNSUPERVISED, label);
 	}
 }

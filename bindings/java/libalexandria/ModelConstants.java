@@ -34,4 +34,8 @@ public interface ModelConstants {
 	public static interface Some<E extends Enum<E>> {
 		E getFlavor();
 	}
+
+	public static enum ModelType {
+		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+	}
 }

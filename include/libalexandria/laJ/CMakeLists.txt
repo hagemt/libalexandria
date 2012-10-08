@@ -37,6 +37,6 @@ add_custom_target(javah
 
 install(
   FILES ${JNI_HEADER_FILES}
-  PUBLIC_HEADER DESTINATION include/libalexandria/jni
+  PUBLIC_HEADER DESTINATION include/libalexandria/laJ
   COMPONENT "Java Bindings" OPTIONAL
 )

@@ -39,5 +39,5 @@ if(BIND_CXX)
 endif(BIND_CXX)
 
 if(BIND_JAVA)
-  add_subdirectory(jni)
+  add_subdirectory(laJ)
 endif(BIND_JAVA)

@@ -59,9 +59,9 @@ include_directories(
   ${JNI_INCLUDE_DIRS}
   "${CMAKE_BINARY_DIR}/include"
   "${BASE_INCLUDE_PATH}"
-  "${BASE_INCLUDE_PATH}/libalexandria/jni"
+  "${BASE_INCLUDE_PATH}/libalexandria/laJ"
 )
-file(GLOB NATIVE_SOURCES "jla_*.c" "jla_*.cxx")
+file(GLOB NATIVE_SOURCES "laJ_*.c" "laJ_*.cxx")
 add_library(jalexandria SHARED ${NATIVE_SOURCES})
 target_link_libraries(jalexandria alexandria ${JNI_LIBRARIES})
 set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
@@ -69,8 +69,10 @@ set_target_properties(jalexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
-# Make sure javah was invoked (see ./include/libalexandria/jni/CMakeLists.txt
+# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
 add_dependencies(jalexandria javah)
+
+# Lastly
 install(
   TARGETS jalexandria
   LIBRARY DESTINATION lib

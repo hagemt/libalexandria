@@ -16,8 +16,6 @@
  */
 package libalexandria.functional;
 
-import java.io.DataInput;
-
 import libalexandria.ModelConstants;
 
 /**
@@ -44,7 +42,7 @@ public class SigmoidFunction extends RealParameterizedFunction<Double> implement
 	}
 
 	@Override
-	protected native void sync(DataInput stream);
+	protected native void sync();
 
 	@Override
 	public native void benchmark();

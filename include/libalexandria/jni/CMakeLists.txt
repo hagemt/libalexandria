@@ -25,6 +25,7 @@ file(GLOB JNI_HEADER_FILES libalexandria_*.h)
 add_custom_target(javah
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}"
     "libalexandria.ann.NativeWorker"
+    "libalexandria.functional.RealParameterizedFunction"
     "libalexandria.functional.kernels.Kernel"
     "libalexandria.functional.wavelets.Wavelet"
     "libalexandria.proof.POC"

@@ -16,8 +16,6 @@
  */
 package libalexandria.functional.wavelets;
 
-import java.io.DataInput;
-
 import libalexandria.ModelConstants;
 
 import libalexandria.functional.RealParameterizedFunction;
@@ -50,7 +48,7 @@ public class Wavelet extends RealParameterizedFunction<Double> implements ModelC
 	}
 
 	@Override
-	protected native void sync(DataInput stream);
+	protected native void sync();
 
 	@Override
 	public native void benchmark();

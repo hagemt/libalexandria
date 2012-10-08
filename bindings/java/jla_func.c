@@ -15,37 +15,35 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <assert.h>
+
 #include "libalexandria.h"
-#include "libalexandria_functional_kernels_Kernel.h"
+#include "libalexandria_functional_RealParameterizedFunction.h"
+
+static jdouble funky_buffer[LAF_MAX_LEN];
 
 /*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    benchmark
- * Signature: ()V
+ * Class:     libalexandria_functional_RealParameterizedFunction
+ * Method:    alloc
+ * Signature: ()Ljava/nio/ByteBuffer;
  */
-JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark
+JNIEXPORT jobject JNICALL
+Java_libalexandria_functional_RealParameterizedFunction_alloc
 	(JNIEnv *env, jobject obj)
 {
-	/* TODO implementation
-	 * Notes: We're going to pollute the namespace and add
-	 * needless abstraction with a native function for each
-	 * FORTRAN procedure. Can we coallese some stuff:
-	 * A single kernel function, takes enum id for flavor?
-	*/
-	laf_print_info_incomplete("Kernel_benchmark");
-	return;
+	obj = (*env)->NewDirectByteBuffer(env, funky_buffer, LAF_MAX_LEN * sizeof(jdouble));
+	assert(obj);
+	return obj;
 }
 
 /*
- * Class:     libalexandria_functional_kernels_Kernel
- * Method:    sync
+ * Class:     libalexandria_functional_RealParameterizedFunction
+ * Method:    free
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_sync
+Java_libalexandria_functional_RealParameterizedFunction_free
 	(JNIEnv *env, jobject obj)
 {
-	laf_print_info_incomplete("Kernel_sync");
-	return;
+	laf_print_info_incomplete("free");
 }

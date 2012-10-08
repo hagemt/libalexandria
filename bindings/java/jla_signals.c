@@ -24,20 +24,20 @@
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_wavelets_Wavelet_benchmark(JNIEnv *env, jobject obj)
+Java_libalexandria_functional_wavelets_Wavelet_benchmark
+	(JNIEnv *env, jobject obj)
 {
 	laf_print_info_incomplete("Wavelet_benchmark");
 } 
 
 /*
  * Class:     libalexandria_functional_wavelets_Wavelet
- * Method:    benchmark
+ * Method:    sync
  * Signature: ()V
  */
-JNIEXPORT jobject JNICALL
-Java_libalexandria_functional_wavelets_Wavelet_call(JNIEnv *env, jobject obj)
+JNIEXPORT void JNICALL
+Java_libalexandria_functional_wavelets_Wavelet_sync
+	(JNIEnv *env, jobject obj)
 {
-	laf_print_info_incomplete("Wavelet_call");
-	return obj;
+	laf_print_info_incomplete("Wavelet_sync");
 }
-

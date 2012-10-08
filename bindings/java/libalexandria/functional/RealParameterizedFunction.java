@@ -1,10 +1,11 @@
 package libalexandria.functional;
 
-import java.io.DataInput;
-
+/* TODO revamp using nio */
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 
 import java.nio.ByteBuffer;
@@ -60,12 +61,13 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 
 	@Override
 	public Double call() throws Exception {
-		return new SynchronizationTask(this, results).call();
+		sync();
+		return new DataInputStream(Channels.newInputStream(results)).readDouble();
 	}
 
 	/* Required of subclasses */
 	private native ByteBuffer alloc();
-	protected abstract void sync(DataInput stream);
+	protected abstract void sync();
 	private native void free();
 
 	/* Provided as convenience to subclasses */
@@ -80,8 +82,12 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 			if (itr.hasNext()) {
 				buffer.putDouble(itr.next().doubleValue());
 			} else {
-				// TODO name this thread / nix this thread?
-				new Thread(new SynchronizationTask(this, results)).start();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						sync();
+					}
+				}).start();
 				break;
 			}
 		}
@@ -97,7 +103,8 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	
 	@Override
 	public synchronized void close() throws IOException {
-		buffer = null; free();
+		buffer = null;
+		this.free();
 		results.close();
 	}
 	

@@ -12,6 +12,9 @@ Some Tasks:
 * Figure out (Android/BLAS) library requirements and add to top CMakeLists.txt
 * Update gh-pages when dev/* merges to master
 
+* Check legal statements rigorously with law professional
+* Flesh out feature list, especially for bindings (chart?)
+
 Potential Hooks:
 
 * Check for license on all source files

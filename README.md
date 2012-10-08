@@ -13,7 +13,7 @@ Philosophy
 libalexandria is envisioned to address a very defined Separation
 of Concerns, those being, specifically, and not otherwise:
 
-Simple Interface <-- (Efficient Bridge) --> Advanced Computation
+> Simple Interface <-- Efficient Bridge --> Advanced Computation
 
 So broadly stated, we implement this philosophy using the Java
 Native Interface (JNI) to provide a data-transformational intermediary
@@ -66,8 +66,6 @@ The Library of Alexandria will provide:
 * Extreme levels of introspection for at top layer (Java)
 * Many other yet-undocumented features, bridging many layers of abstraction
 
-# TODO FUTURE flesh this out with more of the awesome, especially Java API
-
 History
 -------
 
@@ -113,8 +111,6 @@ Always note that, when selecting a license generally, it is good to do your home
 If libalexandria were licensed under a general BSD license, for example, the contributors
 to libalexandria would not be obligated to give back their contributions, and there is
 some question as to weather an app could be licensed under GPL v2+.
-
-# TODO FUTURE check this last statement rigorously with law professional
 
 [2] http://en.wikipedia.org/wiki/List_of_FSF_approved_software_licenses
 

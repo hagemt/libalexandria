@@ -15,17 +15,15 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "laF_print.h"
+#include "laC_print.h"
 
 int
 main(int argc, char **argv)
 {
-	char *arg, *c;
-	int i, len;
-	for (i = 1; i < argc; ++i) {
-		arg = argv[i];
-		for (c = arg, len = 0; len < LAF_MAX_LEN && *c; ++len, ++c);
-		laf_print_(arg, len);
+	int argi = 0;
+	while (argi < argc) {
+		println(argv[argi]);
+		++argi;
 	}
 	return 0;
 }

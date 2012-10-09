@@ -37,7 +37,6 @@ endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-# TODO fix this...
 include("${PROJECT_SOURCE_DIR}/CMakeCache.user.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
 
@@ -49,6 +48,10 @@ option(BIND_CXX          "Produce bindings for C++"  OFF)
 option(BIND_JAVA         "Produce bindings for Java" OFF)
 option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
+
+if(BIND_JAVA)
+option(BUILD_JAVADOC     "Produce Javadoc"           OFF)
+endif(BIND_JAVA)
 
 ## Development tools
 add_subdirectory(dev)

@@ -1,55 +1,31 @@
 # This is a CMakeCache.user.txt template for linux developers
 # Note that CMakeCache.user.txt is in .gitignore
 
-BIND_C:BOOL=OFF
-BIND_CXX:BOOL=OFF
-BIND_JAVA:BOOL=OFF
-BUILD_SHARED_LIBS:BOOL=OFF
-BUILD_TESTING:BOOL=OFF
+set(BIND_C TRUE CACHE BOOL "c +bindings" FORCE)
+set(BIND_CXX TRUE CACHE BOOL "cxx +bindings" FORCE)
+set(BIND_JAVA TRUE CACHE BOOL "java +bindings" FORCE)
+set(BUILD_JAVADOC TRUE CACHE BOOL "java +doc" FORCE)
+set(BUILD_SHARED_LIBS TRUE CACHE BOOL "+sharedlibs" FORCE)
+set(BUILD_TESTING TRUE CACHE BOOL "+testing" FORCE)
 
-CMAKE_BUILD_TYPE:STRING=Debug
-CMAKE_GENERATOR:INTERNAL=Unix Makefiles
-CMAKE_INSTALL_PREFIX:PATH=/usr/local
+set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings" FORCE)
+set(CMAKE_C_FLAGS_DEBUG "-g -pedantic" CACHE STRING "c +debugmode" FORCE)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings" FORCE)
+set(CMAKE_CXX_FLAGS_DEBUG "-g -pedantic" CACHE STRING "cxx +debugmode" FORCE)
+set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings" FORCE)
+set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +debugmode" FORCE)
 
-CMAKE_AR:FILEPATH=/usr/bin/ar
-CMAKE_LINKER:FILEPATH=/usr/bin/ld
-CMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/make
-CMAKE_NM:FILEPATH=/usr/bin/nm
-CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
-CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
-CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
-CMAKE_STRIP:FILEPATH=/usr/bin/strip
+set(JAVA_PREFIX "/home/teh/Downloads/Code/jdk1.8.0")
 
-COVERAGE_COMMAND:FILEPATH=/usr/bin/gcov
-MEMORYCHECK_COMMAND:FILEPATH=/usr/bin/valgrind
+set(JAVA_AWT_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "AWT includes" FORCE)
+set(JAVA_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "Java includes" FORCE)
+set(JAVA_INCLUDE_PATH2 "${JAVA_PREFIX}/include" CACHE PATH "JNI includes" FORCE)
 
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++
-CMAKE_CXX_COMPILER_WORKS:INTERNAL=1
-CMAKE_CXX_FLAGS:STRING=-Wall -Wextra
-CMAKE_CXX_FLAGS_DEBUG:STRING=-g -pedantic
+set(JAVA_AWT_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/libjawt.so" CACHE FILEPATH "JRE libawt")
+set(JAVA_JVM_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/server/libjvm.so" CACHE FILEPATH "JRE libjvm")
 
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
-CMAKE_C_COMPILER_WORKS:INTERNAL=1
-CMAKE_C_FLAGS:STRING=-Wall -Wextra
-CMAKE_C_FLAGS_DEBUG:STRING=-g -pedantic
-
-CMAKE_Fortran_COMPILER:STRING=/usr/bin/gfortran
-CMAKE_Fortran_COMPILER_WORKS:INTERNAL=1
-CMAKE_Fortran_FLAGS:STRING=-Wall -Wextra
-CMAKE_Fortran_FLAGS_DEBUG:STRING=-g -pedantic
-
-CMAKE_Java_ARCHIVE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/jar
-CMAKE_Java_COMPILER:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javac
-CMAKE_Java_COMPILER_WORKS:INTERNAL=1
-CMAKE_Java_RUNTIME:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/java
-
-JAVA_AWT_INCLUDE_PATH:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
-JAVA_AWT_LIBRARY:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/jre/lib/amd64/libjawt.so
-JAVA_INCLUDE_PATH:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
-JAVA_INCLUDE_PATH2:PATH=/home/teh/Downloads/Code/jdk1.8.0/include
-JAVA_JVM_LIBRARY:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/jre/lib/amd64/server/libjvm.so
-Java_JAR_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/jar
-Java_JAVAC_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javac
-Java_JAVADOC_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javadoc
-Java_JAVAH_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/javah
-Java_JAVA_EXECUTABLE:FILEPATH=/home/teh/Downloads/Code/jdk1.8.0/bin/java
+set(Java_JAR_EXECUTABLE "${JAVA_PREFIX}/bin/jar" CACHE FILEPATH "JDK jar" FORCE)
+set(Java_JAVAC_EXECUTABLE "${JAVA_PREFIX}/bin/javac" CACHE FILEPATH "JDK javac" FORCE)
+set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc" CACHE FILEPATH "JDK javadoc" FORCE)
+set(Java_JAVAH_EXECUTABLE "${JAVA_PREFIX}/bin/javah" CACHE FILEPATH "JDK javah" FORCE)
+set(Java_JAVA_EXECUTABLE "${JAVA_PREFIX}/bin/java" CACHE FILEPATH "JDK java" FORCE)

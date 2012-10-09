@@ -14,17 +14,18 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.ann;
+package libalexandria.reinforcement.nn;
 
-import libalexandria.LearningModel;
-import libalexandria.ModelConstants;
-
-public abstract class NeuralNetwork extends LearningModel {
-	protected NeuralNetwork(ModelConstants.ModelType type) {
-		this(type, type.name());
+public class JavaWorker extends Worker {
+	public JavaWorker(Cortex cortex) {
+		super(cortex);
 	}
 
-	protected NeuralNetwork(ModelConstants.ModelType type, String label) {
-		super(type, label);
+	@Override
+	public void operate(byte[] a, byte[] b) {
+		assert(a.length == b.length) : "lengths do not match";
+		for (int i = 0; i < a.length; ++i) {
+			a[i] ^= b[i];
+		}
 	}
 }

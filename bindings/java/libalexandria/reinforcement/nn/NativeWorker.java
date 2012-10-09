@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.ann;
+package libalexandria.reinforcement.nn;
 
 public class NativeWorker extends Worker {
 	public NativeWorker(Cortex cortex) {

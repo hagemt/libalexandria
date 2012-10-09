@@ -1,34 +1,46 @@
+/*
+ *    This file is part of libalexandria.
+ *
+ *    libalexandria is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    libalexandria is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Lesser General Public License
+ *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package libalexandria.functional;
 
-/* TODO revamp using nio */
-import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
 
 import java.nio.ByteBuffer;
-
-import java.util.Collection;
-import java.util.Iterator;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-import libalexandria.ModelConstants;
 import libalexandria.functional.params.ParameterMap;
 
+/**
+ * A function taking in a number of N's and producing a real number (double)
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ * @param <N> the type of this function's parameters
+ */
 public abstract class RealParameterizedFunction<N extends Number> extends ParameterMap<N> implements Function<Double> {
-	private ByteBuffer buffer;
-	private FileChannel results;
+	/**
+	 * This function's private data pipe
+	 */
+	private Aqueduct<N, Double> pipe;
 
-	public void initialize() throws IOException {
-		buffer = alloc();
+	private void initialize() throws IOException {
+		ByteBuffer buffer = alloc();
 		assert(buffer.isDirect());
-		/* TODO in memory? */
-		File temp_file = File.createTempFile(ModelConstants.LA_PREFIX, getLabel());
-		results = new RandomAccessFile(temp_file, "rw").getChannel();
+		pipe = new Aqueduct<N, Double>(buffer);
 	}
 	
 	protected RealParameterizedFunction(String label) {
@@ -48,6 +60,21 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 			throw new IllegalArgumentException(e);
 		}
 	}
+	
+	/* Submit some getArity() N's to pipeline
+	public synchronized int offer(Collection<? extends N> c) {
+		// TODO move to RealParameterizedFunction?
+		int written = 0;
+		Iterator<? extends N> itr = c.iterator();
+		for (int r = pipe.remaining(); r >= Double.SIZE; ++written) {
+			if (itr.hasNext()) {
+				buffer.putDouble(itr.next().doubleValue());
+			} else {
+				break;
+			}
+		}
+		return written;
+	} */
 
 	@Override
 	public Class<Double> getReturnType() {
@@ -62,7 +89,8 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	@Override
 	public Double call() throws Exception {
 		sync();
-		return new DataInputStream(Channels.newInputStream(results)).readDouble();
+		// TODO Auto-generated constructor stub
+		return pipe.next();
 	}
 
 	/* Required of subclasses */
@@ -70,42 +98,15 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	protected abstract void sync();
 	private native void free();
 
-	/* Provided as convenience to subclasses */
-	protected synchronized int remaining() {
-		return (buffer == null) ? 0 : buffer.remaining();
-	}
-	
-	public synchronized int offer(Collection<? extends N> c) {
-		int written = 0;
-		Iterator<? extends N> itr = c.iterator();
-		for (int r = remaining(); r >= Double.SIZE; ++written) {
-			if (itr.hasNext()) {
-				buffer.putDouble(itr.next().doubleValue());
-			} else {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						sync();
-					}
-				}).start();
-				break;
-			}
-		}
-		return written;
+	@Override
+	public void close() throws IOException {
+		boolean state = pipe.setMode(false);
+		assert(state == false);
+		this.free();
 	}
 
-	/* Implemented functions of InterruptableChannel */
-	
 	@Override
-	public synchronized boolean isOpen() {
-		return (buffer != null);
+	public boolean isOpen() {
+		return pipe.isOpen();
 	}
-	
-	@Override
-	public synchronized void close() throws IOException {
-		buffer = null;
-		this.free();
-		results.close();
-	}
-	
 }

@@ -11,7 +11,7 @@ Computing results.
 
 
 SLOC	Directory	SLOC-by-Language (Sorted)
-1167    bindings        java=1044,ansic=108,cpp=15
+1169    bindings        java=1048,ansic=106,cpp=15
 83      include         ansic=74,cpp=9
 53      fortran         fortran=53
 12      hooks           sh=12
@@ -20,22 +20,22 @@ SLOC	Directory	SLOC-by-Language (Sorted)
 
 
 Totals grouped by language (dominant language first):
-java:          1044 (79.39%)
-ansic:          182 (13.84%)
-fortran:         53 (4.03%)
-cpp:             24 (1.83%)
+java:          1048 (79.57%)
+ansic:          180 (13.67%)
+fortran:         53 (4.02%)
+cpp:             24 (1.82%)
 sh:              12 (0.91%)
 
 
 
 
-Total Physical Source Lines of Code (SLOC)                = 1,315
+Total Physical Source Lines of Code (SLOC)                = 1,317
 Development Effort Estimate, Person-Years (Person-Months) = 0.27 (3.20)
  (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
 Schedule Estimate, Years (Months)                         = 0.32 (3.89)
  (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
 Estimated Average Number of Developers (Effort/Schedule)  = 0.82
-Total Estimated Cost to Develop                           = $ 36,018
+Total Estimated Cost to Develop                           = $ 36,075
  (average salary = $56,286/year, overhead = 2.40).
 SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
 SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.

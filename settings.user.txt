@@ -1,34 +1,34 @@
 # This is a CMakeCache.user.txt template for linux developers
 # Note that CMakeCache.user.txt is in .gitignore
 
-set(BIND_C TRUE CACHE BOOL "c +bindings" FORCE)
-set(BIND_CXX TRUE CACHE BOOL "cxx +bindings" FORCE)
-set(BIND_JAVA TRUE CACHE BOOL "java +bindings" FORCE)
-set(BUILD_JAVADOC TRUE CACHE BOOL "java +doc" FORCE)
-set(BUILD_SHARED_LIBS TRUE CACHE BOOL "all +sharedlibs" FORCE)
-set(BUILD_TESTING TRUE CACHE BOOL "all +testing" FORCE)
+set(BIND_C TRUE CACHE BOOL "c +bindings")
+set(BIND_CXX TRUE CACHE BOOL "cxx +bindings")
+set(BIND_JAVA TRUE CACHE BOOL "java +bindings")
+set(BUILD_JAVADOC TRUE CACHE BOOL "java +doc")
+set(BUILD_SHARED_LIBS TRUE CACHE BOOL "all +sharedlibs")
+set(BUILD_TESTING TRUE CACHE BOOL "all +testing")
 
-set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings" FORCE)
-set(CMAKE_C_FLAGS_DEBUG "-g -pedantic" CACHE STRING "c +debugmode" FORCE)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings" FORCE)
-set(CMAKE_CXX_FLAGS_DEBUG "-g -pedantic" CACHE STRING "cxx +debugmode" FORCE)
-set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings" FORCE)
-set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +debugmode" FORCE)
+set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings")
+set(CMAKE_C_FLAGS_DEBUG "-g -pedantic" CACHE STRING "c +debugmode")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -pedantic" CACHE STRING "cxx +debugmode")
+set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
+set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +debugmode")
 
 set(JAVA_PREFIX "/home/teh/Downloads/Code/jdk1.8.0")
 
-set(JAVA_AWT_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "AWT includes" FORCE)
-set(JAVA_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "Java includes" FORCE)
-set(JAVA_INCLUDE_PATH2 "${JAVA_PREFIX}/include" CACHE PATH "JNI includes" FORCE)
+set(JAVA_AWT_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "AWT includes")
+set(JAVA_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "Java includes")
+set(JAVA_INCLUDE_PATH2 "${JAVA_PREFIX}/include" CACHE PATH "JNI includes")
 
 set(JAVA_AWT_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/libjawt.so" CACHE FILEPATH "JRE libawt")
 set(JAVA_JVM_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/server/libjvm.so" CACHE FILEPATH "JRE libjvm")
 
-set(Java_JAR_EXECUTABLE "${JAVA_PREFIX}/bin/jar" CACHE FILEPATH "JDK jar" FORCE)
-set(Java_JAVAC_EXECUTABLE "${JAVA_PREFIX}/bin/javac" CACHE FILEPATH "JDK javac" FORCE)
-set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc" CACHE FILEPATH "JDK javadoc" FORCE)
-set(Java_JAVAH_EXECUTABLE "${JAVA_PREFIX}/bin/javah" CACHE FILEPATH "JDK javah" FORCE)
-set(Java_JAVA_EXECUTABLE "${JAVA_PREFIX}/bin/java" CACHE FILEPATH "JDK java" FORCE)
+set(Java_JAR_EXECUTABLE "${JAVA_PREFIX}/bin/jar" CACHE FILEPATH "JDK jar")
+set(Java_JAVAC_EXECUTABLE "${JAVA_PREFIX}/bin/javac" CACHE FILEPATH "JDK javac")
+set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc" CACHE FILEPATH "JDK javadoc")
+set(Java_JAVAH_EXECUTABLE "${JAVA_PREFIX}/bin/javah" CACHE FILEPATH "JDK javah")
+set(Java_JAVA_EXECUTABLE "${JAVA_PREFIX}/bin/java" CACHE FILEPATH "JDK java")
 
 mark_as_advanced(
   CMAKE_C_FLAGS
@@ -37,11 +37,14 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_Fortran_FLAGS
   CMAKE_Fortran_FLAGS_DEBUG
+
   JAVA_AWT_INCLUDE_PATH
   JAVA_INCLUDE_PATH
   JAVA_INCLUDE_PATH2
+
   JAVA_AWT_LIBRARY
   JAVA_JVM_LIBRARY
+
   Java_JAR_EXECUTABLE
   Java_JAVAC_EXECUTABLE
   Java_JAVADOC_EXECUTABLE

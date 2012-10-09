@@ -15,4 +15,4 @@
 
 # CXX proof-of-concept
 add_executable(simple_cxx_poc simple_poc.cxx)
-target_link_libraries(simple_cxx_poc alexandriamm)
+target_link_libraries(simple_cxx_poc calg alexandriamm)

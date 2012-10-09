@@ -69,6 +69,12 @@ if(BIND_JAVA)
 endif(BIND_JAVA)
 
 # TODO FUTURE other libraries? like BLAS
+if(BIND_JAVA)
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(CALG libcalg-1.0)
+  include_directories(${CALG_INCLUDE_DIRS})
+  link_directories(${CALG_LIBRARY_DIRS})
+endif(BIND_JAVA)
 
 ### Build
 

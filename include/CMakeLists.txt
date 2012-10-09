@@ -19,10 +19,10 @@ foreach(LAF_HEADER ${LAF_HEADERS})
   set(LAF_INCLUDES "#include \"${LAF_HEADER}\"
 ${LAF_INCLUDES}")
 endforeach(LAF_HEADER ${LAF_HEADERS})
-configure_file(libalexandria.h.in libalexandria.h @ONLY)
+configure_file(libalexandria.h.in "${BASE_INCLUDE_PATH}/libalexandria.h" @ONLY)
 
 install(
-  FILES "${CMAKE_BINARY_DIR}/libalexandria.h" libalexandria.hpp
+  FILES "${BASE_INCLUDE_PATH}/libalexandria.h"
   DESTINATION include
   COMPONENT "Base Headers" OPTIONAL
 )

@@ -15,4 +15,4 @@
 
 # C proof-of-concept
 add_executable(simple_c_poc simple_poc.c)
-target_link_libraries(simple_c_poc alexandriam)
+target_link_libraries(simple_c_poc calg alexandriam)

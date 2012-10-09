@@ -20,8 +20,30 @@
 /* allows #include "libalexandria.h" */
 @LAF_INCLUDES@
 
-/* Define utility functions for libalexandria.hpp */
-extern inline void
-laf_print_info_incomplete(const char *);
+#include "libcalg/compare-pointer.h"
+#include "libcalg/hash-pointer.h"
+#include "libcalg/hash-table.h"
+
+extern HashTable *laf_buffer_table;
+
+#include <assert.h>
+
+struct entry_t {
+	void *buffer, *handle;
+};
+
+typedef struct entry_t laf_buffer_entry_t;
+
+void laf_free(void *);
+
+typedef long long int uint64_t;
+
+void laf_initialize(uint64_t);
+void laf_finalize(uint64_t);
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void laf_print_info_incomplete(const char *);
 
 #endif /* LIBALEXANDRIA_H */

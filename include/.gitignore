@@ -1,3 +1,6 @@
 # Ignore all pre-compiled headers
 *.gch
 *.pch
+
+# Ignore configured headers
+libalexandria.h

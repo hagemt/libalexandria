@@ -10,4 +10,4 @@
 build*/*
 
 # Ignore user's version of CMakeCache.txt
-settings.user.txt
+!settings.user.txt

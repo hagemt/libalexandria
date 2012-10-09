@@ -14,12 +14,31 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "libalexandria.h"
 #include "libalexandria_proof_POC.h"
+
+JNIEXPORT void JNICALL
+Java_libalexandria_proof_POC_initialize(JNIEnv *env, jclass jc, jlong seed)
+{
+	#ifndef NDEBUG
+	fprintf(stderr, "[debug] '%lu' (libalexandria loaded)\n", seed);
+	#endif
+	laf_initialize(seed);
+}
+
+JNIEXPORT void JNICALL
+Java_libalexandria_proof_POC_finalize(JNIEnv *env, jclass jc, jlong seed)
+{
+	#ifndef NDEBUG
+	fprintf(stderr, "[debug] '%lu' (libalexandria unloaded)\n", seed);
+	#endif
+	laf_finalize(seed);
+}
 
 JNIEXPORT void JNICALL
 Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)

@@ -53,6 +53,7 @@ add_jar(jpoc
 )
 # TODO how to add to components? maybe this w/ extra args
 install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")
+install_jni_symlink(jpoc "${CMAKE_INSTALL_PREFIX}/lib")
 
 # Build native library, bound using JNI
 include_directories(

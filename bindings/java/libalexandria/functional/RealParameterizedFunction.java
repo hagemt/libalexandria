@@ -35,12 +35,12 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	/**
 	 * This function's private data pipe
 	 */
-	private DataPipeline<N, Double> pipe;
+	private Aqueduct<N, Double> pipe;
 
 	private void initialize() throws IOException {
 		ByteBuffer buffer = alloc();
 		assert(buffer.isDirect());
-		pipe = new DataPipeline<N, Double>(buffer);
+		pipe = new Aqueduct<N, Double>(buffer);
 	}
 	
 	protected RealParameterizedFunction(String label) {

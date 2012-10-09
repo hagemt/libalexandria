@@ -14,18 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.ann;
+package libalexandria.reinforcement.nn;
 
-public class JavaWorker extends Worker {
-	public JavaWorker(Cortex cortex) {
+public class NativeWorker extends Worker {
+	public NativeWorker(Cortex cortex) {
 		super(cortex);
 	}
 
 	@Override
-	public void operate(byte[] a, byte[] b) {
-		assert(a.length == b.length) : "lengths do not match";
-		for (int i = 0; i < a.length; ++i) {
-			a[i] ^= b[i];
-		}
-	}
+	public native void operate(byte[] a, byte[] b);
 }

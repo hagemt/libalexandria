@@ -14,39 +14,17 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package libalexandria.functional;
+package libalexandria.reinforcement.nn;
 
-import java.nio.ByteBuffer;
+import libalexandria.LearningModel;
+import libalexandria.ModelConstants;
 
-class DataPipeline<M extends Number, N extends Number> {
-	private boolean enabled;
-	private final ByteBuffer buffer;
-
-	public DataPipeline(ByteBuffer buffer) {
-		this.buffer = buffer;
-		this.enabled = isOpen();
-	}
-	
-	public int next(M m) {
-		// TODO Auto-generated constructor stub
-		return m.intValue();
-	}
-	
-	public N next() {
-		// TODO Auto-generated constructor stub
-		return null;
-	}
-	
-	public synchronized int remaining() {
-		return (buffer == null) ? 0 : buffer.remaining();
-	}
-	
-	public synchronized boolean isOpen() {
-		return (enabled && buffer != null && buffer.hasArray() && buffer.isDirect());
+public abstract class ANN extends LearningModel {
+	protected ANN(ModelConstants.ModelType type) {
+		this(type, type.name());
 	}
 
-	public boolean setMode(boolean state) {
-		enabled = state;
-		return isOpen();
+	protected ANN(ModelConstants.ModelType type, String label) {
+		super(type, label);
 	}
 }

@@ -34,10 +34,6 @@ public class Kernel extends RealParameterizedFunction<Double> implements ModelCo
 		this(type.toString(), type);
 	}
 	
-	/**
-	 * Used internally to deep-copy the parameterization of a function
-	 * @param base a kernel from which to construct a copy
-	 */
 	public Kernel(String label, KernelType type) {
 		super(label);
 		this.type = type;

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import libalexandria.ModelConstants;
-import libalexandria.ann.Cortex;
+import libalexandria.reinforcement.nn.Cortex;
 
 public class POC implements ModelConstants {
 	static {

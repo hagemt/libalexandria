@@ -22,34 +22,34 @@ else(Java_Development_FOUND)
 endif(Java_Development_FOUND)
 
 # Glob Java sources, FIXME dunno if I like this... but GLOB_RECURSE?
-file(GLOB JLA_SOURCES               libalexandria/*.java)
-file(GLOB JLA_ANN_SOURCES           libalexandria/ann/*.java)
-file(GLOB JLA_FUNCTIONAL_SOURCES    libalexandria/functional/*.java)
-file(GLOB JLA_KERNELS_SOURCES       libalexandria/functional/kernels/*.java)
-file(GLOB JLA_PARAMS_SOURCES        libalexandria/functional/params/*.java)
-file(GLOB JLA_WAVELETS_SOURCES      libalexandria/functional/wavelets/*.java)
-file(GLOB JLA_SAMPLING_SOURCES      libalexandria/sampling/*.java)
-file(GLOB JLA_REINFORCEMENT_SOURCES libalexandria/reinforcement/*.java)
-file(GLOB JLA_SUPERVISED_SOURCES    libalexandria/supervised/*.java)
-file(GLOB JLA_UNSUPERVISED_SOURCES  libalexandria/unsupervised/*.java)
-file(GLOB JLA_PROOF_SOURCES         libalexandria/proof/*.java)
+file(GLOB LAJ_SOURCES               libalexandria/*.java)
+file(GLOB LAJ_FUNCTIONAL_SOURCES    libalexandria/functional/*.java)
+file(GLOB LAJ_KERNELS_SOURCES       libalexandria/functional/kernels/*.java)
+file(GLOB LAJ_PARAMS_SOURCES        libalexandria/functional/params/*.java)
+file(GLOB LAJ_WAVELETS_SOURCES      libalexandria/functional/wavelets/*.java)
+file(GLOB LAJ_REINFORCEMENT_SOURCES libalexandria/reinforcement/*.java)
+file(GLOB LAJ_NEURALNETWORK_SOURCES libalexandria/reinforcement/nn/*.java)
+file(GLOB LAJ_SAMPLING_SOURCES      libalexandria/sampling/*.java)
+file(GLOB LAJ_SUPERVISED_SOURCES    libalexandria/supervised/*.java)
+file(GLOB LAJ_UNSUPERVISED_SOURCES  libalexandria/unsupervised/*.java)
+file(GLOB LAJ_PROOF_SOURCES         libalexandria/proof/*.java)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
 add_jar(jpoc
-  ${JLA_SOURCES}
-  ${JLA_ANN_SOURCES}
-  ${JLA_FUNCTIONAL_SOURCES}
-  ${JLA_KERNEL_SOURCES}
-  ${JLA_PARAMS_SOURCES}
-  ${JLA_WAVELETS_SOURCES}
-  ${JLA_SAMPLING_SOURCES}
-  ${JLA_REINFORCEMENT_SOURCES}
-  ${JLA_SUPERVISED_SOURCES}
-  ${JLA_UNSUPERVISED_SOURCES}
-  ${JLA_PROOF_SOURCES}
+  ${LAJ_SOURCES}
+  ${LAJ_FUNCTIONAL_SOURCES}
+  ${LAJ_KERNEL_SOURCES}
+  ${LAJ_PARAMS_SOURCES}
+  ${LAJ_WAVELETS_SOURCES}
+  ${LAJ_REINFORCEMENT_SOURCES}
+  ${LAJ_NEURALNETWORK_SOURCES}
+  ${LAJ_SAMPLING_SOURCES}
+  ${LAJ_SUPERVISED_SOURCES}
+  ${LAJ_UNSUPERVISED_SOURCES}
+  ${LAJ_PROOF_SOURCES}
 )
 # TODO how to add to components? maybe this w/ extra args
 install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")

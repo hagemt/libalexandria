@@ -21,16 +21,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import libalexandria.Generate;
 import libalexandria.ModelConstants;
+import libalexandria.functional.kernels.KernelType;
 import libalexandria.reinforcement.nn.Cortex;
+import libalexandria.supervised.KSVM;
 
 public class POC implements ModelConstants {
+	private static final long seed = System.nanoTime();
 	static {
 		System.loadLibrary("jalexandria");
+		Generate.reseed(seed);
+		initialize(seed);
 	}
 
-	/* Symbol for FORTRAN function */
 	public static native void println(String s);
+
+	public static native void initialize(long seed);
+	public static native void finalize(long seed);
 	
 	public static void main(String... args) {
 		// Simple POC
@@ -38,6 +46,7 @@ public class POC implements ModelConstants {
 			for (String s : args) {
 				POC.println(s);
 			}
+			finalize(seed);
 			return;
 		}
 		// Hell yeah threads!
@@ -53,7 +62,7 @@ public class POC implements ModelConstants {
 		for (LatchedThreadGroup tg : comparisons) {
 			System.out.println("\t" + tg);
 			try {
-				long result = pool.submit(tg).get(DEFAULT_JOIN_TIME + DEFAULT_JOIN_TIME, TimeUnit.MILLISECONDS);
+				long result = pool.submit(tg).get(DEFAULT_RUN_TIME + DEFAULT_JOIN_TIME, TimeUnit.MILLISECONDS);
 				System.out.println("\tAchieved the following result: " + result);
 			} catch (TimeoutException e) {
 				System.err.println("\tDid not complete in the expected time!");
@@ -61,5 +70,11 @@ public class POC implements ModelConstants {
 				e.printStackTrace();
 			}
 		}
+		for (KernelType t : KernelType.values()) {
+			KSVM s = new KSVM(t.toString(), t);
+			s.benchmark();
+		}
+		pool.shutdown();
+		finalize(seed);
 	}
 }

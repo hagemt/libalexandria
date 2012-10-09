@@ -16,6 +16,8 @@
  */
 package libalexandria.supervised;
 
+import java.io.IOException;
+
 import libalexandria.functional.kernels.Kernel;
 import libalexandria.functional.kernels.KernelType;
 
@@ -34,5 +36,12 @@ public class KSVM extends SupportVectorMachine {
 	@Override
 	public void benchmark() {
 		kernel.benchmark();
+		try {
+			kernel.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} finally {
+			System.err.println("Closed kernel " + kernel.getLabel() + " for " + this.getLabel());
+		}
 	}
 }

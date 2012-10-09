@@ -38,6 +38,7 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	private Aqueduct<N, Double> pipe;
 
 	private void initialize() throws IOException {
+		System.err.println("Opening buffer for " + this.getLabel());
 		ByteBuffer buffer = alloc();
 		assert(buffer.isDirect());
 		pipe = new Aqueduct<N, Double>(buffer);

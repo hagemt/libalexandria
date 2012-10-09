@@ -78,3 +78,25 @@ install(
   LIBRARY DESTINATION lib
   COMPONENT "Java Bindings" OPTIONAL
 )
+
+if(BUILD_JAVADOC)
+  set(JAVA_DOC_TITLE "<version>libalexandria.v.${CMAKE_PROJECT_VERSION}</version><br/><pre>What.Is.Your.Intent?</pre>")
+  create_javadoc(jalexandria
+    PACKAGES libalexandria
+      libalexandria.functional
+      libalexandria.functional.kernels
+      libalexandria.functional.params
+      libalexandria.functional.wavelets
+      libalexandria.reinforcement
+      libalexandria.reinforcement.nn
+      libalexandria.sampling
+      libalexandria.supervised
+      libalexandria.unsupervised
+      libalexandria.proof
+    SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
+    CLASSPATH "${CMAKE_JAVA_INCLUDE_PATH}"
+    WINDOWTITLE "The Library of Alexandria"
+    DOCTITLE "${JAVA_DOC_TITLE}"
+    AUTHOR TRUE USE TRUE VERSION TRUE
+  )
+endif(BUILD_JAVADOC)

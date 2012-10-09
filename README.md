@@ -82,24 +82,27 @@ See ./LICENSE (note that all of libalexandira uses LGPL v3, including all bindin
 See ./LICENCE.txt for form to include in files
 
 For those familiar with bashisms: (a lot of people)
-declare -a LANGUAGES
-LANGUAGES=('C', 'Fortran')
+    declare -a LANGUAGES
+    LANGUAGES=('C', 'Fortran')
 
 A  ./LICENSE.txt suitable for inclusion in any file written in a language
 that supports LANG-style comment syntax can be found in LICENSE.$l, where
 LANG is a member of ${LANGUAGES[@]}.
 
 You may ask yourself "But why LGPL then? Wouldn't the some BSD be better?"
-For most applications that seek to capitalize, sure. But this is a library.
 
-Not only that, it is a library, which if you contribute code to, the authors feel
+For most applications that seek to capitalize, sure. But this is a library. Not
+only that, it is a library, which if you contribute code to, the authors feel
 that you are obligated to giving those contributions back to the community.
 
 "But I can't use your library because I don't want to use GPL for my app."
 
-A common misconception. Feel free to use a GPL-compatiple BSD license, just for example.
-Where you put the source is really up to you. If you doubt our juris prudence, see [1],
-where it explicitly notes "Linking from code with a different license" with 'Yes'.
+That's fine. No one is forcing you to use GPL, me included. This is a common
+misconception with licensing. Not all GPL-licensed code is "viral" like that.
+
+Feel free to use a GPL-compatiple BSD license, just for example. Where you
+put the source is really up to you. If you doubt our juris prudence, see [1],
+where it explicitly addresses "Linking from code with a different license."
 
 [1] http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License
 
@@ -110,7 +113,7 @@ Always note that, when selecting a license generally, it is good to do your home
 
 If libalexandria were licensed under a general BSD license, for example, the contributors
 to libalexandria would not be obligated to give back their contributions, and there is
-some question as to weather an app could be licensed under GPL v2+.
+some question as to whether an linked app even could be licensed under GPL v2+.
 
 [2] http://en.wikipedia.org/wiki/List_of_FSF_approved_software_licenses
 
@@ -123,13 +126,11 @@ for building on multiple platforms and under a variety of configurations.
 Developer testing of libalexandria currently targets:
 
 * GNU Toolchain (or Eclipse with CMake abilities)
-    * gcc
-    * gfortran
-    * gcj (TODO fix strange symbol problem? dev is using proprietary JDK for now)
-
+    * `gcc`
+    * `gfortran`
+    * `gcj` (TODO fix strange symbol problem? dev is using proprietary JDK for now)
 * MVSC? (TODO someone willing to test this?)
     * TODO also add a minimum version system/IDE
-
 * Xcode? (TODO someone willing to test this?)
     * TODO also add a minimum version system/IDE
 

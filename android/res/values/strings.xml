@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Lannister</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_lannister">Lannister — libalexandria monitor</string>
+    <string name="button_text">Teach Me</string>
+
+</resources>

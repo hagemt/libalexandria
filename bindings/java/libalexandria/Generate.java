@@ -77,6 +77,11 @@ public class Generate {
 		}
 		return sb.toString();
 	}
+	
+	public static <E extends Enum<E>> E randomType(Class<E> type) {
+		E[] options = type.getEnumConstants();
+		return options[source.nextInt(options.length - 1)];
+	}
 
 	public static synchronized void reseed(long seed) {
 		source.setSeed(seed);

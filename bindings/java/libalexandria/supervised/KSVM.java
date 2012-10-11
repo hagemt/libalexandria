@@ -18,11 +18,20 @@ package libalexandria.supervised;
 
 import java.io.IOException;
 
+import libalexandria.Generate;
 import libalexandria.functional.kernels.Kernel;
 import libalexandria.functional.kernels.KernelType;
 
 public class KSVM extends SupportVectorMachine {
 	private final Kernel kernel;
+	
+	public KSVM() {
+		this(Generate.randomLabel());
+	}
+	
+	public KSVM(String label) {
+		this(label, Generate.randomType(KernelType.class));
+	}
 	
 	public KSVM(String label, KernelType type) {
 		this(label, type.getDefault());

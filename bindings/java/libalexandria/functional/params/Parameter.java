@@ -26,11 +26,6 @@ import libalexandria.LabelledEntity;
  * @since libalexandria v0.1
  */
 public class Parameter<N extends Number> extends LabelledEntity implements Entry<String, N> {
-	/**
-	 * @since libalexandria v0.1
-	 */
-	private static final long serialVersionUID = 3930637325779584462L;
-
 	private N value;
 	
 	protected Parameter(String key, N value) {

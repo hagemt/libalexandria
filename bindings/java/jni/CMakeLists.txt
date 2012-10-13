@@ -13,6 +13,10 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+set(NATIVE_LIBRARY_SONAME jalexandria)
+file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
+configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)
+
 # Check setup
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
   find_package(JNI)
@@ -27,19 +31,23 @@ include_directories(
   "${BASE_INCLUDE_PATH}"
   "${BASE_INCLUDE_PATH}/libalexandria/laJ"
 )
-file(GLOB NATIVE_SOURCES "laJ_*.c" "laJ_*.cxx")
-add_library(jalexandria SHARED ${NATIVE_SOURCES})
-target_link_libraries(jalexandria calg alexandria ${JNI_LIBRARIES})
-set_target_properties(jalexandria PROPERTIES
+add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
+# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
+add_dependencies(${NATIVE_LIBRARY_SONAME} javah)
+target_link_libraries(${NATIVE_LIBRARY_SONAME}
+  alexandria
+  calg
+  ${JNI_LIBRARIES}
+)
+set_target_properties(
+  ${NATIVE_LIBRARY_SONAME} PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
-# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
-add_dependencies(jalexandria javah)
 
 # Lastly, the install target
 install(
-  TARGETS jalexandria
+  TARGETS ${NATIVE_LIBRARY_SONAME}
   LIBRARY DESTINATION lib
   COMPONENT "Java Bindings" OPTIONAL
 )

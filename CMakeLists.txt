@@ -59,10 +59,6 @@ add_subdirectory(dev)
 ## Requirements
 
 if(BIND_JAVA)
-  find_package(JNI)
-  if(NOT JNI_FOUND)
-    message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
-  endif(NOT JNI_FOUND)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
@@ -70,6 +66,7 @@ endif(BIND_JAVA)
 
 # TODO FUTURE other libraries? like BLAS
 if(BIND_JAVA)
+  # Try to find libcalg using pkg-config
   find_package(PkgConfig REQUIRED)
   pkg_check_modules(CALG libcalg-1.0)
   include_directories(${CALG_INCLUDE_DIRS})

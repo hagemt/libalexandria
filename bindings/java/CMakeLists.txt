@@ -54,31 +54,9 @@ add_jar(jpoc
 # TODO how to add to components? maybe this w/ extra args
 install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")
 install_jni_symlink(jpoc "${CMAKE_INSTALL_PREFIX}/lib")
+add_subdirectory(jni)
 
-# Build native library, bound using JNI
-include_directories(
-  ${JNI_INCLUDE_DIRS}
-  "${BASE_INCLUDE_PATH}"
-  "${BASE_INCLUDE_PATH}/libalexandria/laJ"
-)
-file(GLOB NATIVE_SOURCES "laJ_*.c" "laJ_*.cxx")
-add_library(jalexandria SHARED ${NATIVE_SOURCES})
-target_link_libraries(jalexandria calg alexandria ${JNI_LIBRARIES})
-set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
-set_target_properties(jalexandria PROPERTIES
-  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
-  VERSION   ${CMAKE_PROJECT_VERSION_SO}
-)
-# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
-add_dependencies(jalexandria javah)
-
-# Lastly
-install(
-  TARGETS jalexandria
-  LIBRARY DESTINATION lib
-  COMPONENT "Java Bindings" OPTIONAL
-)
-
+# Create Javadoc
 if(BUILD_JAVADOC)
   set(JAVA_DOC_TITLE "<version>libalexandria.v.${CMAKE_PROJECT_VERSION}</version><br/><pre>What.Is.Your.Intent?</pre>")
   create_javadoc(jalexandria

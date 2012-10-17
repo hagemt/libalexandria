@@ -1,4 +1,4 @@
-package library.alexandria;
+package lib.alexandria;
 
 import android.os.Handler;
 import android.os.Message;

@@ -1,4 +1,4 @@
-package library.alexandria;
+package lib.alexandria;
 
 import java.util.HashMap;
 import java.util.Map;

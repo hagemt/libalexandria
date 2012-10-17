@@ -1,4 +1,4 @@
-package library.alexandria;
+package lib.alexandria;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

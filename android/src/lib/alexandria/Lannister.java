@@ -1,9 +1,10 @@
-package library.alexandria;
+package lib.alexandria;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import libalexandria.supervised.KSVM;
+//import libalexandria.supervised.KSVM;
+import library.alexandria.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -32,14 +33,14 @@ public class Lannister extends Activity {
 		model.notifyDataSetChanged();
 	}
 	
-	public void sendRequest(View target) {
+	public void onPushButton(View target) {
 		/* Spawn a top-level intent */
 		Intent intent = new Intent(this, MLService.class);
 		intent.setAction(Intent.ACTION_SEND_MULTIPLE);
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
 		/* Bundle a new work unit */
 		Bundle bundle = new Bundle(1);
-		bundle.putParcelable(Homework.UUID, new Homework(new KSVM()));
+		// bundle.putParcelable(Homework.UUID, new Homework(new KSVM()));
 		intent.putExtra(MLService.SMALL_WORK_UNIT, bundle);
 		/* Wrap in a prompt TODO do first? */
 		Intent request = Intent.createChooser(intent, "Adding KSVM...");

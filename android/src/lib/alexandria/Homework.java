@@ -1,8 +1,9 @@
-package library.alexandria;
+package lib.alexandria;
 
 import java.util.concurrent.FutureTask;
 
 import libalexandria.LearningModel;
+import libalexandria.supervised.KSVM;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,9 +12,21 @@ import android.util.Log;
 public class Homework extends FutureTask<Void> implements Parcelable, Pingable {
 	public static final String UUID = "library.alexandria.action.homework";
 	
+	private final int mark;
 	private final LearningModel model;
 	
-	public Homework(final LearningModel model) {
+	public static final Parcelable.Creator<Homework> CREATOR = new Parcelable.Creator<Homework>() {
+		public Homework createFromParcel(Parcel in) {
+			int mark = in.readInt();
+			LearningModel model = new KSVM(in.readString());
+			return new Homework(mark, model);
+		}
+		public Homework[] newArray(int size) {
+			return new Homework[size];
+		}
+	};
+	
+	private Homework(int mark, final LearningModel model) {
 		super(new Runnable() {
 			@Override
 			public void run() {
@@ -22,7 +35,12 @@ public class Homework extends FutureTask<Void> implements Parcelable, Pingable {
 				}
 			}
 		}, null);
+		this.mark = mark;
 		this.model = model;
+	}
+	
+	public Homework(LearningModel model) {
+		this(0, model);
 	}
 	
 	public LearningModel getModel() {
@@ -31,23 +49,21 @@ public class Homework extends FutureTask<Void> implements Parcelable, Pingable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
+		return mark;
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
+		dest.writeString(toString());
 	}
 
 	@Override
 	public void ping() {
-		Log.v("Homework", model.getLabel() + " pinged");
+		Log.v("Homework", toString() + " pinged");
 	}
 	
 	@Override
 	public String toString() {
-		return "Benchmark: " + model.getLabel();
+		return (model != null) ? "Model: " + model.getLabel() : "Invalid model";
 	}
 }

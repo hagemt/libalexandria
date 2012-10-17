@@ -13,24 +13,6 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Configure NDK build script(s)
-set(NATIVE_LIBRARY_SONAME jalexandria)
-set(NATIVE_LIBRARY_TAG "${PROJECT_LOG_TAG}")
-# TODO check GNU and set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
-list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
-list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}/libalexandria/laJ")
-# Note: add any static libs here (they'll need to be built for arch)
-set(NATIVE_LIBRARY_DEPENDS "cpufeatures") # TODO e.g. native glue
-# Note: we don't need to list math, pthread, or std support libraries
-set(NATIVE_LIBRARY_LDLIBS "-landroid -llog")
-list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
-list(APPEND NATIVE_LIBRARY_EXPORTS "android")
-list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
-list(APPEND NATIVE_LIBRARY_EXPORTS "log")
-file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
-configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)
-configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Application.mk" @ONLY)
-
 # Check setup
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
   find_package(JNI)
@@ -38,6 +20,18 @@ if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
     message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
   endif(NOT JNI_FOUND)
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
+
+# Set some global properties of libalexandria JNI builds
+set(NATIVE_LIBRARY_SONAME jalexandria PARENT_SCOPE)
+# TODO check GNU and set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
+list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
+list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}/libalexandria/laJ")
+set(NATIVE_LIBRARY_INCLUDES "${NATIVE_LIBRARY_INCLUDES}" PARENT_SCOPE)
+list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
+list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
+set(NATIVE_LIBRARY_EXPORTS "${NATIVE_LIBRARY_EXPORTS}" PARENT_SCOPE)
+file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.(c|cxx)")
+set(NATIVE_LIBRARY_SOURCES "${NATIVE_LIBRARY_SOURCES}" PARENT_SCOPE)
 
 # Build native library, bound using JNI
 include_directories(

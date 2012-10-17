@@ -54,7 +54,8 @@ option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
 if(BIND_JAVA)
-option(BUILD_JAVADOC     "Produce Javadoc"           OFF)
+option(USE_ANDROID       "Produce Android options"   OFF)
+option(BUILD_JAVADOC     "Produce a limited Javadoc" OFF)
 endif(BIND_JAVA)
 
 ## Development tools
@@ -65,17 +66,23 @@ add_subdirectory(dev)
 if(BIND_JAVA)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
-  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
+  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
+  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
 endif(BIND_JAVA)
 
+if(USE_ANDROID)
+  add_definitions(-DUSE_ANDROID)
+endif(USE_ANDROID)
+
 # TODO FUTURE other libraries? like BLAS
-if(BIND_JAVA)
-  # Try to find libcalg using pkg-config
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(CALG libcalg-1.0)
-  include_directories(${CALG_INCLUDE_DIRS})
-  link_directories(${CALG_LIBRARY_DIRS})
-endif(BIND_JAVA)
+find_package(BLAS REQUIRED)
+link_directories(${BLAS_LIBRARIES})
+# Try to find libcalg using pkg-config
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CALG libcalg-1.0)
+include_directories(${CALG_INCLUDE_DIRS})
+link_directories(${CALG_LIBRARY_DIRS})
+# TODO should we include/link in subdirs?
 
 ### Build
 
@@ -85,8 +92,15 @@ endif(BIND_JAVA)
 add_subdirectory(include)
 # Fortran code
 add_subdirectory(fortran)
+
+## Optional components
+
 # Language bindings
 add_subdirectory(bindings)
+# Android options
+if(USE_ANDROID)
+  add_subdirectory(android)
+endif(USE_ANDROID)
 
 ### Testing
 

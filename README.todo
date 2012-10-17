@@ -5,11 +5,14 @@ Tagged 'global'
 * Tests, tests, tests for everything as it is implemented (PRIORITY)
 * Ensure "next" branch merges cleanly into current master
 
+Tagged 'future'
+
+* Can generate additional bindings using SWIG! (Python, C#, etc.)
+
 Tagged 'java'
 
 * Finish Java interface, all the way through JNI back-end
 * Flexible method for invoking models via Android intent (designed)
-* Do we need an Application.mk.in file? Eventually.
 
 Tagged 'data'
 

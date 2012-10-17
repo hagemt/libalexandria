@@ -22,22 +22,22 @@ else(Java_Development_FOUND)
 endif(Java_Development_FOUND)
 
 # Glob Java sources, FIXME dunno if I like this... but GLOB_RECURSE?
-file(GLOB LAJ_SOURCES               libalexandria/*.java)
-file(GLOB LAJ_FUNCTIONAL_SOURCES    libalexandria/functional/*.java)
-file(GLOB LAJ_KERNELS_SOURCES       libalexandria/functional/kernels/*.java)
-file(GLOB LAJ_PARAMS_SOURCES        libalexandria/functional/params/*.java)
-file(GLOB LAJ_WAVELETS_SOURCES      libalexandria/functional/wavelets/*.java)
-file(GLOB LAJ_REINFORCEMENT_SOURCES libalexandria/reinforcement/*.java)
-file(GLOB LAJ_NEURALNETWORK_SOURCES libalexandria/reinforcement/nn/*.java)
-file(GLOB LAJ_SAMPLING_SOURCES      libalexandria/sampling/*.java)
-file(GLOB LAJ_SUPERVISED_SOURCES    libalexandria/supervised/*.java)
-file(GLOB LAJ_UNSUPERVISED_SOURCES  libalexandria/unsupervised/*.java)
-file(GLOB LAJ_PROOF_SOURCES         libalexandria/proof/*.java)
+file(GLOB LAJ_SOURCES               lib/alexandria/*.java)
+file(GLOB LAJ_FUNCTIONAL_SOURCES    lib/alexandria/functional/*.java)
+file(GLOB LAJ_KERNELS_SOURCES       lib/alexandria/functional/kernels/*.java)
+file(GLOB LAJ_PARAMS_SOURCES        lib/alexandria/functional/params/*.java)
+file(GLOB LAJ_WAVELETS_SOURCES      lib/alexandria/functional/wavelets/*.java)
+file(GLOB LAJ_REINFORCEMENT_SOURCES lib/alexandria/reinforcement/*.java)
+file(GLOB LAJ_NEURALNETWORK_SOURCES lib/alexandria/reinforcement/nn/*.java)
+file(GLOB LAJ_SAMPLING_SOURCES      lib/alexandria/sampling/*.java)
+file(GLOB LAJ_SUPERVISED_SOURCES    lib/alexandria/supervised/*.java)
+file(GLOB LAJ_UNSUPERVISED_SOURCES  lib/alexandria/unsupervised/*.java)
+file(GLOB LAJ_PROOF_SOURCES         lib/alexandria/proof/*.java)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
-set(CMAKE_JAVA_JAR_ENTRY_POINT libalexandria/proof/POC)
+set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
 add_jar(jpoc
   ${LAJ_SOURCES}
   ${LAJ_FUNCTIONAL_SOURCES}
@@ -58,19 +58,19 @@ add_subdirectory(jni)
 
 # Create Javadoc
 if(BUILD_JAVADOC)
-  set(JAVA_DOC_TITLE "<version>libalexandria.v.${CMAKE_PROJECT_VERSION}</version><br/><pre>What.Is.Your.Intent?</pre>")
+  set(JAVA_DOC_TITLE "<version>lib.alexandria.v.${CMAKE_PROJECT_VERSION}</version><br/><pre>What.Is.Your.Intent?</pre>")
   create_javadoc(jalexandria
-    PACKAGES libalexandria
-      libalexandria.functional
-      libalexandria.functional.kernels
-      libalexandria.functional.params
-      libalexandria.functional.wavelets
-      libalexandria.reinforcement
-      libalexandria.reinforcement.nn
-      libalexandria.sampling
-      libalexandria.supervised
-      libalexandria.unsupervised
-      libalexandria.proof
+    PACKAGES lib.alexandria
+      lib.alexandria.functional
+      lib.alexandria.functional.kernels
+      lib.alexandria.functional.params
+      lib.alexandria.functional.wavelets
+      lib.alexandria.reinforcement
+      lib.alexandria.reinforcement.nn
+      lib.alexandria.sampling
+      lib.alexandria.supervised
+      lib.alexandria.unsupervised
+      lib.alexandria.proof
     SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
     CLASSPATH "${CMAKE_JAVA_INCLUDE_PATH}"
     WINDOWTITLE "The Library of Alexandria"

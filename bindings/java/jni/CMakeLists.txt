@@ -13,9 +13,23 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+# Configure NDK build script(s)
 set(NATIVE_LIBRARY_SONAME jalexandria)
+set(NATIVE_LIBRARY_TAG "${PROJECT_LOG_TAG}")
+# TODO check GNU and set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
+list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
+list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}/libalexandria/laJ")
+# Note: add any static libs here (they'll need to be built for arch)
+set(NATIVE_LIBRARY_DEPENDS "cpufeatures") # TODO e.g. native glue
+# Note: we don't need to list math, pthread, or std support libraries
+set(NATIVE_LIBRARY_LDLIBS "-landroid -llog")
+list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
+list(APPEND NATIVE_LIBRARY_EXPORTS "android")
+list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
+list(APPEND NATIVE_LIBRARY_EXPORTS "log")
 file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
 configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)
+configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Application.mk" @ONLY)
 
 # Check setup
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
@@ -27,16 +41,14 @@ endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
 # Build native library, bound using JNI
 include_directories(
+  ${NATIVE_LIBRARY_INCLUDES}
   ${JNI_INCLUDE_DIRS}
-  "${BASE_INCLUDE_PATH}"
-  "${BASE_INCLUDE_PATH}/libalexandria/laJ"
 )
 add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
 # Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
 add_dependencies(${NATIVE_LIBRARY_SONAME} javah)
 target_link_libraries(${NATIVE_LIBRARY_SONAME}
-  alexandria
-  calg
+  ${NATIVE_LIBRARY_EXPORTS}
   ${JNI_LIBRARIES}
 )
 set_target_properties(

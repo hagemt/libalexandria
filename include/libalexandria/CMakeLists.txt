@@ -22,6 +22,7 @@ install(
 
 if(BIND_C)
   file(GLOB LAC_HEADER_FILES laC_*.h)
+  # TODO configure libalexandria.h with guards?
   install(
     FILES ${LAC_HEADER_FILES}
     PUBLIC_HEADER DESTINATION include/libalexandria
@@ -31,6 +32,7 @@ endif(BIND_C)
 
 if(BIND_CXX)
   file(GLOB LACXX_HEADER_FILES laCXX_*.h)
+  # TODO configure libalexandria.h with guards?
   install(
     FILES ${LACXX_HEADER_FILES}
     PUBLIC_HEADER DESTINATION include/libalexandria

@@ -21,6 +21,4 @@
 #define LAF_VERSION 0x00000001
 #define LAF_MAX_LEN 80
 
-#define LAF_INFO_INCOMPLETE "[info] '%s' (feature not yet implemented)\n"
-
 #endif /* LAF_CONSTANTS_H */

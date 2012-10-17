@@ -27,6 +27,9 @@ set(CMAKE_PROJECT_VERSION_SO
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_TWEAK}")
 set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
+set(CMAKE_PROJECT_VERSION_SUFFIX "dev" CACHE STRING "A custom build label")
+mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX)
+set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION_SUFFIX}v${CMAKE_PROJECT_VERSION}")
 
 # Force a build type to be declared
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
@@ -39,6 +42,7 @@ set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 include("${CMAKE_SOURCE_DIR}/settings.user.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
+add_definitions(-DLOG_TAG=${PROJECT_LOG_TAG})
 
 ### Configuration
 

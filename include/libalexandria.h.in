@@ -17,33 +17,46 @@
 #ifndef LIBALEXANDRIA_H
 #define LIBALEXANDRIA_H
 
-/* allows #include "libalexandria.h" */
+/* glob libalexandria headers */
 @LAF_INCLUDES@
+@LAC_INCLUDES@
+
+#ifdef LA_MM
+@LACXX_INCLUDES@
+#endif /* LA_MM */
 
 #include "libcalg/compare-pointer.h"
 #include "libcalg/hash-pointer.h"
 #include "libcalg/hash-table.h"
 
-extern HashTable *laf_buffer_table;
+extern HashTable *la_buffer_table;
 
 #include <assert.h>
-
-struct entry_t {
-	void *buffer, *handle;
-};
-
-typedef struct entry_t laf_buffer_entry_t;
-
-void laf_free(void *);
-
-typedef long long int uint64_t;
-
-void laf_initialize(uint64_t);
-void laf_finalize(uint64_t);
-
 #include <stdio.h>
 #include <stdlib.h>
 
-void laf_print_info_incomplete(const char *);
+/* for (native buffer, Java ref) pairs */
+typedef struct la_buffer_table_value_t {
+	void *buffer, *handle;
+};
+
+/* Important library functions */
+void la_initialize(uint64_t);
+void la_finalize(uint64_t);
+
+/* Utility functions */
+#ifdef LA_LOG_TAG
+#define LOG(LEVEL,...) __android_log_print(LEVEL,LA_LOG_TAG,__VA_ARGS__)
+#define LOGA(COND,...) __android_log_assert(COND,LA_LOG_TAG,__VA_ARGS__)
+#define LOGV(...) LOG(ANDROID_LOG_VERBOSE,__VA_ARGS__)
+#define LOGD(...) LOG(ANDROID_LOG_DEBUG,  __VA_ARGS__)
+#define LOGI(...) LOG(ANDROID_LOG_INFO,   __VA_ARGS__)
+#define LOGW(...) LOG(ANDROID_LOG_WARN,   __VA_ARGS__)
+#define LOGE(...) LOG(ANDROID_LOG_ERROR,  __VA_ARGS__)
+#define LOGF(...) LOG(ANDROID_LOG_FATAL,  __VA_ARGS__)
+#endif /* LA_LOG_TAG */
+void la_free_buffer_table_value(HashTableValue);
+#define LA_INFO_INCOMPLETE "[info] '%s' (feature not yet implemented)\n"
+void la_print_info_incomplete(const char *);
 
 #endif /* LIBALEXANDRIA_H */

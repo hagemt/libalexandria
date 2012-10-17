@@ -1,10 +1,10 @@
-package lib.alexandria;
+package lib.alexandria.lannister;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-//import libalexandria.supervised.KSVM;
-import library.alexandria.R;
+import lib.alexandria.lannister.R;
+import lib.alexandria.supervised.KSVM;
 
 import android.os.Bundle;
 import android.app.Activity;

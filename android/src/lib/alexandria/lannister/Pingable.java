@@ -1,4 +1,4 @@
-package lib.alexandria;
+package lib.alexandria.lannister;
 
 public interface Pingable {
 	public void ping();

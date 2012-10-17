@@ -1,4 +1,4 @@
-package lib.alexandria;
+package lib.alexandria.lannister;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 
 public class MLReceiver extends BroadcastReceiver implements Pingable {
-	public static final String REQ = "library.alexandria.action.requested";
-	public static final String ACK = "library.alexandria.action.accepted";
+	public static final String REQ = "lib.alexandria.lannister.action.requested";
+	public static final String ACK = "lib.alexandria.lannister.action.accepted";
 	
 	private boolean enabled;
 	private Lannister activity;

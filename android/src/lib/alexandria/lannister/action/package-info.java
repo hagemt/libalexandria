@@ -3,4 +3,4 @@
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-package lib.alexandria.action;
+package lib.alexandria.lannister.action;

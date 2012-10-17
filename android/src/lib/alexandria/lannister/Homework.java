@@ -1,9 +1,9 @@
-package lib.alexandria;
+package lib.alexandria.lannister;
 
 import java.util.concurrent.FutureTask;
 
-import libalexandria.LearningModel;
-import libalexandria.supervised.KSVM;
+import lib.alexandria.LearningModel;
+import lib.alexandria.supervised.KSVM;
 
 import android.os.Parcel;
 import android.os.Parcelable;

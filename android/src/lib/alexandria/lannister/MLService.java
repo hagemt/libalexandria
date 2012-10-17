@@ -1,4 +1,4 @@
-package lib.alexandria;
+package lib.alexandria.lannister;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +12,13 @@ import android.os.Message;
 import android.util.Log;
 
 public class MLService extends IntentService {
-	public static final String LARGE_WORK_UNIT = "library.alexandria.work.unit.large";
-	public static final String SMALL_WORK_UNIT = "library.alexandria.work.unit.small";
+	public static final String LARGE_WORK_UNIT = "lib.alexandria.lannister.work.unit.large";
+	public static final String SMALL_WORK_UNIT = "lib.alexandria.lannister.work.unit.small";
 
-	public static final String STATUS  = "library.alexandria.work.status";
+	public static final String STATUS  = "lib.alexandria.lannister.work.status";
 	
-	private static final String FAILURE = "library.alexandria.work.invalid";
-	private static final String INTERNAL_NAME = "libalexandria";
+	private static final String FAILURE = "lib.alexandria.lannister.work.invalid";
+	private static final String INTERNAL_NAME = "lib.alexandria.lannister.service";
 	
 	private Map<Bundle, Handler> pool;
 	

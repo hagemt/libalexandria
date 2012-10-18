@@ -1,5 +1,21 @@
-# This is a CMakeCache.user.txt template for linux developers
-# Note that CMakeCache.user.txt is in .gitignore
+#    This file is part of libalexandria.
+#
+#    libalexandria is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    libalexandria is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+
+# This is a CMake cache template for linux developers.
+# You can copy this file to ./CMakeCache.user.txt and modify as you like.
+# Note that CMakeCache.user.txt is in .gitignore, which is loaded if present.
 
 set(BIND_C TRUE CACHE BOOL "c +bindings")
 set(BIND_CXX TRUE CACHE BOOL "cxx +bindings")

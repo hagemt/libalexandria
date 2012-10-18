@@ -1,7 +1,7 @@
 Creating filelist for bindings
 Creating filelist for dev
 Creating filelist for fortran
-Creating filelist for hooks
+WARNING!!! Not a file nor a directory (so ignored): /home/teh/Downloads/Code/libalexandria/hooks
 Creating filelist for include
 Creating filelist for tests
 Categorizing files.
@@ -14,8 +14,7 @@ SLOC	Directory	SLOC-by-Language (Sorted)
 1245    bindings        java=1078,ansic=152,cpp=15
 107     include         ansic=107
 53      fortran         fortran=53
-12      hooks           sh=12
-0       dev             (none)
+12      dev             sh=12
 0       tests           (none)
 
 

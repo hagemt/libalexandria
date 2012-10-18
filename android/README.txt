@@ -37,3 +37,13 @@ export NDK_CM_SCRIPT=.../android-cmake/toolchain/android.toolchain.cmake
  2) An alias is also useful, to enable simple builds:
 
 alias android-cmake='cmake -DCMAKE_TOOLCHAIN_FILE=\$NDK_CM_SCRIPT'
+
+NOTES:
+
+The following files lack copyright headers:
+==> ./android/AndroidManifest.xml <==
+==> ./android/res/layout/activity_lannister.xml <==
+==> ./android/res/menu/activity_lannister.xml <==
+==> ./android/res/values/strings.xml <==
+==> ./android/res/values/styles.xml <==
+Can someone fix this a nice way?

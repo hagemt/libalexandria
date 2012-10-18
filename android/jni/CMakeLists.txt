@@ -14,10 +14,11 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # Will set up the requisite variables
-add_subdirectory(base)
 if(NOT NATIVE_LIBRARY_SONAME)
-  message(FATAL_ERROR "Unable to configure with NDK. Please address this or disable USE_ANDROID")
+  message(WARNING "Building libalexandria using the NDK will work soon...")
+  #message(FATAL_ERROR "Unable to configure with NDK. Please address this or disable USE_ANDROID")
 endif(NOT NATIVE_LIBRARY_SONAME)
+# TODO find a way to mirror bindings/java/jni setup
 
 # Note: add any static libs here (they'll need to be built for arch)
 set(NATIVE_LIBRARY_DEPENDS "cpufeatures") # TODO e.g. native glue

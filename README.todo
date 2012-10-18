@@ -8,6 +8,7 @@ Tagged 'global'
 Tagged 'future'
 
 * Can generate additional bindings using SWIG! (Python, C#, etc.)
+* Repair build process using NDK (see ./glue/README.txt maybe?)
 
 Tagged 'java'
 

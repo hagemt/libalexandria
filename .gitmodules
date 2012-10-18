@@ -1,0 +1,3 @@
+[submodule "glue/tclap"]
+	path = glue/tclap
+	url = git://tclap.git.sourceforge.net/gitroot/tclap/tclap

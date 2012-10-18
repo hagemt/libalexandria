@@ -13,33 +13,12 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-file(GLOB LAF_HEADER_FILES laF_*.h)
-install(
-  FILES ${LAF_HEADER_FILES}
-  PUBLIC_HEADER DESTINATION include/libalexandria
-  COMPONENT "Base Headers" OPTIONAL
-)
+# Acquire all the glue (kolla) code
+file(GLOB KOLLA_SOURCES "*.c")
+add_library(kolla STATIC ${KOLLA_SOURCES})
+set_target_properties(kolla PROPERTIES COMPILE_FLAGS -fPIC)
+# TODO should install? (probably not)
 
-if(BIND_C)
-  file(GLOB LAC_HEADER_FILES laC_*.h)
-  # TODO configure libalexandria.h with guards?
-  install(
-    FILES ${LAC_HEADER_FILES}
-    PUBLIC_HEADER DESTINATION include/libalexandria
-    COMPONENT "C Bindings" OPTIONAL
-  )
-endif(BIND_C)
-
-if(BIND_CXX)
-  file(GLOB LACXX_HEADER_FILES laCXX_*.h)
-  # TODO configure libalexandria.h with guards?
-  install(
-    FILES ${LACXX_HEADER_FILES}
-    PUBLIC_HEADER DESTINATION include/libalexandria
-    COMPONENT "C++ Bindings" OPTIONAL
-  )
-endif(BIND_CXX)
-
-if(BIND_JAVA)
-  add_subdirectory(laJ)
-endif(BIND_JAVA)
+if(USE_SWIG)
+  add_subdirectory(swig)
+endif(USE_SWIG)

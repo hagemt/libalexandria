@@ -15,33 +15,29 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+#define LA_JNI
 #include "libalexandria.h"
-#include "libalexandria_proof_POC.h"
 
 JNIEXPORT void JNICALL
-Java_libalexandria_proof_POC_initialize(JNIEnv *env, jclass jc, jlong seed)
+Java_lib_alexandria_proof_POC_initialize(JNIEnv *env, jclass jc, jlong seed)
 {
 	#ifndef NDEBUG
 	fprintf(stderr, "[debug] '%lu' (libalexandria loaded)\n", seed);
 	#endif
-	laf_initialize(seed);
+	la_initialize(seed);
 }
 
 JNIEXPORT void JNICALL
-Java_libalexandria_proof_POC_finalize(JNIEnv *env, jclass jc, jlong seed)
+Java_lib_alexandria_proof_POC_finalize(JNIEnv *env, jclass jc, jlong seed)
 {
 	#ifndef NDEBUG
 	fprintf(stderr, "[debug] '%lu' (libalexandria unloaded)\n", seed);
 	#endif
-	laf_finalize(seed);
+	la_finalize(seed);
 }
 
 JNIEXPORT void JNICALL
-Java_libalexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
+Java_lib_alexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
 {
 	const char *cstr;
 

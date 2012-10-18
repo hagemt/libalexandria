@@ -15,16 +15,16 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define LA_JNI
 #include "libalexandria.h"
-#include "libalexandria_functional_kernels_Kernel.h"
 
 /*
- * Class:     libalexandria_functional_kernels_Kernel
+ * Class:     lib_alexandria_functional_kernels_Kernel
  * Method:    benchmark
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_benchmark
+Java_lib_alexandria_functional_kernels_Kernel_benchmark
 	(JNIEnv *env, jobject obj)
 {
 	/* TODO implementation
@@ -33,19 +33,19 @@ Java_libalexandria_functional_kernels_Kernel_benchmark
 	 * FORTRAN procedure. Can we coallese some stuff:
 	 * A single kernel function, takes enum id for flavor?
 	*/
-	laf_print_info_incomplete("Kernel_benchmark");
+	la_print_info_incomplete("Kernel_benchmark");
 	return;
 }
 
 /*
- * Class:     libalexandria_functional_kernels_Kernel
+ * Class:     lib_alexandria_functional_kernels_Kernel
  * Method:    sync
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_kernels_Kernel_sync
+Java_lib_alexandria_functional_kernels_Kernel_sync
 	(JNIEnv *env, jobject obj)
 {
-	laf_print_info_incomplete("Kernel_sync");
+	la_print_info_incomplete("Kernel_sync");
 	return;
 }

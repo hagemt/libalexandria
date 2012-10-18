@@ -15,29 +15,29 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define LA_JNI
 #include "libalexandria.h"
-#include "libalexandria_functional_wavelets_Wavelet.h"
 
 /*
- * Class:     libalexandria_functional_wavelets_Wavelet
+ * Class:     lib_alexandria_functional_wavelets_Wavelet
  * Method:    benchmark
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_wavelets_Wavelet_benchmark
+Java_lib_alexandria_functional_wavelets_Wavelet_benchmark
 	(JNIEnv *env, jobject obj)
 {
-	laf_print_info_incomplete("Wavelet_benchmark");
+	la_print_info_incomplete("Wavelet_benchmark");
 } 
 
 /*
- * Class:     libalexandria_functional_wavelets_Wavelet
+ * Class:     lib_alexandria_functional_wavelets_Wavelet
  * Method:    sync
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_wavelets_Wavelet_sync
+Java_lib_alexandria_functional_wavelets_Wavelet_sync
 	(JNIEnv *env, jobject obj)
 {
-	laf_print_info_incomplete("Wavelet_sync");
+	la_print_info_incomplete("Wavelet_sync");
 }

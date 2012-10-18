@@ -22,11 +22,11 @@ endif(NOT Java_JAVAH_EXECUTABLE)
 # Generate JNI headers TODO FUTURE much neater method
 add_custom_target(javah DEPENDS jpoc
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}"
-    "libalexandria.functional.RealParameterizedFunction"
-    "libalexandria.functional.kernels.Kernel"
-    "libalexandria.functional.wavelets.Wavelet"
-    "libalexandria.reinforcement.nn.NativeWorker"
-    "libalexandria.proof.POC"
+    "lib.alexandria.functional.RealParameterizedFunction"
+    "lib.alexandria.functional.kernels.Kernel"
+    "lib.alexandria.functional.wavelets.Wavelet"
+    "lib.alexandria.reinforcement.nn.NativeWorker"
+    "lib.alexandria.proof.POC"
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
   COMMENT "Updating JNI headers..." VERBATIM
   SOURCES ${JNI_HEADER_FILES}

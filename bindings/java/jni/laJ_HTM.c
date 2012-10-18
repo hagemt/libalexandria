@@ -15,18 +15,16 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define LA_JNI
 #include "libalexandria.h"
-#include "libalexandria_reinforcement_nn_NativeWorker.h"
-
-#include <assert.h>
 
 /*
- * Class:     libalexandria_reinforcement_nn_NativeWorker
+ * Class:     lib_alexandria_reinforcement_nn_NativeWorker
  * Method:    operate
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_reinforcement_nn_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
+Java_lib_alexandria_reinforcement_nn_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
 {
 	jint i, len1, len2;
 	jbyte *a1, *a2;

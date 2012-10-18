@@ -15,67 +15,67 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define LA_JNI
 #include "libalexandria.h"
-#include "libalexandria_functional_RealParameterizedFunction.h"
-
-extern HashTable *laf_buffer_table;
 
 /*
- * Class:     libalexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_functional_RealParameterizedFunction
  * Method:    alloc
  * Signature: ()Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL
-Java_libalexandria_functional_RealParameterizedFunction_alloc
+Java_lib_alexandria_functional_RealParameterizedFunction_alloc
 	(JNIEnv *env, jobject obj)
 {
-	laf_buffer_entry_t *entry;
-	if (!laf_buffer_table) {
+	struct la_buffer_table_value_t *value;
+	if (!la_buffer_table) {
 		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
 		return NULL;
 	}
 	#ifndef NDEBUG
 	fprintf(stderr, "[debug] requesting native array for %p\n", obj);
 	#endif
-	HashTableValue value = hash_table_lookup(laf_buffer_table, obj);
-	if (value != HASH_TABLE_NULL) {
-		entry = (laf_buffer_entry_t *)(value);
+	HashTableValue v = hash_table_lookup(la_buffer_table, obj);
+	if (v != HASH_TABLE_NULL) {
+		value = (struct la_buffer_table_value_t *)(v);
 		#ifndef NDEBUG
-		fprintf(stderr, "[debug] found previous native array for %p at %p\n", obj, entry->buffer);
+		fprintf(stderr, "[debug] found previous native array for %p at %p\n", obj, value->buffer);
 		#endif
 	} else {
 		/* Create a new entry only if necessary */
-		entry = malloc(sizeof(laf_buffer_entry_t));
-		entry->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
-		entry->handle = (*env)->NewDirectByteBuffer(env, entry->buffer, LAF_MAX_LEN * sizeof(jdouble));
+		value = malloc(sizeof(struct la_buffer_table_value_t));
+		value->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
+		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
+		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
 		#ifndef NDEBUG
-		fprintf(stderr, "[debug] created new native array for %p at %p\n", obj, entry->buffer);
+		fprintf(stderr, "[debug] created new native array for %p at %p\n", obj, value->buffer);
 		#endif
-		hash_table_insert(laf_buffer_table, obj, entry);
+		hash_table_insert(la_buffer_table, obj, value);
 	}
-	assert(entry && entry->handle);
+	assert(value && value->handle);
 	#ifndef NDEBUG
-	fprintf(stderr, "[debug] returning native array for %p in object %p\n", obj, entry->handle);
+	fprintf(stderr, "[debug] returning native array for %p in object %p\n", obj, value->handle);
 	#endif
-	return entry->handle;
+	return value->handle;
 }
 
 /*
- * Class:     libalexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_functional_RealParameterizedFunction
  * Method:    free
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_libalexandria_functional_RealParameterizedFunction_free
+Java_lib_alexandria_functional_RealParameterizedFunction_free
 	(JNIEnv *env, jobject obj)
 {
-	if (!laf_buffer_table) {
+	if (!la_buffer_table) {
 		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
+		return;
 	}
 	#ifndef NDEBUG
 	fprintf(stderr, "[debug] can we remove %p? answer: ", obj);
 	#endif
-	int result = hash_table_remove(laf_buffer_table, obj);
+	int result = hash_table_remove(la_buffer_table, obj);
 	#ifndef NDEBUG
 	fprintf(stderr, "%i\n", result);
 	#endif

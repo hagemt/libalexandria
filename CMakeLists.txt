@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 project(libalexandria C CXX Fortran Java)
 set(CMAKE_PROJECT_VERSION_MAJOR 0)
 set(CMAKE_PROJECT_VERSION_MINOR 1)
-set(CMAKE_PROJECT_VERSION_PATCH 1)
+set(CMAKE_PROJECT_VERSION_PATCH 2)
 set(CMAKE_PROJECT_VERSION_TWEAK 0)
 set(CMAKE_PROJECT_VERSION_HIGH
   "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}")
@@ -29,7 +29,7 @@ set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
 set(CMAKE_PROJECT_VERSION_SUFFIX "dev" CACHE STRING "A custom build label")
 mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX)
-set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME}-${CMAKE_PROJECT_VERSION_SUFFIX}v${CMAKE_PROJECT_VERSION}")
+set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME}${CMAKE_PROJECT_VERSION_SO}-${CMAKE_PROJECT_VERSION_SUFFIX}")
 
 # Force a build type to be declared
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
@@ -58,6 +58,8 @@ option(USE_ANDROID       "Produce Android options"   OFF)
 option(BUILD_JAVADOC     "Produce a limited Javadoc" OFF)
 endif(BIND_JAVA)
 
+option(USE_SWIG          "Produce bindings w/ SWIG"  OFF)
+
 ## Development tools
 add_subdirectory(dev)
 
@@ -72,14 +74,22 @@ endif(BIND_JAVA)
 
 if(USE_ANDROID)
   add_definitions(-DUSE_ANDROID)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/arm")
 endif(USE_ANDROID)
 
-# TODO FUTURE other libraries? like BLAS
+# TODO FUTURE other libraries? like LAPACK?
 find_package(BLAS REQUIRED)
+if(NOT BLAS_FOUND)
+  message(FATAL_ERROR "Cannot locate BLAS library!")
+endif(NOT BLAS_FOUND)
+include_directories(${BLAS_INCLUDE_DIRS})
 link_directories(${BLAS_LIBRARIES})
 # Try to find libcalg using pkg-config
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(CALG libcalg-1.0)
+pkg_search_module(CALG libcalg-1.0 libcalg>=1)
+if(NOT CALG_FOUND)
+  message(FATAL_ERROR "Cannot locate calgorithms library!")
+endif(NOT CALG_FOUND)
 include_directories(${CALG_INCLUDE_DIRS})
 link_directories(${CALG_LIBRARY_DIRS})
 # TODO should we include/link in subdirs?
@@ -90,6 +100,8 @@ link_directories(${CALG_LIBRARY_DIRS})
 
 # Process headers
 add_subdirectory(include)
+# Glue code
+add_subdirectory(glue)
 # Fortran code
 add_subdirectory(fortran)
 

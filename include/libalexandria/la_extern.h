@@ -14,32 +14,11 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIBALEXANDRIA_H
-#define LIBALEXANDRIA_H
+#ifndef LA_EXTERN_H
+#define LA_EXTERN_H
 
-/* glue headers */
-@LA_INCLUDES@
+#include "la_glue.h"
 
-/* fortran headers*/
-@LAF_INCLUDES@
+extern HashTable *la_buffer_table;
 
-#ifdef LA_M
-/* c headers */
-@LAC_INCLUDES@
-#endif /* LA_M */
-
-#ifdef LA_MM
-/* c++ headers */
-@LACXX_INCLUDES@
-#endif /* LA_MM */
-
-#ifdef LA_JNI
-/* jni headers */
-@LAJ_INCLUDES@
-#endif /* LA_JNI */
-
-#ifdef LA_SWIG
-@SWIG_INCLUDES@
-#endif /* LA_SWIG */
-
-#endif /* LIBALEXANDRIA_H */
+#endif /* LA_EXTERN_H */

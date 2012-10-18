@@ -18,7 +18,7 @@
 #include "la_glue.h"
 
 /* FIXME can this have static linkage? */
-static HashTable *la_buffer_table = NULL;
+HashTable *la_buffer_table = NULL;
 
 void
 la_free_buffer_table_key(HashTableKey k)

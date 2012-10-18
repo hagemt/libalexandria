@@ -3,7 +3,7 @@ Some Tasks:
 Tagged 'global'
 
 * Tests, tests, tests for everything as it is implemented (PRIORITY)
-* Ensure "next" branch merges cleanly into current master
+* Ensure "next" branch merges cleanly into current master (see wiki)
 
 Tagged 'future'
 
@@ -12,18 +12,18 @@ Tagged 'future'
 
 Tagged 'java'
 
-* Finish Java interface, all the way through JNI back-end
+* Finish Java interface, all the way through JNI back-end (partial)
 * Flexible method for invoking models via Android intent (designed)
 
 Tagged 'data'
 
 * Conversion FORTRAN <-> C types (esp. array arguments and vectorization)
-* Figure out BLAS library requirements and add to top CMakeLists.txt
 
 Tagged 'doc'
 
 * Check legal statements rigorously with law professional
 * Flesh out feature list, especially for bindings (chart?)
+* Update wiki with detailed information for developers
 * Update gh-pages when dev/* merges to master
 
 Tagged 'hooks'

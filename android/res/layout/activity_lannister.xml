@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:onClick="sendRequest"
+        android:onClick="onPushButton"
         android:text="@string/button_text" />
 
     <ListView

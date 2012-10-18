@@ -1,0 +1,2 @@
+# Ignore all generated NDK build files
+*.mk

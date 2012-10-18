@@ -1,0 +1,59 @@
+/*
+ *    This file is part of libalexandria.
+ *
+ *    libalexandria is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    libalexandria is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU Lesser General Public License
+ *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#define LA_JNI
+#include "libalexandria.h"
+
+JNIEXPORT void JNICALL
+Java_lib_alexandria_proof_POC_initialize(JNIEnv *env, jclass jc, jlong seed)
+{
+	#ifndef NDEBUG
+	fprintf(stderr, "[debug] '%lu' (libalexandria loaded)\n", seed);
+	#endif
+	la_initialize(seed);
+}
+
+JNIEXPORT void JNICALL
+Java_lib_alexandria_proof_POC_finalize(JNIEnv *env, jclass jc, jlong seed)
+{
+	#ifndef NDEBUG
+	fprintf(stderr, "[debug] '%lu' (libalexandria unloaded)\n", seed);
+	#endif
+	la_finalize(seed);
+}
+
+JNIEXPORT void JNICALL
+Java_lib_alexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
+{
+	const char *cstr;
+
+	/* Fetch modified UTF-8 characters */
+	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+
+	#ifndef NDEBUG
+	fprintf(stderr, "[DEBUG] received '%s' from JNI:\n", cstr);
+	#endif
+	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
+
+	/* Remember to release memory */
+	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
+
+	#ifndef NDEBUG
+	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", (void *)(jc));
+	#endif
+	laf_printi_();
+}

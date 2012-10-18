@@ -17,33 +17,29 @@
 #ifndef LIBALEXANDRIA_H
 #define LIBALEXANDRIA_H
 
-/* allows #include "libalexandria.h" */
+/* glue headers */
+@LA_INCLUDES@
+
+/* fortran headers*/
 @LAF_INCLUDES@
 
-#include "libcalg/compare-pointer.h"
-#include "libcalg/hash-pointer.h"
-#include "libcalg/hash-table.h"
+#ifdef LA_M
+/* c headers */
+@LAC_INCLUDES@
+#endif /* LA_M */
 
-extern HashTable *laf_buffer_table;
+#ifdef LA_MM
+/* c++ headers */
+@LACXX_INCLUDES@
+#endif /* LA_MM */
 
-#include <assert.h>
+#ifdef LA_JNI
+/* jni headers */
+@LAJ_INCLUDES@
+#endif /* LA_JNI */
 
-struct entry_t {
-	void *buffer, *handle;
-};
-
-typedef struct entry_t laf_buffer_entry_t;
-
-void laf_free(void *);
-
-typedef long long int uint64_t;
-
-void laf_initialize(uint64_t);
-void laf_finalize(uint64_t);
-
-#include <stdio.h>
-#include <stdlib.h>
-
-void laf_print_info_incomplete(const char *);
+#ifdef LA_SWIG
+@SWIG_INCLUDES@
+#endif /* LA_SWIG */
 
 #endif /* LIBALEXANDRIA_H */

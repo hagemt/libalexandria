@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 project(libalexandria C CXX Fortran Java)
 set(CMAKE_PROJECT_VERSION_MAJOR 0)
 set(CMAKE_PROJECT_VERSION_MINOR 1)
-set(CMAKE_PROJECT_VERSION_PATCH 1)
+set(CMAKE_PROJECT_VERSION_PATCH 2)
 set(CMAKE_PROJECT_VERSION_TWEAK 0)
 set(CMAKE_PROJECT_VERSION_HIGH
   "${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}")
@@ -27,6 +27,9 @@ set(CMAKE_PROJECT_VERSION_SO
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_TWEAK}")
 set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
+set(CMAKE_PROJECT_VERSION_SUFFIX "dev" CACHE STRING "A custom build label")
+mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX)
+set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME}${CMAKE_PROJECT_VERSION_SO}-${CMAKE_PROJECT_VERSION_SUFFIX}")
 
 # Force a build type to be declared
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
@@ -39,6 +42,7 @@ set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 include("${CMAKE_SOURCE_DIR}/settings.user.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
+add_definitions(-DLOG_TAG=${PROJECT_LOG_TAG})
 
 ### Configuration
 
@@ -50,8 +54,11 @@ option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
 option(BUILD_TESTING     "Produce testing tree"      OFF)
 
 if(BIND_JAVA)
-option(BUILD_JAVADOC     "Produce Javadoc"           OFF)
+option(USE_ANDROID       "Produce Android options"   OFF)
+option(BUILD_JAVADOC     "Produce a limited Javadoc" OFF)
 endif(BIND_JAVA)
+
+option(USE_SWIG          "Produce bindings w/ SWIG"  OFF)
 
 ## Development tools
 add_subdirectory(dev)
@@ -59,22 +66,33 @@ add_subdirectory(dev)
 ## Requirements
 
 if(BIND_JAVA)
-  find_package(JNI)
-  if(NOT JNI_FOUND)
-    message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
-  endif(NOT JNI_FOUND)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
-  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked)
+  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
+  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
 endif(BIND_JAVA)
 
-# TODO FUTURE other libraries? like BLAS
-if(BIND_JAVA)
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(CALG libcalg-1.0)
-  include_directories(${CALG_INCLUDE_DIRS})
-  link_directories(${CALG_LIBRARY_DIRS})
-endif(BIND_JAVA)
+if(USE_ANDROID)
+  add_definitions(-DUSE_ANDROID)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/arm")
+endif(USE_ANDROID)
+
+# TODO FUTURE other libraries? like LAPACK?
+find_package(BLAS REQUIRED)
+if(NOT BLAS_FOUND)
+  message(FATAL_ERROR "Cannot locate BLAS library!")
+endif(NOT BLAS_FOUND)
+include_directories(${BLAS_INCLUDE_DIRS})
+link_directories(${BLAS_LIBRARIES})
+# Try to find libcalg using pkg-config
+find_package(PkgConfig REQUIRED)
+pkg_search_module(CALG libcalg-1.0 libcalg>=1)
+if(NOT CALG_FOUND)
+  message(FATAL_ERROR "Cannot locate calgorithms library!")
+endif(NOT CALG_FOUND)
+include_directories(${CALG_INCLUDE_DIRS})
+link_directories(${CALG_LIBRARY_DIRS})
+# TODO should we include/link in subdirs?
 
 ### Build
 
@@ -82,10 +100,19 @@ endif(BIND_JAVA)
 
 # Process headers
 add_subdirectory(include)
+# Glue code
+add_subdirectory(glue)
 # Fortran code
 add_subdirectory(fortran)
+
+## Optional components
+
 # Language bindings
 add_subdirectory(bindings)
+# Android options
+if(USE_ANDROID)
+  add_subdirectory(android)
+endif(USE_ANDROID)
 
 ### Testing
 

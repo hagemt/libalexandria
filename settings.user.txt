@@ -15,7 +15,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -pedantic" CACHE STRING "cxx +debugmode")
 set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
 set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +debugmode")
 
-set(JAVA_PREFIX "/home/teh/Downloads/Code/jdk1.8.0")
+set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0")
 
 set(JAVA_AWT_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "AWT includes")
 set(JAVA_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "Java includes")

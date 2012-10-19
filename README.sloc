@@ -11,10 +11,10 @@ Computing results.
 
 
 SLOC	Directory	SLOC-by-Language (Sorted)
-1226    bindings        java=1078,ansic=141,cpp=7
+1080    bindings        java=965,ansic=108,cpp=7
+165     tests           java=113,ansic=44,cpp=8
 107     include         ansic=107
 53      fortran         fortran=53
-19      tests           ansic=11,cpp=8
 12      dev             sh=12
 
 

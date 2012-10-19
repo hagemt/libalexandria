@@ -16,3 +16,10 @@
 # C proof-of-concept
 add_executable(simple_c_poc simple_poc.c)
 target_link_libraries(simple_c_poc calg alexandriam)
+
+# C Interface test
+if(BIND_C)
+  add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc" "Hello, World!")
+  set_tests_properties(simple_c_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+endif(BIND_C)
+

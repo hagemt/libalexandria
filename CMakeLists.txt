@@ -63,8 +63,7 @@ option(USE_SWIG          "Produce bindings w/ SWIG"  OFF)
 ## Development tools
 add_subdirectory(dev)
 
-## Requirements
-
+## Requirements for Java bindings
 if(BIND_JAVA)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
@@ -72,9 +71,18 @@ if(BIND_JAVA)
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
 endif(BIND_JAVA)
 
+## Requirements for Android builds (NDK)
 if(USE_ANDROID)
+  if(NOT ANDROID)
+    message(FATAL_ERROR "Please configure your environment for USE_ANDROID or disable it")
+  endif(NOT ANDROID)
+  set(ANDROID_NDK_PATH     "$ENV{ANDROID_NDK}"      CACHE PATH   "Path to Android NDK")
+  set(ANDROID_SDK_VERSION  "$ENV{ANDROID_PLATFORM}" CACHE STRING "Version of Android SDK")
+  set(ANDROID_BUILD_ARCH   "$ENV{ANDROID_ARCH}"     CACHE STRING "Target architecture for Android build")
+  mark_as_advanced(ANDROID_NDK_PATH ANDROID_SDK_VERSION ANDROID_BUILD_ARCH)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${ANDROID_BUILD_ARCH}")
+  include_directories("${ANDROID_NDK_PATH}/platforms/${ANDROID_SDK_VERSION}/arch-${ANDROID_BUILD_ARCH}/usr/include")
   add_definitions(-DUSE_ANDROID)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/arm")
 endif(USE_ANDROID)
 
 # TODO FUTURE other libraries? like LAPACK?

@@ -47,3 +47,5 @@ The following files lack copyright headers:
 ==> ./android/res/values/strings.xml <==
 ==> ./android/res/values/styles.xml <==
 Can someone fix this a nice way?
+
+See ./tests/android for unit testing framework

@@ -27,6 +27,9 @@ add_jar(lib.alexandria.poc
 
 # Make sure native interfaces are built
 add_subdirectory(jni)
+if(USE_ANDROID)
+  add_subdirectory(android)
+endif(USE_ANDROID)
 
 # Make sure we can run Java code
 if(NOT EXISTS "${Java_JAVA_EXECUTABLE}")

@@ -40,7 +40,7 @@ endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-include("${CMAKE_SOURCE_DIR}/CMakeCache.user.txt" OPTIONAL)
+include("${CMAKE_SOURCE_DIR}/user.CMakeCache.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
 add_definitions(-DLOG_TAG=${PROJECT_LOG_TAG})
 

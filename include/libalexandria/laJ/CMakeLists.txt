@@ -19,10 +19,9 @@ if(NOT Java_JAVAH_EXECUTABLE)
 endif(NOT Java_JAVAH_EXECUTABLE)
 
 # Macro to generate JNI headers
-macro(javah JAVA_TARGET JAVA_PACKAGES_WITH_NATIVES)
+macro(javah JAVA_TARGET)
 add_custom_target(javah_${JAVA_TARGET} DEPENDS ${JAVA_TARGET}
-  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}"
-    ${JAVA_PACKAGES_WITH_NATIVES}
+  COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}" ${ARGN}
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/${JAVA_TARGET}.dir"
   COMMENT "Updating JNI headers for ${JAVA_TARGET}..." VERBATIM
 )
@@ -35,11 +34,12 @@ file(GLOB JNI_HEADER_FILES libalexandria_*.h)
 set_property(SOURCE ${JNI_HEADER_FILES} PROPERTY GENERATED TRUE)
 
 # Generate headers for lib.alexandria
-list(APPEND LAJ_NATIVES "lib.alexandria.functional.RealParameterizedFunction")
-list(APPEND LAJ_NATIVES "lib.alexandria.functional.kernels.Kernel")
-list(APPEND LAJ_NATIVES "lib.alexandria.functional.wavelets.Wavelet")
-list(APPEND LAJ_NATIVES "lib.alexandria.reinforcement.nn.NativeWorker")
-javah(lib.alexandria LAJ_NATIVES)
+javah(lib.alexandria
+  "lib.alexandria.functional.RealParameterizedFunction"
+  "lib.alexandria.functional.kernels.Kernel"
+  "lib.alexandria.functional.wavelets.Wavelet"
+  "lib.alexandria.reinforcement.nn.NativeWorker"
+)
 
 # Install these (if possible)
 install(
@@ -50,5 +50,5 @@ install(
 
 if(BUILD_TESTING)
   # Generate headers for lib.alexandria.proof
-  javah(lib.alexandria.poc "lib.alexandria.proof")
+  javah(lib.alexandria.poc "lib.alexandria.proof.POC")
 endif(BUILD_TESTING)

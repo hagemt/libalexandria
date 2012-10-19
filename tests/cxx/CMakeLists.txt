@@ -19,5 +19,7 @@ target_link_libraries(simple_cxx_poc calg alexandriamm)
 
 # CXX Interface test
 add_test(simple_cxx_poc "${EXECUTABLE_OUTPUT_PATH}/simple_cxx_poc" "Hello, World!")
-set_tests_properties(simple_cxx_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
-
+set_tests_properties(simple_cxx_poc PROPERTIES
+  LABELS "cxx;poc"
+  PASS_REGULAR_EXPRESSION "Hello, World!"
+)

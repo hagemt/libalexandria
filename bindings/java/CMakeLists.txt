@@ -18,7 +18,7 @@ find_package(Java 1.6 COMPONENTS Development)
 if(Java_Development_FOUND)
   include(UseJava)
 else(Java_Development_FOUND)
-  message(FATAL_ERROR "Unable to find build tools for Java!")
+  message(FATAL_ERROR "Unable to find Java development kit!")
 endif(Java_Development_FOUND)
 
 # Glob Java sources, FIXME dunno if I like this... but GLOB_RECURSE?

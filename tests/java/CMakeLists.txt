@@ -13,17 +13,22 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# TODO ensure Java 1.6 COMPONENTS Development?
+# Make sure we can build and run Java code
+find_package(Java 1.6 COMPONENTS Development Runtime)
+if(Java_Development_FOUND)
+  include(UseJava)
+else(Java_Development_FOUND)
+  message(FATAL_ERROR "Unable to find Java! Cannot perform Java tests!")
+endif(Java_Development_FOUND)
 
 # Build Java proof-of-concept
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
+set(CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_INCLUDE_PATH}:${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
 file(GLOB JAVA_POC_SOURCES lib/alexandria/proof/*.java)
-add_jar(lib.alexandria.poc
-  ${JAVA_POC_SOURCES}
-  "${CMAKE_JAVA_TARGET_OUTPUT_PATH}/lib.alexandria.jar"
-)
+add_jar(lib.alexandria.poc ${JAVA_POC_SOURCES})
+add_dependencies(lib.alexandria.poc lib.alexandria)
 
 # Make sure native interfaces are built
 add_subdirectory(jni)
@@ -31,24 +36,23 @@ if(USE_ANDROID)
   add_subdirectory(android)
 endif(USE_ANDROID)
 
-# Make sure we can run Java code
-if(NOT EXISTS "${Java_JAVA_EXECUTABLE}")
-  find_package(Java 1.6 COMPONENTS Runtime)
-  if(Java_Runtime_FOUND)
-    include(UseJava)
-  else(Java_Runtime_FOUND)
-    message(FATAL_ERROR "Unable to find Java runtime! Cannot run Java tests!")
-  endif(Java_Runtime_FOUND)
-endif(NOT EXISTS "${Java_JAVA_EXECUTABLE}")
-
 # Setup the library path, which all texts will need at run-time
+#set(JAVA_CLASS_PATH ${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar)
 set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
 mark_as_advanced(JAVA_LIBRARY_PATH)
 
-# Proof-of-concept test
-set(JAVA_POC_PATH "${CMAKE_JAVA_TARGET_OUTPUT_PATH}/lib.alexandria.poc.jar")
-if(EXISTS "${POC_JAR_PATH}")
-  add_test(simple_java_poc "${Java_JAVA_EXECUTABLE}" -Djava.library.path=${JAVA_LIBRARY_PATH} -jar "${JAVA_POC_PATH}" "Hello, World!")
-  set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
-  add_test(complex_java_poc "${Java_JAVA_EXECUTABLE}" -Djava.library.path=${JAVA_LIBRARY_PATH} -jar "${JAVA_POC_PATH}")
-endif(EXISTS "${POC_JAR_PATH}")
+# Make it easy to add a variety of Java tests
+macro(add_java_test TEST_NAME JAR_FILE)
+  add_test(${TEST_NAME}
+    "${Java_JAVA_EXECUTABLE}"
+    -Djava.library.path=${JAVA_LIBRARY_PATH}
+    -jar "${JAVA_POC_PATH}" ${ARGN})
+endmacro(add_java_test )
+    #    -cp ${JAVA_CLASS_PATH}
+
+# Proof-of-concept test(s)
+set(JAVA_POC_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.poc.jar")
+add_java_test(simple_java_poc "${JAVA_POC_PATH}" "Hello, World!")
+set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
+add_java_test(complex_java_poc "${JAVA_POC_PATH}")
+set_tests_properties(simple_java_poc complex_java_poc PROPERTIES LABELS "java;poc")

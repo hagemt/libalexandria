@@ -67,6 +67,7 @@ add_subdirectory(dev)
 if(BIND_JAVA)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
+  set(CMAKE_JAVA_INCLUDE_PATH "$ENV{CLASSPATH}")
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
 endif(BIND_JAVA)

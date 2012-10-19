@@ -21,12 +21,14 @@ if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
 # TODO make macro for building JNI lib?
-include_directories(${JNI_INCLUDE_DIRS})
+include_directories(
+  "${BASE_INCLUDE_PATH}"
+  ${JNI_INCLUDE_DIRS}
+)
 add_library(jpoc SHARED laJ_print.c)
-add_dependencies(jpoc javah_lib.alexandira.poc)
+add_dependencies(jpoc javah_lib.alexandria.poc)
 target_link_libraries(jpoc ${JNI_LIBRARIES})
-set_target_properties(
-  jpoc PROPERTIES
+set_target_properties(jpoc PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )

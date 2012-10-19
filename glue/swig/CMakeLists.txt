@@ -13,4 +13,24 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-message(WARNING "SWIG interfaces for libalexandria have yet to be written")
+# Locate SWIG TODO minimum version or components?
+find_package(SWIG REQUIRED)
+# Create a cache entry so user can specify SWIG arguments
+set(CMAKE_SWIG_FLAGS "" CACHE STRING "Extra parameters for SWIG")
+mark_as_advanced(CMAKE_SWIG_FLAGS)
+# Check everythig is kosher before moving on
+if(NOT SWIG_USE_FILE)
+  message(FATAL_ERROR "SWIG could not be configured. Please address or disable USE_SWIG")
+endif(NOT SWIG_USE_FILE)
+include(${SWIG_USE_FILE})
+
+# Locate
+find_package(PythonLibs REQUIRED)
+include_directories(
+  ${PYTHON_INCLUDE_PATH}
+  "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+#set_source_files_properties(la_glue.i PROPERTIES CPLUSPLUS ON)
+#set_source_files_properties(la_glue.i PROPERTIES SWIG_FLAGS "-includeall")
+swig_add_module(glue python la_glue.i ../la_glue.c)
+swig_link_libraries(glue ${PYTHON_LIBRARIES})

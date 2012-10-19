@@ -13,29 +13,42 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY GENERATED TRUE)
-
+# Check that we can use javah
 if(NOT Java_JAVAH_EXECUTABLE)
   message(FATAL_ERROR "Cannot locate javah executable. Please specify or disable Java bindings")
 endif(NOT Java_JAVAH_EXECUTABLE)
 
-# Generate JNI headers TODO FUTURE much neater method
-add_custom_target(javah DEPENDS jpoc
+# Macro to generate JNI headers
+macro(javah JAVA_TARGET JAVA_PACKAGES_WITH_NATIVES)
+add_custom_target(javah_${JAVA_TARGET} DEPENDS ${JAVA_TARGET}
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}"
-    "lib.alexandria.functional.RealParameterizedFunction"
-    "lib.alexandria.functional.kernels.Kernel"
-    "lib.alexandria.functional.wavelets.Wavelet"
-    "lib.alexandria.reinforcement.nn.NativeWorker"
-    "lib.alexandria.proof.POC"
-  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/jpoc.dir"
-  COMMENT "Updating JNI headers..." VERBATIM
-  SOURCES ${JNI_HEADER_FILES}
+    ${JAVA_PACKAGES_WITH_NATIVES}
+  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/${JAVA_TARGET}.dir"
+  COMMENT "Updating JNI headers for ${JAVA_TARGET}..." VERBATIM
 )
+# TODO need SOURCES for generation? pass ${JNI_HEADER_FILES}
+# TODO FUTURE neater method?
+endmacro(javah)
 
+# TODO fix problem where this isn't properly configured
 file(GLOB JNI_HEADER_FILES libalexandria_*.h)
+set_property(SOURCE ${JNI_HEADER_FILES} PROPERTY GENERATED TRUE)
 
+# Generate headers for lib.alexandria
+list(APPEND LAJ_NATIVES "lib.alexandria.functional.RealParameterizedFunction")
+list(APPEND LAJ_NATIVES "lib.alexandria.functional.kernels.Kernel")
+list(APPEND LAJ_NATIVES "lib.alexandria.functional.wavelets.Wavelet")
+list(APPEND LAJ_NATIVES "lib.alexandria.reinforcement.nn.NativeWorker")
+javah(lib.alexandria LAJ_NATIVES)
+
+# Install these (if possible)
 install(
   FILES ${JNI_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria/laJ
   COMPONENT "Java Bindings" OPTIONAL
 )
+
+if(BUILD_TESTING)
+  # Generate headers for lib.alexandria.proof
+  javah(lib.alexandria.poc "lib.alexandria.proof")
+endif(BUILD_TESTING)

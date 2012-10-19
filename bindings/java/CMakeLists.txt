@@ -32,13 +32,11 @@ file(GLOB LAJ_NEURALNETWORK_SOURCES lib/alexandria/reinforcement/nn/*.java)
 file(GLOB LAJ_SAMPLING_SOURCES      lib/alexandria/sampling/*.java)
 file(GLOB LAJ_SUPERVISED_SOURCES    lib/alexandria/supervised/*.java)
 file(GLOB LAJ_UNSUPERVISED_SOURCES  lib/alexandria/unsupervised/*.java)
-file(GLOB LAJ_PROOF_SOURCES         lib/alexandria/proof/*.java)
 
 # Create POC target
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
-set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
-add_jar(jpoc
+add_jar(lib.alexandria
   ${LAJ_SOURCES}
   ${LAJ_FUNCTIONAL_SOURCES}
   ${LAJ_KERNEL_SOURCES}
@@ -49,17 +47,20 @@ add_jar(jpoc
   ${LAJ_SAMPLING_SOURCES}
   ${LAJ_SUPERVISED_SOURCES}
   ${LAJ_UNSUPERVISED_SOURCES}
-  ${LAJ_PROOF_SOURCES}
 )
 # TODO how to add to components? maybe this w/ extra args
-install_jar(jpoc "${CMAKE_INSTALL_PREFIX}/bin/jar")
-install_jni_symlink(jpoc "${CMAKE_INSTALL_PREFIX}/lib")
+install_jar(lib.alexandria "${CMAKE_INSTALL_PREFIX}/bin/jar")
+install_jni_symlink(lib.alexandria "${CMAKE_INSTALL_PREFIX}/lib")
+
+# Make sure native interfaces are built
 add_subdirectory(jni)
 
-# Create Javadoc
+# Create Javadoc TODO make macro and add for jpoc test?
 if(BUILD_JAVADOC)
-  set(JAVA_DOC_TITLE "<version>lib.alexandria.v.${CMAKE_PROJECT_VERSION}</version><br/><pre>What.Is.Your.Intent?</pre>")
-  create_javadoc(jalexandria
+  set(JAVA_DOC_VERSION "<version>lib.alexandria.v.${CMAKE_PROJECT_VERSION}</version>")
+  set(JAVA_DOC_MOTTO "<pre>What.Is.Your.Intent?</pre>")
+  set(JAVA_DOC_TITLE "${JAVA_DOC_VERSION}<br/>${JAVA_DOC_MOTTO}")
+  create_javadoc(lib.alexandria
     PACKAGES lib.alexandria
       lib.alexandria.functional
       lib.alexandria.functional.kernels
@@ -70,7 +71,6 @@ if(BUILD_JAVADOC)
       lib.alexandria.sampling
       lib.alexandria.supervised
       lib.alexandria.unsupervised
-      lib.alexandria.proof
     SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
     CLASSPATH "${CMAKE_JAVA_INCLUDE_PATH}"
     WINDOWTITLE "The Library of Alexandria"

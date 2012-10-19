@@ -27,10 +27,13 @@ import lib.alexandria.functional.kernels.KernelType;
 import lib.alexandria.reinforcement.nn.Cortex;
 import lib.alexandria.supervised.KSVM;
 
-public class POC implements ModelConstants {
-	private static final long seed = System.nanoTime();
+import static lib.alexandria.Generate.reseed;
+
+public class POC {
 	static {
+		final long seed = System.nanoTime();
 		System.loadLibrary("jalexandria");
+		System.loadLibrary("jpoc");
 		Generate.reseed(seed);
 		initialize(seed);
 	}
@@ -61,11 +64,15 @@ public class POC implements ModelConstants {
 		System.out.println("libalexandria -- proof-of-concept active comparisons:");
 		for (LatchedThreadGroup tg : comparisons) {
 			System.out.println("\t" + tg);
+			// int timeout = ModelConstants.DEFAULT_RUN_TIME + ModelConstants.DEFAULT_JOIN_TIME;
+			// TimeUnit units = ModelConstants.DEFAULT_TIME_UNIT;
+			timeout = 100;
+			units = TimeUnit.MILLISECONDS;
 			try {
-				long result = pool.submit(tg).get(DEFAULT_RUN_TIME + DEFAULT_JOIN_TIME, TimeUnit.MILLISECONDS);
+				long result = pool.submit(tg).get(timeout, units);
 				System.out.println("\tAchieved the following result: " + result);
 			} catch (TimeoutException e) {
-				System.err.println("\tDid not complete in the expected time!");
+				System.err.println("\tModel did not complete within: " + timeout + " " + units.toString().toLowerCase());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

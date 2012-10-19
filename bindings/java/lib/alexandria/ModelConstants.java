@@ -16,12 +16,15 @@
  */
 package lib.alexandria;
 
+import java.util.concurrent.TimeUnit;
+
 public interface ModelConstants {
 	int MIN_HTM_DIMENSION = 32;
 	int DEFAULT_HTM_DIMENSION = 32;
 
 	int DEFAULT_RUN_TIME = 10000;
 	int DEFAULT_JOIN_TIME = 1000;
+	TimeUnit DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
 	
 	int DEFAULT_BUFFER_SIZE = 1024;
 	

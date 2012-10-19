@@ -23,10 +23,6 @@ set_target_properties(alexandriam PROPERTIES
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
 
-if(BUILD_TESTING)
-  add_subdirectory(proof)
-endif(BUILD_TESTING)
-
 install(
   TARGETS alexandriam
   ARCHIVE DESTINATION lib

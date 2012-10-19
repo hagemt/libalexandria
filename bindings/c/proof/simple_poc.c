@@ -20,7 +20,7 @@
 int
 main(int argc, char **argv)
 {
-	int argi = 0;
+	register int argi = 1;
 	while (argi < argc) {
 		println(argv[argi]);
 		++argi;

@@ -30,7 +30,5 @@ include_directories(
   ${PYTHON_INCLUDE_PATH}
   "${CMAKE_CURRENT_SOURCE_DIR}"
 )
-#set_source_files_properties(la_glue.i PROPERTIES CPLUSPLUS ON)
-#set_source_files_properties(la_glue.i PROPERTIES SWIG_FLAGS "-includeall")
-swig_add_module(glue python la_glue.i ../la_glue.c)
-swig_link_libraries(glue ${PYTHON_LIBRARIES})
+swig_add_module(la_glue python la_glue.i ../la_glue.c)
+swig_link_libraries(la_glue ${PYTHON_LIBRARIES})

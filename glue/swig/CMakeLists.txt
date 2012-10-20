@@ -24,11 +24,12 @@ if(NOT SWIG_USE_FILE)
 endif(NOT SWIG_USE_FILE)
 include(${SWIG_USE_FILE})
 
-# Locate
+# Locate necessary python libs
 find_package(PythonLibs REQUIRED)
 include_directories(
   ${PYTHON_INCLUDE_PATH}
   "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 swig_add_module(la_glue python la_glue.i ../la_glue.c)
-swig_link_libraries(la_glue ${PYTHON_LIBRARIES})
+swig_link_libraries(la_glue calg ${PYTHON_LIBRARIES})
+# TODO install _la_glue.so and la_glue.py file

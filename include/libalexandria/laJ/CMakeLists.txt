@@ -38,6 +38,7 @@ javah(lib.alexandria
   "lib.alexandria.functional.RealParameterizedFunction"
   "lib.alexandria.functional.kernels.Kernel"
   "lib.alexandria.functional.wavelets.Wavelet"
+  "lib.alexandria.pipeline.Aqueduct"
   "lib.alexandria.reinforcement.nn.NativeWorker"
 )
 

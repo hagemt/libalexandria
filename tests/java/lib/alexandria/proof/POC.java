@@ -16,25 +16,30 @@
  */
 package lib.alexandria.proof;
 
+import java.io.IOException;
+
 import java.util.LinkedList;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import lib.alexandria.Generate;
-import lib.alexandria.ModelConstants;
-import lib.alexandria.functional.kernels.KernelType;
+import static lib.alexandria.Generate.reseed;
+import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
+import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
+import static lib.alexandria.ModelConstants.DEFAULT_TIME_UNIT;
+
 import lib.alexandria.reinforcement.nn.Cortex;
+
+import lib.alexandria.functional.kernels.KernelType;
 import lib.alexandria.supervised.KSVM;
 
-import static lib.alexandria.Generate.reseed;
-
 public class POC {
+	private static final long seed;
 	static {
-		final long seed = System.nanoTime();
 		System.loadLibrary("jalexandria");
 		System.loadLibrary("jpoc");
-		Generate.reseed(seed);
+		reseed(seed = System.nanoTime());
 		initialize(seed);
 	}
 
@@ -49,10 +54,11 @@ public class POC {
 			for (String s : args) {
 				POC.println(s);
 			}
+			/* Cleanup */
 			finalize(seed);
 			return;
 		}
-		// Hell yeah threads!
+		// Hell yeah threads! (provided we got no args)
 		int proc_count = Runtime.getRuntime().availableProcessors();
 		System.out.println("libalexandria -- proof-of-concept sees " + proc_count + " processors...");
 		ExecutorService pool = java.util.concurrent.Executors.newFixedThreadPool(proc_count);
@@ -64,10 +70,8 @@ public class POC {
 		System.out.println("libalexandria -- proof-of-concept active comparisons:");
 		for (LatchedThreadGroup tg : comparisons) {
 			System.out.println("\t" + tg);
-			// int timeout = ModelConstants.DEFAULT_RUN_TIME + ModelConstants.DEFAULT_JOIN_TIME;
-			// TimeUnit units = ModelConstants.DEFAULT_TIME_UNIT;
-			timeout = 100;
-			units = TimeUnit.MILLISECONDS;
+			int timeout = DEFAULT_RUN_TIME + DEFAULT_JOIN_TIME;
+			TimeUnit units = DEFAULT_TIME_UNIT;
 			try {
 				long result = pool.submit(tg).get(timeout, units);
 				System.out.println("\tAchieved the following result: " + result);
@@ -77,10 +81,20 @@ public class POC {
 				e.printStackTrace();
 			}
 		}
+		/* Benchmark all the kernels */
 		for (KernelType t : KernelType.values()) {
 			KSVM s = new KSVM(t.toString(), t);
+			System.err.println("*** BEGIN KSVM('" + s.getLabel() + "').benchmark() ***");
 			s.benchmark();
+			try {
+				s.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				System.err.println("*** END KSVM('" + s.getLabel() + "').benchmark() ***");
+			}
 		}
+		/* Cleanup */
 		pool.shutdown();
 		finalize(seed);
 	}

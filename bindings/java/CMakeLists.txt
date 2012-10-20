@@ -26,7 +26,9 @@ file(GLOB LAJ_SOURCES               lib/alexandria/*.java)
 file(GLOB LAJ_FUNCTIONAL_SOURCES    lib/alexandria/functional/*.java)
 file(GLOB LAJ_KERNELS_SOURCES       lib/alexandria/functional/kernels/*.java)
 file(GLOB LAJ_PARAMS_SOURCES        lib/alexandria/functional/params/*.java)
+file(GLOB LAJ_SIGMOID_SOURCES       lib/alexandria/functional/sigmoid/*.java)
 file(GLOB LAJ_WAVELETS_SOURCES      lib/alexandria/functional/wavelets/*.java)
+file(GLOB LAJ_PIPELINE_SOURCES      lib/alexandria/pipeline/*.java)
 file(GLOB LAJ_REINFORCEMENT_SOURCES lib/alexandria/reinforcement/*.java)
 file(GLOB LAJ_NEURALNETWORK_SOURCES lib/alexandria/reinforcement/nn/*.java)
 file(GLOB LAJ_SAMPLING_SOURCES      lib/alexandria/sampling/*.java)
@@ -41,7 +43,9 @@ add_jar(lib.alexandria
   ${LAJ_FUNCTIONAL_SOURCES}
   ${LAJ_KERNEL_SOURCES}
   ${LAJ_PARAMS_SOURCES}
+  ${LAJ_SIGMOID_SOURCES}
   ${LAJ_WAVELETS_SOURCES}
+  ${LAJ_PIPELINE_SOURCES}
   ${LAJ_REINFORCEMENT_SOURCES}
   ${LAJ_NEURALNETWORK_SOURCES}
   ${LAJ_SAMPLING_SOURCES}
@@ -57,7 +61,7 @@ add_subdirectory(jni)
 
 # Create Javadoc TODO make macro and add for jpoc test?
 if(BUILD_JAVADOC)
-  set(JAVA_DOC_VERSION "<version>lib.alexandria.v.${CMAKE_PROJECT_VERSION}</version>")
+  set(JAVA_DOC_VERSION "<version>lib.alexandria.v${CMAKE_PROJECT_VERSION}</version>")
   set(JAVA_DOC_MOTTO "<pre>What.Is.Your.Intent?</pre>")
   set(JAVA_DOC_TITLE "${JAVA_DOC_VERSION}<br/>${JAVA_DOC_MOTTO}")
   create_javadoc(lib.alexandria
@@ -65,7 +69,9 @@ if(BUILD_JAVADOC)
       lib.alexandria.functional
       lib.alexandria.functional.kernels
       lib.alexandria.functional.params
+      lib.alexandria.functional.sigmoid
       lib.alexandria.functional.wavelets
+      lib.alexandria.pipeline
       lib.alexandria.reinforcement
       lib.alexandria.reinforcement.nn
       lib.alexandria.sampling

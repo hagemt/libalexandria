@@ -19,13 +19,13 @@
 #include "libalexandria.h"
 
 /*
- * Class:     lib_alexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    alloc
  * Signature: ()Ljava/nio/ByteBuffer;
  */
 JNIEXPORT jobject JNICALL
-Java_lib_alexandria_functional_RealParameterizedFunction_alloc
-	(JNIEnv *env, jobject obj)
+Java_lib_alexandria_pipeline_Aqueduct_alloc
+	(JNIEnv *env, jclass cls)
 {
 	struct la_buffer_table_value_t *value;
 	if (!la_buffer_table) {
@@ -33,13 +33,13 @@ Java_lib_alexandria_functional_RealParameterizedFunction_alloc
 		return NULL;
 	}
 	#ifndef NDEBUG
-	fprintf(stderr, "[debug] requesting native array for %p\n", obj);
+	fprintf(stderr, "[debug] requesting native array for %p\n", cls);
 	#endif
-	HashTableValue v = hash_table_lookup(la_buffer_table, obj);
+	HashTableValue v = hash_table_lookup(la_buffer_table, cls);
 	if (v != HASH_TABLE_NULL) {
 		value = (struct la_buffer_table_value_t *)(v);
 		#ifndef NDEBUG
-		fprintf(stderr, "[debug] found previous native array for %p at %p\n", obj, value->buffer);
+		fprintf(stderr, "[debug] found previous native array for %p at %p\n", cls, value->buffer);
 		#endif
 	} else {
 		/* Create a new entry only if necessary */
@@ -48,24 +48,24 @@ Java_lib_alexandria_functional_RealParameterizedFunction_alloc
 		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
 		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
 		#ifndef NDEBUG
-		fprintf(stderr, "[debug] created new native array for %p at %p\n", obj, value->buffer);
+		fprintf(stderr, "[debug] created new native array for %p at %p\n", cls, value->buffer);
 		#endif
-		hash_table_insert(la_buffer_table, obj, value);
+		hash_table_insert(la_buffer_table, cls, value);
 	}
 	assert(value && value->handle);
 	#ifndef NDEBUG
-	fprintf(stderr, "[debug] returning native array for %p in object %p\n", obj, value->handle);
+	fprintf(stderr, "[debug] returning native array for %p in object %p\n", cls, value->handle);
 	#endif
 	return value->handle;
 }
 
 /*
- * Class:     lib_alexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    free
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_functional_RealParameterizedFunction_free
+Java_lib_alexandria_pipeline_Aqueduct_free
 	(JNIEnv *env, jobject obj)
 {
 	if (!la_buffer_table) {

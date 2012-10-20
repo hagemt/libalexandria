@@ -9,8 +9,11 @@ In order to use Eclipse for libalexandria Android development:
 Here are some Android CMake installation notes;
 the process is adapted from the android-cmake project:
 
-We recomment running the following command in ./glue:
-$ hg clone https://code.google.com/p/android-cmake/
+A fork android-cmake project is included as a submodule from:
+http://gitorious.org/android-cmake/android-cmake
+The android-cmake project is Mercurial managed, so
+you can also run the following command in ./glue:
+$ hg clone https://code.google.com/p/android-cmake
 
 # This should match your app's project.properties
 export ANDROID_PLATFORM=android-8

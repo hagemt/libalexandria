@@ -14,9 +14,11 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional;
+package lib.alexandria.functional.sigmoid;
 
-public enum SigmoidType {
+import lib.alexandria.Generate;
+
+public enum SigmoidType implements Generate.A<SigmoidFunction> {
 	/**
 	 * Counts as a sigmoid function, with kinks?
 	 * Would need argument for x-location.
@@ -47,7 +49,39 @@ public enum SigmoidType {
 	 */
 	LOGISTIC,
 	/* Well-defined mathematical functions */
-	ATAN, TANH, ERF,
-	/* e.g. x/sqrt(1+x^2) */
+	/**
+	 * A well-defined mathematical function, arc-tangent.
+	 */
+	ATAN,
+	/**
+	 * A well-defined mathematical function, hyperbolic tangent.
+	 */
+	TANH,
+	/**
+	 * A well-defined mathematical function, the error function.
+	 */
+	ERF,
+	/**
+	 * A monotonically-non-decreasing algebraic function.
+	 * e.g. x / sqrt(c + x^2) where c \in R
+	 */
 	ALGEBRAIC;
+
+	@Override
+	public boolean knows(String label) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public SigmoidFunction knownAs(String label) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SigmoidFunction getDefault() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

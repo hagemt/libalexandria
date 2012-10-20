@@ -16,6 +16,9 @@
  */
 package lib.alexandria;
 
+import static java.lang.StrictMath.round;
+import static java.lang.StrictMath.sqrt;
+
 /**
  * Encapsulates the concept of a complex (imaginary) number
  * @author Tor E Hagemann <hagemt@rpi.edu>
@@ -42,7 +45,7 @@ public final strictfp class ComplexNumber extends Number {
 	}
 	
 	private double normalized() {
-		return StrictMath.sqrt(a * a + b * b);
+		return sqrt(a * a + b * b);
 	}
 
 	@Override
@@ -57,12 +60,12 @@ public final strictfp class ComplexNumber extends Number {
 
 	@Override
 	public int intValue() {
-		return StrictMath.round(this.floatValue());
+		return round(this.floatValue());
 	}
 
 	@Override
 	public long longValue() {
-		return StrictMath.round(this.doubleValue());
+		return round(this.doubleValue());
 	}
 
 	@Override

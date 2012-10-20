@@ -45,12 +45,10 @@ public class KSVM extends SupportVectorMachine {
 	@Override
 	public void benchmark() {
 		kernel.benchmark();
-		try {
-			kernel.close();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			System.err.println("Closed kernel " + kernel.getLabel() + " for " + this.getLabel());
-		}
+	}
+	
+	@Override
+	public void close() throws IOException {
+		kernel.close();
 	}
 }

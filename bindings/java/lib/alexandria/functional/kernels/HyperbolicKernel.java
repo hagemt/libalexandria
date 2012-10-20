@@ -16,7 +16,7 @@
  */
 package lib.alexandria.functional.kernels;
 
-import lib.alexandria.ModelConstants.Some;
+import static lib.alexandria.Generate.Some;
 
 /**
  * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)

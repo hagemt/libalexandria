@@ -16,15 +16,28 @@
  */
 package lib.alexandria;
 
+import java.io.Closeable;
+
 /**
  * Allows certain types to provide mechanisms to produce performance data
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public interface Profileable {
+public interface Profileable extends Closeable {
 	/**
 	 * Runs code that tests computationally-intensive functions
 	 * Typically, this is done with native code through the JNI
 	 */
-	public void benchmark();
+	void benchmark();
+
+	/**
+	 * Provides extra type information for the profiler. This is beyond an object's traditional "type."
+	 * Enumerated types are commonly used within classes to specify a "flavor" for an object.
+	 * This way, type (or "flavor") information provided by a class is retrievable in a portable way.
+	 * @param category Specifies the type of "flavor" information requested
+	 * @return a "flavor" by which a profiler can identify this object
+	 * @throws ClassCastException if a matching "flavor" cannot be found
+	 * @see lib.alexandria.ModelConstants.ModelType
+	 */
+	<E extends Enum<E>> E getType(Class<E> category) throws ClassCastException;
 }

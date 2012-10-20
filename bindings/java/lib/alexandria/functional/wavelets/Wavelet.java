@@ -16,16 +16,14 @@
  */
 package lib.alexandria.functional.wavelets;
 
-import lib.alexandria.ModelConstants;
 import lib.alexandria.functional.RealParameterizedFunction;
-
 
 /**
  * Describes an orthogonal function (group)
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class Wavelet extends RealParameterizedFunction<Double> implements ModelConstants.For<WaveletType> {
+public class Wavelet extends RealParameterizedFunction<Double> {
 	private final WaveletType type;
 	
 	protected Wavelet(WaveletType type) {
@@ -38,11 +36,6 @@ public class Wavelet extends RealParameterizedFunction<Double> implements ModelC
 	}
 
 	@Override
-	public WaveletType getType() {
-		return type;
-	}
-
-	@Override
 	public int getArity() {
 		return 1;
 	}
@@ -52,4 +45,9 @@ public class Wavelet extends RealParameterizedFunction<Double> implements ModelC
 
 	@Override
 	public native void benchmark();
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
+	}
 }

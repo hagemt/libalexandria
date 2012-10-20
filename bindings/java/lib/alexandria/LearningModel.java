@@ -16,14 +16,14 @@
  */
 package lib.alexandria;
 
-import lib.alexandria.ModelConstants.ModelType;
+import static lib.alexandria.ModelConstants.ModelType;
 
 /**
  * 
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LearningModel extends LabelledEntity implements ModelConstants.For<ModelType>, Profileable {
+public abstract class LearningModel extends LabelledEntity implements Profileable {
 	/**
 	 * Represents the mechanism of this model's operation
 	 */
@@ -33,6 +33,10 @@ public abstract class LearningModel extends LabelledEntity implements ModelConst
 	 * Represents whether or not this model can operate online
 	 */
 	protected final boolean online;
+	
+	protected LearningModel(ModelType type) {
+		this(type, type.toString());
+	}
 
 	protected LearningModel(ModelType type, String label) {
 		this(type, label, false);
@@ -44,11 +48,12 @@ public abstract class LearningModel extends LabelledEntity implements ModelConst
 		this.online = online;
 	}
 
-	public ModelType getType() {
-		return type;
-	}
-
 	public boolean isOnline() {
 		return online;
+	}
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
 	}
 }

@@ -24,9 +24,11 @@
  * Signature: ([B[B)V
  */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_reinforcement_nn_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
+Java_lib_alexandria_reinforcement_nn_NativeWorker_operate
+	(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
 {
-	jint i, len1, len2;
+	register jint i;
+	jint len1, len2;
 	jbyte *a1, *a2;
 	/* Fetch the arrays from java */
 	len1 = (*env)->GetArrayLength(env, arr1);

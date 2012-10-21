@@ -29,33 +29,27 @@ Java_lib_alexandria_pipeline_Aqueduct_alloc
 {
 	struct la_buffer_table_value_t *value;
 	if (!la_buffer_table) {
-		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
+		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return NULL;
 	}
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] requesting native array for %p\n", cls);
-	#endif
+
+	LOGD("%p (requested native array)", (void *)(cls));
 	HashTableValue v = hash_table_lookup(la_buffer_table, cls);
 	if (v != HASH_TABLE_NULL) {
 		value = (struct la_buffer_table_value_t *)(v);
-		#ifndef NDEBUG
-		fprintf(stderr, "[debug] found previous native array for %p at %p\n", cls, value->buffer);
-		#endif
+		LOGD("%p (using existing native array: %p)", (void *)(cls), (void *)(value->buffer));
 	} else {
 		/* Create a new entry only if necessary */
 		value = malloc(sizeof(struct la_buffer_table_value_t));
 		value->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
 		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
 		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
-		#ifndef NDEBUG
-		fprintf(stderr, "[debug] created new native array for %p at %p\n", cls, value->buffer);
-		#endif
 		hash_table_insert(la_buffer_table, cls, value);
+		LOGD("%p (!!! allocated new native array: %p)", (void *)(cls), (void *)(value->buffer));
 	}
+
 	assert(value && value->handle);
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] returning native array for %p in object %p\n", cls, value->handle);
-	#endif
+	LOGD("%p (returning native array: %p)", (void *)(cls), (void *)(value->handle));
 	return value->handle;
 }
 
@@ -69,14 +63,11 @@ Java_lib_alexandria_pipeline_Aqueduct_free
 	(JNIEnv *env, jobject obj)
 {
 	if (!la_buffer_table) {
-		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
+		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return;
 	}
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] can we remove %p? answer: ", obj);
-	#endif
+
 	int result = hash_table_remove(la_buffer_table, obj);
-	#ifndef NDEBUG
-	fprintf(stderr, "%i\n", result);
-	#endif
+	LOGD("%p (!!! result of removal: %i)", (void *)(obj), result);
+	assert(result == 0);
 }

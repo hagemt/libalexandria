@@ -20,6 +20,7 @@ file(GLOB LAJ_KERNELS_SOURCES       lib/alexandria/functional/kernels/*.java)
 file(GLOB LAJ_PARAMS_SOURCES        lib/alexandria/functional/params/*.java)
 file(GLOB LAJ_SIGMOID_SOURCES       lib/alexandria/functional/sigmoid/*.java)
 file(GLOB LAJ_WAVELETS_SOURCES      lib/alexandria/functional/wavelets/*.java)
+file(GLOB LAJ_LOGGING_SOURCES       lib/alexandria/logging/*.java)
 file(GLOB LAJ_PIPELINE_SOURCES      lib/alexandria/pipeline/*.java)
 file(GLOB LAJ_REINFORCEMENT_SOURCES lib/alexandria/reinforcement/*.java)
 file(GLOB LAJ_NEURALNETWORK_SOURCES lib/alexandria/reinforcement/nn/*.java)
@@ -37,6 +38,7 @@ add_jar(lib.alexandria
   ${LAJ_PARAMS_SOURCES}
   ${LAJ_SIGMOID_SOURCES}
   ${LAJ_WAVELETS_SOURCES}
+  ${LAJ_LOGGING_SOURCES}
   ${LAJ_PIPELINE_SOURCES}
   ${LAJ_REINFORCEMENT_SOURCES}
   ${LAJ_NEURALNETWORK_SOURCES}
@@ -63,6 +65,7 @@ if(BUILD_JAVADOC)
       lib.alexandria.functional.params
       lib.alexandria.functional.sigmoid
       lib.alexandria.functional.wavelets
+      lib.alexandria.logging
       lib.alexandria.pipeline
       lib.alexandria.reinforcement
       lib.alexandria.reinforcement.nn

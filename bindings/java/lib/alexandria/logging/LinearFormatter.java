@@ -14,14 +14,22 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria;
+package lib.alexandria.logging;
 
-/**
- * Designed as a basic log interface for lib.alexandria
- * @author Tor E Hagemann <hagemt@rpi.edu>
- * @since libalexandria v0.1
- */
-public interface Log {
-	void i(LabelledEntity le, String msg);
-	void w(LabelledEntity le, String msg);
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
+
+public class LinearFormatter extends SimpleFormatter {
+	private final String prefix;
+	
+	public LinearFormatter(String prefix) {
+		this.prefix = prefix;
+	}
+
+	@Override
+	public String format(LogRecord r) {
+		LogRecord s = new LogRecord(r.getLevel(), r.getMessage());
+		s.setSourceClassName(prefix);
+		return super.format(s);
+	}
 }

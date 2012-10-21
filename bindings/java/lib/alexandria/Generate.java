@@ -17,13 +17,16 @@
 package lib.alexandria;
 
 import java.util.Random;
-
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import static lib.alexandria.ModelConstants.LA_FQN;
 import static lib.alexandria.ModelConstants.LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
 import static lib.alexandria.ModelConstants.DEFAULT_SEED;
+
+import lib.alexandria.logging.FormatType;
+import lib.alexandria.logging.Log;
+import lib.alexandria.logging.MessageLogger;
 
 /**
  * Provides static methods to generate some standard entities, like labels.
@@ -33,39 +36,26 @@ import static lib.alexandria.ModelConstants.DEFAULT_SEED;
  */
 public class Generate {
 	/**
-	 * The default source of randomness
+	 * The default source of randomness.
+	 * @see java.util.Random
 	 */
 	protected static final Random source;
 
 	/**
-	 * The default log stream
+	 * The default log manager.
+	 * @see lib.alexandria.logging.Log
 	 */
 	public static final Log LOG;
 
 	static {
 		source = new Random(DEFAULT_SEED);
 		LOG = new MessageLogger(LA_FQN);
+		LOG.toConsole(Level.OFF);
+		LOG.toFilename(LA_FQN + ".txt", FormatType.PLAIN);
+		LOG.toFilename(LA_FQN + ".log", FormatType.DOUBLE);
+		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
 
-	/**
-	 * A facility for logging messages.
-	 * @author Tor E Hagemann <hagemt@rpi.edu>
-	 * @see lib.alexandria.Log
-	 */
-	protected static final class MessageLogger extends Logger implements Log {
-		MessageLogger(String name) {
-			super(name, null);
-		}
-		@Override
-		public void i(LabelledEntity le, String msg) {
-			super.info("[" + le.getLabel() + "] (" + msg + ")");
-		}
-		@Override
-		public void w(LabelledEntity le, String msg) {
-			super.warning("[" + le.getLabel() + "] (" + msg + ")");
-		}
-	};
-	
 	/* Templators */
 	
 	/**
@@ -118,6 +108,10 @@ public class Generate {
 	
 	/* Generators */
 
+	static <E> E randomElement(E... elements) {
+		return elements[source.nextInt(elements.length - 1)];
+	}
+
 	/**
 	 * Generate a random label of the default length.
 	 * @return a textual label with
@@ -129,10 +123,6 @@ public class Generate {
 	
 	public static int randomInteger(int max) {
 		return source.nextInt(max);
-	}
-	
-	static <E> E randomElement(E... elements) {
-		return elements[source.nextInt(elements.length - 1)];
 	}
 	
 	public static String randomLabel(int words) {

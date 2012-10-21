@@ -17,6 +17,9 @@
 package lib.alexandria;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Formatter;
+
+import lib.alexandria.logging.LinearFormatter;
 
 /**
  * Standard or shared constants for Java bindings go here.
@@ -97,6 +100,13 @@ public final class ModelConstants {
 	public static final String[] LABEL_POOL;
 	
 	/**
+	 * A logging constant specifying the default log format.
+	 * Its standard value is a simple one-line plain-text format.
+	 * @see lib.alexandria.logging.LinearFormatter
+	 */
+	public static final Formatter DEFAULT_LOG_FORMAT;
+	
+	/**
 	 * Give constants the default values.
 	 */
 	static {
@@ -113,6 +123,7 @@ public final class ModelConstants {
 		DEFAULT_SEED = System.nanoTime();
 		LA_PREFIX = "laJ";
 		LA_FQN = "lib.alexandria";
+		DEFAULT_LOG_FORMAT = new LinearFormatter(LA_PREFIX);
 		LABEL_POOL = new String[] {
 				"Alpha",
 				"Bravo",

@@ -18,10 +18,10 @@ package lib.alexandria.reinforcement.nn;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
 
 import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.randomInteger;
+
 import lib.alexandria.LabelledEntity;
 
 public abstract class Worker extends LabelledEntity implements Runnable {

@@ -27,7 +27,10 @@ include_directories(
 )
 add_library(jpoc SHARED laJ_print.c)
 add_dependencies(jpoc javah_lib.alexandria.poc)
-target_link_libraries(jpoc ${JNI_LIBRARIES})
+target_link_libraries(jpoc
+  jalexandria
+  ${JNI_LIBRARIES}
+)
 set_target_properties(jpoc PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

@@ -18,21 +18,53 @@ package lib.alexandria;
 
 import java.util.Random;
 
+import java.util.logging.Logger;
+
+import static lib.alexandria.ModelConstants.LA_FQN;
 import static lib.alexandria.ModelConstants.LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.ModelConstants.DEFAULT_SEED;
 
 /**
  * Provides static methods to generate some standard entities, like labels.
- * Other utilities 
+ * Other utilities are also provided, but only public members are in the API.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
 public class Generate {
-	private static final Random source;
-	
+	/**
+	 * The default source of randomness
+	 */
+	protected static final Random source;
+
+	/**
+	 * The default log stream
+	 */
+	public static final Log LOG;
+
 	static {
-		source = new Random();
+		source = new Random(DEFAULT_SEED);
+		LOG = new MessageLogger(LA_FQN);
 	}
+
+	/**
+	 * A facility for logging messages.
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @see lib.alexandria.Log
+	 */
+	protected static final class MessageLogger extends Logger implements Log {
+		MessageLogger(String name) {
+			super(name, null);
+		}
+		@Override
+		public void i(LabelledEntity le, String msg) {
+			super.info("[" + le.getLabel() + "] (" + msg + ")");
+		}
+		@Override
+		public void w(LabelledEntity le, String msg) {
+			super.warning("[" + le.getLabel() + "] (" + msg + ")");
+		}
+	};
 	
 	/* Templators */
 	
@@ -95,7 +127,11 @@ public class Generate {
 		return randomLabel(DEFAULT_LABEL_LENGTH);
 	}
 	
-	public static <E> E randomElement(E... elements) {
+	public static int randomInteger(int max) {
+		return source.nextInt(max);
+	}
+	
+	static <E> E randomElement(E... elements) {
 		return elements[source.nextInt(elements.length - 1)];
 	}
 	

@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+import static lib.alexandria.Generate.LOG;
 import lib.alexandria.functional.params.ParameterMap;
 import lib.alexandria.pipeline.Aqueduct;
 
@@ -45,7 +46,7 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	private void initialize(ByteBuffer b) throws IOException {
 		buffer = (b == null) ? Aqueduct.alloc() : b;
 		assert(buffer.isDirect());
-		System.err.println("Established buffer for " + this.getLabel());
+		LOG.i(this, "buffer established");
 		pipe = new Aqueduct<N, Double>(getArity(), buffer);
 	}
 	

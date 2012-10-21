@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import lib.alexandria.LearningModel;
+import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION;
 import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
 import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
@@ -60,24 +61,22 @@ public class Cortex extends LearningModel {
 		return columns.length;
 	}
 	
-	public void learn() {
-		worker.start();
-	}
-	
-	public void halt(long wait) throws InterruptedException {
-		worker.interrupt();
-		worker.join(wait);
+	private void halt(long wait) throws InterruptedException {
+		if (worker != null && worker.isAlive()) {
+			worker.interrupt();
+			worker.join(wait);
+		}
 	}
 
 	@Override
 	public void benchmark() {
-		System.out.println("[" + this.getLabel() + "] cortex is learning...");
+		LOG.i(this, "cortex is learning");
 		try {
-			this.learn();
+			worker.start();
 			Thread.sleep(DEFAULT_RUN_TIME);
-			this.halt(DEFAULT_JOIN_TIME);
+			halt(DEFAULT_JOIN_TIME);
 		} catch (Exception e) {
-			System.err.println("[" + this.getLabel() + "] cortex failed!");
+			LOG.w(this, "cortex learning failed");
 			e.printStackTrace();
 		}
 	}
@@ -85,7 +84,7 @@ public class Cortex extends LearningModel {
 	@Override
 	public void close() throws IOException {
 		try {
-			this.halt(DEFAULT_JOIN_TIME);
+			halt(DEFAULT_JOIN_TIME);
 		} catch (InterruptedException ie) {
 			throw new IOException(ie);
 		}

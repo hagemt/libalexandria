@@ -73,10 +73,22 @@ public final class ModelConstants {
 	public static final int DEFAULT_LABEL_LENGTH;
 
 	/**
-	 * A global constant specifying a prefix.
-	 * Its standard value is: "laJ" (from project spec)
+	 * A global constant specifying the default seed.
+	 * Its standard value is defined by System.nanoTime()
+	 */
+	public static final long DEFAULT_SEED;
+
+	/**
+	 * A global constant specifying the library's prefix.
+	 * Its standard value is: "laJ" (as per spec)
 	 */
 	public static final String LA_PREFIX;
+
+	/**
+	 * A global constant specifying the library's fully qualified name.
+	 * Its standard value is: "lib.alexandria" (matches package name)
+	 */
+	public static final String LA_FQN;
 	
 	/**
 	 * A global constant specifying an array of label components.
@@ -98,7 +110,9 @@ public final class ModelConstants {
 		/* Global constants*/
 		DEFAULT_BUFFER_SIZE = 1024;
 		DEFAULT_LABEL_LENGTH = 3;
+		DEFAULT_SEED = System.nanoTime();
 		LA_PREFIX = "laJ";
+		LA_FQN = "lib.alexandria";
 		LABEL_POOL = new String[] {
 				"Alpha",
 				"Bravo",

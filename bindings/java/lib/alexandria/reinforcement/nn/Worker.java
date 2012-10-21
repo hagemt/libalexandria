@@ -20,25 +20,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 
+import static lib.alexandria.Generate.LOG;
+import static lib.alexandria.Generate.randomInteger;
 import lib.alexandria.LabelledEntity;
 
 public abstract class Worker extends LabelledEntity implements Runnable {
 	private InputStream input;
 	protected byte[] data;
-	protected Cortex cortex;
 	
 	public Worker(Cortex cortex) {
 		super(cortex.getLabel() + "-worker");
-		this.cortex = cortex;
 		/* Flatten the columns */
-		int size = this.cortex.getDimension();
-		this.data = new byte[size * size];
+		int dim = cortex.getDimension();
+		this.data = new byte[dim * dim];
 		/* Provide a general source of input */
 		this.input = new InputStream() {
-			private Random source = new Random();
 			@Override
 			public int read() throws IOException {
-				return source.nextInt();
+				return randomInteger(0xFF);
 			}
 		};
 	}
@@ -51,6 +50,7 @@ public abstract class Worker extends LabelledEntity implements Runnable {
 		long iterations = 0;
 		byte[] next = new byte[data.length];
 		try {
+			/* This should run forever, uninterrupted */
 			while (input.read(next) == next.length) {
 				if (Thread.interrupted()) {
 					break;
@@ -61,7 +61,7 @@ public abstract class Worker extends LabelledEntity implements Runnable {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
-			System.err.println("[thread: " + this.getLabel() + "] has completed " + iterations + " iterations...");
+			LOG.i(this, "thread completed " + iterations + " iterations");
 		}
 	}
 }

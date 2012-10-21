@@ -6,7 +6,7 @@ import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Label implements CharSequence {
+public class Label extends LabelledEntity implements CharSequence {
 	protected final CharSequence chars, buffer;
 	
 	private final static Map<Character, String> quick;
@@ -33,6 +33,10 @@ public class Label implements CharSequence {
 	
 	public Label(int length) {
 		this(code(length));
+	}
+
+	public Label(String s) {
+		this(s.toUpperCase().toCharArray());
 	}
 	
 	private Label(char... entries) {

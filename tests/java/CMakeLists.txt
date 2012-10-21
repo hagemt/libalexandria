@@ -13,14 +13,6 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Make sure we can build and run Java code
-find_package(Java 1.6 COMPONENTS Development Runtime)
-if(Java_Development_FOUND)
-  include(UseJava)
-else(Java_Development_FOUND)
-  message(FATAL_ERROR "Unable to find Java! Cannot perform Java tests!")
-endif(Java_Development_FOUND)
-
 # Build Java proof-of-concept
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
@@ -37,18 +29,18 @@ if(USE_ANDROID)
 endif(USE_ANDROID)
 
 # Setup the library path, which all texts will need at run-time
-#set(JAVA_CLASS_PATH ${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar)
-set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
-mark_as_advanced(JAVA_LIBRARY_PATH)
+set(LA_JAVA_CLASS_PATH ${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
+set(LA_JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
+mark_as_advanced(LA_JAVA_CLASS_PATH LA_JAVA_LIBRARY_PATH)
 
 # Make it easy to add a variety of Java tests
 macro(add_java_test TEST_NAME JAR_FILE)
   add_test(${TEST_NAME}
-    "${Java_JAVA_EXECUTABLE}"
-    -Djava.library.path=${JAVA_LIBRARY_PATH}
+    "${Java_JAVA_EXECUTABLE}" -verbose
+    -classpath "${LA_JAVA_CLASS_PATH}"
+    -Djava.library.path=${LA_JAVA_LIBRARY_PATH}
     -jar "${JAVA_POC_PATH}" ${ARGN})
-endmacro(add_java_test )
-    #    -cp ${JAVA_CLASS_PATH}
+endmacro(add_java_test)
 
 # Proof-of-concept test(s)
 set(JAVA_POC_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.poc.jar")

@@ -42,7 +42,7 @@ set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
 include("${CMAKE_SOURCE_DIR}/user.CMakeCache.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
-add_definitions(-DLOG_TAG=${PROJECT_LOG_TAG})
+add_definitions(-DLA_LOG_TAG=${PROJECT_LOG_TAG})
 
 ### Configuration
 
@@ -65,6 +65,22 @@ add_subdirectory(dev)
 
 ## Requirements for Java bindings
 if(BIND_JAVA)
+  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum version for Java")
+  mark_as_advanced(JAVA_VERSION_MINIMUM)
+  # Setup to compile Java sources
+  find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Development)
+  if(NOT Java_Development_FOUND)
+    message(FATAL_ERROR "Unable to find Java development kit!")
+  endif(NOT Java_Development_FOUND)
+  # And run them, if necessary
+  if(BUILD_TESTING)
+    find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Runtime)
+    if(NOT Java_Runtime_FOUND)
+      message(FATAL_ERROR "Unable to find Java runtime environment!")
+    endif(NOT Java_Runtime_FOUND)
+  endif(BUILD_TESTING)
+  # Set up the necessary tools
+  include(UseJava)
   # Set some arguments for Java for safe building
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
   set(CMAKE_JAVA_INCLUDE_PATH "$ENV{CLASSPATH}")

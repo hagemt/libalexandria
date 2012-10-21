@@ -13,14 +13,6 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Setup to compile Java sources
-find_package(Java 1.6 COMPONENTS Development)
-if(Java_Development_FOUND)
-  include(UseJava)
-else(Java_Development_FOUND)
-  message(FATAL_ERROR "Unable to find Java development kit!")
-endif(Java_Development_FOUND)
-
 # Glob Java sources, FIXME dunno if I like this... but GLOB_RECURSE?
 file(GLOB LAJ_SOURCES               lib/alexandria/*.java)
 file(GLOB LAJ_FUNCTIONAL_SOURCES    lib/alexandria/functional/*.java)

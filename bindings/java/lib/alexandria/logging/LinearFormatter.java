@@ -16,10 +16,15 @@
  */
 package lib.alexandria.logging;
 
+import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
-import java.util.logging.SimpleFormatter;
 
-public class LinearFormatter extends SimpleFormatter {
+public class LinearFormatter extends Formatter {
+	private static final String endl;
+	static {
+		endl = System.getProperty("line.separator", "\n");
+	}
+	
 	private final String prefix;
 	
 	public LinearFormatter(String prefix) {
@@ -27,9 +32,8 @@ public class LinearFormatter extends SimpleFormatter {
 	}
 
 	@Override
-	public String format(LogRecord r) {
-		LogRecord s = new LogRecord(r.getLevel(), r.getMessage());
-		s.setSourceClassName(prefix);
-		return super.format(s);
+	public String format(LogRecord record) {
+		record.setSourceClassName(prefix);
+		return formatMessage(record) + endl;
 	}
 }

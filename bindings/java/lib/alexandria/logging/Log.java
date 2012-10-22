@@ -27,6 +27,7 @@ import lib.alexandria.LabelledEntity;
  * @since libalexandria v0.1
  */
 public interface Log {
+	void d(LabelledEntity le, String msg);
 	void i(LabelledEntity le, String msg);
 	void w(LabelledEntity le, String msg);
 	boolean toConsole(Level level);

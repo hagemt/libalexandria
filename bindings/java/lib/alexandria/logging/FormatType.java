@@ -17,5 +17,5 @@
 package lib.alexandria.logging;
 
 public enum FormatType {
-	PLAIN, DOUBLE, XML;
+	SIMPLE, SINGLE, XML;
 }

@@ -51,8 +51,8 @@ public class Generate {
 		source = new Random(DEFAULT_SEED);
 		LOG = new MessageLogger(LA_FQN);
 		LOG.toConsole(Level.OFF);
-		LOG.toFilename(LA_FQN + ".txt", FormatType.PLAIN);
-		LOG.toFilename(LA_FQN + ".log", FormatType.DOUBLE);
+		LOG.toFilename(LA_FQN + ".txt", FormatType.SINGLE);
+		LOG.toFilename(LA_FQN + ".log", FormatType.SIMPLE);
 		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
 
@@ -108,6 +108,9 @@ public class Generate {
 	
 	/* Generators */
 
+	/**
+	 * This should go away. It's unsafe and ugly.
+	 */
 	static <E> E randomElement(E... elements) {
 		return elements[source.nextInt(elements.length - 1)];
 	}

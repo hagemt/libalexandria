@@ -22,6 +22,7 @@ import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.logging.XMLFormatter;
 
 import lib.alexandria.LabelledEntity;
@@ -41,11 +42,12 @@ import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
  */
 public class MessageLogger extends Logger implements Log {
 	private static final ConsoleHandler DEFAULT_CONSOLE;
-	private static final Formatter XML_FORMAT;
+	private static final Formatter SIMPLE_FORMAT, XML_FORMAT;
 	
 	static {
 		DEFAULT_CONSOLE = new ConsoleHandler();
 		DEFAULT_CONSOLE.setFormatter(DEFAULT_LOG_FORMAT);
+		SIMPLE_FORMAT = new SimpleFormatter();
 		XML_FORMAT = new XMLFormatter();
 	}
 	
@@ -69,6 +71,11 @@ public class MessageLogger extends Logger implements Log {
 		}
 		super.setLevel(level);
 		this.initial_level = level;
+	}
+
+	@Override
+	public void d(LabelledEntity le, String msg) {
+		super.config("[" + le.getLabel() + "] (" + msg + ")");
 	}
 
 	@Override
@@ -104,7 +111,12 @@ public class MessageLogger extends Logger implements Log {
 
 	@Override
 	public boolean toFilename(String path, FormatType type) {
-		Formatter f = (type == FormatType.XML) ? XML_FORMAT : DEFAULT_LOG_FORMAT;
+		Formatter f;
+		switch (type) {
+		case SIMPLE: f = SIMPLE_FORMAT; break;
+		case XML: f = XML_FORMAT; break;
+		default: f = DEFAULT_LOG_FORMAT; break;
+		}
 		return toFilename(path, f);
 	}
 

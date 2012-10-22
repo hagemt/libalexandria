@@ -18,8 +18,6 @@ package lib.alexandria.functional;
 
 import java.io.IOException;
 
-import java.nio.ByteBuffer;
-
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
@@ -37,34 +35,29 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	/**
 	 * This function's private data pipe
 	 */
-	private Aqueduct<N, Double> pipe;
-	/**
-	 * TODO make this part of the aqueduct
-	 */
-	private ByteBuffer buffer;
+	protected Aqueduct<N, Double> pipe;
 
-	private void initialize(ByteBuffer b) throws IOException {
-		buffer = (b == null) ? Aqueduct.alloc() : b;
-		assert(buffer.isDirect());
-		LOG.i(this, "buffer established");
-		pipe = new Aqueduct<N, Double>(getArity(), buffer);
+	private void initialize() throws InterruptedException {
+		LOG.i(this, "attempting to establish native buffer");
+		pipe = new Aqueduct<N, Double>(getArity());
+		LOG.i(this, "native buffer established");
 	}
 	
 	protected RealParameterizedFunction(String label) {
 		super(label);
 		try {
-			initialize(null);
-		} catch (IOException ioe) {
-			throw new IllegalArgumentException(ioe);
+			initialize();
+		} catch (InterruptedException ie) {
+			throw new IllegalArgumentException(ie);
 		}
 	}
 
 	protected RealParameterizedFunction(RealParameterizedFunction<? extends N> base) {
 		super(base);
 		try {
-			initialize(base.buffer);
-		} catch (IOException ioe) {
-			throw new IllegalArgumentException(ioe);
+			initialize();
+		} catch (InterruptedException ie) {
+			throw new IllegalArgumentException(ie);
 		}
 	}
 	

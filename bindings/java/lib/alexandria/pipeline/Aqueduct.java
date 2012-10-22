@@ -30,8 +30,9 @@ import java.nio.channels.Pipe;
  */
 public class Aqueduct<M extends Number, N extends Number> extends Pipe implements Closeable {
 	private State state;
-	private final int count;
 	private final ByteBuffer buffer;
+	private final int interval;
+	private final long key;
 	
 	public enum State {
 		ENABLED, DISABLED, ALLOCATION_ERROR;
@@ -43,18 +44,23 @@ public class Aqueduct<M extends Number, N extends Number> extends Pipe implement
 		}
 	};
 	
-	public Aqueduct(int count) throws NativeAllocationException {
-		this(count, alloc());
+	public Aqueduct(int interval) throws InterruptedException {
+		this(Dam.get(), interval);
+	}
+	
+	private Aqueduct(long key, int interval) {
+		this(alloc(key), key, interval);
 	}
 
-	public Aqueduct(int count, ByteBuffer buffer) {
-		this.count = count;
+	private Aqueduct(ByteBuffer buffer, long key, int interval) {
+		this.key = key;
+		this.interval = interval;
 		this.buffer = buffer;
 		this.state = State.given(true, buffer);
 	}
 	
-	public static native ByteBuffer alloc() throws NativeAllocationException;
-	private native void free() throws NativeAllocationException;
+	private static native ByteBuffer alloc(long key);
+	private static native void free(long key);
 	
 	public synchronized int remaining() {
 		return (buffer == null) ? 0 : buffer.remaining();
@@ -75,11 +81,11 @@ public class Aqueduct<M extends Number, N extends Number> extends Pipe implement
 
 	@Override
 	public void close() throws IOException {
-		if (isEnabled()) {
-			boolean state = setEnabled(false);
-			assert(state == false);
+		setEnabled(false);
+		if (buffer != null && buffer.hasArray()) {
+			free(key);
+			assert(!buffer.hasArray());
 		}
-		this.free();
 	}
 
 	@Override

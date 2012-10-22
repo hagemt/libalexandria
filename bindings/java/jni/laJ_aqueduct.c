@@ -21,11 +21,10 @@
 /*
  * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    alloc
- * Signature: ()Ljava/nio/ByteBuffer;
+ * Signature: (J)Ljava/nio/ByteBuffer;
  */
-JNIEXPORT jobject JNICALL
-Java_lib_alexandria_pipeline_Aqueduct_alloc
-	(JNIEnv *env, jclass cls)
+JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
+	(JNIEnv *env, jclass cls, jlong key)
 {
 	struct la_buffer_table_value_t *value;
 	if (!la_buffer_table) {
@@ -33,8 +32,8 @@ Java_lib_alexandria_pipeline_Aqueduct_alloc
 		return NULL;
 	}
 
-	LOGD("%p (requested native array)", (void *)(cls));
-	HashTableValue v = hash_table_lookup(la_buffer_table, cls);
+	LOGD("%p (requested native array: %li)", (void *)(cls), (long)(key));
+	HashTableValue v = hash_table_lookup(la_buffer_table, key);
 	if (v != HASH_TABLE_NULL) {
 		value = (struct la_buffer_table_value_t *)(v);
 		LOGD("%p (using existing native array: %p)", (void *)(cls), (void *)(value->buffer));
@@ -47,6 +46,7 @@ Java_lib_alexandria_pipeline_Aqueduct_alloc
 		hash_table_insert(la_buffer_table, cls, value);
 		LOGD("%p (!!! allocated new native array: %p)", (void *)(cls), (void *)(value->buffer));
 	}
+	// FIXME using jlong like key pointer?
 
 	assert(value && value->handle);
 	LOGD("%p (returning native array: %p)", (void *)(cls), (void *)(value->handle));
@@ -56,18 +56,18 @@ Java_lib_alexandria_pipeline_Aqueduct_alloc
 /*
  * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    free
- * Signature: ()V
+ * Signature: (J)V
  */
-JNIEXPORT void JNICALL
-Java_lib_alexandria_pipeline_Aqueduct_free
-	(JNIEnv *env, jobject obj)
+JNIEXPORT void JNICALL Java_lib_alexandria_pipeline_Aqueduct_free
+	(JNIEnv *env, jclass cls, jlong key)
 {
 	if (!la_buffer_table) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return;
 	}
 
-	int result = hash_table_remove(la_buffer_table, obj);
-	LOGD("%p (!!! result of removal: %i)", (void *)(obj), result);
+	int result = hash_table_remove(la_buffer_table, key);
+	/* FIXME need to free/monitor direct buffer somehow to alert laJ? */
+	LOGD("%p (!!! result of removal: %i)", (void *)(cls), result);
 	assert(result == 0);
 }

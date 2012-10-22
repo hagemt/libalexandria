@@ -25,6 +25,7 @@ la_free_buffer_table_key(HashTableKey k)
 {
 	// FIXME key should correspond with class instances
 	LOGD("%p (releasing buffer table key)", (void *)(k));
+	free(k);
 }
 
 void
@@ -33,7 +34,9 @@ la_free_buffer_table_value(HashTableValue v)
 	struct la_buffer_table_value_t *value = (struct la_buffer_table_value_t *)(v);
 	LOGD("%p (releasing native array: %p)", (void *)(v), (void *)(value->buffer));
 	free(value->buffer);
+	#ifndef NDEBUG
 	value->buffer = value->handle = NULL;
+	#endif
 	free(value);
 }
 
@@ -85,7 +88,7 @@ la_finalize(la_UUID_t seed)
 		hash_table_free(la_buffer_table);
 		la_buffer_table = NULL;
 	}
-	LOGD("%llu (entries removed from buffer table: %i)", seed, num_entries);
+	LOGD("%llu (entries removed from buffer table: %i)", (long long unsigned)(seed), num_entries);
 }
 
 void

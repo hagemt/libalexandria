@@ -18,21 +18,23 @@ package lib.alexandria.pipeline;
 
 import java.io.IOException;
 
+import lib.alexandria.Labelled;
+
 public class NativeAllocationException extends IOException {
 	private static final long serialVersionUID = -3960122176317023786L;
-	private final Class<? extends Label> clazz;
+	private final String prefix;
 
-	public NativeAllocationException(Class<? extends Label> l) {
-		this(l, l.toString());
+	public NativeAllocationException(Labelled e) {
+		this(e, e.getLabel());
 	}
 
-	public NativeAllocationException(Class<? extends Label> l, String msg) {
+	public NativeAllocationException(Labelled e, String msg) {
 		super(msg);
-		clazz = l;
+		prefix = "[" + e.getClass() + "." + e.getLabel() + "] ";
 	}
 
 	@Override
 	public String toString() {
-		return "class [" + clazz + "] tried doing bad things! " + super;
+		return prefix + super.getMessage();
 	}
 }

@@ -24,26 +24,34 @@ import java.nio.channels.Pipe;
 
 /**
  * A generic pipeline implementation for libalexandria.
+ * (used for processing native data synchronously)
+ * Pipelines or "aqueducts" (teehee) interact with the Dam.
+ * Requests that run through it are subject to the capacity,
+ * the duct's "mood," and native state of affairs.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @param <M> the type of variables read into the stream
  * @param <N> the type of variables read out of the stream
+ * @see lib.alexandria.pipeline.Dam
  */
 public class Aqueduct<M extends Number, N extends Number> extends Pipe implements Closeable {
-	private State state;
+	private boolean enabled;
 	private final ByteBuffer buffer;
 	private final int interval;
 	private final long key;
 	
+	/**
+	 * A pipeline's state isn't as simple as on/off
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 */
 	public enum State {
-		ENABLED, DISABLED, ALLOCATION_ERROR;
-		public static State given(boolean enabled, ByteBuffer buffer) {
-			if (buffer == null || !buffer.hasArray() || !buffer.isDirect()) {
-				return ALLOCATION_ERROR;
-			}
-			return (enabled) ? ENABLED : DISABLED;
-		}
+		ENABLED, DISABLED, NO_BUFFER, BAD_BUFFER;
 	};
 	
+	/**
+	 * Requests a new pipe be created, backed by native interface.
+	 * @param interval how many M's are required between applications
+	 * @throws InterruptedException if a handle failed to be acquired
+	 */
 	public Aqueduct(int interval) throws InterruptedException {
 		this(Dam.get(), interval);
 	}
@@ -56,32 +64,58 @@ public class Aqueduct<M extends Number, N extends Number> extends Pipe implement
 		this.key = key;
 		this.interval = interval;
 		this.buffer = buffer;
-		this.state = State.given(true, buffer);
 	}
 	
 	private static native ByteBuffer alloc(long key);
 	private static native void free(long key);
 	
+	/**
+	 * Check if this pipe can fit any more data in it.
+	 * @return the number of bytes available, from our perspective
+	 */
 	public synchronized int remaining() {
-		return (buffer == null) ? 0 : buffer.remaining();
+		return isMoody() ? 0 : buffer.remaining();
 	}
 	
-	public synchronized boolean isEnabled() {
-		return state.equals(State.ENABLED);
+	/**
+	 * Simply checks if this pipe isn't ready...
+	 * @return true if getState() is NOT State.ENABLED, false otherwise
+	 * @see lib.alexandria.pipeline.Aqueduct#getState()
+	 */
+	public boolean isMoody() {
+		return (getState() != State.ENABLED);
 	}
 
-	public synchronized boolean setEnabled(boolean state) {
-		this.state = State.given(state, buffer);
-		return isEnabled();
+	/**
+	 * Try to enable, or disable, this pipe.
+	 * Note that both operations may not occur immediately.
+	 * If disabling, a pipe may finish what it is doing first.
+	 * If enabling, a pipe may not be able to open.
+	 * @param state true for good mood, false otherwise
+	 * @return true if the pipe is ready now, false otherwise
+	 */
+	public synchronized boolean setMood(boolean state) {
+		this.enabled = state;
+		return !isMoody();
 	}
-	
+
+	/**
+	 * Retrieve the current state of affairs for this pipe.
+	 * @return true if the pipe is ready, false otherwise
+	 */
 	public synchronized State getState() {
-		return state;
+		if (buffer == null) {
+			return State.NO_BUFFER;
+		} else if (buffer.hasArray() && buffer.isDirect()) {
+			return (enabled) ? State.ENABLED : State.DISABLED;
+		} else {
+			return State.BAD_BUFFER;
+		}
 	}
 
 	@Override
 	public void close() throws IOException {
-		setEnabled(false);
+		setMood(false);
 		if (buffer != null && buffer.hasArray()) {
 			free(key);
 			assert(!buffer.hasArray());

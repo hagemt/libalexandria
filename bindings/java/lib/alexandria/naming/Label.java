@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria;
+package lib.alexandria.naming;
 
 import static lib.alexandria.ModelConstants.LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
@@ -22,11 +22,13 @@ import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
 import java.util.HashMap;
 import java.util.Map;
 
+import lib.alexandria.Generate;
+
 /**
  * A sample, standalone version of a LabelledEntity.
  * Can be used to integrate other classes into libalexandria's label scheme.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.LabelledEntity
+ * @see lib.alexandria.naming.LabelledEntity
  */
 public class Label extends LabelledEntity implements CharSequence {
 	protected final CharSequence chars;

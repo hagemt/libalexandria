@@ -17,16 +17,18 @@
 package lib.alexandria;
 
 import java.util.Random;
-import java.util.logging.Level;
 
 import static lib.alexandria.ModelConstants.LA_FQN;
 import static lib.alexandria.ModelConstants.LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
+import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
 import static lib.alexandria.ModelConstants.DEFAULT_SEED;
 
-import lib.alexandria.logging.FormatType;
 import lib.alexandria.logging.Log;
 import lib.alexandria.logging.MessageLogger;
+
+import lib.alexandria.naming.LabelledEntity;
 
 /**
  * Provides static methods to generate some standard entities, like labels.
@@ -50,10 +52,10 @@ public class Generate {
 	static {
 		source = new Random(DEFAULT_SEED);
 		LOG = new MessageLogger(LA_FQN);
-		LOG.toConsole(Level.OFF);
-		LOG.toFilename(LA_FQN + ".txt", FormatType.SINGLE);
-		LOG.toFilename(LA_FQN + ".log", FormatType.SIMPLE);
-		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
+		LOG.toConsole(DEFAULT_LOG_LEVEL);
+		LOG.toFilename(LA_FQN + ".log", DEFAULT_LOG_FORMAT);
+		// LOG.toFilename(LA_FQN + ".txt", FormatType.SIMPLE);
+		// LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
 
 	/* Templators */

@@ -16,7 +16,7 @@
  */
 package lib.alexandria.sampling;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 public abstract class Feature extends LabelledEntity {
 	protected MetricSpace space;

@@ -18,7 +18,7 @@ package lib.alexandria.sampling;
 
 import java.util.Vector;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 public abstract class SampleSpace extends LabelledEntity {
 	protected Ordinal<Integer> cardinality;

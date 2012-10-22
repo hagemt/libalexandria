@@ -14,13 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria;
 
 /**
- * Interface for mixing in labels.
+ * Provides several facilities for naming things libalexandria-style
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.LabelledEntity
  */
-public interface Labelled extends Comparable<Labelled> {
-	public String getLabel();
-}
+package lib.alexandria.naming;

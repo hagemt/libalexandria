@@ -25,8 +25,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import lib.alexandria.LabelledEntity;
 import lib.alexandria.LearningModel;
+import lib.alexandria.naming.LabelledEntity;
 
 class Tester extends LabelledEntity implements Iterable<LatchedThreadGroup> {
 	private final Runtime runtime;

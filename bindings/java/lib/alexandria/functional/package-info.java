@@ -17,5 +17,6 @@
 
 /**
  * Provides certain functional abstractions for use in models.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
  */
 package lib.alexandria.functional;

@@ -17,6 +17,7 @@
 package lib.alexandria;
 
 import static lib.alexandria.ModelConstants.ModelType;
+import lib.alexandria.naming.LabelledEntity;
 
 /**
  * A general template from which all learning models inherit;

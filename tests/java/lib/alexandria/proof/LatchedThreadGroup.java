@@ -20,9 +20,9 @@ import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
-import lib.alexandria.LabelledEntity;
 import lib.alexandria.LearningModel;
 import lib.alexandria.ModelConstants;
+import lib.alexandria.naming.LabelledEntity;
 
 public class LatchedThreadGroup extends LabelledEntity implements Callable<Long> {
 	private final TreeMap<String, Thread> tasks;

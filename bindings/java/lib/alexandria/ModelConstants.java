@@ -18,6 +18,7 @@ package lib.alexandria;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Formatter;
+import java.util.logging.Level;
 
 import lib.alexandria.logging.LinearFormatter;
 
@@ -107,6 +108,12 @@ public final class ModelConstants {
 	public static final Formatter DEFAULT_LOG_FORMAT;
 	
 	/**
+	 * A logging constant specifying the default log level.
+	 * Its standard value indicates information messages.
+	 */
+	public static final Level DEFAULT_LOG_LEVEL;
+	
+	/**
 	 * Give constants the default values.
 	 */
 	static {
@@ -124,6 +131,7 @@ public final class ModelConstants {
 		LA_PREFIX = "laJ";
 		LA_FQN = "lib.alexandria";
 		DEFAULT_LOG_FORMAT = new LinearFormatter(LA_PREFIX);
+		DEFAULT_LOG_LEVEL = Level.INFO;
 		LABEL_POOL = new String[] {
 				"Alpha",
 				"Bravo",

@@ -19,7 +19,7 @@ package lib.alexandria.functional.params;
 import java.util.Map;
 import java.util.TreeMap;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 /**
  * A convenient, generic, and efficient default implementation of a type with parameters.

@@ -19,18 +19,35 @@ package lib.alexandria.logging;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 /**
  * Designed as a basic log interface for lib.alexandria
+ * In general:
+ *  v is for verbose mode (Level.FINER)
+ *  d is for debug messages (Level.FINE)
+ *  i is for minor information (Level.CONFIG)
+ *  w is for important information (Level.INFO)
+ *  e is for recoverable errors (Level.WARNING)
+ *  f is for fatal errors (Level.SEVERE)
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
 public interface Log {
+	void v(LabelledEntity le, String msg);
 	void d(LabelledEntity le, String msg);
 	void i(LabelledEntity le, String msg);
 	void w(LabelledEntity le, String msg);
+	void e(LabelledEntity le, String msg);
+	void f(LabelledEntity le, String msg);
+	
+	/**
+	 * Try to set all console logging to the desired level.
+	 * @param level the level at which to set console logging
+	 * @return if everything completed successfully, false otherwise
+	 */
 	boolean toConsole(Level level);
+
 	boolean toFilename(String path);
 	boolean toFilename(String path, FormatType type);
 	boolean toFilename(String path, Formatter formatter);

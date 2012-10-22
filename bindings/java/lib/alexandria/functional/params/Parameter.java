@@ -18,7 +18,7 @@ package lib.alexandria.functional.params;
 
 import java.util.Map.Entry;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 /**
  * Parameters are pairs of strings and some numeric type

@@ -14,27 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.pipeline;
+package lib.alexandria.naming;
 
-import java.io.IOException;
-
-import lib.alexandria.naming.Labelled;
-
-public class NativeAllocationException extends IOException {
-	private static final long serialVersionUID = -3960122176317023786L;
-	private final String prefix;
-
-	public NativeAllocationException(Labelled e) {
-		this(e, e.getLabel());
-	}
-
-	public NativeAllocationException(Labelled e, String msg) {
-		super(msg);
-		prefix = "[" + e.getClass() + "." + e.getLabel() + "] ";
-	}
-
-	@Override
-	public String toString() {
-		return prefix + super.getMessage();
-	}
+/**
+ * Interface for mixing in labels.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @see lib.alexandria.naming.LabelledEntity
+ */
+public interface Labelled extends Comparable<Labelled> {
+	public String getLabel();
 }

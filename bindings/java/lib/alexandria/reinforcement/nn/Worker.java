@@ -22,7 +22,7 @@ import java.io.InputStream;
 import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.randomInteger;
 
-import lib.alexandria.LabelledEntity;
+import lib.alexandria.naming.LabelledEntity;
 
 public abstract class Worker extends LabelledEntity implements Runnable {
 	private InputStream input;

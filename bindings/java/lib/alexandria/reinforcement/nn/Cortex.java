@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import lib.alexandria.LearningModel;
+
 import static lib.alexandria.Generate.LOG;
+
 import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION;
 import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
 import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
@@ -41,7 +43,7 @@ public class Cortex extends LearningModel {
 	}
 	
 	public Cortex(String label, int dimension, boolean isNative) {
-		super(ModelType.REINFORCEMENT, label, true);
+		super(label, ModelType.REINFORCEMENT, true);
 		if (dimension < MIN_HTM_DIMENSION) {
 			throw new IllegalArgumentException("dimension must be sufficiently large");
 		}

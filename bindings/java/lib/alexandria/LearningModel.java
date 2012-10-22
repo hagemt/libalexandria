@@ -19,7 +19,8 @@ package lib.alexandria;
 import static lib.alexandria.ModelConstants.ModelType;
 
 /**
- * 
+ * A general template from which all learning models inherit;
+ * properties common to any "learning model" are encapsulated here.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
@@ -27,22 +28,18 @@ public abstract class LearningModel extends LabelledEntity implements Profileabl
 	/**
 	 * Represents the mechanism of this model's operation
 	 */
-	protected final ModelType type;
+	private final ModelType type;
 
 	/**
 	 * Represents whether or not this model can operate online
 	 */
-	protected final boolean online;
+	private final boolean online;
 	
-	protected LearningModel(ModelType type) {
-		this(type, type.toString());
+	protected LearningModel(String label, ModelType type) {
+		this(label, type, false);
 	}
 
-	protected LearningModel(ModelType type, String label) {
-		this(type, label, false);
-	}
-
-	protected LearningModel(ModelType type, String label, boolean online) {
+	protected LearningModel(String label, ModelType type, boolean online) {
 		super(label);
 		this.type = type;
 		this.online = online;

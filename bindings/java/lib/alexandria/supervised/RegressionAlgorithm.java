@@ -21,6 +21,6 @@ import lib.alexandria.ModelConstants;
 
 public abstract class RegressionAlgorithm extends LearningModel {
 	protected RegressionAlgorithm(String label) {
-		super(ModelConstants.ModelType.SUPERVISED, label);
+		super(label, ModelConstants.ModelType.SUPERVISED);
 	}
 }

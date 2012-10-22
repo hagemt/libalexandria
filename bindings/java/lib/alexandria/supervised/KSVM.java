@@ -18,20 +18,11 @@ package lib.alexandria.supervised;
 
 import java.io.IOException;
 
-import lib.alexandria.Generate;
 import lib.alexandria.functional.kernels.Kernel;
 import lib.alexandria.functional.kernels.KernelType;
 
 public class KSVM extends SupportVectorMachine {
 	private final Kernel kernel;
-	
-	public KSVM() {
-		this(Generate.randomLabel());
-	}
-	
-	public KSVM(String label) {
-		this(label, Generate.randomType(KernelType.class));
-	}
 	
 	public KSVM(String label, KernelType type) {
 		this(label, type.getDefault());

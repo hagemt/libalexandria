@@ -21,6 +21,6 @@ import lib.alexandria.ModelConstants;
 
 public abstract class MarkovDecisionProcess extends LearningModel {
 	protected MarkovDecisionProcess(String label) {
-		super(ModelConstants.ModelType.REINFORCEMENT, label, true);
+		super(label, ModelConstants.ModelType.REINFORCEMENT, true);
 	}
 }

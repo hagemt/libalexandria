@@ -21,6 +21,6 @@ import lib.alexandria.ModelConstants;
 
 public abstract class ClassificationAlgorithm extends LearningModel {
 	protected ClassificationAlgorithm(String label) {
-		super(ModelConstants.ModelType.SUPERVISED, label);
+		super(label, ModelConstants.ModelType.SUPERVISED);
 	}
 }

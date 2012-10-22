@@ -25,6 +25,7 @@ import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
 import static lib.alexandria.ModelConstants.DEFAULT_SEED;
 
+import lib.alexandria.logging.FormatType;
 import lib.alexandria.logging.Log;
 import lib.alexandria.logging.MessageLogger;
 
@@ -54,8 +55,8 @@ public class Generate {
 		LOG = new MessageLogger(LA_FQN);
 		LOG.toConsole(DEFAULT_LOG_LEVEL);
 		LOG.toFilename(LA_FQN + ".log", DEFAULT_LOG_FORMAT);
-		// LOG.toFilename(LA_FQN + ".txt", FormatType.SIMPLE);
-		// LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
+		LOG.toFilename(LA_FQN + ".txt", FormatType.SIMPLE);
+		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
 
 	/* Templators */

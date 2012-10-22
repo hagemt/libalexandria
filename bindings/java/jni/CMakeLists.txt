@@ -21,26 +21,33 @@ if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
   endif(NOT JNI_FOUND)
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
-# Set some global properties of libalexandria JNI builds
-set(NATIVE_LIBRARY_SONAME jalexandria)
+# Configure compile flags (future use)
 if(CMAKE_COMPILER_IS_GNUCC)
 set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
 else(CMAKE_COMPILER_IS_GNUCC)
 set(NATIVE_LIBRARY_CFLAGS "-Wall -Wextra")
 endif(CMAKE_COMPILER_IS_GNUCC)
-list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
-list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
-list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
-file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c")
+if(CMAKE_COMPILER_IS_GNUCXX)
+set(NATIVE_LIBRARY_CXXFLAGS "${CMAKE_CXX_FLAGS}")
+else(CMAKE_COMPILER_IS_GNUCXX)
+set(NATIVE_LIBRARY_CXXFLAGS "-Wall -Wextra")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
-# Build native library, bound using JNI
+# Configure includes (future use)
+list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
 include_directories(
   ${NATIVE_LIBRARY_INCLUDES}
   ${JNI_INCLUDE_DIRS}
 )
+
+# Build native library, bound using JNI
+set(NATIVE_LIBRARY_SONAME jalexandria)
+file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
 add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
-# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
+# !!! make sure javah was invoked (to generate headers)
 add_dependencies(${NATIVE_LIBRARY_SONAME} javah_lib.alexandria)
+list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
+list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
 target_link_libraries(${NATIVE_LIBRARY_SONAME}
   ${NATIVE_LIBRARY_EXPORTS}
   ${JNI_LIBRARIES}

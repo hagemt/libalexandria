@@ -131,7 +131,7 @@ public final class ModelConstants {
 		LA_PREFIX = "laJ";
 		LA_FQN = "lib.alexandria";
 		DEFAULT_LOG_FORMAT = new LinearFormatter(LA_PREFIX);
-		DEFAULT_LOG_LEVEL = Level.INFO;
+		DEFAULT_LOG_LEVEL = Level.ALL;
 		LABEL_POOL = new String[] {
 				"Alpha",
 				"Bravo",

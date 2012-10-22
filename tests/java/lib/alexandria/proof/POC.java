@@ -22,7 +22,6 @@ import java.util.concurrent.TimeoutException;
 import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.reseed;
 
-import static lib.alexandria.ModelConstants.LA_PREFIX;
 import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
 import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
 import static lib.alexandria.ModelConstants.DEFAULT_TIME_UNIT;
@@ -59,7 +58,7 @@ public class POC {
 			return;
 		}
 		// Hell yeah threads! (provided we got no args)
-		Tester poc = new Tester(LA_PREFIX);
+		Tester poc = new Tester("POC");
 		poc.addComparison(new Cortex("java", false), new Cortex("native", true));
 		LOG.d(poc, "there are " + poc.bandwidth() + " processors available");
 		int timeout = DEFAULT_RUN_TIME + DEFAULT_JOIN_TIME;

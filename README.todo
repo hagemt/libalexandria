@@ -9,6 +9,8 @@ Tagged 'future'
 
 * Can generate additional bindings using SWIG! (Python, C#, etc.)
 * Repair build process using NDK (see ./android/README.txt maybe?)
+* Repair java build process in general (javah is tricky to configure)
+* Repair configuration that always looks for Java and BLAS
 
 Tagged 'java'
 

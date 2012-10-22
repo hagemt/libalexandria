@@ -16,18 +16,22 @@
  */
 package lib.alexandria.logging;
 
+import java.util.Date;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.XMLFormatter;
 
 import lib.alexandria.naming.LabelledEntity;
 
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
+import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
 
 /**
  * A facility for logging messages via lib.alexandria
@@ -47,6 +51,7 @@ public class MessageLogger extends Logger implements Log {
 	static {
 		DEFAULT_CONSOLE = new ConsoleHandler();
 		DEFAULT_CONSOLE.setFormatter(DEFAULT_LOG_FORMAT);
+		DEFAULT_CONSOLE.setLevel(DEFAULT_LOG_LEVEL);
 		SIMPLE_FORMAT = new SimpleFormatter();
 		XML_FORMAT = new XMLFormatter();
 	}
@@ -54,11 +59,14 @@ public class MessageLogger extends Logger implements Log {
 	private Level initial_level;
 	
 	public MessageLogger(String name, Handler... handlers) {
-		this(name, Level.ALL, handlers);
+		this(name, DEFAULT_LOG_LEVEL, handlers);
 	}
 
 	public MessageLogger(String name, Level level, Handler... handlers) {
 		super(name, null);
+		super.setLevel(level);
+		this.initial_level = level;
+		/* Ensure there is at least one handler (console) */
 		boolean console_missing = true;
 		for (Handler h : handlers) {
 			super.addHandler(h);
@@ -69,12 +77,14 @@ public class MessageLogger extends Logger implements Log {
 		if (console_missing) {
 			super.addHandler(DEFAULT_CONSOLE);
 		}
-		super.setLevel(level);
-		this.initial_level = level;
 	}
 	
 	private String str(LabelledEntity le, String msg) {
-		return "[L:" + le.getLabel() + "] (" + msg + ")";
+		return "[" + getName() + ":" + le.getLabel() + "] (" + msg + ")";
+	}
+
+	public void vv(LabelledEntity le, String msg) {
+		super.finest(str(le, msg));
 	}
 
 	@Override
@@ -143,14 +153,27 @@ public class MessageLogger extends Logger implements Log {
 	public boolean toFilename(String path, Formatter formatter) {
 		boolean error = false;
 		try {
-			FileHandler fh = new FileHandler(path);
+			FileHandler fh = new FileHandler(path, true);
 			fh.setFormatter(formatter);
-			fh.setLevel(initial_level);
-			super.addHandler(fh);
+			addHandler(fh);
 		} catch (Exception e) {
 			error = true;
 			e.printStackTrace();
 		}
 		return error;
+	}
+
+	@Override
+	public void addHandler(Handler handler) {
+		// Store the level so that we can restore it later
+		Level level = handler.getLevel();
+		handler.setLevel(initial_level);
+		// Publish a mandatory timestamp
+		LogRecord timestamp = new LogRecord(initial_level, new Date().toString());
+		timestamp.setLoggerName(getName());
+		handler.publish(timestamp);
+		// Reset the handler's level and add it
+		handler.setLevel(level);
+		super.addHandler(handler);
 	}
 }

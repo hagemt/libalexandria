@@ -68,11 +68,11 @@ public class LatchedThreadGroup extends LabelledEntity implements Callable<Long>
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(ModelConstants.DEFAULT_BUFFER_SIZE);
-		sb.append("{ latched-thread-group: ");
+		sb.append("latched-thread-group:");
 		for (String s : tasks.keySet()) {
-			sb.append(s);
 			sb.append(' ');
+			sb.append(s);
 		}
-		return sb.append('}').toString();
+		return sb.toString();
 	}
 }

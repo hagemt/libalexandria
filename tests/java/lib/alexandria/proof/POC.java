@@ -16,19 +16,11 @@
  */
 package lib.alexandria.proof;
 
-import java.io.IOException;
-
-import java.util.LinkedList;
-
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import static java.util.concurrent.Executors.newFixedThreadPool;
 
 import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.reseed;
-
-import lib.alexandria.Label;
 
 import static lib.alexandria.ModelConstants.LA_PREFIX;
 import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
@@ -40,10 +32,8 @@ import lib.alexandria.functional.kernels.KernelType;
 import lib.alexandria.supervised.KSVM;
 
 public class POC {
-	private static final Label label;
 	private static final long seed;
 	static {
-		label = new Label(LA_PREFIX);
 		System.loadLibrary("jalexandria");
 		System.loadLibrary("jpoc");
 		reseed(seed = System.nanoTime());
@@ -54,55 +44,57 @@ public class POC {
 
 	public static native void initialize(long seed);
 	public static native void finalize(long seed);
-	
+
+	private static String time(int amount, TimeUnit units) {
+		return amount + " " + units.toString().toLowerCase();
+	}
+
 	public static void main(String... args) {
 		// Simple POC
 		if (args.length != 0) {
 			for (String s : args) {
 				POC.println(s);
 			}
-			/* Cleanup */
 			finalize(seed);
 			return;
 		}
 		// Hell yeah threads! (provided we got no args)
-		int available = Runtime.getRuntime().availableProcessors();
-		LOG.i(label, "seeing " + available + " processors");
-		ExecutorService pool = newFixedThreadPool(available);
-		LinkedList<LatchedThreadGroup> comparisons = new LinkedList<LatchedThreadGroup>();
-		/* Cortex comparison */
-		LatchedThreadGroup cortex = new LatchedThreadGroup(new Cortex("java", false), new Cortex("native", true));
-		comparisons.add(cortex);
-		// Woah, man, too many threads
-		LOG.i(label, "running comparisons");
+		Tester poc = new Tester(LA_PREFIX);
+		poc.addComparison(new Cortex("java", false), new Cortex("native", true));
+		LOG.d(poc, "there are " + poc.bandwidth() + " processors available");
 		int timeout = DEFAULT_RUN_TIME + DEFAULT_JOIN_TIME;
 		TimeUnit units = DEFAULT_TIME_UNIT;
-		for (LatchedThreadGroup tg : comparisons) {
+		LOG.i(poc, "running all comparisons for " + time(timeout, units));
+		for (LatchedThreadGroup tg : poc) {
 			LOG.i(tg, tg.toString());
 			try {
-				long result = pool.submit(tg).get(timeout, units);
+				long result = poc.compare(tg, timeout, units);
 				LOG.i(tg, "completed, returned: " + result);
 			} catch (TimeoutException e) {
-				LOG.w(tg, "failed to complete within: " + timeout + " " + units.toString().toLowerCase());
+				LOG.w(tg, "failed to complete within: " + time(timeout, units));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		/* Benchmark all the kernels */
+		// Woah, too many threads...
+		for (LatchedThreadGroup tg : poc.die()) {
+			LOG.w(tg, tg.toString() + " was not run");
+		}
+		LOG.i(poc, "will now benchmark other models");
+		// Benchmark all the kernels
 		for (KernelType t : KernelType.values()) {
-			KSVM s = new KSVM(t.toString(), t);
-			LOG.i(s, "starting benchmark");
-			s.benchmark();
+			KSVM svm = new KSVM(t.toString() + "-svm", t);
+			LOG.i(svm, "starting benchmark");
 			try {
-				s.close();
-			} catch (IOException e) {
+				svm.benchmark();
+				svm.close();
+			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				LOG.i(s, "finished benchmark");
+				LOG.i(svm, "finished benchmark");
 			}
 		}
-		/* Cleanup */
-		pool.shutdown();
+		LOG.i(poc, "shutting down");
 		finalize(seed);
 	}
 }

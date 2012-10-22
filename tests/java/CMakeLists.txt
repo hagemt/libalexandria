@@ -13,11 +13,12 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+list(APPEND CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
+
 # Build Java proof-of-concept
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
-set(CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_INCLUDE_PATH}:${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
 file(GLOB JAVA_POC_SOURCES lib/alexandria/proof/*.java)
 add_jar(lib.alexandria.poc ${JAVA_POC_SOURCES})
 add_dependencies(lib.alexandria.poc lib.alexandria)
@@ -29,7 +30,7 @@ if(USE_ANDROID)
 endif(USE_ANDROID)
 
 # Setup the library path, which all texts will need at run-time
-set(LA_JAVA_CLASS_PATH ${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
+set(LA_JAVA_CLASS_PATH ${CMAKE_JAVA_INCLUDE_PATH}:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
 set(LA_JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
 mark_as_advanced(LA_JAVA_CLASS_PATH LA_JAVA_LIBRARY_PATH)
 

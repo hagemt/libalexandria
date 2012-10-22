@@ -14,16 +14,26 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+package lib.alexandria.logging;
 
-#include "laC_print.h"
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 
-int
-main(int argc, char **argv)
-{
-	int argi = 0;
-	while (argi < argc) {
-		println(argv[argi]);
-		++argi;
+public class LinearFormatter extends Formatter {
+	private static final String endl;
+	static {
+		endl = System.getProperty("line.separator", "\n");
 	}
-	return 0;
+	
+	private final String prefix;
+	
+	public LinearFormatter(String prefix) {
+		this.prefix = prefix;
+	}
+
+	@Override
+	public String format(LogRecord record) {
+		record.setSourceClassName(prefix);
+		return formatMessage(record) + endl;
+	}
 }

@@ -53,4 +53,9 @@ public class Parameter<N extends Number> extends LabelledEntity implements Entry
 		this.value = value;
 		return old;
 	}
+	
+	@Override
+	public String setLabel(String label) {
+		throw new UnsupportedOperationException("cannot change parameter labels");
+	}
 }

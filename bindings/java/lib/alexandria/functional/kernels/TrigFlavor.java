@@ -17,7 +17,7 @@
 package lib.alexandria.functional.kernels;
 
 public enum TrigFlavor {
-	SIN, COS, TAN;
+	SIN, COS, TAN, CSC, SEC, COT;
 	
 	public boolean isHyperbolic() {
 		// TODO Auto-generated method stub

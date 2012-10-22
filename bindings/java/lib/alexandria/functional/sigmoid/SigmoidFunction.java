@@ -14,26 +14,21 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional;
+package lib.alexandria.functional.sigmoid;
 
-import lib.alexandria.ModelConstants;
+import lib.alexandria.functional.RealParameterizedFunction;
 
 /**
- * 
+ * Describes an interface for an S-shaped function.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class SigmoidFunction extends RealParameterizedFunction<Double> implements ModelConstants.For<SigmoidType> {
+public class SigmoidFunction extends RealParameterizedFunction<Double> {
 	private SigmoidType type;
 	
 	protected SigmoidFunction(String label, SigmoidType type) {
 		super(label);
 		this.type = type;
-	}
-
-	@Override
-	public SigmoidType getType() {
-		return type;
 	}
 
 	@Override
@@ -46,4 +41,9 @@ public class SigmoidFunction extends RealParameterizedFunction<Double> implement
 
 	@Override
 	public native void benchmark();
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
+	}
 }

@@ -16,26 +16,174 @@
  */
 package lib.alexandria;
 
-public interface ModelConstants {
-	int MIN_HTM_DIMENSION = 32;
-	int DEFAULT_HTM_DIMENSION = 32;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Formatter;
 
-	int DEFAULT_RUN_TIME = 10000;
-	int DEFAULT_JOIN_TIME = 1000;
+import lib.alexandria.logging.LinearFormatter;
+
+/**
+ * Standard or shared constants for Java bindings go here.
+ * Consider: http://docs.oracle.com/javase/1.5.0/docs/guide/language/static-import.html
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
+public final class ModelConstants {
+	/**
+	 * An HTM constant specifying the minimum cortex dimension.
+	 * Its standard value is: 32 (results in 1KB used)
+	 */
+	public static final int MIN_HTM_DIMENSION;
+
+	/**
+	 * An HTM constant specifying the default cortex dimension.
+	 * Its standard value is: 64 (results in 4KB used)
+	 */
+	public static final int DEFAULT_HTM_DIMENSION;
+
+	/**
+	 * A testing constant specifying the time to wait for jobs.
+	 * Its standard value is: 10000 (milliseconds)
+	 * @see DEFAULT_TIME_UNIT
+	 */
+	public static final int DEFAULT_RUN_TIME;
+
+	/**
+	 * A testing constant specifying the time to wait for joins.
+	 * Its standard value is: 1000 (milliseconds)
+	 * @see DEFAULT_TIME_UNIT
+	 */
+	public static final int DEFAULT_JOIN_TIME;
+
+	/**
+	 * A testing constant specifying the time unit for various other testing constants.
+	 * Its standard value is: TimeUnit.MILLISECONDS (from java.util.concurrent)
+	 * @see java.util.concurrent.TimeUnit
+	 * @see DEFAULT_RUN_TIME
+	 * @see DEFAULT_JOIN_TIME
+	 */
+	public static final TimeUnit DEFAULT_TIME_UNIT;
+
+	/**
+	 * A global constant specifying the size of buffers in bytes.
+	 * Its standard value is: 1024 (simply 1KB)
+	 */
+	public static final int DEFAULT_BUFFER_SIZE;
+
+	/**
+	 * A global constant specifying the default number of label components.
+	 * Its standard value is: 3 (provides almost 16 bits of randomness)
+	 */
+	public static final int DEFAULT_LABEL_LENGTH;
+
+	/**
+	 * A global constant specifying the default seed.
+	 * Its standard value is defined by System.nanoTime()
+	 */
+	public static final long DEFAULT_SEED;
+
+	/**
+	 * A global constant specifying the library's prefix.
+	 * Its standard value is: "laJ" (as per spec)
+	 */
+	public static final String LA_PREFIX;
+
+	/**
+	 * A global constant specifying the library's fully qualified name.
+	 * Its standard value is: "lib.alexandria" (matches package name)
+	 */
+	public static final String LA_FQN;
 	
-	int DEFAULT_BUFFER_SIZE = 1024;
+	/**
+	 * A global constant specifying an array of label components.
+	 * Its standard values are the NATO phonetic "alphabet."
+	 */
+	public static final String[] LABEL_POOL;
 	
-	String LA_PREFIX = "laJ";
+	/**
+	 * A logging constant specifying the default log format.
+	 * Its standard value is a simple one-line plain-text format.
+	 * @see lib.alexandria.logging.LinearFormatter
+	 */
+	public static final Formatter DEFAULT_LOG_FORMAT;
 	
-	public static interface For<E extends Enum<E>> {
-		E getType();
+	/**
+	 * Give constants the default values.
+	 */
+	static {
+		/* HTM constants */
+		MIN_HTM_DIMENSION = 32;
+		DEFAULT_HTM_DIMENSION = 64;
+		/* Testing constants */
+		DEFAULT_RUN_TIME = 10000;
+		DEFAULT_JOIN_TIME = 1000;
+		DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
+		/* Global constants*/
+		DEFAULT_BUFFER_SIZE = 1024;
+		DEFAULT_LABEL_LENGTH = 3;
+		DEFAULT_SEED = System.nanoTime();
+		LA_PREFIX = "laJ";
+		LA_FQN = "lib.alexandria";
+		DEFAULT_LOG_FORMAT = new LinearFormatter(LA_PREFIX);
+		LABEL_POOL = new String[] {
+				"Alpha",
+				"Bravo",
+				"Charlie",
+				"Delta",
+				"Echo",
+				"Foxtrot",
+				"Golf",
+				"Hotel",
+				"India",
+				"Juliet",
+				"Kilo",
+				"Lima",
+				"Mike",
+				"November",
+				"Oscar",
+				"Papa",
+				"Quebec",
+				"Romeo",
+				"Sierra",
+				"Tango",
+				"Uniform",
+				"Victor",
+				"Whiskey",
+				"Xray",
+				"Yankee",
+				"Zulu",
+				"1One",
+				"2Two",
+				"3Three",
+				"4Four",
+				"5Five",
+				"6Six",
+				"7Seven",
+				"8Eight",
+				"9Nine",
+				"0Zero"
+		};
 	}
 	
-	public static interface Some<E extends Enum<E>> {
-		E getFlavor();
-	}
-
+	/**
+	 * Specifies the categories of models we know about.
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @since libalexandria v0.1
+	 */
 	public static enum ModelType {
 		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
 	}
+
+	/**
+	 * TODO remove?
+	 * Perhaps the best or the worst idea I have ever had.
+	 * Allows models to implement model constants for a type.
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @param <E> an enumerated type
+	 */
+	/*
+	public static interface ModelFor<E extends Enum<E>> {
+		E getType();
+		Class<E> getTypeClass();
+	}
+	*/
 }

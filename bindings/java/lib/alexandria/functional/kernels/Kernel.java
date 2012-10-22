@@ -16,7 +16,6 @@
  */
 package lib.alexandria.functional.kernels;
 
-import lib.alexandria.ModelConstants;
 import lib.alexandria.functional.RealParameterizedFunction;
 
 /**
@@ -24,7 +23,7 @@ import lib.alexandria.functional.RealParameterizedFunction;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class Kernel extends RealParameterizedFunction<Double> implements ModelConstants.For<KernelType> {
+public class Kernel extends RealParameterizedFunction<Double> {
 	/**
 	 * Describes this kernel's family (category)
 	 */
@@ -38,11 +37,6 @@ public class Kernel extends RealParameterizedFunction<Double> implements ModelCo
 		super(label);
 		this.type = type;
 	}
-	
-	@Override
-	public KernelType getType() {
-		return type;
-	}
 
 	@Override
 	public int getArity() {
@@ -54,4 +48,9 @@ public class Kernel extends RealParameterizedFunction<Double> implements ModelCo
 
 	@Override
 	public native void benchmark();
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
+	}
 }

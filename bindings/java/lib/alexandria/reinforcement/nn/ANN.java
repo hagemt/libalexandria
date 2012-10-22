@@ -17,14 +17,11 @@
 package lib.alexandria.reinforcement.nn;
 
 import lib.alexandria.LearningModel;
-import lib.alexandria.ModelConstants;
+
+import static lib.alexandria.ModelConstants.ModelType;
 
 public abstract class ANN extends LearningModel {
-	protected ANN(ModelConstants.ModelType type) {
-		this(type, type.name());
-	}
-
-	protected ANN(ModelConstants.ModelType type, String label) {
-		super(type, label);
+	protected ANN(String label) {
+		super(label, ModelType.REINFORCEMENT, false);
 	}
 }

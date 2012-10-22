@@ -40,7 +40,7 @@ include_directories(
 )
 add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
 # Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
-add_dependencies(${NATIVE_LIBRARY_SONAME} javah)
+add_dependencies(${NATIVE_LIBRARY_SONAME} javah_lib.alexandria)
 target_link_libraries(${NATIVE_LIBRARY_SONAME}
   ${NATIVE_LIBRARY_EXPORTS}
   ${JNI_LIBRARIES}

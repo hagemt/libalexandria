@@ -18,65 +18,70 @@
 #define LA_JNI
 #include "libalexandria.h"
 
+inline la_UUID_t *
+extract_data(jlong arg)
+{
+	la_UUID_t *key = malloc(sizeof(la_UUID_t));
+	memcpy(key, &arg, sizeof(la_UUID_t));
+	return key;
+}
+
 /*
- * Class:     lib_alexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    alloc
- * Signature: ()Ljava/nio/ByteBuffer;
+ * Signature: (J)Ljava/nio/ByteBuffer;
  */
-JNIEXPORT jobject JNICALL
-Java_lib_alexandria_functional_RealParameterizedFunction_alloc
-	(JNIEnv *env, jobject obj)
+JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
+	(JNIEnv *env, jclass cls, jlong arg)
 {
 	struct la_buffer_table_value_t *value;
 	if (!la_buffer_table) {
-		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
+		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return NULL;
 	}
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] requesting native array for %p\n", obj);
-	#endif
-	HashTableValue v = hash_table_lookup(la_buffer_table, obj);
+
+	la_UUID_t *key = extract_data(arg);
+	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), (long long unsigned)(*key));
+	HashTableValue v = hash_table_lookup(la_buffer_table, key);
 	if (v != HASH_TABLE_NULL) {
+		free(key); /* you won't be needing this anymore */
 		value = (struct la_buffer_table_value_t *)(v);
-		#ifndef NDEBUG
-		fprintf(stderr, "[debug] found previous native array for %p at %p\n", obj, value->buffer);
-		#endif
+		LOGD("%p (using existing native array: %p)", (void *)(cls), value->buffer);
 	} else {
 		/* Create a new entry only if necessary */
 		value = malloc(sizeof(struct la_buffer_table_value_t));
+		// FIXME is this the right size for our needs?
 		value->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
 		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
+		// FIXME is there really no corresponding free for this?
 		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
-		#ifndef NDEBUG
-		fprintf(stderr, "[debug] created new native array for %p at %p\n", obj, value->buffer);
-		#endif
-		hash_table_insert(la_buffer_table, obj, value);
+		hash_table_insert(la_buffer_table, key, value);
+		LOGD("%p (!!! allocated new native array: %p)", (void *)(cls), value->buffer);
 	}
+
 	assert(value && value->handle);
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] returning native array for %p in object %p\n", obj, value->handle);
-	#endif
+	LOGD("%p (returning native array w/ handle: %p)", (void *)(cls), value->handle);
 	return value->handle;
 }
 
 /*
- * Class:     lib_alexandria_functional_RealParameterizedFunction
+ * Class:     lib_alexandria_pipeline_Aqueduct
  * Method:    free
- * Signature: ()V
+ * Signature: (J)V
  */
-JNIEXPORT void JNICALL
-Java_lib_alexandria_functional_RealParameterizedFunction_free
-	(JNIEnv *env, jobject obj)
+JNIEXPORT void JNICALL Java_lib_alexandria_pipeline_Aqueduct_free
+	(JNIEnv *env, jclass cls, jlong arg)
 {
 	if (!la_buffer_table) {
-		fprintf(stderr, "[error] libalexandria needs call to initialize(jlong)\n");
+		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return;
 	}
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] can we remove %p? answer: ", obj);
-	#endif
-	int result = hash_table_remove(la_buffer_table, obj);
-	#ifndef NDEBUG
-	fprintf(stderr, "%i\n", result);
-	#endif
+
+	la_UUID_t *key = extract_data(arg);
+	int result = hash_table_remove(la_buffer_table, key);
+	free(key);
+
+	/* FIXME need to free/monitor direct buffer somehow to alert laJ? */
+	LOGD("%p (!!! result of removal: %i)", (void *)(cls), result);
+	assert(result == 0);
 }

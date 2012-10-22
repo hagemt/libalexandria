@@ -21,6 +21,6 @@ import lib.alexandria.ModelConstants;
 
 public abstract class ClusteringAlgorithm extends LearningModel {
 	protected ClusteringAlgorithm(String label) {
-		super(ModelConstants.ModelType.UNSUPERVISED, label);
+		super(label, ModelConstants.ModelType.UNSUPERVISED);
 	}
 }

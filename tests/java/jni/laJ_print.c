@@ -18,42 +18,48 @@
 #define LA_JNI
 #include "libalexandria.h"
 
+/*
+ * Class:     lib_alexandria_proof_POC
+ * Method:    initialize
+ * Signature: (J)V
+ */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_proof_POC_initialize(JNIEnv *env, jclass jc, jlong seed)
+Java_lib_alexandria_proof_POC_initialize
+	(JNIEnv *env, jclass jc, jlong seed)
 {
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] '%lu' (libalexandria loaded)\n", seed);
-	#endif
+	LOGD("%p (initializing libalexandria through JNI)", (void *)(jc));
 	la_initialize(seed);
 }
 
+/*
+ * Class:     lib_alexandria_proof_POC
+ * Method:    finalize
+ * Signature: (J)V
+ */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_proof_POC_finalize(JNIEnv *env, jclass jc, jlong seed)
+Java_lib_alexandria_proof_POC_finalize
+	(JNIEnv *env, jclass jc, jlong seed)
 {
-	#ifndef NDEBUG
-	fprintf(stderr, "[debug] '%lu' (libalexandria unloaded)\n", seed);
-	#endif
+	LOGD("%p (finalizing libalexandria through JNI)", (void *)(jc));
 	la_finalize(seed);
 }
 
+/*
+ * Class:     lib_alexandria_proof_POC
+ * Method:    println
+ * Signature: (Ljava/lang/String;)V
+ */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_proof_POC_println(JNIEnv *env, jclass jc, jstring jstr)
+Java_lib_alexandria_proof_POC_println
+	(JNIEnv *env, jclass jc, jstring jstr)
 {
-	const char *cstr;
-
-	/* Fetch modified UTF-8 characters */
-	cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
-
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] received '%s' from JNI:\n", cstr);
-	#endif
+	/* Fetch/release modified UTF-8 characters */
+	const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
+	LOGD("%p (class received '%s' through JNI)", (void *)(jc), cstr);
 	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
-
-	/* Remember to release memory */
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
 
-	#ifndef NDEBUG
-	fprintf(stderr, "[DEBUG] Result of '%p' printing 'i':\n", (void *)(jc));
-	#endif
+	/* Most basic command possible */
+	LOGD("%p (class printing printing 'i')", (void *)(jc));
 	laf_printi_();
 }

@@ -28,10 +28,12 @@ collect_headers("libalexandria/laC_*.h"   LAC_HEADER_FILES   LAC_INCLUDES)
 collect_headers("libalexandria/laCXX_*.h" LACXX_HEADER_FILES LACXX_INCLUDES)
 collect_headers("libalexandria/laF_*.h"   LAF_HEADER_FILES   LAF_INCLUDES)
 collect_headers("libalexandria/laJ/*.h"   LAJ_HEADER_FILES   LAJ_INCLUDES)
-configure_file(libalexandria.h.in "${BASE_INCLUDE_PATH}/libalexandria.h" @ONLY)
+set(GLOBAL_HEADER_FILE "${BASE_INCLUDE_PATH}/libalexandria.h")
+configure_file(libalexandria.h.in "${GLOBAL_HEADER_FILE}" @ONLY)
+set_property(SOURCE "${GLOBAL_HEADER_FILE}" PROPERTY GENERATED TRUE)
 
 install(
-  FILES "${BASE_INCLUDE_PATH}/libalexandria.h"
+  FILES "${GLOBAL_HEADER_FILE}"
   PUBLIC_HEADER DESTINATION include
   COMPONENT "Base Headers" OPTIONAL
 )

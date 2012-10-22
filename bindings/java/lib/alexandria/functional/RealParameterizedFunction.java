@@ -18,12 +18,12 @@ package lib.alexandria.functional;
 
 import java.io.IOException;
 
-import java.nio.ByteBuffer;
-
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+import static lib.alexandria.Generate.LOG;
 import lib.alexandria.functional.params.ParameterMap;
+import lib.alexandria.pipeline.Aqueduct;
 
 /**
  * A function taking in a number of N's and producing a real number (double)
@@ -35,21 +35,20 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 	/**
 	 * This function's private data pipe
 	 */
-	private Aqueduct<N, Double> pipe;
+	protected Aqueduct<N, Double> pipe;
 
-	private void initialize() throws IOException {
-		System.err.println("Opening buffer for " + this.getLabel());
-		ByteBuffer buffer = alloc();
-		assert(buffer.isDirect());
-		pipe = new Aqueduct<N, Double>(buffer);
+	private void initialize() throws InterruptedException {
+		LOG.i(this, "attempting to establish native buffer");
+		pipe = new Aqueduct<N, Double>(getArity());
+		LOG.i(this, "native buffer established");
 	}
 	
 	protected RealParameterizedFunction(String label) {
 		super(label);
 		try {
 			initialize();
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
+		} catch (InterruptedException ie) {
+			throw new IllegalArgumentException(ie);
 		}
 	}
 
@@ -57,8 +56,8 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 		super(base);
 		try {
 			initialize();
-		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
+		} catch (InterruptedException ie) {
+			throw new IllegalArgumentException(ie);
 		}
 	}
 	
@@ -89,25 +88,16 @@ public abstract class RealParameterizedFunction<N extends Number> extends Parame
 
 	@Override
 	public Double call() throws Exception {
-		sync();
-		// TODO Auto-generated constructor stub
-		return pipe.next();
+		this.sync();
+		return apply();
+	}
+	
+	@Override
+	public void close() throws IOException {
+		pipe.close();
 	}
 
 	/* Required of subclasses */
-	private native ByteBuffer alloc();
 	protected abstract void sync();
-	private native void free();
-
-	@Override
-	public void close() throws IOException {
-		boolean state = pipe.setMode(false);
-		assert(state == false);
-		this.free();
-	}
-
-	@Override
-	public boolean isOpen() {
-		return pipe.isOpen();
-	}
+	private native Double apply();
 }

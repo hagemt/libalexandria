@@ -18,6 +18,7 @@
 #define LA_GLUE_H
 
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,22 +40,10 @@ typedef long long unsigned int la_UUID_t;
 void la_initialize(la_UUID_t);
 void la_finalize(la_UUID_t);
 
+#include "la_log.h"
+
 /* Utility functions */
 
-#ifdef USE_ANDROID
-#include <android/log.h>
-#define LOG(LEVEL,...) __android_log_print(LEVEL,LA_LOG_TAG,__VA_ARGS__)
-#define LOGA(COND,...) __android_log_assert(COND,LA_LOG_TAG,__VA_ARGS__)
-/* Aliases for different log-levels */
-#define LOGV(...) LOG(ANDROID_LOG_VERBOSE,__VA_ARGS__)
-#define LOGD(...) LOG(ANDROID_LOG_DEBUG,  __VA_ARGS__)
-#define LOGI(...) LOG(ANDROID_LOG_INFO,   __VA_ARGS__)
-#define LOGW(...) LOG(ANDROID_LOG_WARN,   __VA_ARGS__)
-#define LOGE(...) LOG(ANDROID_LOG_ERROR,  __VA_ARGS__)
-#define LOGF(...) LOG(ANDROID_LOG_FATAL,  __VA_ARGS__)
-#endif /* USE_ANDROID */
-
-#define LA_INFO_INCOMPLETE "[info] '%s' (feature not yet implemented)\n"
 void la_print_info_incomplete(const char *);
 
 #endif /* LA_GLUE_H */

@@ -66,7 +66,8 @@ public enum KernelType implements Generate.A<Kernel> {
 		return known_kernels.containsKey(label);
 	}
 	
+	@Override
 	public String toString() {
-		return this.name() + "KERNEL";
+		return this.name().toLowerCase() + "-kernel-type";
 	}
 }

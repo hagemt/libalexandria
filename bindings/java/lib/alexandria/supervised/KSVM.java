@@ -18,20 +18,11 @@ package lib.alexandria.supervised;
 
 import java.io.IOException;
 
-import lib.alexandria.Generate;
 import lib.alexandria.functional.kernels.Kernel;
 import lib.alexandria.functional.kernels.KernelType;
 
 public class KSVM extends SupportVectorMachine {
 	private final Kernel kernel;
-	
-	public KSVM() {
-		this(Generate.randomLabel());
-	}
-	
-	public KSVM(String label) {
-		this(label, Generate.randomType(KernelType.class));
-	}
 	
 	public KSVM(String label, KernelType type) {
 		this(label, type.getDefault());
@@ -45,12 +36,10 @@ public class KSVM extends SupportVectorMachine {
 	@Override
 	public void benchmark() {
 		kernel.benchmark();
-		try {
-			kernel.close();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} finally {
-			System.err.println("Closed kernel " + kernel.getLabel() + " for " + this.getLabel());
-		}
+	}
+	
+	@Override
+	public void close() throws IOException {
+		kernel.close();
 	}
 }

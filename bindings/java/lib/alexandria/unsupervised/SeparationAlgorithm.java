@@ -21,6 +21,6 @@ import lib.alexandria.ModelConstants;
 
 public abstract class SeparationAlgorithm extends LearningModel {
 	protected SeparationAlgorithm(String label) {
-		super(ModelConstants.ModelType.UNSUPERVISED, label);
+		super(label, ModelConstants.ModelType.UNSUPERVISED);
 	}
 }

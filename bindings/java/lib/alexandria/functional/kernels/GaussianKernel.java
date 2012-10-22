@@ -16,7 +16,7 @@
  */
 package lib.alexandria.functional.kernels;
 
-import lib.alexandria.ModelConstants.Some;
+import static lib.alexandria.Generate.Some;
 
 /**
  * A Gaussian kernel has the form K(A,B) = EXP(-GAMMA*NORM(A-B)^2)
@@ -29,19 +29,21 @@ public class GaussianKernel extends Kernel implements Some<StatFlavor> {
 	 */
 	private StatFlavor flavor;
 
-	protected GaussianKernel(String label, StatFlavor flavor, double value) {
+	public GaussianKernel(String label, StatFlavor flavor, double value) {
 		super(label, KernelType.GAUSS);
 		if (value <= 0) {
 			throw new IllegalArgumentException("parameter must be positive");
 		}
+		// Default to GAMMA flavor
 		this.flavor = (flavor == null) ? StatFlavor.GAMMA : flavor;
-		this.addParameter(this.flavor.toString(), value);
+		this.addParameter(flavor.toString(), value);
 	}
 	
 	/**
 	 * Fetch this Gaussian Kernel's type of parameterization
 	 * @return either GAMMA or SIGMA
 	 */
+	@Override
 	public StatFlavor getFlavor() {
 		return flavor;
 	}

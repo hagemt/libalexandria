@@ -17,63 +17,124 @@
 package lib.alexandria;
 
 import java.util.Random;
+import java.util.logging.Level;
+
+import static lib.alexandria.ModelConstants.LA_FQN;
+import static lib.alexandria.ModelConstants.LABEL_POOL;
+import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.ModelConstants.DEFAULT_SEED;
+
+import lib.alexandria.logging.FormatType;
+import lib.alexandria.logging.Log;
+import lib.alexandria.logging.MessageLogger;
 
 /**
- * Provides static methods to generate some standard entities, like labels
+ * Provides static methods to generate some standard entities, like labels.
+ * Other utilities are also provided, but only public members are in the API.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
 public class Generate {
-	private static Random source;
-	private static final String[] pool;
-	
+	/**
+	 * The default source of randomness.
+	 * @see java.util.Random
+	 */
+	protected static final Random source;
+
+	/**
+	 * The default log manager.
+	 * @see lib.alexandria.logging.Log
+	 */
+	public static final Log LOG;
+
 	static {
-		source = new Random();
-		pool = new String[] {
-				"Alfa",
-				"Bravo",
-				"Charlie",
-				"Delta",
-				"Echo",
-				"Foxtrot",
-				"Golf",
-				"Hotel",
-				"India",
-				"Juliet",
-				"Kilo",
-				"Lima",
-				"Mike",
-				"November",
-				"Oscar",
-				"Papa",
-				"Quebec",
-				"Romeo",
-				"Sierra",
-				"Tango",
-				"Uniform",
-				"Victor",
-				"Whiskey",
-				"Xray",
-				"Yankee",
-				"Zulu"
-				};
+		source = new Random(DEFAULT_SEED);
+		LOG = new MessageLogger(LA_FQN);
+		LOG.toConsole(Level.OFF);
+		LOG.toFilename(LA_FQN + ".txt", FormatType.SINGLE);
+		LOG.toFilename(LA_FQN + ".log", FormatType.SIMPLE);
+		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
+
+	/* Templators */
 	
+	/**
+	 * A templator built mainly for enumerations.
+	 * It allows a class to specify that it categorizes
+	 * a certain type of entites, which happen to have labels.
+	 * This is used to provide a shared interface for many functions.
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @param <L> a type with an intrinsic label
+	 * @see lib.alexandria.functional
+	 */
 	public static interface A<L extends LabelledEntity> {
+		/**
+		 * Checks if any entity with the given name is flavored as desired.
+		 * @param label the common name of a flavored entity
+		 * @return true if one exists, false otherwise
+		 */
 		boolean knows(String label);
+		/**
+		 * Tries to retrieve a named entity of this flavor.
+		 * @param label the common name of a flavored entity
+		 * @return an entity, flavored as desired
+		 */
 		L knownAs(String label);
+		/**
+		 * May retrieve any entity with this flavor.
+		 * @return the default entity for this flavor
+		 */
 		L getDefault();
+		/**
+		 * Remember to provide a friendly human name!
+		 * @return a textual description of the flavor
+		 */
 		String toString();
 	}
 
-	public static String randomLabel() {
-		return randomLabel(3);
+	/**
+	 * A templator for implementing "some flavor" in a class.
+	 * FIXME this could be considered an abused of inheritance
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @param <Flavor> some enumeration classifier
+	 */
+	public static interface Some<Flavor extends Enum<Flavor>> {
+		/**
+		 * Returns the "flavor" associated with this object.
+		 * @return whichever constant describes our "flavor"
+		 */
+		Flavor getFlavor();
 	}
 	
-	public static String randomLabel(int words) {
+	/* Generators */
+
+	public static int randomInteger(int top) {
+		return source.nextInt(top);
+	}
+	
+	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
+	
+	public static char[] chars(int number) {
+		char[] characters = new char[number];
+		for (int i = 0; i < number; ++i) {
+			characters[i] = CHARS.charAt(randomInteger(CHARS.length()));
+		}
+		return characters;
+	}
+	
+	/**
+	 * Generate a random label of the default length.
+	 * @return a textual label with
+	 * @see lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH
+	 */
+	public static String randomString() {
+		return randomString(DEFAULT_LABEL_LENGTH);
+	}
+	
+	public static String randomString(int words) {
 		StringBuilder sb = new StringBuilder();
-		for (int max = pool.length - 1; words > 0; --words) {
-			sb.append(pool[source.nextInt(max)]);
+		for (int max = LABEL_POOL.length - 1; words > 0; --words) {
+			sb.append(LABEL_POOL[source.nextInt(max)]);
 		}
 		return sb.toString();
 	}

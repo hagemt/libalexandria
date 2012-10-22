@@ -19,28 +19,25 @@
 #include "libalexandria.h"
 
 /*
- * Class:     lib_alexandria_reinforcement_nn_NativeWorker
- * Method:    operate
- * Signature: ([B[B)V
+ * Class:     lib_alexandria_functional_sigmoid_SigmoidFunction
+ * Method:    benchmark
+ * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_lib_alexandria_reinforcement_nn_NativeWorker_operate(JNIEnv *env, jobject obj, jbyteArray arr1, jbyteArray arr2)
+Java_lib_alexandria_functional_sigmoid_SigmoidFunction_benchmark
+	(JNIEnv *env, jobject obj)
 {
-	jint i, len1, len2;
-	jbyte *a1, *a2;
-	/* Fetch the arrays from java */
-	len1 = (*env)->GetArrayLength(env, arr1);
-	len2 = (*env)->GetArrayLength(env, arr2);
-	assert(len1 == len2);
-	a1 = (*env)->GetPrimitiveArrayCritical(env, arr1, 0);
-	a2 = (*env)->GetPrimitiveArrayCritical(env, arr2, 0);
-	assert(a1 && a2);
-	/* Do the operation */
-	for (i = 0; i < len1; ++i) {
-		a1[i] ^= a2[i];
-	}
-	/* Cleanup */
-	(*env)->ReleasePrimitiveArrayCritical(env, arr2, a2, 0);
-	(*env)->ReleasePrimitiveArrayCritical(env, arr1, a1, 0);
-	return;
+	la_print_info_incomplete("Sigmoid_benchmark");
+} 
+
+/*
+ * Class:     lib_alexandria_functional_sigmoid_SigmoidFunction
+ * Method:    sync
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL
+Java_lib_alexandria_functional_sigmoid_SigmoidFunction_sync
+	(JNIEnv *env, jobject obj)
+{
+	la_print_info_incomplete("Sigmoid_sync");
 }

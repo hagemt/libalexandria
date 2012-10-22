@@ -40,9 +40,9 @@ endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
-include("${CMAKE_SOURCE_DIR}/settings.user.txt" OPTIONAL)
+include("${CMAKE_SOURCE_DIR}/user.CMakeCache.txt" OPTIONAL)
 include_directories("${BASE_INCLUDE_PATH}/libalexandria")
-add_definitions(-DLOG_TAG=${PROJECT_LOG_TAG})
+add_definitions(-DLA_LOG_TAG=${PROJECT_LOG_TAG})
 
 ### Configuration
 
@@ -63,18 +63,42 @@ option(USE_SWIG          "Produce bindings w/ SWIG"  OFF)
 ## Development tools
 add_subdirectory(dev)
 
-## Requirements
-
+## Requirements for Java bindings
 if(BIND_JAVA)
+  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum version for Java")
+  mark_as_advanced(JAVA_VERSION_MINIMUM)
+  # Setup to compile Java sources
+  find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Development)
+  if(NOT Java_Development_FOUND)
+    message(FATAL_ERROR "Unable to find Java development kit!")
+  endif(NOT Java_Development_FOUND)
+  # And run them, if necessary
+  if(BUILD_TESTING)
+    find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Runtime)
+    if(NOT Java_Runtime_FOUND)
+      message(FATAL_ERROR "Unable to find Java runtime environment!")
+    endif(NOT Java_Runtime_FOUND)
+  endif(BUILD_TESTING)
+  # Set up the necessary tools
+  include(UseJava)
   # Set some arguments for Java for safe building
-  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
-  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
+  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
+  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 
+## Requirements for Android builds (NDK)
 if(USE_ANDROID)
+  if(NOT ANDROID)
+    message(FATAL_ERROR "Please configure your environment for USE_ANDROID or disable it")
+  endif(NOT ANDROID)
+  set(ANDROID_NDK_PATH     "$ENV{ANDROID_NDK}"      CACHE PATH   "Path to Android NDK")
+  set(ANDROID_SDK_VERSION  "$ENV{ANDROID_PLATFORM}" CACHE STRING "Version of Android SDK")
+  set(ANDROID_BUILD_ARCH   "$ENV{ANDROID_ARCH}"     CACHE STRING "Target architecture for Android build")
+  mark_as_advanced(ANDROID_NDK_PATH ANDROID_SDK_VERSION ANDROID_BUILD_ARCH)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${ANDROID_BUILD_ARCH}")
+  include_directories("${ANDROID_NDK_PATH}/platforms/${ANDROID_SDK_VERSION}/arch-${ANDROID_BUILD_ARCH}/usr/include")
   add_definitions(-DUSE_ANDROID)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/arm")
 endif(USE_ANDROID)
 
 # TODO FUTURE other libraries? like LAPACK?

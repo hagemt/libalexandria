@@ -16,15 +16,41 @@
  */
 package lib.alexandria.functional;
 
-import java.nio.channels.InterruptibleChannel;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 import lib.alexandria.Profileable;
 
-public interface Function<T> extends Callable<T>, InterruptibleChannel, Profileable {
-	public int getArity();
-	public Class<T> getReturnType();
-	public Future<T> getFuture();
+/**
+ * Encapsulates the notion of a mathematical function's abstract abilities.
+ * Functions may be evaluated eagerly or lazily.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @param <R> the return type
+ */
+public interface Function<R> extends Callable<R>, Profileable {
+	/**
+	 * Retrieve the number of arguments this Function requires for each evaluation.
+	 * @return this Function's arity
+	 */
+	int getArity();
+
+	/**
+	 * Retrieve the type this Function will return upon evaluation.
+	 * @return this Function's return type
+	 */
+	Class<R> getReturnType();
+
+	/**
+	 * Apply this Function lazily.
+	 * @return an evaluator for this Function
+	 * @see java.util.concurrent.Future
+	 */
+	Future<R> getFuture();
+
+	/**
+	 * Apply this Function eagerly.
+	 * @return the result of this Function
+	 */
+	@Override
+	R call() throws Exception;
 }

@@ -16,12 +16,20 @@
  */
 package lib.alexandria.reinforcement.nn;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import lib.alexandria.LearningModel;
-import lib.alexandria.ModelConstants;
 
-public class Cortex extends LearningModel implements ModelConstants {
+import static lib.alexandria.Generate.LOG;
+
+import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION;
+import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
+import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
+import static lib.alexandria.ModelConstants.MIN_HTM_DIMENSION;
+import static lib.alexandria.ModelConstants.ModelType;
+
+public class Cortex extends LearningModel {
 	/* Each column on an NxN grid */
 	private byte[][] columns;
 	protected Thread worker;
@@ -35,7 +43,7 @@ public class Cortex extends LearningModel implements ModelConstants {
 	}
 	
 	public Cortex(String label, int dimension, boolean isNative) {
-		super(ModelConstants.ModelType.REINFORCEMENT, label, true);
+		super(label, ModelType.REINFORCEMENT, true);
 		if (dimension < MIN_HTM_DIMENSION) {
 			throw new IllegalArgumentException("dimension must be sufficiently large");
 		}
@@ -55,29 +63,32 @@ public class Cortex extends LearningModel implements ModelConstants {
 		return columns.length;
 	}
 	
-	public void learn() {
-		worker.start();
-	}
-	
-	public void halt(long wait) {
-		worker.interrupt();
-		try {
+	private void halt(long wait) throws InterruptedException {
+		if (worker != null && worker.isAlive()) {
+			worker.interrupt();
 			worker.join(wait);
-		} catch (InterruptedException ie) {
-			ie.printStackTrace();
 		}
 	}
 
 	@Override
 	public void benchmark() {
-		System.out.println("[" + this.getLabel() + "] cortex is learning...");
+		LOG.i(this, "cortex is learning");
 		try {
-			this.learn();
+			worker.start();
 			Thread.sleep(DEFAULT_RUN_TIME);
-			this.halt(DEFAULT_JOIN_TIME);
+			halt(DEFAULT_JOIN_TIME);
 		} catch (Exception e) {
-			System.err.println("[" + this.getLabel() + "] cortex failed!");
+			LOG.w(this, "cortex learning failed");
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void close() throws IOException {
+		try {
+			halt(DEFAULT_JOIN_TIME);
+		} catch (InterruptedException ie) {
+			throw new IOException(ie);
 		}
 	}
 }

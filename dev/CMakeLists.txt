@@ -36,7 +36,7 @@ endif(BIND_CXX)
 set(EXTRA_INCLUDE_DIRS "${EXTRA_INCLUDE_DIRS}/jni")
 
 if(BIND_JAVA)
-  set(EXTRA_LABELS "(JNI)")
+  set(EXTRA_LABELS "(Java Bindings)")
   set(EXTRA_LIBRARIES "-ljalexandria")
   configure_file(libalexandria.pc.in libjalexandria.pc @ONLY)
 endif(BIND_JAVA)

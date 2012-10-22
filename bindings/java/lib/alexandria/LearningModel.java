@@ -16,39 +16,41 @@
  */
 package lib.alexandria;
 
-import lib.alexandria.ModelConstants.ModelType;
+import static lib.alexandria.ModelConstants.ModelType;
 
 /**
- * 
+ * A general template from which all learning models inherit;
+ * properties common to any "learning model" are encapsulated here.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LearningModel extends LabelledEntity implements ModelConstants.For<ModelType>, Profileable {
+public abstract class LearningModel extends LabelledEntity implements Profileable {
 	/**
 	 * Represents the mechanism of this model's operation
 	 */
-	protected final ModelType type;
+	private final ModelType type;
 
 	/**
 	 * Represents whether or not this model can operate online
 	 */
-	protected final boolean online;
-
-	protected LearningModel(ModelType type, String label) {
-		this(type, label, false);
+	private final boolean online;
+	
+	protected LearningModel(String label, ModelType type) {
+		this(label, type, false);
 	}
 
-	protected LearningModel(ModelType type, String label, boolean online) {
+	protected LearningModel(String label, ModelType type, boolean online) {
 		super(label);
 		this.type = type;
 		this.online = online;
 	}
 
-	public ModelType getType() {
-		return type;
-	}
-
 	public boolean isOnline() {
 		return online;
+	}
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
 	}
 }

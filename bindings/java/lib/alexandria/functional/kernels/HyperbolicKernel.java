@@ -16,17 +16,18 @@
  */
 package lib.alexandria.functional.kernels;
 
-import lib.alexandria.ModelConstants.Some;
+import static lib.alexandria.Generate.Some;
 
 /**
  * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
  * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @throws IllegalArgumentException if KAPPA <= 0 or C >= 0
  */
 public class HyperbolicKernel extends Kernel implements Some<TrigFlavor> {
 	private TrigFlavor flavor;
 	
-	protected HyperbolicKernel(String label, TrigFlavor flavor, double kappa, double constant) {
+	public HyperbolicKernel(String label, TrigFlavor flavor, double kappa, double constant) {
 		super(label, KernelType.HYPER);
 		if (kappa <= 0 || -constant <= 0) {
 			throw new IllegalArgumentException("parameters must be positive");

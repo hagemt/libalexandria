@@ -82,10 +82,9 @@ if(BIND_JAVA)
   # Set up the necessary tools
   include(UseJava)
   # Set some arguments for Java for safe building
-  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
-  set(CMAKE_JAVA_INCLUDE_PATH "$ENV{CLASSPATH}")
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
-  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS)
+  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
+  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 
 ## Requirements for Android builds (NDK)

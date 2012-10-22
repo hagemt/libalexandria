@@ -22,7 +22,7 @@ package lib.alexandria;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LabelledEntity {
+public abstract class LabelledEntity implements Labelled {
 	private String label;
 	
 	/**
@@ -66,7 +66,12 @@ public abstract class LabelledEntity {
 		}
 		return oldLabel;
 	}
-	
+
+	@Override
+	public int compareTo(Labelled l) {
+		return label.compareTo(l.getLabel());
+	}
+
 	@Override
 	public String toString() {
 		return getLabel();

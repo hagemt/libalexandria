@@ -29,7 +29,7 @@ public abstract class LabelledEntity implements Labelled {
 	 * By default, a label is generated.
 	 */
 	protected LabelledEntity() {
-		this(Generate.randomLabel());
+		this(Generate.randomString());
 	}
 	
 	/**
@@ -38,10 +38,7 @@ public abstract class LabelledEntity implements Labelled {
 	 * @param label a textual identifier for this entity
 	 */
 	protected LabelledEntity(String label) {
-		if (label == null) {
-			label = Generate.randomLabel();
-		}
-		this.label = label;
+		this.label = (label == null) ? Generate.randomString() : label;
 	}
 	
 	/**

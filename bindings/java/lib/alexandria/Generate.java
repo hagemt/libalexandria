@@ -108,27 +108,30 @@ public class Generate {
 	
 	/* Generators */
 
-	/**
-	 * This should go away. It's unsafe and ugly.
-	 */
-	static <E> E randomElement(E... elements) {
-		return elements[source.nextInt(elements.length - 1)];
+	public static int randomInteger(int top) {
+		return source.nextInt(top);
 	}
-
+	
+	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
+	
+	public static char[] chars(int number) {
+		char[] characters = new char[number];
+		for (int i = 0; i < number; ++i) {
+			characters[i] = CHARS.charAt(randomInteger(CHARS.length()));
+		}
+		return characters;
+	}
+	
 	/**
 	 * Generate a random label of the default length.
 	 * @return a textual label with
 	 * @see lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH
 	 */
-	public static String randomLabel() {
-		return randomLabel(DEFAULT_LABEL_LENGTH);
+	public static String randomString() {
+		return randomString(DEFAULT_LABEL_LENGTH);
 	}
 	
-	public static int randomInteger(int max) {
-		return source.nextInt(max);
-	}
-	
-	public static String randomLabel(int words) {
+	public static String randomString(int words) {
 		StringBuilder sb = new StringBuilder();
 		for (int max = LABEL_POOL.length - 1; words > 0; --words) {
 			sb.append(LABEL_POOL[source.nextInt(max)]);

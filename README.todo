@@ -14,7 +14,7 @@ Tagged 'java'
 
 * Finish Java interface, all the way through JNI back-end (partial)
 * Flexible method for invoking models via Android intent (designed)
-* Clean up 'Label' classes, removing warning-generating code
+* Make the entire logging-to-file thing neat and orderly
 
 Tagged 'data'
 

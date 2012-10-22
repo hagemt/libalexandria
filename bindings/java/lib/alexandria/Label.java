@@ -23,28 +23,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Note: this entire class is a grok. FIXME soon!
+ * A sample, standalone version of a LabelledEntity.
+ * Can be used to integrate other classes into libalexandria's label scheme.
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @see lib.alexandria.LabelledEntity
  */
 public class Label extends LabelledEntity implements CharSequence {
-	protected final CharSequence chars, buffer;
+	protected final CharSequence chars;
 	
 	private final static Map<Character, String> quick;
-	private final static Character[] codes;
 	static {
 		quick = new HashMap<Character, String>();
 		for (String s : LABEL_POOL) {
 			quick.put(s.charAt(0), s);
 		}
-		codes = quick.keySet().toArray(new Character[quick.size()]);
 	}
-
-	public static char[] code(int length) {
-		char[] code = new char[length];
-		for (int i = 0; i < length; ++i) {
-			code[i] = Generate.randomElement(codes);
+	
+	private static String decode(char[] glyphs) {
+		StringBuilder buffer = new StringBuilder(glyphs.length * 5);
+		for (char glyph : glyphs) {
+			String s = quick.get(glyph);
+			if (s != null) {
+				buffer.append(s);
+			}
 		}
-		return code;
+		return buffer.toString();
 	}
 	
 	public Label() {
@@ -52,20 +55,12 @@ public class Label extends LabelledEntity implements CharSequence {
 	}
 	
 	public Label(int length) {
-		this(code(length));
+		this(Generate.chars(length));
 	}
 
-	public Label(String s) {
-		this(s.toUpperCase().toCharArray());
-	}
-	
-	private Label(char... entries) {
-		this.chars = new StringBuilder(new String(entries));
-		StringBuilder buffer = new StringBuilder();
-		for (char c : entries) {
-			buffer.append(quick.get(c));
-		}
-		this.buffer = buffer;
+	public Label(char... glyphs) {
+		super(decode(glyphs));
+		this.chars = new StringBuilder(new String(glyphs));
 	}
 
 	@Override
@@ -84,7 +79,7 @@ public class Label extends LabelledEntity implements CharSequence {
 	}
 	
 	public String toString(boolean full) {
-		return (full) ? buffer.toString() : chars.toString();
+		return (full) ? super.toString() : chars.toString();
 	}
 	
 	@Override

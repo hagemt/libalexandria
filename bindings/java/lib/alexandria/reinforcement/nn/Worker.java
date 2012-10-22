@@ -37,7 +37,7 @@ public abstract class Worker extends LabelledEntity implements Runnable {
 		this.input = new InputStream() {
 			@Override
 			public int read() throws IOException {
-				return randomInteger(0xFF);
+				return randomInteger(0x100);
 			}
 		};
 	}

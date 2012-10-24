@@ -13,4 +13,7 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+# TODO find the Android SDK so that we can build Java from here...
+
+# The NDK should have been configured by ./glue/CMakeLists.txt
 add_subdirectory(jni)

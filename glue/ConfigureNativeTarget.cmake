@@ -1,4 +1,4 @@
-function(configure_natives target flags includes deps libs)
+function(configure_native_target target flags includes deps libs)
   # First set the SONAME, remember PARENT_SCOPE
   set(NATIVE_LIBRARY_SONAME ${target} PARENT_SCOPE)
   # Prepare includes (TODO does this next line work?)
@@ -34,4 +34,4 @@ function(configure_natives target flags includes deps libs)
   endforeach(LA_LIBRARY ${libs})
   # Export the name of this library? TODO something else...
   list(APPEND NATIVE_LIBRARY_EXPORTS "${NATIVE_LIBRARY_SONAME}")
-endfunction(configure_natives)
+endfunction(configure_native_target)

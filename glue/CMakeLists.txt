@@ -27,10 +27,11 @@ if(USE_ANDROID)
     endif(NOT IS_DIRECTORY "${ANDROID_CMAKE_DIR}")
     message(FATAL_ERROR "Unable to locate ${LA_ANDROID_CMAKE_TOOLCHAIN_SCRIPT}!")
   endif(NOT ANDROID_TOOLCHAIN_SCRIPT)
-  # Try to find the Android NDK (check in ./android:./.., and any 'ndk' subdirs)
+  # Try to find the Android NDK (check in ./android:./.., and any 'android-ndk' subdirs)
   set(LA_ANDROID_DIR "${CMAKE_SOURCE_DIR}/android")
-  find_path(ANDROID_NDK NAMES "toolchains" "platforms" "ndk-build" 
-    PATHS "${LA_ANDROID_DIR}" "${CMAKE_SOURCE_DIR}/.." PATH_SUFFIXES "android-ndk-r8b;android-ndk-r5b"
+  find_path(ANDROID_NDK NAMES "ndk-build"
+    PATHS "${LA_ANDROID_DIR}" "${CMAKE_SOURCE_DIR}/.."
+    PATH_SUFFIXES "android-ndk-r8b" "android-ndk-r5b"
     DOC "Location of the Android NDK")
   if(NOT ANDROID_NDK)
     # There exist some scripts within android-cmake to download the NDK

@@ -40,5 +40,5 @@ install(FILES
   "${CMAKE_CURRENT_BINARY_DIR}/_la_glue.so"
   "${CMAKE_CURRENT_BINARY_DIR}/la_glue.py"
   DESTINATION bin/python
-  COMPONENT "Python Bindings" OPTIONAL
+  COMPONENT "Swagger" OPTIONAL
 )

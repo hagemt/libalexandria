@@ -13,16 +13,18 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is a CMake cache template for linux developers.
-# You can copy this file to ./CMakeCache.user.txt and modify as you like.
-# Note that CMakeCache.user.txt is in .gitignore, which is loaded if present.
+# This is a CMake cache template for Linux developers. See README.txt
+# You can copy this file to ./user.CMakeCache.txt and modify as you like.
+# Note that user.CMakeCache.txt is in ./.gitignore, but is loaded if present.
 
-set(BIND_C TRUE CACHE BOOL "c +bindings")
-set(BIND_CXX TRUE CACHE BOOL "cxx +bindings")
-set(BIND_JAVA TRUE CACHE BOOL "java +bindings")
-set(BUILD_JAVADOC TRUE CACHE BOOL "java +doc")
-set(BUILD_SHARED_LIBS TRUE CACHE BOOL "all +sharedlibs")
-set(BUILD_TESTING TRUE CACHE BOOL "all +testing")
+set(BIND_C            TRUE  CACHE BOOL "c +bindings")
+set(BIND_CXX          TRUE  CACHE BOOL "cxx +bindings")
+set(BIND_JAVA         TRUE  CACHE BOOL "java +bindings")
+#set(BUILD_JAVADOC     TRUE  CACHE BOOL "java +doc")
+#set(BUILD_SHARED_LIBS TRUE  CACHE BOOL "all +sharedlibs")
+set(BUILD_TESTING     TRUE  CACHE BOOL "all +testing")
+set(USE_SWIG          TRUE  CACHE BOOL "+swig")
+set(USE_ANDROID       TRUE  CACHE BOOL "+android")
 
 set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings")
 set(CMAKE_C_FLAGS_DEBUG "-g -pedantic" CACHE STRING "c +debugmode")

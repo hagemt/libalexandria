@@ -20,27 +20,29 @@ endif(NOT ANDROID_NDK)
 
 # Try to find the android-toolchain for each platform
 foreach(TARGET ${ANDROID_TARGETS})
-  message(STATUS "Enabled ${TARGET} architecture!")
+  message(STATUS "Enabled Android build for ${TARGET} architecture!")
   # TODO match up the toolchains and configure individual Android.mk?
 endforeach(TARGET)
- 
-# Add any static libs here (they'll need to be built for arch)
-list(APPEND NATIVE_LIBRARY_DEPS "cpufeatures")
-# Add any libraries to link here (make sure they're built for arch)
-list(APPEND NATIVE_LIBRARY_LIBS "android")
-list(APPEND NATIVE_LIBRARY_LIBS "log")
 
-# Should set the necessary variables in our scope
-if(NOT COMMAND configure_native_target)
-  include("${CMAKE_SOURCE_DIR}/glue/ConfigureNativeTarget.cmake")
-endif(NOT COMMAND configure_native_target)
-configure_native_target(jalexandria
-  "-Wall -Wextra"
-  "${BASE_INCLUDE_PATH}"
-  "${NATIVE_LIBRARY_DEPS}"
-  "${NATIVE_LIBRARY_LIBS}"
-)
-
-# Configure the NDK build scripts using these options
-configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)
-configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Application.mk" @ONLY)
+### TODO IS ALL OF THIS THE WRONG DIRECTION?
+#
+## Add any static libs here (they'll need to be built for arch)
+#list(APPEND NATIVE_LIBRARY_DEPS "cpufeatures")
+## Add any libraries to link here (make sure they're built for arch)
+#list(APPEND NATIVE_LIBRARY_LIBS "android")
+#list(APPEND NATIVE_LIBRARY_LIBS "log")
+#
+## Should set the necessary variables in our scope
+#if(NOT COMMAND configure_native_target)
+#  include("${CMAKE_SOURCE_DIR}/glue/ConfigureNativeTarget.cmake")
+#endif(NOT COMMAND configure_native_target)
+#configure_native_target(jalexandria
+#  "-Wall -Wextra"
+#  "${BASE_INCLUDE_PATH}"
+#  "${NATIVE_LIBRARY_DEPS}"
+#  "${NATIVE_LIBRARY_LIBS}"
+#)
+#
+## Configure the NDK build scripts using these options
+#configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)
+#configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Application.mk" @ONLY)

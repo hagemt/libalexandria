@@ -14,6 +14,7 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 list(APPEND CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
+set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
 
 # Build Java proof-of-concept
 set(CMAKE_JNI_TARGET TRUE)

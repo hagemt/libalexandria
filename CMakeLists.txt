@@ -85,7 +85,7 @@ if(BIND_JAVA)
   include(UseJava)
   # Set some Java arguments for safe building into correct location
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
-  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
+  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${LIBRARY_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 

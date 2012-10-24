@@ -22,25 +22,33 @@ if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
 # Set some global properties of libalexandria JNI builds
-set(NATIVE_LIBRARY_SONAME jalexandria)
-if(CMAKE_COMPILER_IS_GNUCC)
-set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
-else(CMAKE_COMPILER_IS_GNUCC)
-set(NATIVE_LIBRARY_CFLAGS "-Wall -Wextra")
-endif(CMAKE_COMPILER_IS_GNUCC)
-list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
-list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
-list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
-file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c")
+set(LAJ_LIBRARY_SONAME jalexandria)
+file(GLOB LAJ_LIBRARY_SOURCES "laJ_*.c")
+add_library(${LAJ_LIBRARY_SONAME} SHARED ${LAJ_LIBRARY_SOURCES})
+# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
+add_dependencies(${LAJ_LIBRARY_SONAME} javah_lib.alexandria)
+
+if(NOT COMMAND configure_native_target)
+  include("${CMAKE_SOURCE_DIR}/glue/ConfigureNativeTarget.cmake")
+endif(NOT COMMAND configure_native_target)
+
+# Set all necessary variables in this scope
+list(APPEND LAJ_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
+# TODO specify LDLIBS as dependencies? Later...?
+list(APPEND LAJ_LIBRARY_LIBS "alexandria")
+list(APPEND LAJ_LIBRARY_LIBS "calg")
+configure_native_target(${LAJ_LIBRARY_SONAME}
+  "-Wall -Wextra"
+  "${LAJ_LIBRARY_INCLUDES}"
+  "${LAJ_LIBRARY_LIBS}"
+  "${LAJ_LIBRARY_LIBS}"
+)
 
 # Build native library, bound using JNI
 include_directories(
   ${NATIVE_LIBRARY_INCLUDES}
   ${JNI_INCLUDE_DIRS}
 )
-add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
-# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
-add_dependencies(${NATIVE_LIBRARY_SONAME} javah_lib.alexandria)
 target_link_libraries(${NATIVE_LIBRARY_SONAME}
   ${NATIVE_LIBRARY_EXPORTS}
   ${JNI_LIBRARIES}

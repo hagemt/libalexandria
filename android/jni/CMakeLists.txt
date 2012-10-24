@@ -14,21 +14,32 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # Will set up the requisite variables
-if(NOT NATIVE_LIBRARY_SONAME)
-  message(WARNING "Building libalexandria using the NDK will work soon...")
-  #message(FATAL_ERROR "Unable to configure with NDK. Please address this or disable USE_ANDROID")
-endif(NOT NATIVE_LIBRARY_SONAME)
-# TODO find a way to mirror bindings/java/jni setup
+if(NOT ANDROID_NDK)
+  message(FATAL_ERROR "Cannot find Android NDK! Please locate or disable USE_ANDROID")
+endif(NOT ANDROID_NDK)
 
-# Note: add any static libs here (they'll need to be built for arch)
-set(NATIVE_LIBRARY_DEPENDS "cpufeatures") # TODO e.g. native glue
+# Try to find the android-toolchain for each platform
+foreach(TARGET ${ANDROID_TARGETS})
+  message(STATUS "Enabled ${TARGET} architecture!")
+  # TODO match up the toolchains and configure individual Android.mk?
+endforeach(TARGET)
+ 
+# Add any static libs here (they'll need to be built for arch)
+list(APPEND NATIVE_LIBRARY_DEPS "cpufeatures")
+# Add any libraries to link here (make sure they're built for arch)
+list(APPEND NATIVE_LIBRARY_LIBS "android")
+list(APPEND NATIVE_LIBRARY_LIBS "log")
 
-# Note: we don't need to list math, pthread, or std support libraries
-set(NATIVE_LIBRARY_LDLIBS "-landroid -llog")
-
-# FIXME is it a mistake to export these generally?
-list(APPEND NATIVE_LIBRARY_EXPORTS "android")
-list(APPEND NATIVE_LIBRARY_EXPORTS "log")
+# Should set the necessary variables in our scope
+if(NOT COMMAND configure_native_target)
+  include("${CMAKE_SOURCE_DIR}/glue/ConfigureNativeTarget.cmake")
+endif(NOT COMMAND configure_native_target)
+configure_native_target(jalexandria
+  "-Wall -Wextra"
+  "${BASE_INCLUDE_PATH}"
+  "${NATIVE_LIBRARY_DEPS}"
+  "${NATIVE_LIBRARY_LIBS}"
+)
 
 # Configure the NDK build scripts using these options
 configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/android/jni/Android.mk" @ONLY)

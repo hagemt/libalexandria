@@ -63,13 +63,8 @@ add_subdirectory(dev)
 
 ## Requirements for Java bindings
 if(BIND_JAVA)
-  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum version for Java")
+  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum Java version")
   mark_as_advanced(JAVA_VERSION_MINIMUM)
-  # Setup to use JNI (FIXME correct method?)
-  find_package(JNI ${JAVA_VERSION_MINIMUM})
-  if(NOT JNI_FOUND)
-    message(FATAL_ERROR "Unable to find JNI! Please locate or disable BIND_JAVA")
-  endif(NOT JNI_FOUND)
   # Setup to compile Java sources
   find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Development)
   if(NOT Java_Development_FOUND)
@@ -82,7 +77,11 @@ if(BIND_JAVA)
       message(FATAL_ERROR "Unable to find Java runtime environment!")
     endif(NOT Java_Runtime_FOUND)
   endif(BUILD_TESTING)
-  # Set up the necessary tools, found above
+  # Setup to use JNI (FIXME correct method?) and init
+  find_package(JNI ${JAVA_VERSION_MINIMUM})
+  if(NOT JNI_FOUND)
+    message(FATAL_ERROR "Unable to find JNI! Please locate or disable BIND_JAVA")
+  endif(NOT JNI_FOUND)
   include(UseJava)
   # Set some Java arguments for safe building into correct location
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)

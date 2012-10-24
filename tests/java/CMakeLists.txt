@@ -19,8 +19,8 @@ list(APPEND CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexand
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
-file(GLOB JAVA_POC_SOURCES lib/alexandria/proof/*.java)
-add_jar(lib.alexandria.poc ${JAVA_POC_SOURCES})
+file(GLOB LAJ_PROOF_SOURCES lib/alexandria/proof/*.java)
+add_jar(lib.alexandria.poc ${LA_JAVA_PROOF_SOURCES})
 add_dependencies(lib.alexandria.poc lib.alexandria)
 
 # Make sure native interfaces are built
@@ -30,22 +30,22 @@ if(USE_ANDROID)
 endif(USE_ANDROID)
 
 # Setup the library path, which all texts will need at run-time
-set(LA_JAVA_CLASS_PATH ${CMAKE_JAVA_INCLUDE_PATH}:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
-set(LA_JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
-mark_as_advanced(LA_JAVA_CLASS_PATH LA_JAVA_LIBRARY_PATH)
+set(JAVA_CLASS_PATH ${CMAKE_JAVA_INCLUDE_PATH}:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
+set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
+mark_as_advanced(JAVA_CLASS_PATH JAVA_LIBRARY_PATH)
 
 # Make it easy to add a variety of Java tests
 macro(add_java_test TEST_NAME JAR_FILE)
   add_test(${TEST_NAME}
     "${Java_JAVA_EXECUTABLE}" -verbose
-    -classpath "${LA_JAVA_CLASS_PATH}"
-    -Djava.library.path=${LA_JAVA_LIBRARY_PATH}
-    -jar "${JAVA_POC_PATH}" ${ARGN})
+    -classpath "${JAVA_CLASS_PATH}"
+    -Djava.library.path=${JAVA_LIBRARY_PATH}
+    -jar "${JAR_FILE}" ${ARGN})
 endmacro(add_java_test)
 
 # Proof-of-concept test(s)
 set(JAVA_POC_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.poc.jar")
-add_java_test(simple_java_poc "${JAVA_POC_PATH}" "Hello, World!")
+add_java_test(simple_java_poc "${JAVA_POC_PATH}" "'Hello, World!'")
 set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
 add_java_test(complex_java_poc "${JAVA_POC_PATH}")
 set_tests_properties(simple_java_poc complex_java_poc PROPERTIES LABELS "java;poc")

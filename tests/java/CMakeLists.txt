@@ -20,7 +20,7 @@ set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
 file(GLOB LAJ_PROOF_SOURCES lib/alexandria/proof/*.java)
-add_jar(lib.alexandria.poc ${LA_JAVA_PROOF_SOURCES})
+add_jar(lib.alexandria.poc ${LAJ_PROOF_SOURCES})
 add_dependencies(lib.alexandria.poc lib.alexandria)
 
 # Make sure native interfaces are built

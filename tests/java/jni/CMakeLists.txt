@@ -14,23 +14,23 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
-  find_package(JNI)
-  if(NOT JNI_FOUND)
-    message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
-  endif(NOT JNI_FOUND)
+  message(FATAL_ERROR "Where did the JNI headers/libraries go?")
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
-# TODO make macro for building JNI lib?
 include_directories(
   "${BASE_INCLUDE_PATH}"
+  #"${BASE_INCLUDE_PATH}/libalexandria/laJ"
   ${JNI_INCLUDE_DIRS}
 )
+
+# TODO make macro for building JNI lib?
 add_library(jpoc SHARED laJ_print.c)
 add_dependencies(jpoc javah_lib.alexandria.poc)
 target_link_libraries(jpoc
   jalexandria
   ${JNI_LIBRARIES}
 )
+
 set_target_properties(jpoc PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

@@ -29,8 +29,8 @@ if(USE_ANDROID)
   endif(NOT ANDROID_TOOLCHAIN_SCRIPT)
   # Try to find the Android NDK (check in ./android:./.., and any 'ndk' subdirs)
   set(LA_ANDROID_DIR "${CMAKE_SOURCE_DIR}/android")
-  find_path(ANDROID_NDK NAMES android-ndk-r8b android-ndk-r5b
-    PATHS "${LA_ANDROID_DIR}" "${CMAKE_SOURCE_DIR}/.." PATH_SUFFIXES "ndk"
+  find_path(ANDROID_NDK NAMES "toolchains" "platforms" "ndk-build" 
+    PATHS "${LA_ANDROID_DIR}" "${CMAKE_SOURCE_DIR}/.." PATH_SUFFIXES "android-ndk-r8b;android-ndk-r5b"
     DOC "Location of the Android NDK")
   if(NOT ANDROID_NDK)
     # There exist some scripts within android-cmake to download the NDK
@@ -66,15 +66,10 @@ if(USE_ANDROID)
   if(NOT ANDROID_TARGETS)
     message(WARNING "You have disabled all supported Android architectures...")
   endif(NOT ANDROID_TARGETS)
-  # Try to find the android-toolchain for each platform
-  foreach(TARGET ${ANDROID_TARGETS})
-    message(STATUS "Enabled ${TARGET} architecture!")
-    # TODO match up the toolchains
-  endforeach(TARGET)
 endif(USE_ANDROID)
 
 # Acquire all the glue (kolla) code
-file(GLOB KOLLA_SOURCES "*.c")
+file(GLOB KOLLA_SOURCES "*.c" "*.cxx")
 add_library(kolla STATIC ${KOLLA_SOURCES})
 set_target_properties(kolla PROPERTIES COMPILE_FLAGS -fPIC)
 # TODO should install? (probably not)

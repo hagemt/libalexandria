@@ -10,3 +10,6 @@
 [submodule "android/dev"]
 	path = android/dev
 	url = https://android.googlesource.com/platform/development.git
+[submodule "glue/libcalg"]
+	path = glue/libcalg
+	url = git://c-algorithms.git.sourceforge.net/gitroot/c-algorithms/c-algorithms

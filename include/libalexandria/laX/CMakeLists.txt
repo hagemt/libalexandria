@@ -14,7 +14,7 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # These are experimental headers, for a variety of languages
-file(GLOB SWIG_HEADER_FILES "*.h")
+collect_headers("*.h" SWIG_HEADER_FILES SWIG_INCLUDES PARENT_SCOPE)
 
 # Install these (if possible)
 install(

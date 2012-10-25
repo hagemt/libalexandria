@@ -7,6 +7,7 @@ From the top level of the repo:
 $ ln dev/user.CMakeCache.txt
 $ mkdir build-branch && cd build-branch
 $ cmake .. && make
+Or, you can simply run: ./dev/bootstrap.sh
 
 Note that build generates some files.
 ./bin and ./lib are the most obvious of these, but for Java:

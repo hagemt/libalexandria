@@ -51,6 +51,7 @@ add_jar(lib.alexandria
 # TODO how to add to components? maybe this w/ extra args
 install_jar(lib.alexandria "${CMAKE_INSTALL_PREFIX}/bin/jar")
 install_jni_symlink(lib.alexandria "${CMAKE_INSTALL_PREFIX}/lib")
+#set_target_properties(lib.alexandria PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
 
 # Make sure native interfaces are built
 add_subdirectory(jni)

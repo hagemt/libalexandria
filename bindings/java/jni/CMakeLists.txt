@@ -13,55 +13,42 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Check setup
+# Check setup (shouldn't be a problem)
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
-  find_package(JNI)
-  if(NOT JNI_FOUND)
-    message(FATAL_ERROR "Unable to find JNI. Please locate or disable BIND_JAVA")
-  endif(NOT JNI_FOUND)
+  message(FATAL_ERROR "Where did the JNI headers/libraries go?")
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
 
-# Configure compile flags (future use)
-if(CMAKE_COMPILER_IS_GNUCC)
-set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
-else(CMAKE_COMPILER_IS_GNUCC)
-set(NATIVE_LIBRARY_CFLAGS "-Wall -Wextra")
-endif(CMAKE_COMPILER_IS_GNUCC)
-if(CMAKE_COMPILER_IS_GNUCXX)
-set(NATIVE_LIBRARY_CXXFLAGS "${CMAKE_CXX_FLAGS}")
-else(CMAKE_COMPILER_IS_GNUCXX)
-set(NATIVE_LIBRARY_CXXFLAGS "-Wall -Wextra")
-endif(CMAKE_COMPILER_IS_GNUCXX)
-
-# Configure includes (future use)
-list(APPEND NATIVE_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
+# Set some general properties for this target
+set(LAJ_LIBRARY_SONAME jalexandria)
+list(APPEND LAJ_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}")
+#list(APPEND LAJ_LIBRARY_INCLUDES "${BASE_INCLUDE_PATH}/libalexandria/laJ")
 include_directories(
-  ${NATIVE_LIBRARY_INCLUDES}
+  ${LAJ_LIBRARY_INCLUDES}
   ${JNI_INCLUDE_DIRS}
 )
 
-# Build native library, bound using JNI
-set(NATIVE_LIBRARY_SONAME jalexandria)
-file(GLOB NATIVE_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
-add_library(${NATIVE_LIBRARY_SONAME} SHARED ${NATIVE_LIBRARY_SOURCES})
-# !!! make sure javah was invoked (to generate headers)
-add_dependencies(${NATIVE_LIBRARY_SONAME} javah_lib.alexandria)
-list(APPEND NATIVE_LIBRARY_EXPORTS "alexandria")
-list(APPEND NATIVE_LIBRARY_EXPORTS "calg")
-target_link_libraries(${NATIVE_LIBRARY_SONAME}
-  ${NATIVE_LIBRARY_EXPORTS}
+# Build native library code, bound using JNI
+file(GLOB LAJ_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
+add_library(${LAJ_LIBRARY_SONAME} SHARED ${LAJ_LIBRARY_SOURCES})
+# Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
+add_dependencies(${LAJ_LIBRARY_SONAME} javah_lib.alexandria)
+
+# TODO also specify android dependencies? Later... if necessary?
+list(APPEND LAJ_LIBRARY_LIBS "alexandria")
+list(APPEND LAJ_LIBRARY_LIBS "calg")
+target_link_libraries(${LAJ_LIBRARY_SONAME}
+  ${LAJ_LIBRARY_LIBS}
   ${JNI_LIBRARIES}
 )
 set_target_properties(
-  ${NATIVE_LIBRARY_SONAME} PROPERTIES
+  ${LAJ_LIBRARY_SONAME} PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
 
 # Lastly, the install target
 install(
-  TARGETS ${NATIVE_LIBRARY_SONAME}
+  TARGETS ${LAJ_LIBRARY_SONAME}
   LIBRARY DESTINATION lib
   COMPONENT "Java Bindings" OPTIONAL
 )
-

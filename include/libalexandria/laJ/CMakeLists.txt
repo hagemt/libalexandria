@@ -31,7 +31,7 @@ add_custom_target(javah_${JAVA_TARGET} DEPENDS ${JAVA_TARGET}
 endmacro(javah)
 
 # TODO fix problem where this isn't properly configured
-file(GLOB JNI_HEADER_FILES libalexandria_*.h)
+file(GLOB JNI_HEADER_FILES "*.h")
 set_property(SOURCE ${JNI_HEADER_FILES} PROPERTY GENERATED TRUE)
 
 # Generate headers for lib.alexandria

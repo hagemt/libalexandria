@@ -13,25 +13,12 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
-  message(FATAL_ERROR "Where did the JNI headers/libraries go?")
-endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
+# These are experimental headers, for a variety of languages
+file(GLOB SWIG_HEADER_FILES "*.h")
 
-include_directories(
-  "${BASE_INCLUDE_PATH}"
-  #"${BASE_INCLUDE_PATH}/libalexandria/laJ"
-  ${JNI_INCLUDE_DIRS}
-)
-
-# TODO make macro for building JNI lib?
-add_library(jpoc SHARED laJ_print.c)
-add_dependencies(jpoc javah_lib.alexandria.poc)
-target_link_libraries(jpoc
-  jalexandria
-  ${JNI_LIBRARIES}
-)
-
-set_target_properties(jpoc PROPERTIES
-  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
-  VERSION   ${CMAKE_PROJECT_VERSION_SO}
+# Install these (if possible)
+install(
+  FILES ${SWIG_HEADER_FILES}
+  PUBLIC_HEADER DESTINATION include/libalexandria/laX
+  COMPONENT "Swagger" OPTIONAL
 )

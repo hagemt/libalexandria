@@ -13,57 +13,68 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is a CMake cache template for linux developers.
-# You can copy this file to ./CMakeCache.user.txt and modify as you like.
-# Note that CMakeCache.user.txt is in .gitignore, which is loaded if present.
+# This is a CMake cache template for Linux developers. See README.txt
+# You can copy this file to ./user.CMakeCache.txt and modify as you like.
+# Note that user.CMakeCache.txt is in ./.gitignore, but is loaded if present.
 
-set(BIND_C TRUE CACHE BOOL "c +bindings")
-set(BIND_CXX TRUE CACHE BOOL "cxx +bindings")
-set(BIND_JAVA TRUE CACHE BOOL "java +bindings")
-set(BUILD_JAVADOC TRUE CACHE BOOL "java +doc")
-set(BUILD_SHARED_LIBS TRUE CACHE BOOL "all +sharedlibs")
-set(BUILD_TESTING TRUE CACHE BOOL "all +testing")
+# Build options
 
-set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings")
-set(CMAKE_C_FLAGS_DEBUG "-g -pedantic" CACHE STRING "c +debugmode")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings")
-set(CMAKE_CXX_FLAGS_DEBUG "-g -pedantic" CACHE STRING "cxx +debugmode")
+set(BIND_C              TRUE  CACHE BOOL "c +bindings")
+set(BIND_CXX            TRUE  CACHE BOOL "cxx +bindings")
+set(BIND_JAVA           TRUE  CACHE BOOL "java +bindings")
+#set(BUILD_JAVADOC       TRUE  CACHE BOOL "java +doc")
+#set(BUILD_SHARED_LIBS   TRUE  CACHE BOOL "all +sharedlibs")
+set(BUILD_TESTING       TRUE  CACHE BOOL "all +testing")
+set(USE_SWIG            TRUE  CACHE BOOL "+swig")
+#set(USE_ANDROID         TRUE  CACHE BOOL "+android")
+#set(ANDROID_TARGET_ARM  TRUE  CACHE BOOL "android +arm")
+#set(ANDROID_TARGET_MIPS TRUE  CACHE BOOL "android +mips")
+#set(ANDROID_TARGET_X86  TRUE  CACHE BOOL "android +x86")
+
+# C/C++/Fortran options
+
+set(CMAKE_C_FLAGS       "-Wall -Wextra" CACHE STRING "c +warnings")
+set(CMAKE_CXX_FLAGS     "-Wall -Wextra" CACHE STRING "cxx +warnings")
 set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
-set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +debugmode")
+
+set(CMAKE_C_FLAGS_DEBUG       "-g -pedantic" CACHE STRING "c +dbg")
+set(CMAKE_CXX_FLAGS_DEBUG     "-g -pedantic" CACHE STRING "cxx +dbg")
+set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +dbg")
+
+# Java options
 
 set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0")
+set(JAVA_NATIVE "${JAVA_PREFIX}/jre/lib/amd64")
 
-set(JAVA_AWT_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "AWT includes")
-set(JAVA_INCLUDE_PATH "${JAVA_PREFIX}/include" CACHE PATH "Java includes")
-set(JAVA_INCLUDE_PATH2 "${JAVA_PREFIX}/include" CACHE PATH "JNI includes")
-
-set(JAVA_AWT_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/libjawt.so" CACHE FILEPATH "JRE libawt")
-set(JAVA_JVM_LIBRARY "${JAVA_PREFIX}/jre/lib/amd64/server/libjvm.so" CACHE FILEPATH "JRE libjvm")
-
-set(Java_JAR_EXECUTABLE "${JAVA_PREFIX}/bin/jar" CACHE FILEPATH "JDK jar")
-set(Java_JAVAC_EXECUTABLE "${JAVA_PREFIX}/bin/javac" CACHE FILEPATH "JDK javac")
-set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc" CACHE FILEPATH "JDK javadoc")
-set(Java_JAVAH_EXECUTABLE "${JAVA_PREFIX}/bin/javah" CACHE FILEPATH "JDK javah")
-set(Java_JAVA_EXECUTABLE "${JAVA_PREFIX}/bin/java" CACHE FILEPATH "JDK java")
+set(Java_JAR_EXECUTABLE     "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "jar command")
+set(Java_JAVAC_EXECUTABLE   "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "javac command")
+set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc"      CACHE FILEPATH "javadoc command")
+set(Java_JAVAH_EXECUTABLE   "${JAVA_PREFIX}/bin/javah"        CACHE FILEPATH "javah command")
+set(Java_JAVA_EXECUTABLE    "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "java command")
+set(JAVA_AWT_INCLUDE_PATH   "${JAVA_PREFIX}/include"          CACHE     PATH "Java AWT includes")
+set(JAVA_AWT_LIBRARY        "${JAVA_NATIVE}/libjawt.so"       CACHE FILEPATH "Java libawt/jawt")
+set(JAVA_INCLUDE_PATH       "${JAVA_PREFIX}/include"          CACHE     PATH "Java JDK includes")
+set(JAVA_INCLUDE_PATH2      "${JAVA_PREFIX}/include"          CACHE     PATH "Java JNI includes")
+set(JAVA_JVM_LIBRARY        "${JAVA_NATIVE}/server/libjvm.so" CACHE FILEPATH "Java libjvm")
 
 mark_as_advanced(
   CMAKE_C_FLAGS
-  CMAKE_C_FLAGS_DEBUG
   CMAKE_CXX_FLAGS
-  CMAKE_CXX_FLAGS_DEBUG
   CMAKE_Fortran_FLAGS
+
+  CMAKE_C_FLAGS_DEBUG
+  CMAKE_CXX_FLAGS_DEBUG
   CMAKE_Fortran_FLAGS_DEBUG
 
-  JAVA_AWT_INCLUDE_PATH
-  JAVA_INCLUDE_PATH
-  JAVA_INCLUDE_PATH2
-
-  JAVA_AWT_LIBRARY
-  JAVA_JVM_LIBRARY
-
   Java_JAR_EXECUTABLE
+  Java_JAVA_EXECUTABLE
   Java_JAVAC_EXECUTABLE
   Java_JAVADOC_EXECUTABLE
   Java_JAVAH_EXECUTABLE
-  Java_JAVA_EXECUTABLE
+
+  JAVA_AWT_INCLUDE_PATH
+  JAVA_AWT_LIBRARY
+  JAVA_INCLUDE_PATH
+  JAVA_INCLUDE_PATH2
+  JAVA_JVM_LIBRARY
 )

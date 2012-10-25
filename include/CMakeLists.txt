@@ -20,6 +20,7 @@ macro(collect_headers REGEX FILES INCLUDES)
     set(${INCLUDES} "#include \"${HEADER_FILE}\"
 ${${INCLUDES}}")
   endforeach(HEADER_FILE)
+  set(${INCLUDES} "${${INCLUDES}}/* from ${REGEX} */")
 endmacro(collect_headers)
 
 # Configure global header TODO add more as bindings appear?
@@ -28,6 +29,7 @@ collect_headers("libalexandria/laC_*.h"   LAC_HEADER_FILES   LAC_INCLUDES)
 collect_headers("libalexandria/laCXX_*.h" LACXX_HEADER_FILES LACXX_INCLUDES)
 collect_headers("libalexandria/laF_*.h"   LAF_HEADER_FILES   LAF_INCLUDES)
 collect_headers("libalexandria/laJ/*.h"   LAJ_HEADER_FILES   LAJ_INCLUDES)
+collect_headers("libalexandria/laX/*.h"   SWIG_HEADER_FILES  SWIG_INCLUDES)
 set(GLOBAL_HEADER_FILE "${BASE_INCLUDE_PATH}/libalexandria.h")
 configure_file(libalexandria.h.in "${GLOBAL_HEADER_FILE}" @ONLY)
 set_property(SOURCE "${GLOBAL_HEADER_FILE}" PROPERTY GENERATED TRUE)
@@ -65,5 +67,5 @@ if(BIND_JAVA)
 endif(BIND_JAVA)
 
 if(USE_SWIG)
-  # TODO find SWIG (includes/libs) and point to ./swig
+  add_subdirectory(libalexandria/laX)
 endif(USE_SWIG)

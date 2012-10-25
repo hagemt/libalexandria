@@ -17,9 +17,9 @@
 #ifndef LA_LOG_H
 #define LA_LOG_H
 
-#ifdef USE_ANDROID
+#ifdef LA_ANDROID
 #include <android/log.h>
-#endif /* USE_ANDROID */
+#endif /* LA_ANDROID */
 
 /* Setup LOG_TAG using macro BS */
 #ifndef NDEBUG
@@ -31,7 +31,7 @@
 #endif /* NDEBUG */
 
 /* Specify the log codes */
-#ifdef USE_ANDROID
+#ifdef LA_ANDROID
 /* With the same ones as Android */
 #define LA_LOG_VERBOSE ANDROID_LOG_VERBOSE
 #define LA_LOG_DEBUG   ANDROID_LOG_DEBUG
@@ -39,7 +39,7 @@
 #define LA_LOG_WARN    ANDROID_LOG_WARN
 #define LA_LOG_ERROR   ANDROID_LOG_ERROR
 #define LA_LOG_FATAL   ANDROID_LOG_FATAL
-#else /* !USE_ANDROID */
+#else /* !LA_ANDROID */
 /* With our own values*/
 #define LA_LOG_VERBOSE 0x00
 #define LA_LOG_DEBUG   0x01
@@ -47,7 +47,7 @@
 #define LA_LOG_WARN    0x04
 #define LA_LOG_ERROR   0x08
 #define LA_LOG_FATAL   0xFF
-#endif /* USE_ANDROID */
+#endif /* LA_ANDROID */
 
 /**
  * TODO neaten this up! Also, my eyes... still yet unfinished, write:
@@ -57,11 +57,11 @@
 void __la_log_print(int, const char *, const char *, ...);
 
 /* Define general LOG macros */
-#ifdef USE_ANDROID
+#ifdef LA_ANDROID
 #define LOG(LEVEL,...) __android_log_print(LEVEL,LOG_TAG,__VA_ARGS__)
-#else /* !USE_ANDROID */
+#else /* !LA_ANDROID */
 #define LOG(LEVEL,...) __la_log_print(LEVEL,LOG_TAG,__VA_ARGS__)
-#endif /* USE_ANDROID */
+#endif /* LA_ANDROID */
 
 /* Aliases for different log-levels */
 #define LOGV(...) LOG(LA_LOG_VERBOSE, __VA_ARGS__)

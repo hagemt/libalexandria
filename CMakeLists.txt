@@ -36,7 +36,7 @@ set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
 if(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "${CMAKE_BUILD_TYPES}" FORCE)
 endif(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")
-# Specify some default directories
+# Specify some default directories/definitions
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
 set(BASE_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/include")
@@ -46,26 +46,29 @@ add_definitions(-DLA_LOG_TAG=${PROJECT_LOG_TAG})
 
 ### Configuration
 
-## Build options
-option(BIND_C            "Produce bindings for C"    OFF)
-option(BIND_CXX          "Produce bindings for C++"  OFF)
-option(BIND_JAVA         "Produce bindings for Java" OFF)
-option(BUILD_SHARED_LIBS "Produce shared libraries"  OFF)
-option(BUILD_TESTING     "Produce testing tree"      OFF)
-
+## Global build options
+option(BIND_C              "Produce bindings for C"    OFF)
+option(BIND_CXX            "Produce bindings for C++"  OFF)
+option(BIND_JAVA           "Produce bindings for Java" OFF)
+option(BUILD_SHARED_LIBS   "Produce shared libraries"  OFF)
+option(BUILD_TESTING       "Produce testing tree"      OFF)
 if(BIND_JAVA)
-option(USE_ANDROID       "Produce Android options"   OFF)
-option(BUILD_JAVADOC     "Produce a limited Javadoc" OFF)
+option(BUILD_JAVADOC       "Produce a limited Javadoc" OFF)
+option(USE_ANDROID         "Produce Android options"   OFF)
 endif(BIND_JAVA)
+option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
+if(USE_ANDROID)
+option(ANDROID_TARGET_ARM  "Support for ARM devices"   ON )
+option(ANDROID_TARGET_MIPS "Support for MIPS devices"  OFF)
+option(ANDROID_TARGET_X86  "Support for x86 devices"   OFF)
+endif(USE_ANDROID)
 
-option(USE_SWIG          "Produce bindings w/ SWIG"  OFF)
-
-## Development tools
+## Development tools (TODO should always run first?)
 add_subdirectory(dev)
 
 ## Requirements for Java bindings
 if(BIND_JAVA)
-  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum version for Java")
+  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum Java version")
   mark_as_advanced(JAVA_VERSION_MINIMUM)
   # Setup to compile Java sources
   find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Development)
@@ -79,26 +82,21 @@ if(BIND_JAVA)
       message(FATAL_ERROR "Unable to find Java runtime environment!")
     endif(NOT Java_Runtime_FOUND)
   endif(BUILD_TESTING)
-  # Set up the necessary tools
+  # Setup to use JNI (FIXME correct method?) and init
+  find_package(JNI ${JAVA_VERSION_MINIMUM})
+  if(NOT JNI_FOUND)
+    message(FATAL_ERROR "Unable to find JNI! Please locate or disable BIND_JAVA")
+  endif(NOT JNI_FOUND)
   include(UseJava)
-  # Set some arguments for Java for safe building
+  # Set some Java arguments for safe building into correct location
   set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
-  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
+  set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${LIBRARY_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 
-## Requirements for Android builds (NDK)
+# Requirements for Android (also see ./glue/CMakeLists.txt)
 if(USE_ANDROID)
-  if(NOT ANDROID)
-    message(FATAL_ERROR "Please configure your environment for USE_ANDROID or disable it")
-  endif(NOT ANDROID)
-  set(ANDROID_NDK_PATH     "$ENV{ANDROID_NDK}"      CACHE PATH   "Path to Android NDK")
-  set(ANDROID_SDK_VERSION  "$ENV{ANDROID_PLATFORM}" CACHE STRING "Version of Android SDK")
-  set(ANDROID_BUILD_ARCH   "$ENV{ANDROID_ARCH}"     CACHE STRING "Target architecture for Android build")
-  mark_as_advanced(ANDROID_NDK_PATH ANDROID_SDK_VERSION ANDROID_BUILD_ARCH)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${ANDROID_BUILD_ARCH}")
-  include_directories("${ANDROID_NDK_PATH}/platforms/${ANDROID_SDK_VERSION}/arch-${ANDROID_BUILD_ARCH}/usr/include")
-  add_definitions(-DUSE_ANDROID)
+  add_definitions(-DLA_ANDROID)
 endif(USE_ANDROID)
 
 # TODO FUTURE other libraries? like LAPACK?
@@ -133,7 +131,7 @@ add_subdirectory(fortran)
 
 # Language bindings
 add_subdirectory(bindings)
-# Android options
+# Android activities
 if(USE_ANDROID)
   add_subdirectory(android)
 endif(USE_ANDROID)

@@ -31,7 +31,11 @@ if(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   set(ANDROID_NDK_TOOLCHAIN_ROOT "${CMAKE_SOURCE_DIR}/glue/android-toolchain")
   execute_process(
     COMMAND ${TOOLCHAIN_SCRIPT} --platform=android-${ANDROID_API_LEVEL} --install-dir=${ANDROID_NDK_TOOLCHAIN_ROOT}
-    WORKING_DIRECTORY "${ANDROID_NDK}")
+    WORKING_DIRECTORY "${ANDROID_NDK}" TIMEOUT 60 OUTPUT_QUIET ERROR_FILE "make-toolchain.log" ERROR_VARIABLE FAILURE)
+  if(FAILURE)
+    set(ANDROID_NDK_TOOLCHAIN_ROOT)
+    message(FATAL_ERROR "Problem generating Android toolchain. See make-toolchain.log")
+  endif(FAILURE)
 endif(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 # Cache the value for the user
 set(ANDROID_NDK_TOOLCHAIN_ROOT "${ANDROID_NDK_TOOLCHAIN_ROOT}" CACHE PATH "The Android NDK toolchain to use")

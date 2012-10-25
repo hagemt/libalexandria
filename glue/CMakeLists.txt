@@ -50,7 +50,12 @@ if(USE_ANDROID)
       message(FATAL_ERROR "Please locate Android NDK, or active ANDROID_DOWNLOAD_NDK!")
     endif(NOT ANDROID_DOWNLOAD_NDK)
     # Fetch the NDK if necessary
-    execute_process(COMMAND "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}" "${LA_ANDROID_CMAKE_DIR}")
+    execute_process(
+      COMMAND "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}" "${LA_ANDROID_CMAKE_DIR}"
+      OUTPUT_QUIET ERROR_FILE "download-ndk.log" ERROR_VARIABLE FAILURE)
+    if(FAILURE)
+      message(FATAL_ERROR "Problem downloading NDK. Please see download-ndk.log")
+    endif(FAILURE)
   endif(NOT ANDROID_NDK)
   # Cache a record of each toolchain that will be required
   if(ANDROID_TARGET_ARM)

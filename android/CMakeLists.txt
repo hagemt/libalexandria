@@ -13,7 +13,30 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# TODO find the Android SDK so that we can build Java from here...
+# We'll need these to configure the toolchain
+if(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+  message(FATAL_ERROR "Unable to configure Android with CMake")
+endif(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 
-# The NDK should have been configured by ./glue/CMakeLists.txt
+# Android SDK settings
+set(ANDROID_PLATFORM "android-8" CACHE STRING "Target Android platform")
+
+# Provide a default toolchain path
+if(NOT ANDROID_NDK_TOOLCHAIN_ROOT)
+  set(ANDROID_NDK_TOOLCHAIN_ROOT "/opt/android-toolchain")
+endif(NOT ANDROID_NDK_TOOLCHAIN_ROOT)
+# Find a valid toolchain path if one does not already exist
+if(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
+  set(TOOLCHAIN_SCRIPT "./build/tools/make-standalone-toolchain.sh")
+  set(ANDROID_NDK_TOOLCHAIN_ROOT "${CMAKE_SOURCE_DIR}/glue/android-toolchain")
+  execute_process(
+    COMMAND ${TOOLCHAIN_SCRIPT} --platform=${ANDROID_PLATFORM} --install-dir=${ANDROID_NDK_TOOLCHAIN_ROOT}
+    WORKING_DIRECTORY "${ANDROID_NDK}")
+endif(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
+# Cache the value for the user
+set(ANDROID_NDK_TOOLCHAIN_ROOT "${ANDROID_NDK_TOOLCHAIN_ROOT}" CACHE PATH "The Android NDK toolchain to use")
+mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
+
+# Where the magic happens
+#include(${ANDROID_TOOLCHAIN_CMAKE_SCRIPT})
 add_subdirectory(jni)

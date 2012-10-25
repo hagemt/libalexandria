@@ -15,18 +15,18 @@
 
 if(USE_ANDROID)
   set(LA_ANDROID_CMAKE_DIR "${CMAKE_SOURCE_DIR}/glue/android-cmake")
-  set(LA_ANDROID_CMAKE_TOOLCHAIN_SCRIPT "android.toolchain.cmake")
+  set(LA_ANDROID_CMAKE_SCRIPT "android.toolchain.cmake")
   # Try to find the required toolchain script ^
-  find_file(ANDROID_TOOLCHAIN_SCRIPT
-    NAMES ${LA_ANDROID_CMAKE_TOOLCHAIN_SCRIPT}
+  find_file(ANDROID_TOOLCHAIN_CMAKE_SCRIPT
+    NAMES ${LA_ANDROID_CMAKE_SCRIPT}
     PATHS "${LA_ANDROID_CMAKE_DIR}" PATH_SUFFIXES "toolchain"
     DOC "Location of the CMake script for the Android toolchain")
-  if(NOT ANDROID_TOOLCHAIN_SCRIPT)
+  if(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
     if(NOT IS_DIRECTORY "${ANDROID_CMAKE_DIR}")
       message(FATAL_ERROR "Please update the git submodule in '${ANDROID_CMAKE_DIR}'!")
     endif(NOT IS_DIRECTORY "${ANDROID_CMAKE_DIR}")
-    message(FATAL_ERROR "Unable to locate ${LA_ANDROID_CMAKE_TOOLCHAIN_SCRIPT}!")
-  endif(NOT ANDROID_TOOLCHAIN_SCRIPT)
+    message(FATAL_ERROR "Unable to locate ${LA_ANDROID_CMAKE_SCRIPT}!")
+  endif(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
   # Try to find the Android NDK (check in ./android:./.., and any 'android-ndk' subdirs)
   set(LA_ANDROID_DIR "${CMAKE_SOURCE_DIR}/android")
   find_path(ANDROID_NDK NAMES "ndk-build"
@@ -35,12 +35,12 @@ if(USE_ANDROID)
     DOC "Location of the Android NDK")
   if(NOT ANDROID_NDK)
     # There exist some scripts within android-cmake to download the NDK
-    set(LA_ANDROID_NDK_DOWNLOAD_SCRIPT_DIR "${LA_ANDROID_CMAKE_DIR}/scripts")
+    set(LA_ANDROID_CMAKE_SCRIPTS_DIR "${LA_ANDROID_CMAKE_DIR}/scripts")
     if(LINUX)
-      set(SCRIPT_NAME "get_ndk_toolchain_linux.sh")
+      set(SCRIPT_FILE "get_ndk_toolchain_linux.sh")
     endif(LINUX)
-    # TODO convenience for other platforms? Once Google provides it.
-    set(LA_ANDROID_NDK_DOWNLOAD_SCRIPT "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT_DIR}/${SCRIPT_NAME}")
+    # TODO convenience for other platforms? Once android-cmake provides it.
+    set(LA_ANDROID_NDK_DOWNLOAD_SCRIPT "${LA_ANDROID_CMAKE_SCRIPTS_DIR}/${SCRIPT_FILE}")
     if(NOT LA_ANDROID_NDK_DOWNLOAD_SCRIPT)
       message(FATAL_ERROR "Unable to locate Android NDK directory!")
     endif(NOT LA_ANDROID_NDK_DOWNLOAD_SCRIPT)
@@ -63,10 +63,10 @@ if(USE_ANDROID)
     list(APPEND LA_ANDROID_TARGETS "x86")
   endif(ANDROID_TARGET_X86)
   set(ANDROID_TARGETS "${LA_ANDROID_TARGETS}" CACHE STRING "Selected Android architectures" FORCE)
-  mark_as_advanced(ANDROID_TARGETS)
   if(NOT ANDROID_TARGETS)
     message(WARNING "You have disabled all supported Android architectures...")
   endif(NOT ANDROID_TARGETS)
+  mark_as_advanced(ANDROID_NDK ANDROID_TARGETS ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 endif(USE_ANDROID)
 
 # Acquire all the glue (kolla) code

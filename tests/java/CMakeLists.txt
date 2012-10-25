@@ -14,7 +14,7 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 list(APPEND CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
-set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
+#set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
 
 # Build Java proof-of-concept
 set(CMAKE_JNI_TARGET TRUE)
@@ -23,6 +23,7 @@ set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
 file(GLOB LAJ_PROOF_SOURCES lib/alexandria/proof/*.java)
 add_jar(lib.alexandria.poc ${LAJ_PROOF_SOURCES})
 add_dependencies(lib.alexandria.poc lib.alexandria)
+#set_target_properties(lib.alexandria.poc PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
 
 # Make sure native interfaces are built
 add_subdirectory(jni)

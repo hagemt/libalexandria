@@ -14,6 +14,7 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 if(USE_ANDROID)
+  # FIXME git submodule update --init on ./glue/android-cmake?
   set(LA_ANDROID_CMAKE_DIR "${CMAKE_SOURCE_DIR}/glue/android-cmake")
   set(LA_ANDROID_CMAKE_SCRIPT "android.toolchain.cmake")
   # Try to find the required toolchain script ^
@@ -22,10 +23,7 @@ if(USE_ANDROID)
     PATHS "${LA_ANDROID_CMAKE_DIR}" PATH_SUFFIXES "toolchain"
     DOC "Location of the CMake script for the Android toolchain")
   if(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
-    if(NOT IS_DIRECTORY "${ANDROID_CMAKE_DIR}")
-      message(FATAL_ERROR "Please update the git submodule in '${ANDROID_CMAKE_DIR}'!")
-    endif(NOT IS_DIRECTORY "${ANDROID_CMAKE_DIR}")
-    message(FATAL_ERROR "Unable to locate ${LA_ANDROID_CMAKE_SCRIPT}!")
+    message(FATAL_ERROR "Please initialize the submodule in ${LA_ANDROID_CMAKE_DIR}, provide ${LA_ANDROID_CMAKE_SCRIPT} otherwise, or disable USE_ANDROID.")
   endif(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
   # Try to find the Android NDK (check in ./android:./.., and any 'android-ndk' subdirs)
   set(LA_ANDROID_DIR "${CMAKE_SOURCE_DIR}/android")
@@ -36,9 +34,9 @@ if(USE_ANDROID)
   if(NOT ANDROID_NDK)
     # There exist some scripts within android-cmake to download the NDK
     set(LA_ANDROID_CMAKE_SCRIPTS_DIR "${LA_ANDROID_CMAKE_DIR}/scripts")
-    if(LINUX)
+    if("${CMAKE_SYSTEM}" MATCHES "Linux")
       set(SCRIPT_FILE "get_ndk_toolchain_linux.sh")
-    endif(LINUX)
+    endif("${CMAKE_SYSTEM}" MATCHES "Linux")
     # TODO convenience for other platforms? Once android-cmake provides it.
     set(LA_ANDROID_NDK_DOWNLOAD_SCRIPT "${LA_ANDROID_CMAKE_SCRIPTS_DIR}/${SCRIPT_FILE}")
     if(NOT LA_ANDROID_NDK_DOWNLOAD_SCRIPT)
@@ -47,11 +45,12 @@ if(USE_ANDROID)
     # If we found a download script, offer it to the user
     option(ANDROID_DOWNLOAD_NDK "Fetch a copy of the Android NDK" OFF)
     if(NOT ANDROID_DOWNLOAD_NDK)
-      message(FATAL_ERROR "Please locate Android NDK, or active ANDROID_DOWNLOAD_NDK!")
+      message(FATAL_ERROR "Please locate Android NDK, or activate ANDROID_DOWNLOAD_NDK")
     endif(NOT ANDROID_DOWNLOAD_NDK)
     # Fetch the NDK if necessary
+    message("${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}")
     execute_process(
-      COMMAND "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}" "${LA_ANDROID_CMAKE_DIR}"
+      COMMAND "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}" "${LA_ANDROID_DIR}"
       OUTPUT_QUIET ERROR_FILE "download-ndk.log" ERROR_VARIABLE FAILURE)
     if(FAILURE)
       message(FATAL_ERROR "Problem downloading NDK. Please see download-ndk.log")

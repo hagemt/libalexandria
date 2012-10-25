@@ -15,7 +15,7 @@
 
 # We'll need these to configure the toolchain
 if(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
-  message(FATAL_ERROR "Unable to configure Android with CMake")
+  message(FATAL_ERROR "Unable to configure Android using CMake")
 endif(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 
 # Android SDK settings
@@ -41,9 +41,11 @@ endif(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 set(ANDROID_NDK_TOOLCHAIN_ROOT "${ANDROID_NDK_TOOLCHAIN_ROOT}" CACHE PATH "The Android NDK toolchain to use")
 mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
 
-# Where the magic happens
-include(${ANDROID_TOOLCHAIN_CMAKE_SCRIPT})
-if(NOT ANDROID)
-  message(FATAL_ERROR "Cannot enable USE_ANDROID; see README files")
-endif(NOT ANDROID)
+## Where the magic happens
+#include(${ANDROID_TOOLCHAIN_CMAKE_SCRIPT})
+#if(NOT ANDROID)
+#  message(FATAL_ERROR "Cannot enable USE_ANDROID; see README files")
+#endif(NOT ANDROID)
+## Nope! We need a subproject, because this is unreal.
+
 add_subdirectory(jni)

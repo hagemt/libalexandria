@@ -15,13 +15,11 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-%module la_glue
+%module kolla
 %{
-extern void la_initialize(unsigned long long int);
-extern void la_finalize(unsigned long long int);
-extern void la_print_info_incomplete(const char *);
+/* #include "la_glue.h" */
 %}
 
 extern void la_initialize(unsigned long long int);
 extern void la_finalize(unsigned long long int);
-extern void la_print_info_incomplete(const char *);
+extern void la_mark_incomplete(const char *);

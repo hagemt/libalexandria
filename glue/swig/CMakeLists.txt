@@ -31,14 +31,14 @@ mark_as_advanced(SWIG_EXTRA_FLAGS)
 find_package(PythonLibs REQUIRED)
 include_directories(${PYTHON_INCLUDE_PATH})
 
-# Create python bindings for libkolla
-swig_add_module(la_glue python la_glue.i ${SWIG_EXTRA_FLAGS})
-swig_link_libraries(la_glue kolla calg ${PYTHON_LIBRARIES})
-
-# Install the files generated this way
-install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/_la_glue.so"
-  "${CMAKE_CURRENT_BINARY_DIR}/la_glue.py"
-  DESTINATION bin/python
-  COMPONENT "Swagger" OPTIONAL
-)
+## Create python bindings for libkolla
+#swig_add_module(la_glue python la_glue.i ${SWIG_EXTRA_FLAGS})
+#swig_link_libraries(la_glue kolla calg ${PYTHON_LIBRARIES})
+#
+## Install the files generated this way
+#install(FILES
+#  "${CMAKE_CURRENT_BINARY_DIR}/_la_glue.so"
+#  "${CMAKE_CURRENT_BINARY_DIR}/la_glue.py"
+#  DESTINATION bin/python
+#  COMPONENT "Swagger" OPTIONAL
+#)

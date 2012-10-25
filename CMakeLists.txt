@@ -141,6 +141,7 @@ endif(USE_ANDROID)
 include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
+  configure_file("CTestCustom.cmake.in" "CTestCustom.cmake" @ONLY)
   add_subdirectory(tests)
 endif(BUILD_TESTING)
 

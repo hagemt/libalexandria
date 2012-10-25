@@ -25,6 +25,9 @@ struct la_buffer_table_value_t {
 	void *buffer, *handle;
 };
 
-typedef long long unsigned int la_UUID_t;
+typedef long unsigned int la_UUID_t;
+
+typedef la_UUID_t la_key_t;
+typedef struct la_buffer_table_value_t la_value_t;
 
 #endif /* LA_TYPES_H */

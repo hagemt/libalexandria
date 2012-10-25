@@ -14,16 +14,17 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LA_GLUE_H
-#define LA_GLUE_H
+
+#ifndef LA_HELPER_H
+#define LA_HELPER_H
 
 #include "la_types.h"
 
-/* Important library functions */
-void la_initialize(la_UUID_t);
-void la_finalize(la_UUID_t);
+typedef void (*__value_handler_t)(HashTableValue);
 
-/* Utility functions */
-void la_mark_incomplete(const char *);
+void __la_free_buffer_table_key(HashTableKey);
+void __la_free_buffer_table_value(HashTableValue);
+void __la_dump_table(HashTable *, __value_handler_t);
+void __la_dump_value(HashTableValue);
 
-#endif /* LA_GLUE_H */
+#endif /* LA_HELPER_H */

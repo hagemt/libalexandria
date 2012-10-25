@@ -4,8 +4,12 @@ libalexandria
 This README file contains information regarding libalexandria,
 a humorously named for its inclusive breadth of FORTRAN code,
 bound using C/C++, all the way "through the ages" into Java,
-and further entensible using future interfaces, many and more
+and further extensible using future interfaces, many and more
 of which have even yet to be imagined.
+
+libalexandria is a library for machine learning! In the
+coming months, we plan to implement a large variety of
+models. So stay tuned!
 
 Philosophy
 ----------
@@ -24,7 +28,7 @@ that turn the focus away from general usability and instead
 maximize the speed and accuracy of computation.
 
 As such, the top layer of libalexandria is quite abstract,
-perhaps exceedingly (rediculously) so, by design. Here is where
+perhaps exceedingly (ridiculously) so, by design. Here is where
 we allow ourselves this, in the name of the power that abstraction
 (see Liskov) gives us, to organize concepts and communicate them to
 our users with extreme clarity. No expense should be spared to
@@ -34,7 +38,7 @@ Naturally, this can make the base of libalexandria, henceforth
 referred to as la, quite arcane. (Instances of "la" within code
 stand for "libalexandria." Oftentimes, this prefix may include
 a few additional characters which encode the implementation
-language. For example, laF_ denotes fortran codes for "la.")
+language. For example, laF_ denotes FORTRAN codes for "la.")
 Through more general use, these procedures will become bound
 to nodes in the hierarchy of bindings, which will provide a
 myriad of interfaces which you may leverage as you please
@@ -54,8 +58,8 @@ The Library of Alexandria will provide easy methods for:
 * Many varieties of sampling tools (planned, sorta written)
 * Neat (Android!) interfaces to (native optimized) machine learning
     * Reinforcement: "cortical" HTM using sparse representations (planned)
-    * Reinforcement: traditional Artifical neural network (planned)
-    * Reinforcement: Hidden markov models (planned, currently abstract)
+    * Reinforcement: traditional Artificial neural network (planned)
+    * Reinforcement: Hidden Markov models (planned, currently abstract)
     * Supervised: SVM w/ or w/o Kernel (planned, Kernel implemented)
     * Supervised: Linear/Logistic Regression (planned)
     * Unsupervised: K-means and other clustering algorithms (planned)
@@ -75,16 +79,24 @@ If you contribute to it, you may wish to seek recognition as per the section bel
 Licensing
 ---------
 
-See ./LICENSE (note that all of libalexandira uses LGPL v3, including all bindings)
-See ./LICENCE.txt for form to include in files
+See ./LICENSE (note that all of libalexandria uses LGPL v3, including all bindings)
+See ./LICENSE.txt for form to include in files
 
-For those familiar with bashisms: (a lot of people)
-    declare -a LANGUAGES
-    LANGUAGES=('C', 'Fortran')
+For those familiar with python: (a lot of people)
+LANGUAGE_LOOKUP = {
+	'C': 'C'
+	'C': 'C++'
+	'C': 'Java'
+	'F': 'FORTRAN'
+	'TXT': 'cmake'
+	'TXT': 'python'
+	'TXT': 'shell'
+	'TXT': 'text'
+}
 
-A  ./LICENSE.txt suitable for inclusion in any file written in a language
-that supports LANG-style comment syntax can be found in LICENSE.LANG,
-where LANG is a member of ${LANGUAGES[@]}.</p>
+A  ./LICENSE.txt suitable for inclusion in files written in languages
+enumerated above (value entries) can be found in LICENSE.LANG, where LANG
+is the corresponding key in the LANGUAGE_LOOKUP dictionary.
 
 You may ask yourself "But why LGPL? Wouldn't some BSD be better?"
 
@@ -97,14 +109,14 @@ that you are obligated to giving those contributions back to the community.
 That's fine. No one is forcing you to use GPL, me included. This is a common
 misconception with licensing. Not all GPL-licensed code is "viral" like that.
 
-Feel free to use a GPL-compatiple BSD license, just for example. Where you
+Feel free to use a GPL-compatible BSD license, just for example. Where you
 put the source is really up to you. If you doubt our juris prudence, see [1],
 where it explicitly addresses "Linking from code with a different license."
 
 [1] http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License
 
 Note: to distinguish terms, The Free Software Foundation calls the GPL-style restrictions
-(you must release any modifications under the same licence) 'copyleft'. [2]
+(you must release any modifications under the same license) 'copyleft'. [2]
 
 Always note that, when selecting a license generally, it is good to do your homework.
 

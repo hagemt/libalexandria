@@ -21,12 +21,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
-import lib.alexandria.functional.params.Parameter;
-
 /**
- * 
+ * A specialized iterator that disallows manipulation of Parameters.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @param <N> 
+ * @param <N> the type over which each Parameter is templated
+ * @see lib.alexandria.functional.params.Parameter
  */
 public class Paramiterator<N extends Number> implements Iterator<Parameter<N>> {
 	private final Iterator<Entry<String, N>> iterator;

@@ -42,7 +42,7 @@ import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
  * "isLoggable" and "log(LogRecord)" to that instance. Note that in order to intercept all logging output,
  * subclasses need only override the log(LogRecord) method.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.Log
+ * @see lib.alexandria.logging.Log
  */
 public class MessageLogger extends Logger implements Log {
 	private static final ConsoleHandler DEFAULT_CONSOLE;

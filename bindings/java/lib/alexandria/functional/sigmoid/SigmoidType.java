@@ -18,10 +18,16 @@ package lib.alexandria.functional.sigmoid;
 
 import lib.alexandria.Generate;
 
+/**
+ * Many different types of mathematical functions are sigmoidal.
+ * We have here a framework for classifying and organizing them.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
 public enum SigmoidType implements Generate.A<SigmoidFunction> {
 	/**
 	 * Counts as a sigmoid function, with kinks?
-	 * Would need argument for x-location.
+	 * Would only need argument for x-location.
 	 */
 	THRESHOLD,
 	/**
@@ -48,7 +54,6 @@ public enum SigmoidType implements Generate.A<SigmoidFunction> {
 	 * Results in Y(t) = 1/(1 + exp(-t))
 	 */
 	LOGISTIC,
-	/* Well-defined mathematical functions */
 	/**
 	 * A well-defined mathematical function, arc-tangent.
 	 */

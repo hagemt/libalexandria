@@ -22,7 +22,7 @@ import static lib.alexandria.Generate.Some;
  * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
  * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @throws IllegalArgumentException if KAPPA <= 0 or C >= 0
+ * @since libalexandria v0.1
  */
 public class HyperbolicKernel extends Kernel implements Some<TrigFlavor> {
 	private TrigFlavor flavor;

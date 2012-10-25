@@ -40,7 +40,7 @@ public class Aqueduct<M extends Number, N extends Number> extends Pipe implement
 	private final long key;
 	
 	/**
-	 * A pipeline's state isn't as simple as on/off
+	 * A pipeline's state isn't as simple as ON or OFF
 	 * @author Tor E Hagemann <hagemt@rpi.edu>
 	 */
 	public enum State {

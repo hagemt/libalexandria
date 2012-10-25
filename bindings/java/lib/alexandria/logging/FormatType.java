@@ -16,6 +16,22 @@
  */
 package lib.alexandria.logging;
 
+/**
+ * Encapsulates some information about the format of a log.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
 public enum FormatType {
-	SIMPLE, SINGLE, XML;
+	/**
+	 * Implies very simple log format.
+	 */
+	SIMPLE,
+	/**
+	 * Implies logging using a single-line format.
+	 */
+	SINGLE,
+	/**
+	 * Implies the log format is structured by XML.
+	 */
+	XML;
 }

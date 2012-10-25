@@ -19,6 +19,13 @@ package lib.alexandria.logging;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * A very simple type of formatter that only cares about the message.
+ * Its name is due to its behavior of producing one newline per record.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @see lib.alexandria.logging.MessageLogger
+ * @since libalexandria v0.1
+ */
 public class LinearFormatter extends Formatter {
 	private static final String endl;
 	static {

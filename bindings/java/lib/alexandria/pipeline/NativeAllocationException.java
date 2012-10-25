@@ -20,6 +20,11 @@ import java.io.IOException;
 
 import lib.alexandria.naming.Labelled;
 
+/**
+ * Facilitates handling exceptional behavior due to the native environment.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
+ */
 public class NativeAllocationException extends IOException {
 	private static final long serialVersionUID = -3960122176317023786L;
 	private final String prefix;

@@ -30,6 +30,11 @@ import lib.alexandria.logging.LinearFormatter;
  */
 public final class ModelConstants {
 	/**
+	 * Protect against direct instances.
+	 */
+	protected ModelConstants() { }
+
+	/**
 	 * An HTM constant specifying the minimum cortex dimension.
 	 * Its standard value is: 32 (results in 1KB used)
 	 */
@@ -44,14 +49,14 @@ public final class ModelConstants {
 	/**
 	 * A testing constant specifying the time to wait for jobs.
 	 * Its standard value is: 10000 (milliseconds)
-	 * @see DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_RUN_TIME;
 
 	/**
 	 * A testing constant specifying the time to wait for joins.
 	 * Its standard value is: 1000 (milliseconds)
-	 * @see DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_JOIN_TIME;
 
@@ -59,8 +64,8 @@ public final class ModelConstants {
 	 * A testing constant specifying the time unit for various other testing constants.
 	 * Its standard value is: TimeUnit.MILLISECONDS (from java.util.concurrent)
 	 * @see java.util.concurrent.TimeUnit
-	 * @see DEFAULT_RUN_TIME
-	 * @see DEFAULT_JOIN_TIME
+	 * @see lib.alexandria.ModelConstants#DEFAULT_RUN_TIME
+	 * @see lib.alexandria.ModelConstants#DEFAULT_JOIN_TIME
 	 */
 	public static final TimeUnit DEFAULT_TIME_UNIT;
 
@@ -112,6 +117,15 @@ public final class ModelConstants {
 	 * Its standard value indicates information messages.
 	 */
 	public static final Level DEFAULT_LOG_LEVEL;
+	
+	/**
+	 * Specifies the categories of models we know about.
+	 * @author Tor E Hagemann <hagemt@rpi.edu>
+	 * @since libalexandria v0.1
+	 */
+	public static enum ModelType {
+		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
+	}
 	
 	/**
 	 * Give constants the default values.
@@ -171,27 +185,4 @@ public final class ModelConstants {
 				"0Zero"
 		};
 	}
-	
-	/**
-	 * Specifies the categories of models we know about.
-	 * @author Tor E Hagemann <hagemt@rpi.edu>
-	 * @since libalexandria v0.1
-	 */
-	public static enum ModelType {
-		SUPERVISED, UNSUPERVISED, REINFORCEMENT;
-	}
-
-	/**
-	 * TODO remove?
-	 * Perhaps the best or the worst idea I have ever had.
-	 * Allows models to implement model constants for a type.
-	 * @author Tor E Hagemann <hagemt@rpi.edu>
-	 * @param <E> an enumerated type
-	 */
-	/*
-	public static interface ModelFor<E extends Enum<E>> {
-		E getType();
-		Class<E> getTypeClass();
-	}
-	*/
 }

@@ -1,7 +1,8 @@
+Creating filelist for android
 Creating filelist for bindings
 Creating filelist for dev
 Creating filelist for fortran
-WARNING!!! Not a file nor a directory (so ignored): /home/teh/Downloads/Code/libalexandria/hooks
+Creating filelist for glue
 Creating filelist for include
 Creating filelist for tests
 Categorizing files.
@@ -12,29 +13,33 @@ Computing results.
 
 SLOC	Directory	SLOC-by-Language (Sorted)
 1477    bindings        java=1344,ansic=125,cpp=8
+288     android         java=233,xml=55
 241     tests           java=195,ansic=38,cpp=8
+158     glue            ansic=123,sh=23,python=12
 154     include         ansic=154
-54      dev             sh=54
+68      dev             sh=68
 48      fortran         fortran=48
 
 
 Totals grouped by language (dominant language first):
-java:          1539 (77.96%)
-ansic:          317 (16.06%)
-sh:              54 (2.74%)
-fortran:         48 (2.43%)
-cpp:             16 (0.81%)
+java:          1772 (72.80%)
+ansic:          440 (18.08%)
+sh:              91 (3.74%)
+xml:             55 (2.26%)
+fortran:         48 (1.97%)
+cpp:             16 (0.66%)
+python:          12 (0.49%)
 
 
 
 
-Total Physical Source Lines of Code (SLOC)                = 1,974
-Development Effort Estimate, Person-Years (Person-Months) = 0.41 (4.90)
+Total Physical Source Lines of Code (SLOC)                = 2,434
+Development Effort Estimate, Person-Years (Person-Months) = 0.51 (6.11)
  (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
-Schedule Estimate, Years (Months)                         = 0.38 (4.57)
+Schedule Estimate, Years (Months)                         = 0.41 (4.97)
  (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
-Estimated Average Number of Developers (Effort/Schedule)  = 1.07
-Total Estimated Cost to Develop                           = $ 55,177
+Estimated Average Number of Developers (Effort/Schedule)  = 1.23
+Total Estimated Cost to Develop                           = $ 68,751
  (average salary = $56,286/year, overhead = 2.40).
 SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
 SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.

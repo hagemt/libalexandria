@@ -31,17 +31,14 @@ our users with extreme clarity. No expense should be spared to
 maintain this transparency.
 
 Naturally, this can make the base of libalexandria, henceforth
-referred to as laX (standing for libalexandria X, where X is a
-short string encoding the implementation language) quite arcane.
+referred to as la, quite arcane. (Instances of "la" within code
+stand for "libalexandria." Oftentimes, this prefix may include
+a few additional characters which encode the implementation
+language. For example, laF_ denotes fortran codes for "la.")
 Through more general use, these procedures will become bound
-to nodes in the hierarchy of bindings, which will provide
-myriad interfaces to your wonderful heap of technical wizardry.
-
-(As an example, the prefix laF is used to reference .F codes.)
-
-Note: in general, try to use upper case for X labels.
-
-Note: the native code for JNI currently does not conform.
+to nodes in the hierarchy of bindings, which will provide a
+myriad of interfaces which you may leverage as you please
+with your own technical wizardry.
 
 Hopefully, you will agree that there are at least two concerns
 represented here, and so this division makes logical sense to you.
@@ -51,9 +48,9 @@ So, that is it. Find your niche and start your engines.
 Features
 --------
 
-The Library of Alexandria will provide:
+The Library of Alexandria will provide easy methods for:
 
-* Maximum-likelihood estimates in an efficient manner (planned)
+* Efficiently calculating maximum-likelihood estimates (planned)
 * Many varieties of sampling tools (planned, sorta written)
 * Neat (Android!) interfaces to (native optimized) machine learning
     * Reinforcement: "cortical" HTM using sparse representations (planned)
@@ -71,9 +68,9 @@ History
 
 libalexandria began in September 2012 as a personal project.
 
-If you contribute to it, you may wish to add your name as per the section below.
-
 See [Building] for development notes.
+
+If you contribute to it, you may wish to seek recognition as per the section below.
 
 Licensing
 ---------
@@ -86,10 +83,10 @@ For those familiar with bashisms: (a lot of people)
     LANGUAGES=('C', 'Fortran')
 
 A  ./LICENSE.txt suitable for inclusion in any file written in a language
-that supports LANG-style comment syntax can be found in LICENSE.$l, where
-LANG is a member of ${LANGUAGES[@]}.
+that supports LANG-style comment syntax can be found in LICENSE.LANG,
+where LANG is a member of ${LANGUAGES[@]}.</p>
 
-You may ask yourself "But why LGPL then? Wouldn't the some BSD be better?"
+You may ask yourself "But why LGPL? Wouldn't some BSD be better?"
 
 For most applications that seek to capitalize, sure. But this is a library. Not
 only that, it is a library, which if you contribute code to, the authors feel
@@ -139,4 +136,4 @@ Contributors
 
 See ./AUTHORS.txt
 
-Please add your name to this file in the commit for any pull-request you send me.
+Please add your name to that file in the commit for any pull-request you send.

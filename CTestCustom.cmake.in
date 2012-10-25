@@ -1,5 +1,4 @@
 set(CTEST_CUSTOM_WARNING_EXCEPTION
 	"la_gluePYTHON_wrap"
 	"laJ_(.*)unused parameter"
-	"anonymous variadic macros"
 )

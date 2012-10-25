@@ -45,7 +45,7 @@ of which have even yet to be imagined.</p>
 <p>libalexandria is envisioned to address a very defined Separation
 of Concerns, those being, specifically, and not otherwise:</p>
 
-<p>Simple Interface &larr; (Efficient Bridge) &rarr; Advanced Computation</p>
+<p><code>Simple Interface &larr; (Efficient Bridge) &rarr; Advanced Computation</code></p>
 
 <p>So broadly stated, we implement this philosophy using the Java
 Native Interface (JNI) to provide a data-transformational intermediary
@@ -106,44 +106,50 @@ So, that is it. Find your niche and start your engines.</p>
 
 <h2>Licensing</h2>
 
-See ./LICENSE (note that all of libalexandira uses LGPL v3, including all bindings)
-See ./LICENCE.txt for form to include in files
+<p>See ./LICENSE (note that all of libalexandira uses LGPL v3, including all bindings)</p>
 
-For those familiar with bashisms: (a lot of people)
-declare -a LANGUAGES
-LANGUAGES=('C', 'Fortran')
+<p>See ./LICENCE.txt for form to include in files</p>
 
-A  ./LICENSE.txt suitable for inclusion in any file written in a language
-that supports LANG-style comment syntax can be found in LICENSE.$l, where
-LANG is a member of ${LANGUAGES[@]}.
+<p>For those familiar with bashisms: (a lot of people)</p>
 
-You may ask yourself "But why LGPL then? Wouldn't the some BSD be better?"
+<ul>
+	<li>declare -a LANGUAGES</li>
+	<li>LANGUAGES=('C', 'Fortran')</li>
+</ul>
 
-For most applications that seek to capitalize, sure. But this is a library. Not
-only that, it is a library, which if you contribute code to, the authors feel
-that you are obligated to giving those contributions back to the community.
+<p>A  ./LICENSE.txt suitable for inclusion in any file written in a language,
+denoted L, that supports LANG-style comment syntax can be found in LICENSE.L,
+where LANG is a member of ${LANGUAGES[@]}.</p>
 
-"But I can't use your library because I don't want to use GPL for my app."
+<p>You may ask yourself "But why LGPL? Wouldn't some BSD be better?"</p>
 
-That's fine. No one is forcing you to use GPL, me included. This is a common
-misconception with licensing. Not all GPL-licensed code is "viral" like that.
+<p>For most applications that seek to capitalize, sure. But this is a library.
+Not only that, it is a library, which if you contribute code to, the authors feel
+that you are obligated to giving those contributions back to the community.</p>
 
-Feel free to use a GPL-compatiple BSD license, just for example. Where you
+<p>"But I can't use your library because I don't want to use GPL for my app."</p>
+
+<p>That's fine. No one is forcing you to use GPL, me included. This is a common
+misconception with licensing. Not all GPL-licensed code is "viral" like that.</p>
+
+<p>Feel free to use a GPL-compatiple BSD license, just for example. Where you
 put the source is really up to you. If you doubt our juris prudence, see [1],
-where it explicitly addresses "Linking from code with a different license."
+where it explicitly addresses "Linking from code with a different license."</p>
 
-[1] http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License
+<p>Note: to distinguish terms, The Free Software Foundation calls the GPL-style restrictions
+(you must release any modifications under the same licence) 'copyleft'. See [2]</p>
 
-Note: to distinguish terms, The Free Software Foundation calls the GPL-style restrictions
-(you must release any modifications under the same licence) 'copyleft'. [2]
+<p>Always note that, when selecting a license generally, it is good to do your homework.</p>
 
-Always note that, when selecting a license generally, it is good to do your homework.
+<p>If libalexandria were licensed under a general BSD license, for example,
+the contributors to libalexandria would not be obligated to give back their
+contributions, and there is some question as to whether an linked app even
+could be licensed under GPL v2+.</p>
 
-If libalexandria were licensed under a general BSD license, for example, the contributors
-to libalexandria would not be obligated to give back their contributions, and there is
-some question as to whether an linked app even could be licensed under GPL v2+.
-
-[2] http://en.wikipedia.org/wiki/List_of_FSF_approved_software_licenses
+<ol>
+	<li><a href="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License">Information on GNU LGPL</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/List_of_FSF_approved_software_licenses">Information on FSF-approval</a></li>
+</ol>
 
 <h2>Building</h2>
 
@@ -154,19 +160,19 @@ for building on multiple platforms and under a variety of configurations.</p>
 
 <ul>
 	<li>GNU Toolchain (or Eclipse with CMake abilities)</li>
-	<li><ul>
+	<ul>
 		<li><code>gcc</code></li>
 		<li><code>gfortran</code></li>
 		<li><code>gcj</code> (TODO fix strange symbol problem? dev is using proprietary JDK for now)</li>
-	</ul></li>
-	<li><ul>
+	</ul>
+	<ul>
 		<li>MVSC? (TODO someone willing to test this?)</li>
 		<li>(TODO also add a minimum version system/IDE)</li>
-	</ul></li>
-	<li><ul>
+	</ul>
+	<ul>
 		<li>Xcode? (TODO someone willing to test this?)</li>
 		<li>(TODO also add a minimum version system/IDE)</li>
-	</ul></li>
+	</ul>
 </ul>
 
 <h2>Contributors</h2>

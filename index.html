@@ -40,6 +40,10 @@ bound using C/C++, all the way "through the ages" into Java,
 and further extensible using future interfaces, many and more
 of which have even yet to be imagined.</p>
 
+<p>libalexandria is a library for machine learning! In the
+coming months, we plan to implement a large variety of models.
+So stay tuned!</p>
+
 <h2>Philosophy</h2>
 
 <p>libalexandria is envisioned to address a very defined Separation
@@ -110,16 +114,24 @@ So, that is it. Find your niche and start your engines.</p>
 
 <p>See ./LICENSE.txt for form to include in files</p>
 
-<p>For those familiar with bashisms: (a lot of people)</p>
+<p>For those familiar with python: (a lot of people)</p>
 
+<code>LANGUAGE_LOOKUP = {</code>
 <ul>
-	<li>declare -a LANGUAGES</li>
-	<li>LANGUAGES=('C', 'FORTRAN')</li>
+	<li><code>'C': 'C'</code></li>
+	<li><code>'C': 'C++'</code></li>
+	<li><code>'C': 'Java'</code></li>
+	<li><code>'F': 'FORTRAN'</code></li>
+	<li><code>'TXT': 'cmake'</code></li>
+	<li><code>'TXT': 'python'</code></li>
+	<li><code>'TXT': 'shell'</code></li>
+	<li><code>'TXT': 'text'</code></li>
 </ul>
+<code>}</code>
 
-<p>A  ./LICENSE.txt suitable for inclusion in any file written in a language,
-denoted L, that supports LANG-style comment syntax can be found in LICENSE.L,
-where LANG is a member of ${LANGUAGES[@]}.</p>
+<p>A  ./LICENSE.txt suitable for inclusion in files written in languages
+enumerated above (value entries) can be found in LICENSE.LANG, where LANG
+is the corresponding key in the LANGUAGE_LOOKUP dictionary.</p>
 
 <p>You may ask yourself "But why LGPL? Wouldn't some BSD be better?"</p>
 

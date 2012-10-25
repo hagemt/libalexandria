@@ -17,9 +17,9 @@
 #ifndef LA_TYPES_H
 #define LA_TYPES_H
 
-#include <libcalg/compare-pointer.h>
-#include <libcalg/hash-pointer.h>
 #include <libcalg/hash-table.h>
+
+#define LA_NULL (void *)(0xDEADBEEF)
 
 struct la_buffer_table_value_t {
 	void *buffer, *handle;

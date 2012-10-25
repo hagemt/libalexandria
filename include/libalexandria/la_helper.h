@@ -20,10 +20,13 @@
 
 #include "la_types.h"
 
-typedef void (*__value_handler_t)(HashTableValue);
+unsigned long __la_hash_buffer_table_key(HashTableKey);
+int __la_compare_buffer_table_keys(HashTableKey, HashTableKey);
 
 void __la_free_buffer_table_key(HashTableKey);
 void __la_free_buffer_table_value(HashTableValue);
+
+typedef void (*__value_handler_t)(HashTableValue);
 void __la_dump_table(HashTable *, __value_handler_t);
 void __la_dump_value(HashTableValue);
 

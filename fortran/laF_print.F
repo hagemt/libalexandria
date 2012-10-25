@@ -14,13 +14,12 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
-#include "laF_constants.h"
-#define COMPLEX_UNIT CMPLX(0,1)
+#include "la_constants.h"
 
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_PRINTI
 C     -------------------------------------------------------------------------
-      PRINT *,COMPLEX_UNIT
+      PRINT *,LAF_COMPLEX_UNIT
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_PRINTI
 
@@ -30,7 +29,7 @@ C     -------------------------------------------------------------------------
       CHARACTER STR*(*)
       INTEGER LENGTH
       LENGTH=LEN(STR)
-      IF (LENGTH .LE. LAF_MAX_LEN) THEN
+      IF (LENGTH .LE. LA_MAX_LEN) THEN
         PRINT *,'This string: "',STR,'" has length ',LENGTH,'.'
       ENDIF
 C     -------------------------------------------------------------------------

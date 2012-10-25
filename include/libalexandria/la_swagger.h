@@ -14,9 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LA_SWAGGER
-#define LA_SWAGGER
+#ifndef LA_SWAGGER_H
+#define LA_SWAGGER_H
+
+#ifdef LA_PY
+#pragma message("WARNING: Python (SWIG) bindings are incomplete")
+#endif /* LA_PY */
 
 /* TODO future use, SWIG swag */
 
-#endif /* LA_SWAGGER */
+#endif /* LA_SWAGGER_H */

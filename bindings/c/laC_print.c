@@ -14,11 +14,12 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include <string.h>
 
-#include "laC_print.h"
+#include "libalexandria.h"
 
 void
 println(const char *msg) {
-	laf_print_(msg, strnlen(msg, LAF_MAX_LEN));
+	laf_print_(msg, strnlen(msg, LA_MAX_LEN));
 }

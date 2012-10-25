@@ -13,6 +13,7 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+add_definitions(-DLA_M)
 file(GLOB LAC_SOURCES "laC_*.c")
 
 # TODO rename library? or is consisent with C++ convension?

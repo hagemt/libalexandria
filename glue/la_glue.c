@@ -15,19 +15,23 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <assert.h>
+
 #include "la_glue.h"
+#include "la_helper.h"
+#include "la_log.h"
 
 /* Note: this cannot be static, for external linkage */
-HashTable *la_buffer_table = NULL;
+HashTable *la_buffer_table = LA_NULL;
 
 void
 la_initialize(la_UUID_t seed)
 {
-	assert(!la_buffer_table);
+	assert(la_buffer_table == LA_NULL);
 	la_buffer_table = hash_table_new(
 		&__la_hash_buffer_table_key,
-		&__la_compare_buffer_table_value);
-	assert(la_buffer_table);
+		&__la_compare_buffer_table_keys);
+	assert(la_buffer_table != LA_NULL);
 	hash_table_register_free_functions(
 		la_buffer_table,
 		&__la_free_buffer_table_key,
@@ -38,7 +42,7 @@ la_initialize(la_UUID_t seed)
 void
 la_finalize(la_UUID_t seed)
 {
-	// TODO check seed, maybe dump buffer table too
+	/* TODO check seed has been init */
 	int num_entries = 0;
 	if (la_buffer_table) {
 		#ifndef NDEBUG
@@ -46,7 +50,7 @@ la_finalize(la_UUID_t seed)
 		#endif
 		num_entries = hash_table_num_entries(la_buffer_table);
 		hash_table_free(la_buffer_table);
-		la_buffer_table = NULL;
+		la_buffer_table = LA_NULL;
 	}
 	LOGD("%llu (entries removed from buffer table: %i)", seed, num_entries);
 }
@@ -54,6 +58,6 @@ la_finalize(la_UUID_t seed)
 void
 la_mark_incomplete(const char *feature)
 {
-	LOGI("'%s' (feature not yet implemented)", feature);
+	LOGI("'%s' (feature not yet complete)", feature);
 }
 

@@ -15,7 +15,10 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define LA_JNI
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "libalexandria.h"
 
 inline la_key_t *
@@ -36,14 +39,16 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 {
 	la_key_t *key;
 	la_value_t *value;
-	if (!la_buffer_table) {
+	HashTableValue v;
+	const size_t len = LA_MAX_LEN * sizeof(jdouble);
+	if (la_buffer_table == LA_NULL) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return NULL;
 	}
 
 	key = extract_key(arg);
 	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), (long long unsigned)(*key));
-	HashTableValue v = hash_table_lookup(la_buffer_table, key);
+	v = hash_table_lookup(la_buffer_table, key);
 	if (v != HASH_TABLE_NULL) {
 		free(key); /* you won't be needing this anymore */
 		value = (la_value_t *)(v);
@@ -51,11 +56,11 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 	} else {
 		/* Create a new entry only if necessary */
 		value = malloc(sizeof(la_value_t));
-		// FIXME is this the right size for our needs?
-		value->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
-		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
-		// FIXME is there really no corresponding free for this?
-		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
+		/* FIXME is this the right size for our needs? */
+		value->buffer = malloc(len);
+		memset(value->buffer, 0, len);
+		/* FIXME is there really no corresponding free for this? */
+		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, len);
 		hash_table_insert(la_buffer_table, key, value);
 		LOGD("%p (!!! allocated new native array: %p)", (void *)(cls), value->buffer);
 	}
@@ -73,9 +78,9 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 JNIEXPORT void JNICALL Java_lib_alexandria_pipeline_Aqueduct_free
 	(JNIEnv *env, jclass cls, jlong arg)
 {
-	la_key_t *key;
 	int result;
-	if (!la_buffer_table) {
+	la_key_t *key;
+	if (la_buffer_table == LA_NULL) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return;
 	}

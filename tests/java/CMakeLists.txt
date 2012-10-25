@@ -26,6 +26,7 @@ add_dependencies(lib.alexandria.poc lib.alexandria)
 #set_target_properties(lib.alexandria.poc PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
 
 # Make sure native interfaces are built
+add_definitions(-DLA_JNI)
 add_subdirectory(jni)
 if(USE_ANDROID)
   add_subdirectory(android)

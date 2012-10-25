@@ -15,10 +15,12 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LAF_CONSTANTS_H
-#define LAF_CONSTANTS_H
+#ifndef LA_CONSTANTS_H
+#define LA_CONSTANTS_H
 
-#define LAF_VERSION 0x00000001
-#define LAF_MAX_LEN 80
+#define LA_VERSION 0x00000001
+#define LA_MAX_LEN 80
 
-#endif /* LAF_CONSTANTS_H */
+#define LAF_COMPLEX_UNIT CMPLX(0,1)
+
+#endif /* LA_CONSTANTS_H */

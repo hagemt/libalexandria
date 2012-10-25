@@ -15,7 +15,8 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define LA_JNI
+#include <string.h>
+
 #include "libalexandria.h"
 
 /*
@@ -56,7 +57,7 @@ Java_lib_alexandria_proof_POC_println
 	/* Fetch/release modified UTF-8 characters */
 	const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
 	LOGD("%p (class received '%s' through JNI)", (void *)(jc), cstr);
-	laf_print_(cstr, strnlen(cstr, LAF_MAX_LEN));
+	laf_print_(cstr, strnlen(cstr, LA_MAX_LEN));
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
 
 	/* Most basic command possible */

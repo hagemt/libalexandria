@@ -47,7 +47,7 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 	}
 
 	key = extract_key(arg);
-	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), (long long unsigned)(*key));
+	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), *key);
 	v = hash_table_lookup(la_buffer_table, key);
 	if (v != HASH_TABLE_NULL) {
 		free(key); /* you won't be needing this anymore */

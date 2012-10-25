@@ -49,6 +49,13 @@ if [ ! -e "${BUILD_DIR}" ]; then
 fi
 cd "${BUILD_DIR}"
 ${COMMAND_CMAKE} -C "${CONF_FILE}" -G "${BUILD_GEN}" ..
-# TODO ant build script for Java? IDK...
-#${COMMAND_CMAKE} --build "${BUILD_DIR}"
-#make Experimental
+
+# Run any extra commands requested
+case "$1" in
+	ant)   echo "There isn't an ant script yet.";;
+	build) echo "${COMMAND_CMAKE} --build ${BUILD_DIR}";;
+	cont)  echo "make Continuous";;
+	dash)  echo "make Experimental";;
+	night) echo "make Nightly";;
+	*)     echo "Bootstrap complete!";;
+esac

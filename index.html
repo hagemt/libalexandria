@@ -28,13 +28,14 @@
           <a href="https://github.com/hagemt/libalexandria" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
-        <hr>
+        <hr />
 
         <section id="main_content">
-          <h1>libalexandria</h1>
+
+<h1>libalexandria</h1>
 
 <p>This website contains information regarding libalexandria,
-humorously named for its inclusive breadth of FORTRAN code,
+which is so named for its inclusive breadth of FORTRAN code,
 bound using C/C++, all the way "through the ages" into Java,
 and further entensible using future interfaces, many and more
 of which have even yet to be imagined.</p>
@@ -44,7 +45,7 @@ of which have even yet to be imagined.</p>
 <p>libalexandria is envisioned to address a very defined Separation
 of Concerns, those being, specifically, and not otherwise:</p>
 
-<p>Simple Interface &lt;-- (Efficient Bridge) --&gt; Advanced Computation</p>
+<p>Simple Interface &larr; (Efficient Bridge) &rarr; Advanced Computation</p>
 
 <p>So broadly stated, we implement this philosophy using the Java
 Native Interface (JNI) to provide a data-transformational intermediary
@@ -62,13 +63,14 @@ our users with extreme clarity. No expense should be spared to
 maintain this transparency.</p>
 
 <p>Naturally, this can make the base of libalexandria, henceforth
-referred to as laX (standing for libalexandria X, where X is a
-short string encoding the implementation language) quite arcane.
+referred to as la, quite arcane. (Instances of "la" within code
+stand for "libalexandria." Oftentimes, this prefix may include
+a few additional characters which encode the implementation
+language. For example, laF_ denotes fortran codes for "la.")
 Through more general use, these procedures will become bound
-to nodes in the hierarchy of bindings, which will provide
-myriad interfaces to your wonderful heap of technical wizardry.</p>
-
-<p>(As an example, the prefix laF is used to reference .F codes.)</p>
+to nodes in the hierarchy of bindings, which will provide a
+myriad of interfaces which you may leverage as you please
+with your own technical wizardry.</p>
 
 <p>Hopefully, you will agree that there are at least two concerns
 represented here, and so this division makes logical sense to you.
@@ -77,48 +79,108 @@ So, that is it. Find your niche and start your engines.</p>
 
 <h2>Features</h2>
 
-<p>The Library of Alexandria will provide:</p>
+<p>The Library of Alexandria will provide easy methods for:</p>
 
 <ul>
-<li>A easy mechanism for any program to produce:
-<ul>
-<li>Maximum-likelihood estimates in an efficient manner</li>
+	<li>Efficiently calculating maximum-likelihood estimates (planned)</li>
+	<li>Many varieties of sampling tools (planned, sorta written)</li>
+	<li>Neat (Android!) interfaces to (native optimized) machine learning</li>
+	<li>Reinforcement: "cortical" HTM using sparse representations (planned)</li>
+	<li>Reinforcement: traditional Artifical neural network (planned)</li>
+	<li>Reinforcement: Hidden markov models (planned, currently abstract)</li>
+	<li>Supervised: SVM w/ or w/o Kernel (planned, Kernel implemented)</li>
+	<li>Supervised: Linear/Logistic Regression (planned)</li>
+	<li>Unsupervised: K-means and other clustering algorithms (planned)</li>
+	<li>Unsupervised: Signal separation algorithms (not yet planned)</li>
+	<li>Extreme levels of introspection for at top layer (Java)</li>
+	<li>Many other yet-undocumented features, bridging many layers of abstraction</li>
 </ul>
-</li>
-<li>Easy-to-use Android interface for solving maching-learning problems:</li>
-<ul>
-<li>Through a (supervised learning) Intent</li>
-<li>Efficient clustering methods for unlabelled data</li>
-<li>Multi-faceted interface, with bindings in many languages through JNI</li>
-</ul>
-<li>Many other planned features, bridging many layers of abstraction</li>
-</ul><h2>History</h2>
 
-<p>libalexandria began in September 2012 as a personal project.
-If you contribute to it, you may wish to add your name below.</p>
+<h2>History</h2>
+
+<p>libalexandria began in September 2012 as a personal project.</p>
+
+<p>See the section below, "Building," for development notes.</p>
+
+<p>If you contribute to it, you may wish to seek recognition as per the section below.</p>
+
+<h2>Licensing</h2>
+
+See ./LICENSE (note that all of libalexandira uses LGPL v3, including all bindings)
+See ./LICENCE.txt for form to include in files
+
+For those familiar with bashisms: (a lot of people)
+declare -a LANGUAGES
+LANGUAGES=('C', 'Fortran')
+
+A  ./LICENSE.txt suitable for inclusion in any file written in a language
+that supports LANG-style comment syntax can be found in LICENSE.$l, where
+LANG is a member of ${LANGUAGES[@]}.
+
+You may ask yourself "But why LGPL then? Wouldn't the some BSD be better?"
+
+For most applications that seek to capitalize, sure. But this is a library. Not
+only that, it is a library, which if you contribute code to, the authors feel
+that you are obligated to giving those contributions back to the community.
+
+"But I can't use your library because I don't want to use GPL for my app."
+
+That's fine. No one is forcing you to use GPL, me included. This is a common
+misconception with licensing. Not all GPL-licensed code is "viral" like that.
+
+Feel free to use a GPL-compatiple BSD license, just for example. Where you
+put the source is really up to you. If you doubt our juris prudence, see [1],
+where it explicitly addresses "Linking from code with a different license."
+
+[1] http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License
+
+Note: to distinguish terms, The Free Software Foundation calls the GPL-style restrictions
+(you must release any modifications under the same licence) 'copyleft'. [2]
+
+Always note that, when selecting a license generally, it is good to do your homework.
+
+If libalexandria were licensed under a general BSD license, for example, the contributors
+to libalexandria would not be obligated to give back their contributions, and there is
+some question as to whether an linked app even could be licensed under GPL v2+.
+
+[2] http://en.wikipedia.org/wiki/List_of_FSF_approved_software_licenses
 
 <h2>Building</h2>
 
-<p>Currently, libalexandria uses <code>make -f Makefile.poc</code>; however, we will
-transition as project evolves, in order to offer broader support for
-multiple platforms and configurations.</p>
+<p>Currently, libalexandria uses `cmake` in order to offer broad support
+for building on multiple platforms and under a variety of configurations.</p>
 
-<p>Developer testing of libalexandria currently involves:</p>
+<p>Developer testing of libalexandria currently targets:</p>
 
 <ul>
-<li>gcc</li>
-<li>gfortran</li>
-<li>openjdk</li>
-</ul><h2>Contributors</h2>
+	<li>GNU Toolchain (or Eclipse with CMake abilities)</li>
+	<li><ul>
+		<li><code>gcc</code></li>
+		<li><code>gfortran</code></li>
+		<li><code>gcj</code> (TODO fix strange symbol problem? dev is using proprietary JDK for now)</li>
+	</ul></li>
+	<li><ul>
+		<li>MVSC? (TODO someone willing to test this?)</li>
+		<li>(TODO also add a minimum version system/IDE)</li>
+	</ul></li>
+	<li><ul>
+		<li>Xcode? (TODO someone willing to test this?)</li>
+		<li>(TODO also add a minimum version system/IDE)</li>
+	</ul></li>
+</ul>
 
-<p>Tor E Hagemann <a href="mailto:hagemt@rpi.edu">hagemt@rpi.edu</a></p>
+<h2>Contributors</h2>
+
+<p>See ./AUTHORS.txt</p>
+
+<p>Please add your name to this file in the commit for any pull-request you send.</p>
+
         </section>
 
         <footer>
-          libalexandria is maintained by <a href="https://github.com/hagemt">hagemt</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+          libalexandria is maintained by <a href="https://github.com/hagemt">hagemt</a><br />
+	  This page was generated by <a href="http://pages.github.com">GitHub Pages</a>.<br />Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
         </footer>
-
         
       </div>
     </div>

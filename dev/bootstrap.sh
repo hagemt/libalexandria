@@ -11,7 +11,7 @@ if [ "$1" == 'help' ]; then
 	exit 0
 fi
 
-# Should always find the right directory
+# Should always find the right directory (TODO right?)
 SCRIPT_DIR="$(cd -P $(dirname $0) && pwd)"
 if [ ! -x "${SCRIPT_DIR}/$(basename $0)" ]; then
 	echo "Problem running '${SCRIPT_DIR}/$(basename $0)'"
@@ -59,11 +59,10 @@ if [ ! -e "${BUILD_DIR}" ]; then
 fi
 cd "${BUILD_DIR}"
 "${COMMAND_CMAKE}" -C "${CONF_FILE}" -G "${BUILD_GEN}" ..
-echo "Bootstrap complete!"
 
 # Run any extra commands requested
-case "$TARGET" in
+case "${TARGET}" in
 	build) "${COMMAND_CMAKE}" --build "${BUILD_DIR}";;
-	stop)  echo "Your build directory: ${BUILD_DIR}";;
-	*)     "${COMMAND_MAKE}" $TARGET;;
+	stop)  echo "Bootstrap complete! (tag: ${SOURCE_TAG})";;
+	*)     "${COMMAND_MAKE}" ${TARGET};;
 esac

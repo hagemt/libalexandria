@@ -19,7 +19,7 @@ if(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 endif(NOT ANDROID_NDK OR NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 
 # Android SDK settings
-set(ANDROID_PLATFORM "android-8" CACHE STRING "Target Android platform")
+set(ANDROID_API_LEVEL "android-8" CACHE STRING "Target Android platform")
 
 # Provide a default toolchain path
 if(NOT ANDROID_NDK_TOOLCHAIN_ROOT)
@@ -30,7 +30,7 @@ if(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   set(TOOLCHAIN_SCRIPT "./build/tools/make-standalone-toolchain.sh")
   set(ANDROID_NDK_TOOLCHAIN_ROOT "${CMAKE_SOURCE_DIR}/glue/android-toolchain")
   execute_process(
-    COMMAND ${TOOLCHAIN_SCRIPT} --platform=${ANDROID_PLATFORM} --install-dir=${ANDROID_NDK_TOOLCHAIN_ROOT}
+    COMMAND ${TOOLCHAIN_SCRIPT} --platform=${ANDROID_API_LEVEL} --install-dir=${ANDROID_NDK_TOOLCHAIN_ROOT}
     WORKING_DIRECTORY "${ANDROID_NDK}")
 endif(NOT EXISTS "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 # Cache the value for the user
@@ -38,5 +38,8 @@ set(ANDROID_NDK_TOOLCHAIN_ROOT "${ANDROID_NDK_TOOLCHAIN_ROOT}" CACHE PATH "The A
 mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
 
 # Where the magic happens
-#include(${ANDROID_TOOLCHAIN_CMAKE_SCRIPT})
+include(${ANDROID_TOOLCHAIN_CMAKE_SCRIPT})
+if(NOT ANDROID)
+  message(FATAL_ERROR "Cannot enable USE_ANDROID; see README files")
+endif(NOT ANDROID)
 add_subdirectory(jni)

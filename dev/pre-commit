@@ -30,7 +30,7 @@ if [ -z "${SLOCCOUNT_FILE}" ]; then
 fi
 
 # Run the SLOC command
-${SLOCCOUNT_COMMAND} ${WORKING_DIR}/{bindings,dev,fortran,hooks,include,tests} > ${SLOCCOUNT_FILE}
+${SLOCCOUNT_COMMAND} ${WORKING_DIR}/{android,bindings,dev,fortran,glue,include,tests} > ${SLOCCOUNT_FILE}
 
 # Add the SLOC file
 ${GIT_COMMAND} add ${SLOCCOUNT_FILE}

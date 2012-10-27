@@ -57,11 +57,6 @@ option(BUILD_JAVADOC       "Produce a limited Javadoc" OFF)
 option(USE_ANDROID         "Produce Android options"   OFF)
 endif(BIND_JAVA)
 option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
-if(USE_ANDROID)
-option(ANDROID_TARGET_ARM  "Support for ARM devices"   ON )
-option(ANDROID_TARGET_MIPS "Support for MIPS devices"  OFF)
-option(ANDROID_TARGET_X86  "Support for x86 devices"   OFF)
-endif(USE_ANDROID)
 
 ## Main library dependencies
 # TODO FUTURE other libraries? like LAPACK?

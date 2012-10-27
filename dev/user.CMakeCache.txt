@@ -25,11 +25,12 @@ set(BIND_JAVA           TRUE  CACHE BOOL "java +bindings")
 #set(BUILD_JAVADOC       TRUE  CACHE BOOL "java +doc")
 #set(BUILD_SHARED_LIBS   TRUE  CACHE BOOL "all +sharedlibs")
 set(BUILD_TESTING       TRUE  CACHE BOOL "all +testing")
-set(USE_SWIG            TRUE  CACHE BOOL "+swig")
-#set(USE_ANDROID         TRUE  CACHE BOOL "+android")
+set(USE_SWIG            TRUE  CACHE BOOL "all +swig")
+#set(USE_ANDROID         TRUE  CACHE BOOL "java +android")
 #set(ANDROID_TARGET_ARM  TRUE  CACHE BOOL "android +arm")
 #set(ANDROID_TARGET_MIPS TRUE  CACHE BOOL "android +mips")
 #set(ANDROID_TARGET_X86  TRUE  CACHE BOOL "android +x86")
+#set(ANDROID_API_LEVEL   8   CACHE STRING "android +apilvl")
 
 # C/C++/Fortran options
 

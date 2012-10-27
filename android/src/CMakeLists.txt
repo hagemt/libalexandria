@@ -13,15 +13,4 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-message(STATUS "Configuring Lannister natives...")
-
-# Add any static libs here (they'll need to be built for arch)
-list(APPEND NATIVE_LIBRARY_DEPS "cpufeatures")
-
-# Add any libraries to link here (make sure they're built for arch)
-list(APPEND NATIVE_LIBRARY_LIBS "android")
-list(APPEND NATIVE_LIBRARY_LIBS "log")
-
-# Configure the NDK build scripts for each TARGET
-configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/jni/Android.mk" @ONLY)
-configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/jni/Application.mk" @ONLY)
+message("Configuring Lannister Java sources...")

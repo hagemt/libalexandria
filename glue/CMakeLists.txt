@@ -16,14 +16,13 @@
 if(USE_ANDROID)
   # FIXME git submodule update --init on ./glue/android-cmake?
   set(LA_ANDROID_CMAKE_DIR "${CMAKE_SOURCE_DIR}/glue/android-cmake")
-  set(LA_ANDROID_CMAKE_SCRIPT "android.toolchain.cmake")
-  # Try to find the required toolchain script ^
+  # Try to find the required toolchain script
   find_file(ANDROID_TOOLCHAIN_CMAKE_SCRIPT
-    NAMES ${LA_ANDROID_CMAKE_SCRIPT}
+    NAMES "android.toolchain.cmake"
     PATHS "${LA_ANDROID_CMAKE_DIR}" PATH_SUFFIXES "toolchain"
     DOC "Location of the CMake script for the Android toolchain")
   if(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
-    message(FATAL_ERROR "Please initialize the submodule in ${LA_ANDROID_CMAKE_DIR}, provide ${LA_ANDROID_CMAKE_SCRIPT} otherwise, or disable USE_ANDROID.")
+    message(FATAL_ERROR "Cannot find android.toolchain.cmake in ${LA_ANDROID_CMAKE_DIR}")
   endif(NOT ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
   # Try to find the Android NDK (check in ./android:./.., and any 'android-ndk' subdirs)
   set(LA_ANDROID_DIR "${CMAKE_SOURCE_DIR}/android")
@@ -38,39 +37,29 @@ if(USE_ANDROID)
       set(SCRIPT_FILE "get_ndk_toolchain_linux.sh")
     endif("${CMAKE_SYSTEM}" MATCHES "Linux")
     # TODO convenience for other platforms? Once android-cmake provides it.
-    set(LA_ANDROID_NDK_DOWNLOAD_SCRIPT "${LA_ANDROID_CMAKE_SCRIPTS_DIR}/${SCRIPT_FILE}")
-    if(NOT LA_ANDROID_NDK_DOWNLOAD_SCRIPT)
+    set(LA_ANDROID_NDK_DL_SCRIPT "${LA_ANDROID_CMAKE_SCRIPTS_DIR}/${SCRIPT_FILE}")
+    if(NOT LA_ANDROID_NDK_DL_SCRIPT)
       message(FATAL_ERROR "Unable to locate Android NDK directory!")
-    endif(NOT LA_ANDROID_NDK_DOWNLOAD_SCRIPT)
+    endif(NOT LA_ANDROID_NDK_DL_SCRIPT)
     # If we found a download script, offer it to the user
     option(ANDROID_DOWNLOAD_NDK "Fetch a copy of the Android NDK" OFF)
     if(NOT ANDROID_DOWNLOAD_NDK)
-      message(FATAL_ERROR "Please locate Android NDK, or activate ANDROID_DOWNLOAD_NDK")
+      message(FATAL_ERROR "Please locate Android NDK directory, or activate ANDROID_DOWNLOAD_NDK")
     endif(NOT ANDROID_DOWNLOAD_NDK)
     # Fetch the NDK if necessary
-    message("${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}")
+    set(LA_ANDROID_NDK_DL_LOG_SUFFIX "download-ndk.log")
     execute_process(
-      COMMAND "${LA_ANDROID_NDK_DOWNLOAD_SCRIPT}" "${LA_ANDROID_DIR}"
-      OUTPUT_QUIET ERROR_FILE "download-ndk.log" ERROR_VARIABLE FAILURE)
-    if(FAILURE)
-      message(FATAL_ERROR "Problem downloading NDK. Please see download-ndk.log")
-    endif(FAILURE)
+      COMMAND "${LA_ANDROID_NDK_DL_SCRIPT}" "${LA_ANDROID_DIR}"
+      OUTPUT_FILE "output-${LA_ANDROID_NDK_DL_LOG_SUFFIX}"
+      ERROR_FILE "error-${LA_ANDROID_NDK_DL_LOG_SUFFIX}"
+      RESULT_VARIABLE LA_ANDROID_NDK_DL_FAILURE 
+      TIMEOUT 600)
+    if(LA_ANDROID_NDK_DL_FAILURE)
+      message(FATAL_ERROR "Problem downloading NDK. See: "./glue/*-${LA_ANDROID_NDK_DL_LOG_SUFFIX}")
+    endif(LA_ANDROID_NDK_DL_FAILURE)
   endif(NOT ANDROID_NDK)
-  # Cache a record of each toolchain that will be required
-  if(ANDROID_TARGET_ARM)
-    list(APPEND LA_ANDROID_TARGETS "arm")
-  endif(ANDROID_TARGET_ARM)
-  if(ANDROID_TARGET_MIPS)
-    list(APPEND LA_ANDROID_TARGETS "mips")
-  endif(ANDROID_TARGET_MIPS)
-  if(ANDROID_TARGET_X86)
-    list(APPEND LA_ANDROID_TARGETS "x86")
-  endif(ANDROID_TARGET_X86)
-  set(ANDROID_TARGETS "${LA_ANDROID_TARGETS}" CACHE STRING "Selected Android architectures" FORCE)
-  if(NOT ANDROID_TARGETS)
-    message(WARNING "You have disabled all supported Android architectures...")
-  endif(NOT ANDROID_TARGETS)
-  mark_as_advanced(ANDROID_NDK ANDROID_TARGETS ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+  # Is this a bad idea? Doesn't help users find it.
+  #mark_as_advanced(ANDROID_NDK ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 endif(USE_ANDROID)
 
 # Acquire all the glue (kolla) code

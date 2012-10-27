@@ -1,17 +1,21 @@
+Creating filelist for android
 Creating filelist for bindings
 Creating filelist for dev
 Creating filelist for fortran
-WARNING!!! Not a file nor a directory (so ignored): /home/teh/Downloads/Code/libalexandria/hooks
+Creating filelist for glue
 Creating filelist for include
 Creating filelist for tests
 Categorizing files.
 Finding a working MD5 command....
 Found a working MD5 command.
+Warning: in glue, number of duplicates=54
 Computing results.
 
 
 SLOC	Directory	SLOC-by-Language (Sorted)
-1472    bindings        java=1344,ansic=121,cpp=7
+145493  glue            ansic=78926,cpp=65683,sh=382,java=323,xml=166,python=13
+1474    bindings        java=1346,ansic=121,cpp=7
+288     android         java=233,xml=55
 241     tests           java=195,ansic=38,cpp=8
 144     include         ansic=144
 53      fortran         fortran=53
@@ -19,22 +23,24 @@ SLOC	Directory	SLOC-by-Language (Sorted)
 
 
 Totals grouped by language (dominant language first):
-java:          1539 (78.68%)
-ansic:          303 (15.49%)
-fortran:         53 (2.71%)
-sh:              46 (2.35%)
-cpp:             15 (0.77%)
+ansic:        79229 (53.63%)
+cpp:          65698 (44.47%)
+java:          2097 (1.42%)
+sh:             428 (0.29%)
+xml:            221 (0.15%)
+fortran:         53 (0.04%)
+python:          13 (0.01%)
 
 
 
 
-Total Physical Source Lines of Code (SLOC)                = 1,956
-Development Effort Estimate, Person-Years (Person-Months) = 0.40 (4.85)
+Total Physical Source Lines of Code (SLOC)                = 147,739
+Development Effort Estimate, Person-Years (Person-Months) = 37.93 (455.18)
  (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
-Schedule Estimate, Years (Months)                         = 0.38 (4.56)
+Schedule Estimate, Years (Months)                         = 2.13 (25.59)
  (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
-Estimated Average Number of Developers (Effort/Schedule)  = 1.07
-Total Estimated Cost to Develop                           = $ 54,649
+Estimated Average Number of Developers (Effort/Schedule)  = 17.79
+Total Estimated Cost to Develop                           = $ 5,124,028
  (average salary = $56,286/year, overhead = 2.40).
 SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
 SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.

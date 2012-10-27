@@ -59,6 +59,8 @@ public class Generate {
 		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
 	}
 
+	private Generate() { }
+
 	/* Templators */
 	
 	/**

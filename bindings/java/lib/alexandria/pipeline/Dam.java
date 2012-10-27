@@ -24,29 +24,31 @@ import java.util.concurrent.Semaphore;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
 public class Dam {
-	private static final Semaphore refs;
-	private static long flags;
+	private static final Semaphore loch;
+	private static long pool;
 	static {
-		refs = new Semaphore(Long.SIZE);
-		flags = ~(0L);
+		loch = new Semaphore(Long.SIZE);
+		pool = ~(0L);
 	}
+
+	private Dam() { }
 	
 	public static final synchronized long get() throws InterruptedException {
-		refs.acquire();
-		// If we acquired through the semaphore, one bit must be available.
-		assert(flags != 0L);
-		long key = Long.highestOneBit(flags);
+		loch.acquire();
+		// If we acquired a lock, at least one bit must be set. (availability)
+		assert(pool != 0L);
+		long key = Long.highestOneBit(pool);
 		// Turn it off and return it.
-		flags &= ~key;
+		pool &= ~key;
 		return key;
 	}
 	
-	public static final synchronized boolean put(int key) {
-		long new_flags = flags | key;
-		// If the key changes flags, then it is a valid return.
-		if (new_flags != flags) {
-			flags = new_flags;
-			refs.release();
+	public static final synchronized boolean put(long key) {
+		long set = pool | key;
+		// If the key changes the pool, then it is a valid return.
+		if (set != pool) {
+			pool = set;
+			loch.release();
 			return true;
 		}
 		return false;

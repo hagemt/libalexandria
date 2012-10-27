@@ -55,11 +55,11 @@ if(USE_ANDROID)
       RESULT_VARIABLE LA_ANDROID_NDK_DL_FAILURE 
       TIMEOUT 600)
     if(LA_ANDROID_NDK_DL_FAILURE)
-      message(FATAL_ERROR "Problem downloading NDK. See: "./glue/*-${LA_ANDROID_NDK_DL_LOG_SUFFIX}")
+      message(FATAL_ERROR "Problem downloading NDK. See: ./glue/*-${LA_ANDROID_NDK_DL_LOG_SUFFIX}")
     endif(LA_ANDROID_NDK_DL_FAILURE)
   endif(NOT ANDROID_NDK)
   # Is this a bad idea? Doesn't help users find it.
-  #mark_as_advanced(ANDROID_NDK ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+  mark_as_advanced(ANDROID_NDK ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
 endif(USE_ANDROID)
 
 # Acquire all the glue (kolla) code

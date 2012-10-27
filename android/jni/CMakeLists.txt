@@ -23,5 +23,5 @@ list(APPEND NATIVE_LIBRARY_LIBS "android")
 list(APPEND NATIVE_LIBRARY_LIBS "log")
 
 # Configure the NDK build scripts for each TARGET
-configure_file(Android.mk.in "${CMAKE_SOURCE_DIR}/jni/Android.mk" @ONLY)
-configure_file(Application.mk.in "${CMAKE_SOURCE_DIR}/jni/Application.mk" @ONLY)
+configure_file(Android.mk.in "Android.${ANDROID_APP_ARCH}.mk" @ONLY)
+configure_file(Application.mk.in "Application.${ANRDROID_APP_ARCH}.mk" @ONLY)

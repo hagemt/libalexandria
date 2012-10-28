@@ -17,13 +17,38 @@
 project(Lannister Java)
 cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 
+## Android SDK settings for Lannister
+
+# Configure a baseline API level
+set(ANDROID_API_LEVEL "8" CACHE STRING "Target Android API")
+# Configure platforms to support
+option(ANDROID_TARGET_ARM  "Target ARM devices"  ON )
+option(ANDROID_TARGET_MIPS "Target MIPS devices" OFF)
+option(ANDROID_TARGET_X86  "Target x86 devices"  OFF)
+# TODO actually build for each option above... (not just arm)
+if(ANDROID_TARGET_ARM)
+  list(APPEND LA_ANDROID_TARGETS "arm")
+endif(ANDROID_TARGET_ARM)
+if(ANDROID_TARGET_MIPS)
+  list(APPEND LA_ANDROID_TARGETS "mips")
+endif(ANDROID_TARGET_MIPS)
+if(ANDROID_TARGET_X86)
+  list(APPEND LA_ANDROID_TARGETS "x86")
+endif(ANDROID_TARGET_X86)
+set(ANDROID_TARGETS "${LA_ANDROID_TARGETS}" CACHE STRING "Selected Android architectures" FORCE)
+mark_as_advanced(ANDROID_TARGETS)
+# Warn if all architectures are disabled
+if(NOT ANDROID_TARGETS)
+  message(WARNING "You have disabled all supported Android architectures...")
+  # TODO force ARM?
+endif(NOT ANDROID_TARGETS)
+
+## Android NDK settings for Lannister
+
 # Mark that this project uses Android
 include("UseAndroid.cmake")
-
+# add_app severely messes with the project (replaces compilers)
 if(NOT USE_ANDROID)
-  # UseAndroidApps.cmake messes with the compilers
-  include("UseAndroidApps.cmake")
-  # Add the Lannister project (this directory)
+  # Add this subproject as an app, if it's all we're doing
   add_app("${CMAKE_PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}")
 endif(NOT USE_ANDROID)
-

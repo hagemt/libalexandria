@@ -130,7 +130,6 @@ endif(BUILD_TESTING)
 
 # Android activities
 if(USE_ANDROID)
-  add_definitions(-DLA_ANDROID)
   add_subdirectory(android)
 endif(USE_ANDROID)
 

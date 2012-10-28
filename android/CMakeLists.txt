@@ -43,9 +43,9 @@ mark_as_advanced(ANDROID_TARGETS)
 ## Toolchain configuration (assumes Android NDK was configured)
 
 # We'll need these to configure the toolchain
-if(NOT IS_DIRECTORY ANDROID_NDK)
+if(NOT IS_DIRECTORY "${ANDROID_NDK}")
   message(FATAL_ERROR "ANDROID_NDK must point to the correct directory.")
-endif(NOT IS_DIRECTORY ANDROID_NDK)
+endif(NOT IS_DIRECTORY "${ANDROID_NDK}")
 
 # Provide a default toolchain path (from NDK doc)
 if(NOT ANDROID_NDK_TOOLCHAIN_ROOT)
@@ -57,7 +57,7 @@ if(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   set(MAKE_TOOLCHAIN_SCRIPT "./build/tools/make-standalone-toolchain.sh")
   set(MAKE_TOOLCHAIN_SCRIPT_LOG_SUFFIX "make-standalone-toolchain.log")
   set(ANDROID_NDK_TOOLCHAIN_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/android-toolchain")
-  message(STATUS "Generating Android toolchain in ${ANDROID_NDK_TOOLCHAIN_ROOT}...")
+  message(STATUS "Generating Android toolchain in: ${ANDROID_NDK_TOOLCHAIN_ROOT}")
   # FIXME how to specify architectures? unnecessary?
   execute_process(
     COMMAND ${MAKE_TOOLCHAIN_SCRIPT}

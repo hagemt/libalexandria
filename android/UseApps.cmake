@@ -17,13 +17,13 @@
 ### See how it is used below in add_app
 macro(configure_ndk TARGET DEPS LIBS)
 message(STATUS "Configure w/ NDK: '${TARGET}' '${DEPS}' '${LIBS}' '${ARGN}'")
-if(NOT EXISTS ANDROID_NDK_TOOLCHAIN_ROOT)
+if(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   message(FATAL_ERROR "Cannot locate Android toolchain for ${TARGET}!")
-endif(NOT EXISTS ANDROID_NDK_TOOLCHAIN_ROOT)
+endif(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 
 # First set the SONAME target
 set(NATIVE_LIBRARY_SONAME android_arm_${TARGET})
-message(STATUS "Adding target ${NATIVE_LIBRARY_SONAME}...")
+message(STATUS "Adding target: ${NATIVE_LIBRARY_SONAME}")
 add_custom_target(${NATIVE_LIBRARY_SONAME})
 set_target_properties(${NATIVE_LIBRARY_SONAME} PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
@@ -60,7 +60,7 @@ set(NATIVE_LIBRARY_DEPENDS)
 set(NATIVE_LIBRARY_IMPORTS)
 foreach(DEPENDENCY ${DEPS})
   set(NATIVE_LIBRARY_DEPENDENCY "${NATIVE_LIBRARY_SONAME}_dep_${DEPENDENCY}")
-  message(STATUS "Adding target ${NATIVE_LIBRARY_DEPENDENCY}...")
+  message(STATUS "Adding dependency target: ${NATIVE_LIBRARY_DEPENDENCY}")
   add_custom_target(${NATIVE_LIBRARY_DEPENDENCY})
   list(APPEND NATIVE_LIBRARY_DEPENDENCIES "${NATIVE_LIBRARY_DEPENDENCY}")
   # For the NDK makefile
@@ -91,9 +91,9 @@ endmacro(configure_ndk)
 ### See http://en.wikipedia.org/wiki/Jo-ha-kyu
 macro(add_app NAME LOCATION)
 message(STATUS "Adding app: ${NAME} in '${LOCATION}'")
-if(NOT EXISTS ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+if(NOT EXISTS "${ANDROID_TOOLCHAIN_CMAKE_SCRIPT}")
   message(FATAL_ERROR "Cannot locate Android CMake script for ${NAME}!")
-endif(NOT EXISTS ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+endif(NOT EXISTS "${ANDROID_TOOLCHAIN_CMAKE_SCRIPT}")
 
 # jo [beginning] (prelude script, run before anything else)
 include(${LOCATION}/${NAME}.jo.cmake OPTIONAL)

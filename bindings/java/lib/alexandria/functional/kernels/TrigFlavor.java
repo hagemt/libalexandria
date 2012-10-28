@@ -16,6 +16,13 @@
  */
 package lib.alexandria.functional.kernels;
 
+/**
+ * Hyperbolic kernel are defined using one of six
+ * trigonometric functions. They have no default flavor.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @see lib.alexandria.functional.kernels.HyperbolicKernel
+ * @since libalexandria v0.1
+ */
 public enum TrigFlavor {
 	SIN, COS, TAN, CSC, SEC, COT;
 	

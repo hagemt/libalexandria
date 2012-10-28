@@ -54,3 +54,5 @@ Can someone fix this a nice way?
 See ./tests/android for unit testing framework... eventually.
 
 This might all be automated very soon...
+
+Note the funny jo, ha, kyu files, if you're making an app.

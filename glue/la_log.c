@@ -15,13 +15,28 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-%module la_glue
-%{
-extern void la_initialize(unsigned long long int);
-extern void la_finalize(unsigned long long int);
-extern void la_print_info_incomplete(const char *);
-%}
+#include <stdarg.h>
+#include <stdio.h>
 
-extern void la_initialize(unsigned long long int);
-extern void la_finalize(unsigned long long int);
-extern void la_print_info_incomplete(const char *);
+#include "la_log.h"
+
+void
+__la_log_print(int code, const char *tag, const char *fmt, ...)
+{
+	const char *id;
+	va_list args;
+	switch (code) {
+	case LA_LOG_DEBUG: id = "debug";   break;
+	case LA_LOG_INFO:  id = "info";    break;
+	case LA_LOG_WARN:  id = "warning"; break;
+	case LA_LOG_ERROR: id = "error";   break;
+	case LA_LOG_FATAL: id = "fatal";   break;
+	default:           id = "verbose"; break;
+	}
+	fprintf(stderr, "[%s] %s: ", tag, id);
+	va_start(args, fmt);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+	fprintf(stderr, "\n");
+	/* TODO needs more sophisticated level method? */
+}

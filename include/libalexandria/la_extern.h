@@ -17,7 +17,7 @@
 #ifndef LA_EXTERN_H
 #define LA_EXTERN_H
 
-#include "la_glue.h"
+#include "la_types.h"
 
 extern HashTable *la_buffer_table;
 

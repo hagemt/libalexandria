@@ -17,8 +17,6 @@
 #ifndef LAF_PRINT_H
 #define LAF_PRINT_H
 
-#include "laF_constants.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cpluscplus */

@@ -1,0 +1,31 @@
+#    This file is part of libalexandria.
+#
+#    libalexandria is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    libalexandria is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+#
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
+
+## Android CMake settings for Lannister
+
+# Configure Java properties
+set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0")
+set(CMAKE_Java_ARCHIVE  "${JAVA_PREFIX}/bin/jar"   CACHE FILEPATH "Java archiver" FORCE)
+set(CMAKE_Java_COMPILER "${JAVA_PREFIX}/bin/javac" CACHE FILEPATH "Java compiler" FORCE)
+set(CMAKE_Java_RUNTIME  "${JAVA_PREFIX}/bin/java"  CACHE FILEPATH "Java runtime"  FORCE)
+
+# Configure required properties
+set(ANDROID_NDK                    "@ANDROID_NDK@"                    CACHE PATH     "From parent" FORCE)
+set(ANDROID_NDK_TOOLCHAIN_ROOT     "@ANDROID_NDK_TOOLCHAIN_ROOT@"     CACHE PATH     "From parent" FORCE)
+set(ANDROID_TOOLCHAIN_CMAKE_SCRIPT "@ANDROID_TOOLCHAIN_CMAKE_SCRIPT@" CACHE FILEPATH "From parent" FORCE)
+
+# Configure extra properties
+set(PROJECT_LOG_TAG            "@ANDROID_POC_APP@" CACHE STRING "App's logging tag" FORCE)
+set(CMAKE_LIBRARY_ARCHITECTURE "@ANDROID_TARGETS@" CACHE STRING "App's target arch" FORCE)

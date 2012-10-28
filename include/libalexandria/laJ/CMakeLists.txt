@@ -26,15 +26,14 @@ add_custom_target(javah_${JAVA_TARGET} DEPENDS ${JAVA_TARGET}
   WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/${JAVA_TARGET}.dir"
   COMMENT "Updating JNI headers for ${JAVA_TARGET}..." VERBATIM
 )
+# TODO fix problem where this isn't properly configured
 # TODO need SOURCES for generation? pass ${JNI_HEADER_FILES}
 # TODO FUTURE neater method?
 endmacro(javah)
 
-# TODO fix problem where this isn't properly configured
-file(GLOB JNI_HEADER_FILES "*.h")
-set_property(SOURCE ${JNI_HEADER_FILES} PROPERTY GENERATED TRUE)
-
 # Generate headers for lib.alexandria
+collect_headers("*.h" LAJ_HEADER_FILES LAJ_INCLUDES PARENT_SCOPE)
+set_property(SOURCE ${LAJ_HEADER_FILES} PROPERTY GENERATED TRUE)
 javah(lib.alexandria
   "lib.alexandria.functional.RealParameterizedFunction"
   "lib.alexandria.functional.kernels.Kernel"
@@ -45,12 +44,12 @@ javah(lib.alexandria
 
 # Install these (if possible)
 install(
-  FILES ${JNI_HEADER_FILES}
+  FILES ${LAJ_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria/laJ
   COMPONENT "Java Bindings" OPTIONAL
 )
 
+# Generate headers for test code
 if(BUILD_TESTING)
-  # Generate headers for lib.alexandria.proof
   javah(lib.alexandria.poc "lib.alexandria.proof.POC")
 endif(BUILD_TESTING)

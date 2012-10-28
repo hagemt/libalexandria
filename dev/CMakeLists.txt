@@ -14,12 +14,10 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO also specify any required external libs
+set(BASE_LIBRARIES "-lalexandria -lblas -lcalg")
 
 # Configure pkg-config files
 configure_file(libalexandria.pc.in libalexandria.pc @ONLY)
-
-# TODO is this improper for our scheme?
-set(EXTRA_INCLUDE_DIRS "-I\${includedir}/libalexandria")
 
 if(BIND_C)
   set(EXTRA_LABELS "(C Bindings)")
@@ -32,8 +30,6 @@ if(BIND_CXX)
   set(EXTRA_LIBRARIES "-lalexandriamm")
   configure_file(libalexandria.pc.in libalexandriamm.pc @ONLY)
 endif(BIND_CXX)
-
-set(EXTRA_INCLUDE_DIRS "${EXTRA_INCLUDE_DIRS}/jni")
 
 if(BIND_JAVA)
   set(EXTRA_LABELS "(Java Bindings)")

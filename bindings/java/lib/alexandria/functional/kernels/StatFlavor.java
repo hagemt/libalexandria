@@ -18,8 +18,10 @@ package lib.alexandria.functional.kernels;
 
 /**
  * Gaussian kernel functions are expressed in one of two styles
- * The "gamma" style is default, @see GaussianKernel
+ * The "gamma" style is default, but it is convertable.
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @see lib.alexandria.functional.kernels.GaussianKernel
+ * @since libalexandria v0.1
  */
 public enum StatFlavor {
 	GAMMA, SIGMA;

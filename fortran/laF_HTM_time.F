@@ -14,7 +14,6 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
-#include "laF_constants.h"
 
 C     Phase 1: compute the active state, activeState(t), for each cell
 C     -------------------------------------------------------------------------

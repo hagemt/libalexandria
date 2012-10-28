@@ -18,27 +18,26 @@
 #ifndef LAF_HTM_H
 #define LAF_HTM_H
 
-#include "laF_constants.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-/* Function prototypes for HIERARCHICAL TEMPORAL MEMORY
+/**
+ * Function prototypes for HIERARCHICAL TEMPORAL MEMORY
  * ala Numenta Cortical Learning Algorithms
  * (online high-performance ANN for generic inputs)
  */
 
-extern void laf_htm_codec_encode_;
-extern void laf_htm_codec_decode_;
+extern void laf_htm_codec_encode_();
+extern void laf_htm_codec_decode_();
 
-extern void laf_htm_space_phase1_;
-extern void laf_htm_space_phase2_;
-extern void laf_htm_space_phase3_;
+extern void laf_htm_space_phase1_();
+extern void laf_htm_space_phase2_();
+extern void laf_htm_space_phase3_();
 
-extern void laf_htm_time_phase1_;
-extern void laf_htm_time_phase2_;
-extern void laf_htm_time_phase3_;
+extern void laf_htm_time_phase1_();
+extern void laf_htm_time_phase2_();
+extern void laf_htm_time_phase3_();
 
 #ifdef __cplusplus
 } /* extern "C" */

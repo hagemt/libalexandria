@@ -129,8 +129,8 @@ public class Generate {
 	
 	/**
 	 * Generate a random label of the default length.
-	 * @return a textual label with
-	 * @see lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH
+	 * @return text that can be used to identify an entity easily
+	 * @see lib.alexandria.ModelConstants#DEFAULT_LABEL_LENGTH
 	 */
 	public static String randomString() {
 		return randomString(DEFAULT_LABEL_LENGTH);

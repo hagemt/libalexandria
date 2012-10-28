@@ -57,33 +57,51 @@ option(BUILD_JAVADOC       "Produce a limited Javadoc" OFF)
 option(USE_ANDROID         "Produce Android options"   OFF)
 endif(BIND_JAVA)
 option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
-if(USE_ANDROID)
-option(ANDROID_TARGET_ARM  "Support for ARM devices"   ON )
-option(ANDROID_TARGET_MIPS "Support for MIPS devices"  OFF)
-option(ANDROID_TARGET_X86  "Support for x86 devices"   OFF)
-endif(USE_ANDROID)
 
-## Development tools (TODO should always run first?)
-add_subdirectory(dev)
+## Main library dependencies
+# TODO FUTURE other libraries? like LAPACK?
+if(NOT BLAS_INCLUDE_DIRS OR NOT BLAS_LIBRARIES)
+  find_package(BLAS REQUIRED)
+endif(NOT BLAS_INCLUDE_DIRS OR NOT BLAS_LIBRARIES)
+if(NOT BLAS_FOUND)
+  message(FATAL_ERROR "Cannot locate BLAS library!")
+endif(NOT BLAS_FOUND)
+include_directories(${BLAS_INCLUDE_DIRS})
+link_directories(${BLAS_LIBRARIES})
+# Try to find libcalg using pkg-config
+if(NOT CALG_INCLUDE_DIRS OR NOT CALG_LIBRARY_DIRS)
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(CALG libcalg-1.0 libcalg>=1)
+endif(NOT CALG_INCLUDE_DIRS OR NOT CALG_LIBRARY_DIRS)
+if(NOT CALG_FOUND)
+  message(FATAL_ERROR "Cannot locate c-algorithms library!")
+endif(NOT CALG_FOUND)
+include_directories(${CALG_INCLUDE_DIRS})
+link_directories(${CALG_LIBRARY_DIRS})
+# TODO should we include/link in subdirs?
 
 ## Requirements for Java bindings
 if(BIND_JAVA)
-  set(JAVA_VERSION_MINIMUM 1.6 CACHE STRING "Minimum Java version")
+  set(JAVA_VERSION_MINIMUM 6 CACHE STRING "Minimum Java version")
   mark_as_advanced(JAVA_VERSION_MINIMUM)
-  # Setup to compile Java sources
-  find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Development)
+  list(APPEND JAVA_COMPONENTS "Development")
+  if(BUILD_TESTING)
+    list(APPEND JAVA_COMPONENTS "Runtime")
+  endif(BUILD_TESTING)
+  # Setup to compile/run Java sources/binaries
+  if(NOT Java_FOUND)
+    message(STATUS "Looking for Java ${JAVA_VERSION_MINIMUM} (${JAVA_COMPONENTS};JNI)")
+    find_package(Java 1.${JAVA_VERSION_MINIMUM} COMPONENTS ${JAVA_COMPONENTS})
+  endif(NOT Java_FOUND)
   if(NOT Java_Development_FOUND)
     message(FATAL_ERROR "Unable to find Java development kit!")
   endif(NOT Java_Development_FOUND)
   # And run them, if necessary
-  if(BUILD_TESTING)
-    find_package(Java ${JAVA_VERSION_MINIMUM} COMPONENTS Runtime)
-    if(NOT Java_Runtime_FOUND)
-      message(FATAL_ERROR "Unable to find Java runtime environment!")
-    endif(NOT Java_Runtime_FOUND)
-  endif(BUILD_TESTING)
+  if(BUILD_TESTING AND NOT Java_Runtime_FOUND)
+    message(FATAL_ERROR "Unable to find Java runtime environment!")
+  endif(BUILD_TESTING AND NOT Java_Runtime_FOUND)
   # Setup to use JNI (FIXME correct method?) and init
-  find_package(JNI ${JAVA_VERSION_MINIMUM})
+  find_package(JNI 1.${JAVA_VERSION_MINIMUM})
   if(NOT JNI_FOUND)
     message(FATAL_ERROR "Unable to find JNI! Please locate or disable BIND_JAVA")
   endif(NOT JNI_FOUND)
@@ -94,55 +112,34 @@ if(BIND_JAVA)
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 
-# Requirements for Android (also see ./glue/CMakeLists.txt)
-if(USE_ANDROID)
-  add_definitions(-DLA_ANDROID)
-endif(USE_ANDROID)
-
-# TODO FUTURE other libraries? like LAPACK?
-find_package(BLAS REQUIRED)
-if(NOT BLAS_FOUND)
-  message(FATAL_ERROR "Cannot locate BLAS library!")
-endif(NOT BLAS_FOUND)
-include_directories(${BLAS_INCLUDE_DIRS})
-link_directories(${BLAS_LIBRARIES})
-# Try to find libcalg using pkg-config
-find_package(PkgConfig REQUIRED)
-pkg_search_module(CALG libcalg-1.0 libcalg>=1)
-if(NOT CALG_FOUND)
-  message(FATAL_ERROR "Cannot locate calgorithms library!")
-endif(NOT CALG_FOUND)
-include_directories(${CALG_INCLUDE_DIRS})
-link_directories(${CALG_LIBRARY_DIRS})
-# TODO should we include/link in subdirs?
+## Prepare headers (and other development tools)
+add_subdirectory(include)
+add_subdirectory(dev)
 
 ### Build
 
-## Main components
-
-# Process headers
-add_subdirectory(include)
 # Glue code
 add_subdirectory(glue)
 # Fortran code
 add_subdirectory(fortran)
-
-## Optional components
-
 # Language bindings
 add_subdirectory(bindings)
-# Android activities
-if(USE_ANDROID)
-  add_subdirectory(android)
-endif(USE_ANDROID)
 
 ### Testing
 
 include(CTest)
 if(BUILD_TESTING)
   set(CTEST_PROJECT_NAME ${CMAKE_PROJECT_NAME})
+  configure_file("CTestCustom.cmake.in" "CTestCustom.cmake" @ONLY)
   add_subdirectory(tests)
 endif(BUILD_TESTING)
+
+### Subprojects
+
+# Android activities
+if(USE_ANDROID)
+  add_subdirectory(android)
+endif(USE_ANDROID)
 
 ### Packaging
 

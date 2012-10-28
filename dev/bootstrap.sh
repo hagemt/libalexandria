@@ -2,7 +2,16 @@
 # Author: Tor E Hagemann
 # Purpose: Bootstrap libalexandria build
 
-# Should always find the right directory
+TARGET=${1:-'stop'}
+
+if [ "$1" == 'help' ]; then
+	echo "This script takes a single argument: a target to configure (e.g. all)"
+	echo "You may 'export CMAKE_GENERATOR=<generator>' for ease of use."
+	echo "See 'man cmake' for available options on your platform."
+	exit 0
+fi
+
+# Should always find the right directory (TODO right?)
 SCRIPT_DIR="$(cd -P $(dirname $0) && pwd)"
 if [ ! -x "${SCRIPT_DIR}/$(basename $0)" ]; then
 	echo "Problem running '${SCRIPT_DIR}/$(basename $0)'"
@@ -17,10 +26,11 @@ INFO_FILE="${SCRIPT_DIR}/release-build-info.txt"
 # Some important commands
 COMMAND_CMAKE=$(which cmake)
 COMMAND_GIT=$(which git)
+COMMAND_MAKE=$(which make)
 
 # Check for cmake, be gentle with users
 if [ ! -x "${COMMAND_CMAKE}" ]; then
-	echo "Sorry, you need cmake 2.8.0 or higher..."
+	echo "Sorry, you need CMake 2.8.0 or higher..."
 	echo "(hint: you can download it from cmake.org)"
 	exit 1
 fi
@@ -28,8 +38,8 @@ fi
 # Check for git, and create info file(s) if necessary
 if [ -x "${COMMAND_GIT}" ]; then
 	echo "Found $(${COMMAND_GIT} --version)"
-	GIT_REPO=$(${COMMAND_GIT} rev-parse --show-toplevel)
-	GIT_HASH=$(${COMMAND_GIT} rev-parse -q HEAD)
+	GIT_REPO=$("${COMMAND_GIT}" rev-parse --show-toplevel)
+	GIT_HASH=$("${COMMAND_GIT}" rev-parse -q HEAD)
 	echo "${GIT_HASH}" > "${SCRIPT_DIR}/build-info.txt"
 	if [ ! -f "${INFO_FILE}" ]; then
 		cp -v "${SCRIPT_DIR}/build-info.txt" "${INFO_FILE}"
@@ -48,6 +58,11 @@ if [ ! -e "${BUILD_DIR}" ]; then
 	mkdir -v "${BUILD_DIR}"
 fi
 cd "${BUILD_DIR}"
-${COMMAND_CMAKE} -C "${CONF_FILE}" -G "${BUILD_GEN}" ..
-# TODO ant build script for Java? IDK...
-#${COMMAND_CMAKE} --build "${BUILD_DIR}"
+"${COMMAND_CMAKE}" -C "${CONF_FILE}" -G "${BUILD_GEN}" ..
+
+# Run any extra commands requested
+case "${TARGET}" in
+	build) "${COMMAND_CMAKE}" --build "${BUILD_DIR}";;
+	stop)  echo "Bootstrap complete! (tag: ${SOURCE_TAG})";;
+	*)     "${COMMAND_MAKE}" ${TARGET};;
+esac

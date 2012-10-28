@@ -2,5 +2,6 @@
 *.py
 *.pyc
 *_wrap.c
-# But not samples
+*_wrapper.c
+# But not usage samples
 !laPy_*.py

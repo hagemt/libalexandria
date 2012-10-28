@@ -18,16 +18,14 @@
 #ifndef LAF_SVM_H
 #define LAF_SVM_H
 
-#include "laF_constants.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 /* kernel functions for non-linear SVM */
-extern void laf_kern_gauss_;
-extern void laf_kern_poly_;
-extern void laf_kern_tanh_;
+extern void laf_kern_gauss_();
+extern void laf_kern_poly_();
+extern void laf_kern_tanh_();
 /* TODO proper arguments */
 
 #ifdef __cplusplus

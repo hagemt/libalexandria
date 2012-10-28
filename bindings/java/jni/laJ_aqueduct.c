@@ -15,14 +15,17 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define LA_JNI
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "libalexandria.h"
 
-inline la_UUID_t *
-extract_data(jlong arg)
+inline la_key_t *
+extract_key(jlong arg)
 {
-	la_UUID_t *key = malloc(sizeof(la_UUID_t));
-	memcpy(key, &arg, sizeof(la_UUID_t));
+	la_key_t *key = malloc(sizeof(la_key_t));
+	memcpy(key, &arg, sizeof(la_key_t));
 	return key;
 }
 
@@ -34,27 +37,30 @@ extract_data(jlong arg)
 JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 	(JNIEnv *env, jclass cls, jlong arg)
 {
-	struct la_buffer_table_value_t *value;
-	if (!la_buffer_table) {
+	la_key_t *key;
+	la_value_t *value;
+	HashTableValue v;
+	const size_t len = LA_MAX_LEN * sizeof(jdouble);
+	if (la_buffer_table == LA_NULL) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return NULL;
 	}
 
-	la_UUID_t *key = extract_data(arg);
-	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), (long long unsigned)(*key));
-	HashTableValue v = hash_table_lookup(la_buffer_table, key);
+	key = extract_key(arg);
+	LOGD("%p (requested native array w/ key: %llu)", (void *)(cls), *key);
+	v = hash_table_lookup(la_buffer_table, key);
 	if (v != HASH_TABLE_NULL) {
 		free(key); /* you won't be needing this anymore */
-		value = (struct la_buffer_table_value_t *)(v);
+		value = (la_value_t *)(v);
 		LOGD("%p (using existing native array: %p)", (void *)(cls), value->buffer);
 	} else {
 		/* Create a new entry only if necessary */
-		value = malloc(sizeof(struct la_buffer_table_value_t));
-		// FIXME is this the right size for our needs?
-		value->buffer = malloc(LAF_MAX_LEN * sizeof(jdouble));
-		memset(value->buffer, 0, LAF_MAX_LEN * sizeof(jdouble));
-		// FIXME is there really no corresponding free for this?
-		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, LAF_MAX_LEN * sizeof(jdouble));
+		value = malloc(sizeof(la_value_t));
+		/* FIXME is this the right size for our needs? */
+		value->buffer = malloc(len);
+		memset(value->buffer, 0, len);
+		/* FIXME is there really no corresponding free for this? */
+		value->handle = (*env)->NewDirectByteBuffer(env, value->buffer, len);
 		hash_table_insert(la_buffer_table, key, value);
 		LOGD("%p (!!! allocated new native array: %p)", (void *)(cls), value->buffer);
 	}
@@ -72,13 +78,15 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 JNIEXPORT void JNICALL Java_lib_alexandria_pipeline_Aqueduct_free
 	(JNIEnv *env, jclass cls, jlong arg)
 {
-	if (!la_buffer_table) {
+	int result;
+	la_key_t *key;
+	if (la_buffer_table == LA_NULL) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return;
 	}
 
-	la_UUID_t *key = extract_data(arg);
-	int result = hash_table_remove(la_buffer_table, key);
+	key = extract_key(arg);
+	result = hash_table_remove(la_buffer_table, key);
 	free(key);
 
 	/* FIXME need to free/monitor direct buffer somehow to alert laJ? */

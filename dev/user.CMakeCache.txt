@@ -25,16 +25,17 @@ set(BIND_JAVA           TRUE  CACHE BOOL "java +bindings")
 #set(BUILD_JAVADOC       TRUE  CACHE BOOL "java +doc")
 #set(BUILD_SHARED_LIBS   TRUE  CACHE BOOL "all +sharedlibs")
 set(BUILD_TESTING       TRUE  CACHE BOOL "all +testing")
-set(USE_SWIG            TRUE  CACHE BOOL "+swig")
-#set(USE_ANDROID         TRUE  CACHE BOOL "+android")
+set(USE_SWIG            TRUE  CACHE BOOL "all +swig")
+#set(USE_ANDROID         TRUE  CACHE BOOL "java +android")
 #set(ANDROID_TARGET_ARM  TRUE  CACHE BOOL "android +arm")
 #set(ANDROID_TARGET_MIPS TRUE  CACHE BOOL "android +mips")
 #set(ANDROID_TARGET_X86  TRUE  CACHE BOOL "android +x86")
+#set(ANDROID_API_LEVEL   8   CACHE STRING "android +apilvl")
 
 # C/C++/Fortran options
 
-set(CMAKE_C_FLAGS       "-Wall -Wextra" CACHE STRING "c +warnings")
-set(CMAKE_CXX_FLAGS     "-Wall -Wextra" CACHE STRING "cxx +warnings")
+set(CMAKE_C_FLAGS       "-Wall -Wextra -Wno-variadic-macros" CACHE STRING "c +warnings")
+set(CMAKE_CXX_FLAGS     "-Wall -Wextra -Wno-variadic-macros" CACHE STRING "cxx +warnings")
 set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
 
 set(CMAKE_C_FLAGS_DEBUG       "-g -pedantic" CACHE STRING "c +dbg")
@@ -46,11 +47,16 @@ set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +dbg")
 set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0")
 set(JAVA_NATIVE "${JAVA_PREFIX}/jre/lib/amd64")
 
+set(CMAKE_Java_ARCHIVE      "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "CMake jar")
+set(CMAKE_Java_COMPILER     "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "CMake javac")
+set(CMAKE_Java_RUNTIME      "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "CMake java")
+# TODO why are there two sets of these?
 set(Java_JAR_EXECUTABLE     "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "jar command")
 set(Java_JAVAC_EXECUTABLE   "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "javac command")
 set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc"      CACHE FILEPATH "javadoc command")
 set(Java_JAVAH_EXECUTABLE   "${JAVA_PREFIX}/bin/javah"        CACHE FILEPATH "javah command")
 set(Java_JAVA_EXECUTABLE    "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "java command")
+
 set(JAVA_AWT_INCLUDE_PATH   "${JAVA_PREFIX}/include"          CACHE     PATH "Java AWT includes")
 set(JAVA_AWT_LIBRARY        "${JAVA_NATIVE}/libjawt.so"       CACHE FILEPATH "Java libawt/jawt")
 set(JAVA_INCLUDE_PATH       "${JAVA_PREFIX}/include"          CACHE     PATH "Java JDK includes")
@@ -65,6 +71,10 @@ mark_as_advanced(
   CMAKE_C_FLAGS_DEBUG
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_Fortran_FLAGS_DEBUG
+
+  CMAKE_Java_ARCHIVE
+  CMAKE_Java_COMPILER
+  CMAKE_Java_RUNTIME
 
   Java_JAR_EXECUTABLE
   Java_JAVA_EXECUTABLE

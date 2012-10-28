@@ -14,12 +14,12 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
-#include "laF_constants.h"
+#include "la_constants.h"
 
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KERN_POLY(V1,V2,C,D,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
       REAL :: C,D,K
 C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
       K=(DOT_PRODUCT(V1,V2)+C)**D
@@ -29,7 +29,7 @@ C     -------------------------------------------------------------------------
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KERN_GAUSS(V1,V2,GAM,SIG,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2,V
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2,V
       REAL :: GAM,SIG,K
       V=V1-V2
       IF (GAM .EQ. 0 .AND. SIG .NE. 0) GAM=1/(2*SIG**2)
@@ -41,7 +41,7 @@ C     -------------------------------------------------------------------------
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KERN_TANH(V1,V2,KAP,C,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LAF_MAX_LEN) :: V1,V2
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
       REAL :: KAP,C,K
 C     Hyperbolic tangent kernel with positive parameters
       K=TANH(KAP*DOT_PRODUCT(V1,V2)-C);

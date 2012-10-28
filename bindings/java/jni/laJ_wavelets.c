@@ -15,7 +15,6 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define LA_JNI
 #include "libalexandria.h"
 
 /*
@@ -27,7 +26,7 @@ JNIEXPORT void JNICALL
 Java_lib_alexandria_functional_wavelets_Wavelet_benchmark
 	(JNIEnv *env, jobject obj)
 {
-	la_print_info_incomplete("Wavelet_benchmark");
+	la_mark_incomplete("Wavelet_benchmark");
 } 
 
 /*
@@ -39,5 +38,5 @@ JNIEXPORT void JNICALL
 Java_lib_alexandria_functional_wavelets_Wavelet_sync
 	(JNIEnv *env, jobject obj)
 {
-	la_print_info_incomplete("Wavelet_sync");
+	la_mark_incomplete("Wavelet_sync");
 }

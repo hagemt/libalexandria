@@ -54,6 +54,7 @@ install_jni_symlink(lib.alexandria "${CMAKE_INSTALL_PREFIX}/lib")
 #set_target_properties(lib.alexandria PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
 
 # Make sure native interfaces are built
+add_definitions(-DLA_JNI)
 add_subdirectory(jni)
 
 # Create Javadoc TODO make macro and add for jpoc test?
@@ -61,7 +62,7 @@ if(BUILD_JAVADOC)
   set(JAVA_DOC_VERSION "<version>lib.alexandria.v${CMAKE_PROJECT_VERSION}</version>")
   set(JAVA_DOC_MOTTO "<pre>What.Is.Your.Intent?</pre>")
   set(JAVA_DOC_TITLE "${JAVA_DOC_VERSION}<br/>${JAVA_DOC_MOTTO}")
-  create_javadoc(lib.alexandria
+  create_javadoc(java
     PACKAGES lib.alexandria
       lib.alexandria.functional
       lib.alexandria.functional.kernels
@@ -78,6 +79,7 @@ if(BUILD_JAVADOC)
       lib.alexandria.unsupervised
     SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
     CLASSPATH "${CMAKE_JAVA_INCLUDE_PATH}"
+    INSTALLPATH "${CMAKE_SOURCE_DIR}/doc"
     WINDOWTITLE "The Library of Alexandria"
     DOCTITLE "${JAVA_DOC_TITLE}"
     AUTHOR TRUE USE TRUE VERSION TRUE

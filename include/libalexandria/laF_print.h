@@ -17,8 +17,6 @@
 #ifndef LAF_PRINT_H
 #define LAF_PRINT_H
 
-#include "laF_constants.h"
-
 /* TODO eventually replace (laF_print is currently just for proof-of-concepts */
 
 #ifdef __cplusplus

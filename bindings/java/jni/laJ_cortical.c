@@ -15,7 +15,8 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define LA_JNI
+#include <assert.h>
+
 #include "libalexandria.h"
 
 /*
@@ -30,6 +31,7 @@ Java_lib_alexandria_reinforcement_nn_NativeWorker_operate
 	register jint i;
 	jint len1, len2;
 	jbyte *a1, *a2;
+	la_mark_incomplete("NativeWorker_operate");
 	/* Fetch the arrays from java */
 	len1 = (*env)->GetArrayLength(env, arr1);
 	len2 = (*env)->GetArrayLength(env, arr2);
@@ -37,12 +39,11 @@ Java_lib_alexandria_reinforcement_nn_NativeWorker_operate
 	a1 = (*env)->GetPrimitiveArrayCritical(env, arr1, 0);
 	a2 = (*env)->GetPrimitiveArrayCritical(env, arr2, 0);
 	assert(a1 && a2);
-	/* Do the operation */
+	/* Do an operation */
 	for (i = 0; i < len1; ++i) {
 		a1[i] ^= a2[i];
 	}
-	/* Cleanup */
+	/* Release all resources */
 	(*env)->ReleasePrimitiveArrayCritical(env, arr2, a2, 0);
 	(*env)->ReleasePrimitiveArrayCritical(env, arr1, a1, 0);
-	return;
 }

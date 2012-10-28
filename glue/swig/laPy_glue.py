@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 
-from os import environ
-name = environ["SWIG_MODULE_NAME"]
+print "Importing glue module via swagger package..."
+from swagger import kolla as laPy
+print "Imported symbols as attributes of 'laPy'"
+for attr in dir(laPy):
+	if not attr.startswith('_'):
+		print "\t(",attr,")"
 
-print "Importing '",name,"' module..."
-import la_glue as glue
-
-print "'la_initialize(42)' reports:"
-glue.la_initialize(42)
-print "'la_finalize(42)' reports:"
-glue.la_finalize(42)
-
-print "'la_print_info_incomplete(\"swig\")' reports:"
-glue.la_print_info_incomplete("swig")
-
-print "Attributes of '",name,"' module:"
-for attr in dir(glue):
-	print "\t(",attr,")"
+print 'laPy.la_initialize(42) reports:'
+laPy.la_initialize(42)
+print 'laPy.la_finalize(42) reports:'
+laPy.la_finalize(42)
+print 'laPy.la_mark_incomplete("laPy") reports:'
+laPy.la_mark_incomplete("laPy")

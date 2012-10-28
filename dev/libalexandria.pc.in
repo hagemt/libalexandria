@@ -23,5 +23,5 @@ Name: Library of Alexandria @EXTRA_LABELS@
 Description: Fast and easy-to-use machine learning mechanisms
 URL: http://hagemt.github.com/libalexandria/
 Version: @CMAKE_PROJECT_VERSION_SO@
-Libs: -L${libdir} -lalexandria @EXTRA_LIBRARIES@
+Libs: -L${libdir} @BASE_LIBRARIES@ @EXTRA_LIBRARIES@
 Cflags: -I${includedir} @EXTRA_INCLUDE_DIRS@

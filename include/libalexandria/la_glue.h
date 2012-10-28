@@ -17,33 +17,13 @@
 #ifndef LA_GLUE_H
 #define LA_GLUE_H
 
-#include <assert.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <libcalg/compare-pointer.h>
-#include <libcalg/hash-pointer.h>
-#include <libcalg/hash-table.h>
-
-/* Important data structures */
-
-struct la_buffer_table_value_t {
-	void *buffer, *handle;
-};
-
-typedef long long unsigned int la_UUID_t;
+#include "la_types.h"
 
 /* Important library functions */
-
 void la_initialize(la_UUID_t);
 void la_finalize(la_UUID_t);
 
-#include "la_log.h"
-
 /* Utility functions */
-
-void la_print_info_incomplete(const char *);
+void la_mark_incomplete(const char *);
 
 #endif /* LA_GLUE_H */

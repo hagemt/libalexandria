@@ -14,11 +14,20 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef LA_TYPES_H
+#define LA_TYPES_H
 
-#ifndef LAF_CONSTANTS_H
-#define LAF_CONSTANTS_H
+#include <libcalg/hash-table.h>
 
-#define LAF_VERSION 0x00000001
-#define LAF_MAX_LEN 80
+#define LA_NULL (void *)(0xDEADBEEF)
 
-#endif /* LAF_CONSTANTS_H */
+struct la_buffer_table_value_t {
+	void *buffer, *handle;
+};
+
+typedef long unsigned int la_UUID_t;
+
+typedef la_UUID_t la_key_t;
+typedef struct la_buffer_table_value_t la_value_t;
+
+#endif /* LA_TYPES_H */

@@ -1,15 +1,25 @@
-[submodule "glue/tclap"]
-	path = glue/tclap
-	url = git://tclap.git.sourceforge.net/gitroot/tclap/tclap
-[submodule "glue/android-cmake"]
-	path = glue/android-cmake
+[submodule "android-cmake"]
+	path = android/android-cmake
 	url = git://gitorious.org/android-cmake/android-cmake.git
-[submodule "android/ndk"]
-	path = android/ndk
-	url = https://android.googlesource.com/platform/ndk.git
-[submodule "android/dev"]
+# The NEW plan:
+#[submodule "android"]
+#	path = android
+#	url = <POINT_TO_REPO_ON_CASPAR>
+#	fetchRecurseSubmodules = true
+## Which itself has a .gitmodules listing:
+#[submodule "android-cmake"]
+#	path = android-cmake
+#	url = git://gitorious.org/android-cmake/android-cmake.git
+# Ditch the next two if the plan goes through?
+[submodule "android-platform-development"]
 	path = android/dev
 	url = https://android.googlesource.com/platform/development.git
-[submodule "glue/libcalg"]
+[submodule "android-platform-ndk"]
+	path = android/ndk
+	url = https://android.googlesource.com/platform/ndk.git
+[submodule "c-algorithms"]
 	path = glue/libcalg
 	url = git://c-algorithms.git.sourceforge.net/gitroot/c-algorithms/c-algorithms
+[submodule "tclap"]
+	path = glue/tclap
+	url = git://tclap.git.sourceforge.net/gitroot/tclap/tclap

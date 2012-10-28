@@ -13,6 +13,10 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+# TODO anything that should run, global configuration?
+
+##########################################################################
+
 ### Adds an important configuration function for the NDK
 ### See how it is used below in add_app
 macro(configure_ndk TARGET DEPS LIBS)
@@ -25,15 +29,15 @@ endif(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 set(NATIVE_LIBRARY_SONAME android_arm_${TARGET})
 message(STATUS "Adding target: ${NATIVE_LIBRARY_SONAME}")
 add_custom_target(${NATIVE_LIBRARY_SONAME})
-set_target_properties(${NATIVE_LIBRARY_SONAME} PROPERTIES
-  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
-  VERSION   ${CMAKE_PROJECT_VERSION_SO}
-)
-install(
-  TARGETS ${NATIVE_LIBRARY_SONAME}
-  LIBRARY DESTINATION lib/${CMAKE_LIBRARY_ARCHITECTURE}
-  COMPONENT "Android NDK Libraries" OPTIONAL
-)
+#set_target_properties(${NATIVE_LIBRARY_SONAME} PROPERTIES
+#  SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+#  VERSION   ${CMAKE_PROJECT_VERSION_SO}
+#)
+#install(
+#  TARGETS ${NATIVE_LIBRARY_SONAME}
+#  LIBRARY DESTINATION lib/${CMAKE_LIBRARY_ARCHITECTURE}
+#  COMPONENT "Android NDK Libraries" OPTIONAL
+#)
 
 # Prepare flags for C/C++
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -87,7 +91,9 @@ configure_file(Application.mk.in "${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_LIBRARY_AR
 
 endmacro(configure_ndk)
 
-### Provides a robust mechanism to build Android apps as subprojects
+##########################################################################
+
+### Provides a robust mechanism to build Android apps
 ### See http://en.wikipedia.org/wiki/Jo-ha-kyu
 macro(add_app NAME LOCATION)
 message(STATUS "Adding app: ${NAME} in '${LOCATION}'")
@@ -130,3 +136,5 @@ endif(EXISTS "${LOCATION}/jni")
 include(${LOCATION}/${APP_NAME}.kyu.cmake OPTIONAL)
 
 endmacro(add_app)
+
+##########################################################################

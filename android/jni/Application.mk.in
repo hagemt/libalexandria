@@ -14,4 +14,4 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # Note: to understand how to modify this file, please read NDK documentation.
-APP_PROJECT_PATH := @CMAKE_SOURCE_DIR@/android
+APP_PROJECT_PATH := @CMAKE_SOURCE_DIR@

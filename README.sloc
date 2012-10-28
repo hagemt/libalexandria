@@ -8,12 +8,11 @@ Creating filelist for tests
 Categorizing files.
 Finding a working MD5 command....
 Found a working MD5 command.
-Warning: in android, number of duplicates=54
 Computing results.
 
 
 SLOC	Directory	SLOC-by-Language (Sorted)
-145669  android         ansic=78840,cpp=65683,java=556,sh=369,xml=221
+5714    android         ansic=3972,cpp=596,java=556,sh=369,xml=221
 1480    bindings        java=1347,ansic=125,cpp=8
 241     tests           java=195,ansic=38,cpp=8
 158     glue            ansic=123,sh=23,python=12
@@ -23,24 +22,24 @@ SLOC	Directory	SLOC-by-Language (Sorted)
 
 
 Totals grouped by language (dominant language first):
-ansic:        79280 (53.63%)
-cpp:          65699 (44.45%)
-java:          2098 (1.42%)
-sh:             459 (0.31%)
-xml:            221 (0.15%)
-fortran:         48 (0.03%)
-python:          12 (0.01%)
+ansic:         4412 (56.12%)
+java:          2098 (26.69%)
+cpp:            612 (7.78%)
+sh:             459 (5.84%)
+xml:            221 (2.81%)
+fortran:         48 (0.61%)
+python:          12 (0.15%)
 
 
 
 
-Total Physical Source Lines of Code (SLOC)                = 147,817
-Development Effort Estimate, Person-Years (Person-Months) = 37.95 (455.43)
+Total Physical Source Lines of Code (SLOC)                = 7,862
+Development Effort Estimate, Person-Years (Person-Months) = 1.74 (20.92)
  (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
-Schedule Estimate, Years (Months)                         = 2.13 (25.59)
+Schedule Estimate, Years (Months)                         = 0.66 (7.94)
  (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
-Estimated Average Number of Developers (Effort/Schedule)  = 17.79
-Total Estimated Cost to Develop                           = $ 5,126,869
+Estimated Average Number of Developers (Effort/Schedule)  = 2.64
+Total Estimated Cost to Develop                           = $ 235,479
  (average salary = $56,286/year, overhead = 2.40).
 SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
 SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.

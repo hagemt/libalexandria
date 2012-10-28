@@ -16,7 +16,6 @@
 # Note: to understand how to modify this file, please read NDK documentation.
 LOCAL_PATH := $(call my-dir)
 
-# For each $(call import-module,@NATIVE_LIBRARY_DEPENDENCY@)
 @NATIVE_LIBRARY_IMPORTS@
 
 # As per NDK's ./docs/ANDROID-MK.html to replace .cpp
@@ -32,8 +31,5 @@ LOCAL_CFLAGS           := @NATIVE_LIBRARY_CFLAGS@ -DLOG_TAG=@PROJECT_LOG_TAG@
 LOCAL_C_INCLUDES       := @NATIVE_LIBRARY_INCLUDES@
 LOCAL_STATIC_LIBRARIES := @NATIVE_LIBRARY_DEPENDS@
 LOCAL_LDLIBS           := @NATIVE_LIBRARY_LDLIBS@
-
-# This is for something strange...
-#@NATIVE_LIBRARY_EXPORTS@
 
 include $(BUILD_SHARED_LIBRARY)

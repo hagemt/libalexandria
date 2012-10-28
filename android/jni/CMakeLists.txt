@@ -19,12 +19,12 @@ message(STATUS "Configuring Lannister native sources...")
 list(APPEND NATIVE_LIBRARY_DEPS "cpufeatures")
 
 # Add any libraries to link here (make sure they're built for arch)
-list(APPEND NATIVE_LIBRARY_LIBS "android")
+#list(APPEND NATIVE_LIBRARY_LIBS "android")
 list(APPEND NATIVE_LIBRARY_LIBS "log")
 
 # This will generate the proper Android.mk and Application.mk
 configure_ndk(alexandria
 	"${NATIVE_LIBRARY_DEPS}" # Extra libraries to pre-build
 	"${NATIVE_LIBRARY_LIBS}" # Extra libraries to link
-	"${CMAKE_CFLAGS}"        # Extra arguments are treated as flags
+	"-Wall -Wextra"          # Extra arguments are treated as flags
 )

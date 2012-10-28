@@ -121,9 +121,10 @@ mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
 #  ANDROID_NDK_TOOLCHAIN_ROOT     ".../android-toolchain" (generated, or found elsewhere)
 
 # They need to be configured in every app script
-file(GLOB APP_SCRIPTS "${CMAKE_CURRENT_SOURCE_DIR}/*.(jo|ha|kyu)")
+file(GLOB APP_SCRIPTS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "*.jo" "*.ha" "*.kyu")
 foreach(APP_SCRIPT "${APP_SCRIPTS}")
-  configure_file("${APP_SCRIPT}" "${APP_SCRIPT}.cmake" @ONLY)
+  message(STATUS "Configuring app script: ${APP_SCRIPT}")
+  configure_file("${APP_SCRIPT}" "${CMAKE_CURRENT_SOURCE_DIR}/${APP_SCRIPT}.cmake" @ONLY)
 endforeach(APP_SCRIPT)
 
 ### Step 5: provide some macros for working with apps
@@ -131,7 +132,7 @@ endforeach(APP_SCRIPT)
 ### Adds an important configuration function for the NDK
 ### See how it is used below in add_app
 macro(configure_ndk TARGET DEPS LIBS)
-message(STATUS "Configure w/ NDK: '${TARGET}' '${DEPS}' '${LIBS}' '${ARGN}'")
+message(STATUS "Configure w/ NDK: '${TARGET}' which depends on '${DEPS}' and links '${LIBS}' with flags '${ARGN}'")
 if(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   message(FATAL_ERROR "Cannot locate Android toolchain for ${TARGET}!")
 endif(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
@@ -151,19 +152,11 @@ add_custom_target(${NATIVE_LIBRARY_SONAME})
 #)
 
 # Prepare flags for C/C++
-if(CMAKE_COMPILER_IS_GNUCC)
-  set(NATIVE_LIBRARY_CFLAGS "${CMAKE_C_FLAGS}")
-else(CMAKE_COMPILER_IS_GNUCC)
-  set(NATIVE_LIBRARY_CFLAGS "${ARGN}")
-endif(CMAKE_COMPILER_IS_GNUCC)
-if(CMAKE_COMPILER_IS_GNUCXX)
-  set(NATIVE_LIBRARY_CXXFLAGS "${CMAKE_CXX_FLAGS}")
-else(CMAKE_COMPILER_IS_GNUCXX)
-  set(NATIVE_LIBRARY_CXXFLAGS "${ARGN}")
-endif(CMAKE_COMPILER_IS_GNUCXX)
+set(NATIVE_LIBRARY_CFLAGS "${ARGN}")
+set(NATIVE_LIBRARY_CXXFLAGS "${ARGN}")
 
 # Prepare includes (from toolchain)
-set(NATIVE_LIBRARY_INCLUDES "${ANDROID_NDK_TOOLCHAIN_ROOT}/include")
+set(NATIVE_LIBRARY_INCLUDES "${ANDROID_NDK_TOOLCHAIN_ROOT}/sysroot/usr/include")
 include_directories(BEFORE SYSTEM "${NATIVE_LIBRARY_INCLUDES}")
 
 # Fetch the sources from the target
@@ -177,19 +170,20 @@ foreach(DEPENDENCY ${DEPS})
   set(NATIVE_LIBRARY_DEPENDENCY "${NATIVE_LIBRARY_SONAME}_dep_${DEPENDENCY}")
   message(STATUS "Adding dependency target: ${NATIVE_LIBRARY_DEPENDENCY}")
   add_custom_target(${NATIVE_LIBRARY_DEPENDENCY})
-  list(APPEND NATIVE_LIBRARY_DEPENDENCIES "${NATIVE_LIBRARY_DEPENDENCY}")
-  # For the NDK makefile
-  set(NATIVE_LIBRARY_IMPORTS "${NATIVE_LIBRARY_IMPORTS}
-\$(call import-module,${DEPENDENCY})")
+  add_dependencies(${NATIVE_LIBRARY_SONAME} ${NATIVE_LIBRARY_DEPENDENCY})
+  # And for the NDK makefile
+  set(NATIVE_LIBRARY_DEPENDS "${NATIVE_LIBRARY_DEPENDS} ${DEPENDENCY}")
+  set(NATIVE_LIBRARY_IMPORTS "\$(call import-module,${DEPENDENCY})
+${NATIVE_LIBRARY_IMPORTS}")
 endforeach(DEPENDENCY)
-add_dependencies(${NATIVE_LIBRARY_SONAME} ${NATIVE_LIBRARY_DEPENDENCIES})
+set(NATIVE_LIBRARY_IMPORTS "${NATIVE_LIBRARY_IMPORTS}# for ${NATIVE_LIBRARY_SONAME}")
 
 # Link each library internally and externally
 set(NATIVE_LIBRARY_LDLIBS)
 foreach(LIBRARY ${LIBS})
   set(NATIVE_LIBRARY_LDLIBS "${NATIVE_LIBRARY_LDLIBS} -l${LIBRARY}")
   find_library(LIBRARY_PATH "${LIBRARY}"
-    PATHS "${ANDROID_NDK_TOOLCHAIN_ROOT}/lib"
+    PATHS "${ANDROID_NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib"
     DOC "Library path for lib${LIBRARY}")
   target_link_libraries(${NATIVE_LIBRARY_SONAME} ${LIBRARY_PATH})
 endforeach(LIBRARY)

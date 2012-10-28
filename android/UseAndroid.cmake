@@ -121,7 +121,7 @@ mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
 #  ANDROID_NDK_TOOLCHAIN_ROOT     ".../android-toolchain" (generated, or found elsewhere)
 
 # They need to be configured in every app script
-file(GLOB APP_SCRIPTS "${CMAKE_CURRENT_SOURCE_DIR}/*.(jo|ha|kyu).in")
+file(GLOB APP_SCRIPTS "${CMAKE_CURRENT_SOURCE_DIR}/*.(jo|ha|kyu)")
 foreach(APP_SCRIPT "${APP_SCRIPTS}")
   configure_file("${APP_SCRIPT}" "${APP_SCRIPT}.cmake" @ONLY)
 endforeach(APP_SCRIPT)

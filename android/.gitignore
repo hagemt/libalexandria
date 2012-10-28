@@ -1,2 +1,8 @@
 # Everything prefixed this way has been put here automatically
 android-*
+# Ignore generated logs
+*.log
+# Ignore generated scripts
+*.jo.cmake
+*.ha.cmake
+*.kyu.cmake

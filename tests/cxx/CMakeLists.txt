@@ -14,6 +14,7 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # CXX proof-of-concept
+add_definitions(-DLA_MM)
 add_executable(simple_cxx_poc simple_poc.cxx)
 target_link_libraries(simple_cxx_poc calg alexandriamm)
 

@@ -15,7 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "laCXX_print.h"
+#include "libalexandria.h"
 
 #include <string>
 

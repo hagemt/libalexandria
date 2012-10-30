@@ -15,7 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "laC_print.h"
+#include "libalexandria.h"
 
 int
 main(int argc, char **argv)

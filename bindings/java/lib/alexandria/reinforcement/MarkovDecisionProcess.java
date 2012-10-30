@@ -18,7 +18,9 @@ package lib.alexandria.reinforcement;
 
 import lib.alexandria.LearningModel;
 import lib.alexandria.ModelConstants;
+import lib.alexandria.annotation.TODO;
 
+@TODO(priority = TODO.Priority.NORMAL)
 public abstract class MarkovDecisionProcess extends LearningModel {
 	protected MarkovDecisionProcess(String label) {
 		super(label, ModelConstants.ModelType.REINFORCEMENT, true);

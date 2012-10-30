@@ -16,7 +16,9 @@
  */
 package lib.alexandria.naming;
 
-import lib.alexandria.Generate;
+import static lib.alexandria.Generate.randomString;
+
+import java.util.Collection;
 
 /**
  * Provides any type with a label for purposes of identification.
@@ -24,14 +26,14 @@ import lib.alexandria.Generate;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LabelledEntity implements Labelled {
+public abstract class LabelledEntity implements Labelled, Comparable<Labelled> {
 	private String label;
 	
 	/**
 	 * By default, a label is generated.
 	 */
 	protected LabelledEntity() {
-		this(Generate.randomString());
+		this(randomString());
 	}
 	
 	/**
@@ -40,7 +42,7 @@ public abstract class LabelledEntity implements Labelled {
 	 * @param label a textual identifier for this entity
 	 */
 	protected LabelledEntity(String label) {
-		this.label = (label == null) ? Generate.randomString() : label;
+		this.label = (label == null) ? randomString() : label;
 	}
 	
 	/**
@@ -74,5 +76,27 @@ public abstract class LabelledEntity implements Labelled {
 	@Override
 	public String toString() {
 		return getLabel();
+	}
+	
+	/**
+	 * Utility method for subclasses to concatenate "labels."
+	 * Doesn't modify the current label; returns a copy.
+	 * @param suffix text on which to prepend ourselves
+	 * @return this label's text w/ the given suffix
+	 */
+	protected final String plus(final String suffix) {
+		return label + '-' + suffix;
+	}
+	
+	protected final String plus(final Collection<String> strings) {
+		int capacity = label.length() * strings.size();
+		StringBuilder sb = new StringBuilder(capacity);
+		sb.append(label);
+		sb.append(':');
+		for (String s : strings) {
+			sb.append(' ');
+			sb.append(s);
+		}
+		return sb.toString();
 	}
 }

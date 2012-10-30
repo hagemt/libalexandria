@@ -28,17 +28,24 @@ import lib.alexandria.logging.LinearFormatter;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public final class ModelConstants {
+public class ModelConstants {
+
 	/**
 	 * Protect against direct instances.
 	 */
 	protected ModelConstants() { }
 
 	/**
+	 * A global constant specifying the priority for asynchronous tasks.
+	 * Its standard value is: Thread.NORM_PRIORITY
+	 */
+	public static final int DEFAULT_TASK_PRIORITY;
+	
+	/**
 	 * An HTM constant specifying the minimum cortex dimension.
 	 * Its standard value is: 32 (results in 1KB used)
 	 */
-	public static final int MIN_HTM_DIMENSION;
+	public static final int DEFAULT_HTM_DIMENSION_MIN;
 
 	/**
 	 * An HTM constant specifying the default cortex dimension.
@@ -48,24 +55,43 @@ public final class ModelConstants {
 
 	/**
 	 * A testing constant specifying the time to wait for jobs.
-	 * Its standard value is: 10000 (milliseconds)
+	 * Its standard value is: 10000 (DEFAULT_TIME_UNITs)
 	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
 	 */
-	public static final int DEFAULT_RUN_TIME;
+	public static final int DEFAULT_TIME_RUN;
 
 	/**
 	 * A testing constant specifying the time to wait for joins.
-	 * Its standard value is: 1000 (milliseconds)
+	 * Its standard value is: 1000 (DEFAULT_TIME_UNITs)
 	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
 	 */
-	public static final int DEFAULT_JOIN_TIME;
+	public static final int DEFAULT_TIME_JOIN;
+	
+	/**
+	 * A testing constant specifying the time to train.
+	 * Its standard value is: DEFAULT_TIME_RUN (DEFAULT_TIME_UNITs)
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 */
+	public static final int DEFAULT_TIME_TRAIN;
+
+	/**
+	 * A testing constant specifying the time to test.
+	 * Its standard value is: DEFAULT_TIME_RUN + DEFAULT_TIME_JOIN (DEFAULT_TIME_UNITs)
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_JOIN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 */
+	public static final int DEFAULT_TIME_TEST;
 
 	/**
 	 * A testing constant specifying the time unit for various other testing constants.
 	 * Its standard value is: TimeUnit.MILLISECONDS (from java.util.concurrent)
 	 * @see java.util.concurrent.TimeUnit
-	 * @see lib.alexandria.ModelConstants#DEFAULT_RUN_TIME
-	 * @see lib.alexandria.ModelConstants#DEFAULT_JOIN_TIME
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_JOIN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_TRAIN
+	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_TEST
 	 */
 	public static final TimeUnit DEFAULT_TIME_UNIT;
 
@@ -91,19 +117,19 @@ public final class ModelConstants {
 	 * A global constant specifying the library's prefix.
 	 * Its standard value is: "laJ" (as per spec)
 	 */
-	public static final String LA_PREFIX;
+	public static final String LAJ_PREFIX;
 
 	/**
 	 * A global constant specifying the library's fully qualified name.
 	 * Its standard value is: "lib.alexandria" (matches package name)
 	 */
-	public static final String LA_FQN;
+	public static final String LAJ_FQN;
 	
 	/**
 	 * A global constant specifying an array of label components.
 	 * Its standard values are the NATO phonetic "alphabet."
 	 */
-	public static final String[] LABEL_POOL;
+	public static final String[] LAJ_LABEL_POOL;
 	
 	/**
 	 * A logging constant specifying the default log format.
@@ -131,22 +157,27 @@ public final class ModelConstants {
 	 * Give constants the default values.
 	 */
 	static {
-		/* HTM constants */
-		MIN_HTM_DIMENSION = 32;
-		DEFAULT_HTM_DIMENSION = 64;
-		/* Testing constants */
-		DEFAULT_RUN_TIME = 10000;
-		DEFAULT_JOIN_TIME = 1000;
-		DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
 		/* Global constants*/
+		LAJ_PREFIX = "laJ";
+		LAJ_FQN = "lib.alexandria";
 		DEFAULT_BUFFER_SIZE = 1024;
 		DEFAULT_LABEL_LENGTH = 3;
 		DEFAULT_SEED = System.nanoTime();
-		LA_PREFIX = "laJ";
-		LA_FQN = "lib.alexandria";
-		DEFAULT_LOG_FORMAT = new LinearFormatter(LA_PREFIX);
+		DEFAULT_TASK_PRIORITY = Thread.NORM_PRIORITY;
+		/* Logging constants */
+		DEFAULT_LOG_FORMAT = new LinearFormatter(LAJ_PREFIX);
 		DEFAULT_LOG_LEVEL = Level.ALL;
-		LABEL_POOL = new String[] {
+		/* HTM constants */
+		DEFAULT_HTM_DIMENSION_MIN = 32;
+		DEFAULT_HTM_DIMENSION = 64;
+		/* Testing constants */
+		DEFAULT_TIME_RUN = 10000;
+		DEFAULT_TIME_JOIN = 1000;
+		DEFAULT_TIME_TRAIN = DEFAULT_TIME_RUN;
+		DEFAULT_TIME_TEST = DEFAULT_TIME_RUN + DEFAULT_TIME_JOIN;
+		DEFAULT_TIME_UNIT = TimeUnit.MILLISECONDS;
+		/* Internals */
+		LAJ_LABEL_POOL = new String[] {
 				"Alpha",
 				"Bravo",
 				"Charlie",

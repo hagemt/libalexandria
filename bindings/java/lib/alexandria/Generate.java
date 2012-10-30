@@ -18,8 +18,9 @@ package lib.alexandria;
 
 import java.util.Random;
 
-import static lib.alexandria.ModelConstants.LA_FQN;
-import static lib.alexandria.ModelConstants.LABEL_POOL;
+import static lib.alexandria.ModelConstants.LAJ_FQN;
+import static lib.alexandria.ModelConstants.LAJ_PREFIX;
+import static lib.alexandria.ModelConstants.LAJ_LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
@@ -30,6 +31,7 @@ import lib.alexandria.logging.Log;
 import lib.alexandria.logging.MessageLogger;
 
 import lib.alexandria.naming.LabelledEntity;
+import lib.alexandria.pipeline.Spool;
 
 /**
  * Provides static methods to generate some standard entities, like labels.
@@ -49,14 +51,21 @@ public class Generate {
 	 * @see lib.alexandria.logging.Log
 	 */
 	public static final Log LOG;
+	
+	/**
+	 * A spool is a source of threads.
+	 * @see lib.alexandria.pipeline.Spool
+	 */
+	public static final Spool SPOOL;
 
 	static {
 		source = new Random(DEFAULT_SEED);
-		LOG = new MessageLogger(LA_FQN);
+		LOG = new MessageLogger(LAJ_FQN);
 		LOG.toConsole(DEFAULT_LOG_LEVEL);
-		LOG.toFilename(LA_FQN + ".log", DEFAULT_LOG_FORMAT);
-		LOG.toFilename(LA_FQN + ".txt", FormatType.SIMPLE);
-		LOG.toFilename(LA_FQN + ".xml", FormatType.XML);
+		LOG.toFilename(LAJ_FQN + ".log", DEFAULT_LOG_FORMAT);
+		LOG.toFilename(LAJ_FQN + ".txt", FormatType.SIMPLE);
+		LOG.toFilename(LAJ_FQN + ".xml", FormatType.XML);
+		SPOOL = new Spool(LAJ_PREFIX);
 	}
 
 	private Generate() { }
@@ -138,8 +147,8 @@ public class Generate {
 	
 	public static String randomString(int words) {
 		StringBuilder sb = new StringBuilder();
-		for (int max = LABEL_POOL.length - 1; words > 0; --words) {
-			sb.append(LABEL_POOL[source.nextInt(max)]);
+		for (int max = LAJ_LABEL_POOL.length - 1; words > 0; --words) {
+			sb.append(LAJ_LABEL_POOL[source.nextInt(max)]);
 		}
 		return sb.toString();
 	}

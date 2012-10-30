@@ -16,7 +16,7 @@
  */
 package lib.alexandria.naming;
 
-import static lib.alexandria.ModelConstants.LABEL_POOL;
+import static lib.alexandria.ModelConstants.LAJ_LABEL_POOL;
 import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class Label extends LabelledEntity implements CharSequence {
 	private final static Map<Character, String> quick;
 	static {
 		quick = new HashMap<Character, String>();
-		for (String s : LABEL_POOL) {
+		for (String s : LAJ_LABEL_POOL) {
 			quick.put(s.charAt(0), s);
 		}
 	}

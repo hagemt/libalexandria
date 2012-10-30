@@ -28,7 +28,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.XMLFormatter;
 
-import lib.alexandria.naming.LabelledEntity;
+import lib.alexandria.naming.Labelled;
 
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
 import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
@@ -79,42 +79,42 @@ public class MessageLogger extends Logger implements Log {
 		}
 	}
 	
-	private String str(LabelledEntity le, String msg) {
-		return "[" + getName() + ":" + le.getLabel() + "] (" + msg + ")";
+	private String str(Labelled l, String msg) {
+		return "[" + getName() + ":" + l.getLabel() + "] (" + msg + ")";
 	}
 
-	public void vv(LabelledEntity le, String msg) {
-		super.finest(str(le, msg));
-	}
-
-	@Override
-	public void v(LabelledEntity le, String msg) {
-		super.finer(str(le, msg));
+	public void vv(Labelled l, String msg) {
+		super.finest(str(l, msg));
 	}
 
 	@Override
-	public void d(LabelledEntity le, String msg) {
-		super.fine(str(le, msg));
+	public void v(Labelled l, String msg) {
+		super.finer(str(l, msg));
 	}
 
 	@Override
-	public void i(LabelledEntity le, String msg) {
-		super.config(str(le, msg));
+	public void d(Labelled l, String msg) {
+		super.fine(str(l, msg));
 	}
 
 	@Override
-	public void w(LabelledEntity le, String msg) {
-		super.info(str(le, msg));
+	public void i(Labelled l, String msg) {
+		super.config(str(l, msg));
 	}
 
 	@Override
-	public void e(LabelledEntity le, String msg) {
-		super.warning(str(le, msg));
+	public void w(Labelled l, String msg) {
+		super.info(str(l, msg));
 	}
 
 	@Override
-	public void f(LabelledEntity le, String msg) {
-		super.severe(str(le, msg));
+	public void e(Labelled l, String msg) {
+		super.warning(str(l, msg));
+	}
+
+	@Override
+	public void f(Labelled l, String msg) {
+		super.severe(str(l, msg));
 	}
 	
 	@Override

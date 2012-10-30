@@ -21,6 +21,6 @@ package lib.alexandria.naming;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @see lib.alexandria.naming.LabelledEntity
  */
-public interface Labelled extends Comparable<Labelled> {
+public interface Labelled {
 	public String getLabel();
 }

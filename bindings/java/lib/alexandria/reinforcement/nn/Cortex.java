@@ -24,9 +24,9 @@ import lib.alexandria.LearningModel;
 import static lib.alexandria.Generate.LOG;
 
 import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION;
-import static lib.alexandria.ModelConstants.DEFAULT_JOIN_TIME;
-import static lib.alexandria.ModelConstants.DEFAULT_RUN_TIME;
-import static lib.alexandria.ModelConstants.MIN_HTM_DIMENSION;
+import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION_MIN;
+import static lib.alexandria.ModelConstants.DEFAULT_TIME_JOIN;
+import static lib.alexandria.ModelConstants.DEFAULT_TIME_RUN;
 import static lib.alexandria.ModelConstants.ModelType;
 
 public class Cortex extends LearningModel {
@@ -44,7 +44,7 @@ public class Cortex extends LearningModel {
 	
 	public Cortex(String label, int dimension, boolean isNative) {
 		super(label, ModelType.REINFORCEMENT, true);
-		if (dimension < MIN_HTM_DIMENSION) {
+		if (dimension < DEFAULT_HTM_DIMENSION_MIN) {
 			throw new IllegalArgumentException("dimension must be sufficiently large");
 		}
 		columns = new byte[dimension][];
@@ -75,8 +75,8 @@ public class Cortex extends LearningModel {
 		LOG.i(this, "cortex is learning");
 		try {
 			worker.start();
-			Thread.sleep(DEFAULT_RUN_TIME);
-			halt(DEFAULT_JOIN_TIME);
+			Thread.sleep(DEFAULT_TIME_RUN);
+			halt(DEFAULT_TIME_JOIN);
 		} catch (Exception e) {
 			LOG.w(this, "cortex learning failed");
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class Cortex extends LearningModel {
 	@Override
 	public void close() throws IOException {
 		try {
-			halt(DEFAULT_JOIN_TIME);
+			halt(DEFAULT_TIME_JOIN);
 		} catch (InterruptedException ie) {
 			throw new IOException(ie);
 		}

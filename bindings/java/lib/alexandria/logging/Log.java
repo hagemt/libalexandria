@@ -19,7 +19,7 @@ package lib.alexandria.logging;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 
-import lib.alexandria.naming.LabelledEntity;
+import lib.alexandria.naming.Labelled;
 
 /**
  * Designed as a basic log interface for lib.alexandria
@@ -34,12 +34,12 @@ import lib.alexandria.naming.LabelledEntity;
  * @since libalexandria v0.1
  */
 public interface Log {
-	void v(LabelledEntity le, String msg);
-	void d(LabelledEntity le, String msg);
-	void i(LabelledEntity le, String msg);
-	void w(LabelledEntity le, String msg);
-	void e(LabelledEntity le, String msg);
-	void f(LabelledEntity le, String msg);
+	void v(Labelled l, String msg);
+	void d(Labelled l, String msg);
+	void i(Labelled l, String msg);
+	void w(Labelled l, String msg);
+	void e(Labelled l, String msg);
+	void f(Labelled l, String msg);
 	
 	/**
 	 * Try to set all console logging to the desired level.

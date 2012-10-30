@@ -18,12 +18,14 @@ package lib.alexandria;
 
 import java.io.Closeable;
 
+import lib.alexandria.naming.Labelled;
+
 /**
  * Allows certain types to provide mechanisms to produce performance data
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public interface Profileable extends Closeable {
+public interface Profileable extends Closeable, Labelled {
 	/**
 	 * Runs code that tests computationally-intensive functions
 	 * Typically, this is done with native code through the JNI

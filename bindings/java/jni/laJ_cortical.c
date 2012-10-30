@@ -31,7 +31,6 @@ Java_lib_alexandria_reinforcement_nn_NativeWorker_operate
 	register jint i;
 	jint len1, len2;
 	jbyte *a1, *a2;
-	la_mark_incomplete("NativeWorker_operate");
 	/* Fetch the arrays from java */
 	len1 = (*env)->GetArrayLength(env, arr1);
 	len2 = (*env)->GetArrayLength(env, arr2);

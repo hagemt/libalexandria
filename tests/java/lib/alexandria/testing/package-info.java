@@ -14,48 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.testing;
-
-import java.util.Iterator;
-import java.util.Map;
-
 /**
- * Provides an easy way to manage a remove-on-access Map.
- * As soon as an element is iterated over, it's removed.
+ * 
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.proof.POC
+ * @since libalexandria v0.1
  */
-abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<Runnable> {
-	private Map<String, T> ref;
-	private Iterator<T> itr;
-
-	public Compariterator(Map<String, T> m) {
-		this.ref = m;
-		this.itr = m.values().iterator();
-	}
-
-	@Override
-	public boolean hasNext() {
-		if (itr.hasNext()) {
-			return true;
-		} else {
-			done();
-			return false;
-		}
-	}
-
-	@Override
-	public Runnable next() {
-		T t = itr.next();
-		ref.remove(t.getLabel());
-		return t;
-	}
-
-	@Override
-	public void remove() {
-		itr.remove();
-	}
-
-	protected abstract void done();
-}
-
+package lib.alexandria.testing;

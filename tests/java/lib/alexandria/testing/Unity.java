@@ -30,6 +30,7 @@ import static lib.alexandria.ModelConstants.DEFAULT_TIME_UNIT;
 
 import static lib.alexandria.Generate.LOG;
 
+import lib.alexandria.naming.Labelled;
 import lib.alexandria.naming.LabelledEntity;
 
 /**
@@ -38,28 +39,28 @@ import lib.alexandria.naming.LabelledEntity;
  * @param <V> the type the test should return
  */
 public abstract class Unity<V> extends LabelledEntity implements Callable<V>, Runnable {
-	private final Map<String, Thread> task_map;
+	private final Map<Labelled, Thread> tasks;
 	private final ThreadFactory factory;
 	
 	protected Unity(String label, ThreadFactory factory) {
 		super(label);
 		// Doesn't need to be synchronized because "add" is
-		task_map = new LinkedHashMap<String, Thread>();
+		tasks = new LinkedHashMap<Labelled, Thread>();
 		this.factory = (factory != null) ? factory : defaultThreadFactory();
 	}
 		
-	protected synchronized void add(String id, Runnable task) {
-		task_map.put(id, factory.newThread(task));
+	protected synchronized void add(Labelled id, Runnable task) {
+		tasks.put(id, factory.newThread(task));
 	}
 	
 	protected synchronized void start() {
-		for (Thread t : task_map.values()) {
+		for (Thread t : tasks.values()) {
 			t.start();
 		}
 	}
 	
 	protected synchronized void stop(boolean interrupt) throws InterruptedException {
-		for (Thread t : task_map.values()) {
+		for (Thread t : tasks.values()) {
 			if (t.isAlive()) {
 				if (interrupt) {
 					t.interrupt();
@@ -70,12 +71,12 @@ public abstract class Unity<V> extends LabelledEntity implements Callable<V>, Ru
 	}
 	
 	protected synchronized int size() {
-		return task_map.size();
+		return tasks.size();
 	}
 
 	@Override
 	public synchronized String toString() {
-		return this.plus(task_map.keySet());
+		return this.plus(tasks.keySet());
 	}
 
 	@Override

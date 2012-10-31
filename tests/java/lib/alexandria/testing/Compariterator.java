@@ -17,7 +17,7 @@
 package lib.alexandria.testing;
 
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Queue;
 
 /**
  * Provides an easy way to manage a remove-on-access Map.
@@ -26,19 +26,17 @@ import java.util.Map;
  * @see lib.alexandria.proof.POC
  */
 abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<Runnable> {
-	private Map<String, T> map;
-	private Iterator<String> keys;
-	private Iterator<Map.Entry<String, T>> entries;
+	private Queue<T> ref;
+	private Iterator<T> itr;
 
-	public Compariterator(Map<String, T> m) {
-		this.map = m;
-		this.keys = m.keySet().iterator();
-		this.entries = m.entrySet().iterator();
+	public Compariterator(Queue<T> q) {
+		this.ref = q;
+		this.itr = ref.iterator();
 	}
 
 	@Override
 	public boolean hasNext() {
-		if (keys.hasNext()) {
+		if (itr.hasNext()) {
 			return true;
 		} else {
 			done();
@@ -48,15 +46,14 @@ abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<
 
 	@Override
 	public Runnable next() {
-		String key = keys.next();
-		T t = map.get(key);
-		entries.remove();
+		T t = ref.peek();
+		itr.remove();
 		return t;
 	}
 
 	@Override
 	public void remove() {
-		entries.remove();
+		itr.remove();
 	}
 
 	protected abstract void done();

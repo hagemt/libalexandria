@@ -88,14 +88,14 @@ public abstract class LabelledEntity implements Labelled, Comparable<Labelled> {
 		return label + '-' + suffix;
 	}
 	
-	protected final String plus(final Collection<String> strings) {
-		int capacity = label.length() * strings.size();
+	protected final String plus(final Collection<? extends Labelled> entities) {
+		int capacity = label.length() * entities.size();
 		StringBuilder sb = new StringBuilder(capacity);
 		sb.append(label);
 		sb.append(':');
-		for (String s : strings) {
+		for (Labelled l : entities) {
 			sb.append(' ');
-			sb.append(s);
+			sb.append(l.getLabel());
 		}
 		return sb.toString();
 	}

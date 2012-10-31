@@ -17,8 +17,8 @@
 package lib.alexandria.testing;
 
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,19 +38,18 @@ import lib.alexandria.naming.LabelledEntity;
  * reasonable attributes are taken into account and produces
  * the most meaningful performance metrics possible. 
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @param <T>
  */
 public class UnityHarness extends LabelledEntity implements Iterable<Runnable> {
 	private final Lock lock;
 	private final int multiplicity;
 	/* LTGs move through the queue fluidly */
-	private final Map<String, LatchedThreadGroup> queue;
-	
+	private final Queue<LatchedThreadGroup> queue;
+
 	public UnityHarness(Class<? extends LabelledEntity> clazz) {
 		super(clazz.getSimpleName());
 		lock = new ReentrantLock(true);
 		multiplicity = Runtime.getRuntime().availableProcessors();
-		queue = new LinkedHashMap<String, LatchedThreadGroup>();
+		queue = new ConcurrentLinkedQueue<LatchedThreadGroup>();
 	}
 
 	public Iterator<Runnable> iterator() {
@@ -68,11 +67,7 @@ public class UnityHarness extends LabelledEntity implements Iterable<Runnable> {
 	}
 	
 	public int size() {
-		int i = 0;
-		synchronized (lock) {
-			i = queue.size();
-		}
-		return i;
+		return queue.size();
 	}
 
 	public void addGroup(String label, Profileable... p) {
@@ -91,16 +86,11 @@ public class UnityHarness extends LabelledEntity implements Iterable<Runnable> {
 			for (int i = 0; i < m; ++i) {
 				chosen[i] = p[index[i]];
 			}
-			LatchedThreadGroup g = new LatchedThreadGroup(label, chosen);
-			queue.put(g.getLabel(), g);
+			queue.add(new LatchedThreadGroup(label, chosen));
 		}
 	}
 	
 	public String toString() {
-		String text = null;
-		synchronized (lock) {
-			text = this.plus(queue.keySet());
-		}
-		return text;
+		return this.plus(queue);
 	}
 }

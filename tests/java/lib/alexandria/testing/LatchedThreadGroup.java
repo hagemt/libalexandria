@@ -51,7 +51,7 @@ class LatchedThreadGroup extends Unity<Long> {
 					}
 				}
 			};
-			super.add(candidate.getLabel(), task);
+			super.add(candidate, task);
 		}
 		resetLatches(super.size());
 	}

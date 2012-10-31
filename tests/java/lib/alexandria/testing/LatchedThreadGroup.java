@@ -42,9 +42,12 @@ class LatchedThreadGroup extends Unity<Long> {
 						ready_count.countDown();
 						start_signal.await();
 						candidate.benchmark();
+						// FIXME shouldn't do in finally?
 						finished_count.countDown();
 					} catch (InterruptedException ie) {
 						LOG.w(candidate, "was interrupted");
+					} catch (Exception e) {
+						LOG.e(candidate, "terminated abnormally");
 					}
 				}
 			};

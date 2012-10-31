@@ -29,23 +29,28 @@ import lib.alexandria.naming.LabelledEntity;
  * A sophisticated multi-threaded test harness that uses system
  * introspection to determine the number of threads may execute
  * in parallel on the current machine. This is termed a harness'
- * "multiplicity." The iterator supplies groupings of 
- * 
- * FIXME NO MORE INTERFACES EXTENDED?!
+ * "multiplicity." The iterator supplies groupings of this size
+ * that are combinatorically assigned and internally latched.
+ * So, if you have two processors and submit three tasks in a
+ * group. We will perform three comparisons. Likewise for the
+ * situation with one processor. For two processors, the counts
+ * would be one and two, respectively. This ensures that all
+ * reasonable attributes are taken into account and produces
+ * the most meaningful performance metrics possible. 
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @param <T>
  */
-public class UnityHarness<P extends Profileable> extends LabelledEntity implements Iterable<Runnable> {
+public class UnityHarness extends LabelledEntity implements Iterable<Runnable> {
+	private final Lock lock;
+	private final int multiplicity;
 	/* LTGs move through the queue fluidly */
 	private final Map<String, LatchedThreadGroup> queue;
-	private final int multiplicity;
-	private final Lock lock;
 	
-	public UnityHarness(String label) {
-		super(label);
-		queue = new LinkedHashMap<String, LatchedThreadGroup>();
+	public UnityHarness(Class<? extends LabelledEntity> clazz) {
+		super(clazz.getSimpleName());
+		lock = new ReentrantLock(true);
 		multiplicity = Runtime.getRuntime().availableProcessors();
-		lock = new ReentrantLock();
+		queue = new LinkedHashMap<String, LatchedThreadGroup>();
 	}
 
 	public Iterator<Runnable> iterator() {
@@ -63,35 +68,39 @@ public class UnityHarness<P extends Profileable> extends LabelledEntity implemen
 	}
 	
 	public int size() {
-		return queue.size();
+		int i = 0;
+		synchronized (lock) {
+			i = queue.size();
+		}
+		return i;
 	}
 
-	public boolean addGroup(String label, Profileable... p) {
-		// If we can't acquire the lock, fail
-		if (!lock.tryLock()) {
-			return false;
-		}
-		LatchedThreadGroup g;
+	public void addGroup(String label, Profileable... p) {
+		// We will add combinations of p
 		int n = p.length;
 		int m = Math.min(multiplicity, n);
+		Profileable[] chosen = new Profileable[m];
+		// Setup an index for choosing
 		int[] index = new int[m];
 		for (int i = 0; i < m; ++i) {
 			index[i] = i;
 		}
-		Profileable[] chosen = new Profileable[m];
-		{
-			// TODO change index
+		// Modification of the queue requires lock
+		synchronized (lock) {
+			// TODO change index for each invocation
 			for (int i = 0; i < m; ++i) {
 				chosen[i] = p[index[i]];
 			}
-			g = new LatchedThreadGroup(label, chosen);
+			LatchedThreadGroup g = new LatchedThreadGroup(label, chosen);
 			queue.put(g.getLabel(), g);
 		}
-		lock.unlock();
-		return true;
 	}
 	
 	public String toString() {
-		return this.plus(queue.keySet());
+		String text = null;
+		synchronized (lock) {
+			text = this.plus(queue.keySet());
+		}
+		return text;
 	}
 }

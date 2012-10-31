@@ -16,37 +16,31 @@
  */
 package lib.alexandria.proof;
 
-import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.reseed;
-import static lib.alexandria.Generate.randomType;
-
-import java.io.IOException;
+import static lib.alexandria.functional.kernels.KernelType.GAUSS;
+import static lib.alexandria.functional.kernels.KernelType.POLY;
 
 import lib.alexandria.LearningModel;
-
-import lib.alexandria.functional.kernels.Kernel;
-import lib.alexandria.functional.kernels.KernelType;
-
 import lib.alexandria.reinforcement.nn.Cortex;
+import lib.alexandria.supervised.KSVM;
 import lib.alexandria.testing.UnityHarness;
 
 /**
- * 
+ * Provides a simple example and a sophisticated example. 
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
 public class POC {
 	private static final long seed;
-	private static final UnityHarness<LearningModel> model_harness; 
 	static {
+		/**
+		 * Load the main and testing libraries.
+		 */
 		System.loadLibrary("jalexandria");
 		System.loadLibrary("jpoc");
+		// Keep the seed for finalization 
 		reseed(seed = System.nanoTime());
 		initialize(seed);
-		Cortex java_cortex = new Cortex("java", false);
-		Cortex native_cortex = new Cortex("native", true);
-		model_harness = new UnityHarness<LearningModel>("ML");
-		model_harness.addGroup("cortex", java_cortex, native_cortex);
 	}
 
 	private POC() { }
@@ -57,25 +51,26 @@ public class POC {
 	public static native void finalize(long seed);
 
 	public static void main(String... args) {
+		// When no arguments are given, run harness
+		if (args.length == 0) { 
+			/**
+			 * Prepare a test harness for learning models.
+			 */
+			UnityHarness model_harness = new UnityHarness(LearningModel.class);
+			// Cortex models
+			Cortex java_cortex = new Cortex("java", false);
+			Cortex native_cortex = new Cortex("native", true);
+			// Kernel Support Vector Machine models
+			KSVM java_ksvm = new KSVM("polynomial", POLY.getDefault());
+			KSVM native_ksvm = new KSVM("guassian", GAUSS.getDefault());
+			// Add both groups and run a proof-of-concept
+			model_harness.addGroup("cortex", java_cortex, native_cortex);
+			model_harness.addGroup("ksvm", java_ksvm, native_ksvm);
+			new Proof(model_harness).run();
+		}
 		// Simple POC
-		if (args.length != 0) {
-			for (String s : args) {
-				POC.println(s);
-			}
-		} else {
-			//
-			new Proof<LearningModel>(model_harness).run();
-			//
-			Kernel k = randomType(KernelType.class).getDefault();
-			try {
-				LOG.i(k, "starting benchmark");
-				k.benchmark();
-				k.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				LOG.i(k, "finished benchmark");
-			}
+		for (String s : args) {
+			POC.println(s);
 		}
 		finalize(seed);
 	}

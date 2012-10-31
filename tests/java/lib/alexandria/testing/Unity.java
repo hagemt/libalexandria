@@ -43,6 +43,7 @@ public abstract class Unity<V> extends LabelledEntity implements Callable<V>, Ru
 	
 	protected Unity(String label, ThreadFactory factory) {
 		super(label);
+		// Doesn't need to be synchronized because "add" is
 		task_map = new LinkedHashMap<String, Thread>();
 		this.factory = (factory != null) ? factory : defaultThreadFactory();
 	}
@@ -73,7 +74,7 @@ public abstract class Unity<V> extends LabelledEntity implements Callable<V>, Ru
 	}
 
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		return this.plus(task_map.keySet());
 	}
 

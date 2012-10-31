@@ -26,17 +26,19 @@ import java.util.Map;
  * @see lib.alexandria.proof.POC
  */
 abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<Runnable> {
-	private Map<String, T> ref;
-	private Iterator<T> itr;
+	private Map<String, T> map;
+	private Iterator<String> keys;
+	private Iterator<Map.Entry<String, T>> entries;
 
 	public Compariterator(Map<String, T> m) {
-		this.ref = m;
-		this.itr = m.values().iterator();
+		this.map = m;
+		this.keys = m.keySet().iterator();
+		this.entries = m.entrySet().iterator();
 	}
 
 	@Override
 	public boolean hasNext() {
-		if (itr.hasNext()) {
+		if (keys.hasNext()) {
 			return true;
 		} else {
 			done();
@@ -46,14 +48,15 @@ abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<
 
 	@Override
 	public Runnable next() {
-		T t = itr.next();
-		ref.remove(t.getLabel());
+		String key = keys.next();
+		T t = map.get(key);
+		entries.remove();
 		return t;
 	}
 
 	@Override
 	public void remove() {
-		itr.remove();
+		entries.remove();
 	}
 
 	protected abstract void done();

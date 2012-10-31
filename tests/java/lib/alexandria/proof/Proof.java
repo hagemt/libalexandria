@@ -27,7 +27,6 @@ import static lib.alexandria.Generate.SPOOL;
 import static lib.alexandria.ModelConstants.DEFAULT_TIME_TEST;
 import static lib.alexandria.ModelConstants.DEFAULT_TIME_UNIT;
 
-import lib.alexandria.Profileable;
 import lib.alexandria.testing.UnityHarness;
 
 /**
@@ -35,11 +34,11 @@ import lib.alexandria.testing.UnityHarness;
  * @author Tor Hagemann <hagemt@rpi.edu>
  * @param <P> The type of profile to support
  */
-public class Proof<P extends Profileable> implements Runnable {
-	private final UnityHarness<P> harness;
+public class Proof implements Runnable {
+	private final UnityHarness harness;
 	private final ExecutorService pool;
 	
-	protected Proof(UnityHarness<P> harness) {
+	protected Proof(UnityHarness harness) {
 		this.harness = harness;
 		pool = newFixedThreadPool(harness.bandwidth(), SPOOL);
 	}
@@ -53,19 +52,17 @@ public class Proof<P extends Profileable> implements Runnable {
 		int timeout = DEFAULT_TIME_TEST;
 		LOG.i(harness, "running " + harness.bandwidth() + " task(s) at a time");
 		LOG.d(harness, "running " + harness.size() + " comparison(s) total");
-		LOG.v(harness, "running each comparison for " + format(timeout, DEFAULT_TIME_UNIT));
+		LOG.v(harness, "running each for " + format(timeout, DEFAULT_TIME_UNIT));
 		timeout *= harness.size();
+		// Submit each "harnessed" model to the thread pool
 		for (Runnable r : harness) {
-			// Hell yeah threads!
+			// TODO callable instead?
 			pool.submit(r, null);
 			//pool.invokeAll(unit.callableSet());
 		}
-		// Woah, too many threads...
-		//for (Runnable r : pool.shutdownNow()) {
-		//	LOG.w(harness, "failed to run");
-		//}
+		// And attempt joining all of them on the other side
 		try {
-			LOG.v(harness, "waiting " + format(timeout, DEFAULT_TIME_UNIT) + " for comparisons");
+			LOG.v(harness, "waiting " + format(timeout, DEFAULT_TIME_UNIT) + " for join(s)");
 			boolean normal = pool.awaitTermination(timeout, DEFAULT_TIME_UNIT);
 			if (!normal) {
 				LOG.w(harness, "terminated abnormally after " + format(timeout, DEFAULT_TIME_UNIT));
@@ -77,6 +74,9 @@ public class Proof<P extends Profileable> implements Runnable {
 				LOG.w(harness, "interruption caused " + casualties + " threads to die");
 			}
 		} finally {
+			if (!pool.isShutdown()) {
+				pool.shutdown();
+			}
 			int unfinished = harness.size();
 			LOG.v(harness, "there were " + unfinished + " remaining comparisons");
 			if (unfinished != 0) {

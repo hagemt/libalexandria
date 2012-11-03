@@ -1,1 +1,9 @@
-Please see ./README.md
+Please see: ./README.md
+
+If you're a developer, you might also see:
+ * ./README.todo
+ * ./android/README.txt
+ * ./bindings/README.txt
+ * ./bindings/swig/README.sh
+ * ./dev/README.txt
+ * ./glue/README.txt

@@ -16,38 +16,35 @@
  */
 package lib.alexandria.testing;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Queue;
 
 /**
- * Provides an easy way to manage a remove-on-access Map.
+ * Provides an easy way to manage a remove-on-access Collection.
  * As soon as an element is iterated over, it's removed.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.proof.POC
+ * @see lib.alexandria.testing.LatchedThreadGroup
  */
-abstract class Compariterator<T extends LatchedThreadGroup> implements Iterator<Runnable> {
-	private Queue<T> ref;
+abstract class Compariterator<T extends Runnable> implements Iterator<Runnable> {
 	private Iterator<T> itr;
 
-	public Compariterator(Queue<T> q) {
-		this.ref = q;
-		this.itr = ref.iterator();
+	public Compariterator(Collection<T> q) {
+		this.itr = q.iterator();
 	}
 
 	@Override
 	public boolean hasNext() {
-		if (itr.hasNext()) {
-			return true;
-		} else {
+		if (!itr.hasNext()) {
 			done();
 			return false;
 		}
+		return true;
 	}
 
 	@Override
 	public Runnable next() {
-		T t = ref.peek();
-		itr.remove();
+		T t = itr.next();
+		remove();
 		return t;
 	}
 

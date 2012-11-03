@@ -17,21 +17,12 @@
 #ifndef LA_LOG_H
 #define LA_LOG_H
 
-#ifdef LA_ANDROID
+#ifdef ANDROID
 #include <android/log.h>
-#endif /* LA_ANDROID */
-
-/* Setup LOG_TAG using macro BS */
-#ifndef NDEBUG
-#define LOG_TAG __PRETTY_FUNCTION__
-#else /* using LA_LOG_TAG */
-#define LA_QUOTE(NAME) #NAME
-#define LA_NAME(NAME) LA_QUOTE(NAME)
-#define LOG_TAG LA_NAME(LA_LOG_TAG)
-#endif /* NDEBUG */
+#endif /* ANDROID */
 
 /* Specify the log codes */
-#ifdef LA_ANDROID
+#ifdef ANDROID
 /* With the same ones as Android */
 #define LA_LOG_VERBOSE ANDROID_LOG_VERBOSE
 #define LA_LOG_DEBUG   ANDROID_LOG_DEBUG
@@ -39,7 +30,7 @@
 #define LA_LOG_WARN    ANDROID_LOG_WARN
 #define LA_LOG_ERROR   ANDROID_LOG_ERROR
 #define LA_LOG_FATAL   ANDROID_LOG_FATAL
-#else /* !LA_ANDROID */
+#else /* !ANDROID */
 /* With our own values*/
 #define LA_LOG_VERBOSE 0x00
 #define LA_LOG_DEBUG   0x01
@@ -47,21 +38,42 @@
 #define LA_LOG_WARN    0x04
 #define LA_LOG_ERROR   0x08
 #define LA_LOG_FATAL   0xFF
-#endif /* LA_ANDROID */
+#endif /* ANDROID */
 
-/**
- * TODO neaten this up! Also, my eyes... still yet unfinished, write:
- * __la_log_assert(int, const char *, const char *, ...) // and then, below:
- * #define LOGA(COND,...) __XXX_log_assert(COND,LA_LOG_TAG,__VA_ARGS__)
- */
-void __la_log_print(int, const char *, const char *, ...);
+/* Setup LOG_LEVEL */
+#define LA_NAME(NAME)  #NAME
+#define LA_QUOTE(NAME) LA_NAME(NAME)
+#undef LOG_TAG
+#ifdef NDEBUG
+#ifndef LA_LOG_NAME
+#pragma message("WARNING: LA_LOG_NAME should be set in releases")
+#endif /* !LA_LOG_NAME */
+#define LOG_TAG LA_QUOTE(LA_LOG_NAME)
+#else /* !NDEBUG */
+#define LOG_TAG __PRETTY_FUNCTION__
+#endif /* NDEBUG */
+/* Setup LOG_LIMIT */
+#undef LOG_LIMIT
+#ifdef LA_LOG_LEVEL
+#define LOG_LIMIT LA_LOG_LEVEL
+#else /* !LA_LOG_LEVEL */
+#ifdef NDEBUG
+#define LOG_LIMIT LA_LOG_ERROR
+#else /* !NDEBUG */
+#define LOG_LIMIT LA_LOG_VERBOSE
+#endif /* NDEBUG */
+#endif /* LA_LOG_LEVEL */
 
 /* Define general LOG macros */
-#ifdef LA_ANDROID
+#ifdef ANDROID
 #define LOG(LEVEL,...) __android_log_print(LEVEL,LOG_TAG,__VA_ARGS__)
-#else /* !LA_ANDROID */
+#define LOGA(COND,MSG) __android_log_assert(COND,LOG_TAG,MSG)
+#else /* !ANDROID */
+void __la_log_print(int, const char *, const char *, ...);
+void __la_log_assert(int, const char *, const char *);
 #define LOG(LEVEL,...) __la_log_print(LEVEL,LOG_TAG,__VA_ARGS__)
-#endif /* LA_ANDROID */
+#define LOGA(COND,MSG) __la_log_assert(COND,LOG_TAG,MSG)
+#endif /* ANDROID */
 
 /* Aliases for different log-levels */
 #define LOGV(...) LOG(LA_LOG_VERBOSE, __VA_ARGS__)

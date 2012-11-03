@@ -18,8 +18,6 @@
 #ifndef LACXX_PRINT_H
 #define LACXX_PRINT_H
 
-#include "laF_print.h"
-
 #include <string>
 
 namespace lacxx {

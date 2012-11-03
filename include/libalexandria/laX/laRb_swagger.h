@@ -14,24 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LA_TYPES_H
-#define LA_TYPES_H
+#ifndef LARB_SWAGGER_H
+#define LARB_SWAGGER_H
 
-#include <libcalg/hash-table.h>
+#include "la_swagger.h"
 
-#ifdef NDEBUG
-#define LA_NULL ((void *) 0)
-#else /* for debug builds: */
-#define LA_NULL ((void *) 0xDEADBEEF)
-#endif /* NDEBUG */
-
-struct la_buffer_table_value_t {
-	void *buffer, *handle;
-};
-
-typedef long long unsigned la_UUID_t;
-
-typedef la_UUID_t la_key_t;
-typedef struct la_buffer_table_value_t la_value_t;
-
-#endif /* LA_TYPES_H */
+#endif /* LARB_SWAGGER_H */

@@ -17,9 +17,13 @@
 #ifndef LA_SWAGGER_H
 #define LA_SWAGGER_H
 
-#ifdef LA_PY
+#ifdef LA_PYTHON
 #pragma message("WARNING: Python (SWIG) bindings are incomplete")
-#endif /* LA_PY */
+#endif /* LA_PYTHON */
+
+#ifdef LA_RUBY
+#pragma message("WARNING: Ruby (SWIG) bindings are incomplete")
+#endif /* LA_RUBY */
 
 /* TODO future use, SWIG swag */
 

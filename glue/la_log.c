@@ -15,6 +15,7 @@
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -25,6 +26,9 @@ __la_log_print(int code, const char *tag, const char *fmt, ...)
 {
 	const char *id;
 	va_list args;
+	if (code < LOG_LIMIT) {
+		return;
+	}
 	switch (code) {
 	case LA_LOG_DEBUG: id = "debug";   break;
 	case LA_LOG_INFO:  id = "info";    break;
@@ -37,6 +41,15 @@ __la_log_print(int code, const char *tag, const char *fmt, ...)
 	va_start(args, fmt);
 	vfprintf(stderr, fmt, args);
 	va_end(args);
+	/* FIXME system-independent newline? */
 	fprintf(stderr, "\n");
 	/* TODO needs more sophisticated level method? */
+}
+
+void
+__la_log_assert(int assertion, const char *tag, const char *msg)
+{
+	if (!assertion) {
+		fprintf(stderr, "[%s] %s (assertion failed)\n", tag, msg);
+	}
 }

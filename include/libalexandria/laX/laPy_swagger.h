@@ -14,9 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LAPY_SWAGGER
-#define LAPY_SWAGGER
+#ifndef LAPY_SWAGGER_H
+#define LAPY_SWAGGER_H
 
 #include "la_swagger.h"
 
-#endif /* LAPY_SWAGGER */
+#endif /* LAPY_SWAGGER_H */

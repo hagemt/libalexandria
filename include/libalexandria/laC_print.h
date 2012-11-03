@@ -18,8 +18,14 @@
 #ifndef LAC_PRINT_H
 #define LAC_PRINT_H
 
-#include "laF_print.h"
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cpluscplus */
 
 void println(const char *);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cpluscplus */
 
 #endif /* LAC_PRINT_H */

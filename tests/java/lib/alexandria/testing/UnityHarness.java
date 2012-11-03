@@ -46,7 +46,7 @@ public class UnityHarness extends LabelledEntity implements Iterable<Runnable> {
 	private final Queue<LatchedThreadGroup> queue;
 
 	public UnityHarness(Class<? extends LabelledEntity> clazz) {
-		super(clazz.getSimpleName());
+		super(clazz.getSimpleName() + "-harness");
 		lock = new ReentrantLock(true);
 		multiplicity = Runtime.getRuntime().availableProcessors();
 		queue = new ConcurrentLinkedQueue<LatchedThreadGroup>();

@@ -16,13 +16,15 @@
  */
 package lib.alexandria.reinforcement;
 
-import lib.alexandria.LearningModel;
-import lib.alexandria.ModelConstants;
 import lib.alexandria.annotation.TODO;
+
+import lib.alexandria.LearningModel;
+
+import static lib.alexandria.ModelConstants.ModelType;
 
 @TODO(priority = TODO.Priority.NORMAL)
 public abstract class MarkovDecisionProcess extends LearningModel {
 	protected MarkovDecisionProcess(String label) {
-		super(label, ModelConstants.ModelType.REINFORCEMENT, true);
+		super(label, ModelType.REINFORCEMENT, true);
 	}
 }

@@ -17,7 +17,7 @@
 package lib.alexandria.reinforcement.nn;
 
 import java.io.IOException;
-import java.util.Arrays;
+import static java.util.Arrays.fill;
 
 import lib.alexandria.LearningModel;
 
@@ -50,7 +50,7 @@ public class Cortex extends LearningModel {
 		columns = new byte[dimension][];
 		for (int i = 0; i < columns.length; ++i) {
 			columns[i] = new byte[dimension];
-			Arrays.fill(columns[i], (byte)(0));
+			fill(columns[i], (byte)(0));
 		}
 		if (isNative) {
 			worker = new Thread(new NativeWorker(this));
@@ -72,13 +72,13 @@ public class Cortex extends LearningModel {
 
 	@Override
 	public void benchmark() {
-		LOG.i(this, "cortex is learning");
 		try {
 			worker.start();
+			LOG.i(this, "waiting for worker");
 			Thread.sleep(DEFAULT_TIME_RUN);
 			halt(DEFAULT_TIME_JOIN);
 		} catch (Exception e) {
-			LOG.w(this, "cortex learning failed");
+			LOG.w(this, "learning failed");
 			e.printStackTrace();
 		}
 	}

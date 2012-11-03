@@ -9,7 +9,7 @@ import static lib.alexandria.ModelConstants.DEFAULT_TASK_PRIORITY;
 
 import lib.alexandria.naming.LabelledEntity;
 
-public class Spool extends LabelledEntity implements ThreadFactory {
+public class Spool extends LabelledEntity implements ThreadFactory, Thread.UncaughtExceptionHandler {
 	public Spool(String prefix) {
 		super(prefix);
 	}
@@ -25,5 +25,11 @@ public class Spool extends LabelledEntity implements ThreadFactory {
 
 	public Spool given(String prefix) {
 		return new Spool(this.plus(prefix));
+	}
+
+	@Override
+	public void uncaughtException(Thread t, Throwable e) {
+		LOG.v(this, t.getName() + " threw: " + e);
+		e.printStackTrace();
 	}
 }

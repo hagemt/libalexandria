@@ -16,6 +16,8 @@
  */
 package lib.alexandria;
 
+// TODO consider using java.security.SecureRandom
+import java.security.SecureRandom;
 import java.util.Random;
 
 import static lib.alexandria.ModelConstants.LAJ_FQN;
@@ -59,13 +61,15 @@ public class Generate {
 	public static final Spool SPOOL;
 
 	static {
-		source = new Random(DEFAULT_SEED);
+		source = new SecureRandom();
+		source.setSeed(DEFAULT_SEED);
 		LOG = new MessageLogger(LAJ_FQN);
 		LOG.toConsole(DEFAULT_LOG_LEVEL);
 		LOG.toFilename(LAJ_FQN + ".log", DEFAULT_LOG_FORMAT);
 		LOG.toFilename(LAJ_FQN + ".txt", FormatType.SIMPLE);
 		LOG.toFilename(LAJ_FQN + ".xml", FormatType.XML);
 		SPOOL = new Spool(LAJ_PREFIX);
+		Thread.currentThread().setUncaughtExceptionHandler(SPOOL);
 	}
 
 	private Generate() { }

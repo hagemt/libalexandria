@@ -5,7 +5,7 @@ from swagger import kolla as laPy
 print "Imported symbols as attributes of 'laPy'"
 for attr in dir(laPy):
 	if not attr.startswith('_'):
-		print "\t(",attr,")"
+		print "\t(%s)" % attr
 
 print 'laPy.la_initialize(42) reports:'
 laPy.la_initialize(42)

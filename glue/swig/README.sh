@@ -15,34 +15,51 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-# Experimenting with SWIG using the following:
-SWIG_PACKAGE_NAME='swagger'
-SWIG_PACKAGE_WRAP='wrapper.c'
-SWIG_MODULES=('kolla')
-SWIG_SOURCES_kolla="./py_${SWIG_PACKAGE_WRAP} ../la_glue.c ../la_helper.c ../la_log.c"
-
 # FIXME make sure all these exist?
 CC_COMMAND=$(which cc)
 LD_COMMAND=$(which ld)
 GIT_COMMAND=$(which git)
 PYTHON_COMMAND=$(which python)
+RUBY_COMMAND=$(which ruby)
 SWIG_COMMAND=$(which swig)
 PKG_CONFIG=$(which pkg-config)
+
+# Compiling options (machine dependent)
 CALG_CFLAGS=$($PKG_CONFIG --cflags libcalg-1.0)
 CALG_LDLIBS=$($PKG_CONFIG   --libs libcalg-1.0)
-LA_INCLUDE_DIR="../../include/libalexandria"
-PY_INCLUDE_DIR="/usr/include/python2.6"
+python_INCLUDE_DIR='/usr/include/python2.6'
+ruby_INCLUDE_DIR='/usr/include/ruby-1.9.1'
+python_MODULE_PREFIX='_'
+ruby_MODULE_PREFIX='swagger.'
+
+# Experimenting with SWIG using the following:
+PACKAGE_NAME='swagger'
+WRAPPER_SUFFIX='wrapper.c'
+LANGUAGES=( 'python' 'ruby' )
+MODULES=( 'kolla' )
+SOURCES_kolla="../la_glue.c ../la_helper.c ../la_log.c"
 
 # Initialize the package directory using the main interface
-$SWIG_COMMAND -python -outdir "${SWIG_PACKAGE_NAME}" -o "py_${SWIG_PACKAGE_WRAP}" "${SWIG_PACKAGE_NAME}.i"
-
-# Compile and link each module's sources
-for MODULE in ${SWIG_MODULES[@]}; do
-	echo "Building sources for '$MODULE' module..."
-	VARIABLE="SWIG_SOURCES_$MODULE"
-	SOURCES="${!VARIABLE}"
-	$CC_COMMAND -c $SOURCES -fPIC $CALG_CFLAGS -I$LA_INCLUDE_DIR -I$PY_INCLUDE_DIR
-	$LD_COMMAND -o "${SWIG_PACKAGE_NAME}/_${MODULE}.so" -shared *.o $CALG_LDLIBS
+for LANGUAGE in ${LANGUAGES[@]}; do
+	$SWIG_COMMAND -$LANGUAGE -outdir "${PACKAGE_NAME}" -o "${LANGUAGE}_${WRAPPER_SUFFIX}" "${PACKAGE_NAME}.i"
 done
 
-$PYTHON_COMMAND -i ./laPy_glue.py
+# Compile and link each module's sources
+for MODULE in ${MODULES[@]}; do
+	echo "Building sources for '$MODULE' module..."
+	SOURCES_VARIABLE="SOURCES_$MODULE"
+	SOURCES="${!SOURCES_VARIABLE}"
+	$CC_COMMAND -c $SOURCES -fPIC $CALG_CFLAGS -I../../include/libalexandria
+	for LANGUAGE in ${LANGUAGES[@]}; do
+		echo "Wrapping '$MODULE' module using '$LANGUAGE' language..."
+		INCLUDE_DIR_VARIABLE="${LANGUAGE}_INCLUDE_DIR"
+		INCLUDE_DIR="${!INCLUDE_DIR_VARIABLE}"
+		$CC_COMMAND -c "${LANGUAGE}_${WRAPPER_SUFFIX}" -fPIC -I$INCLUDE_DIR
+		MODULE_PREFIX_VARIABLE="${LANGUAGE}_MODULE_PREFIX"
+		MODULE_NAME="$PACKAGE_NAME/${!MODULE_PREFIX_VARIABLE}$MODULE.so"
+		$LD_COMMAND -shared la_*.o ${LANGUAGE}_*.o $CALG_LDLIBS -o "$MODULE_NAME"
+	done
+done
+
+#$PYTHON_COMMAND -i ./laPy_glue.py
+#$RUBY_COMMAND ./laRb_glue.rb

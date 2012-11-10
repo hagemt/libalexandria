@@ -24,7 +24,7 @@ LN   := `which ln` -s
 RM   := `which rm` -fv
 SWIG := `which swig`
 PYI  := PYTHONPATH=./lib `which python` -iSv
-RBI  := `which ruby`
+RBI  := RUBYPATH=./lib `which ruby` -Sv
 
 # TODO can do ln -st for lib SONAMEs?
 INSTALL := `which install` -st $(prefix)
@@ -48,12 +48,12 @@ all: doc test
 	@touch ./lib/swagger/__init__.py
 	@cp kolla.py ./lib/swagger
 	@cp kolla.python.so ./lib/swagger/_kolla.so
-	@$(SAY) "running python script..."
+	@$(SAY) "running sample python script(s)"
 	$(PYI) ./spec/laPy_glue.py
-	@$(SAY) "running ruby script..."
-	@cp swagger.rb ./lib
-	@cp kolla.rb ./lib/swagger
-	#$(RBI) ./spec/laRb_glue.rb
+	@$(SAY) "running sample ruby script(s)"
+	@cp ruby/swagger.rb ./lib
+	@cp ruby/kolla.rb ./lib/swagger
+	$(RBI) ./spec/laRb_glue.rb
 
 swagger: lib/swagger swagger.i kolla
 
@@ -104,7 +104,9 @@ src:
 spec:
 	$(LN) ../../tests/swig $@
 
-## patterns
+## % patterns
+
+# for python
 
 %_python_wrapper.c: %.i
 	$(SWIG) -python -o $@ $+
@@ -115,14 +117,18 @@ spec:
 %.python.so: %_python_wrapper.o lib%.so
 	$(LD) $(LDFLAGS) $(LDFLAGS_PYTHON) $+ -o $@
 
+# for ruby
+
 %_ruby_wrapper.c: %.i
-	$(SWIG) -ruby -o $@ $+
+	$(SWIG) -ruby -outdir ruby -o $@ $+
 
 %_ruby_wrapper.o: %_ruby_wrapper.c
 	$(CC) $(CFLAGS) $(CFLAGS_RUBY) -c $+ -o $@
 
 %.ruby.so: %_ruby_wrapper.o lib%.so
 	$(LD) $(LDFLAGS) $(LDFLAGS_RUBY) $+ -o $@
+
+# for C
 
 la_%.o: src/la_%.c
 	$(CC) $(CFLAGS) -c $+ -o $@

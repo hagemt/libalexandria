@@ -5,4 +5,4 @@ puts "You're a gem!"
 
 require 'swagger'
 
-puts "Result: #{Kollab.oration(0)}"
+Kollab.oration

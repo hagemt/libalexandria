@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+puts "Hello, World!"
+puts "You're a gem!"
+
+require 'swagger'
+
+puts "Result: #{Kollab.oration(0)}"

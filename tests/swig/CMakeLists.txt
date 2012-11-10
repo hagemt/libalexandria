@@ -13,20 +13,4 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-if(BIND_C)
-  add_subdirectory(c)
-endif(BIND_C)
-
-if(BIND_CXX)
-  add_subdirectory(cxx)
-endif(BIND_CXX)
-
-if(BIND_JAVA)
-  add_subdirectory(java)
-endif(BIND_JAVA)
-
-# TODO add more as bindings are added
-
-if(USE_SWIG)
-  add_subdirectory(swig)
-endif(USE_SWIG)
+message(STATUS "No SWIG tests have been written, yet.")

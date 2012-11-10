@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-print "Importing glue module via swagger package..."
 from swagger import kolla as laPy
+
 print "Imported symbols as attributes of 'laPy'"
 for attr in dir(laPy):
 	if not attr.startswith('_'):

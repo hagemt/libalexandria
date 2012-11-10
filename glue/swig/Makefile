@@ -23,11 +23,12 @@ LD   := `which ld`
 LN   := `which ln` -s
 RM   := `which rm` -fv
 SWIG := `which swig`
+PYI  := PYTHONPATH=./lib `which python` -iSv
+RBI  := `which ruby`
 
 # TODO can do ln -st for lib SONAMEs?
-INSTALL   := `which install` -st $(prefix)
-UNINSTALL := $(RM) $(prefix)
-SAY       := >/dev/tty `which echo` -e '[$(label)]'
+INSTALL := `which install` -st $(prefix)
+SAY     := >/dev/tty `which echo` -e '[$(label)]'
 # TODO can make this text (label, here) red? ^
 
 CFLAGS_CALG    := `pkg-config --cflags libcalg-1.0`
@@ -44,35 +45,45 @@ LDFLAGS        := -shared $(LDFLAGS_CALG)
 ### phony targets
 
 all: doc test
-#	./laPy_glue.py
-#	./laRb_glue.rb
+	@touch ./lib/swagger/__init__.py
+	@cp kolla.py ./lib/swagger
+	@cp kolla.python.so ./lib/swagger/_kolla.so
+	@$(SAY) "running python script..."
+	$(PYI) ./spec/laPy_glue.py
+	@$(SAY) "running ruby script..."
+	@cp swagger.rb ./lib
+	@cp kolla.rb ./lib/swagger
+	#$(RBI) ./spec/laRb_glue.rb
 
-swagger: swagger.i kolla
+swagger: lib/swagger swagger.i kolla
 
 kolla: kolla.python.so kolla.ruby.so
 
 .PHONY: all swagger kolla
 
 clean:
+	$(RM) *.py
 	$(RM) *_wrapper.c
 	$(RM) *.o
 	$(RM) *.so
+	$(RM) -r lib/swagger
+	$(RM) include lib src spec
 
 install: swagger
-	$(INSTALL)/lib *kolla*.so*
+	$(INSTALL)/lib/swagger *kolla*.so*
 
 uninstall:
-	$(UNINSTALL)/lib/*kolla*.so*
+	$(RM) $(prefix)/lib/swagger/*kolla*.so*
 
 .PHONY: clean install uninstall
 
-configure: include lib src
+configure: include lib src spec
 
 doc: configure
-	@$(SAY) no documentation
+	@$(SAY) "no documentation"
 
 test: configure swagger
-	@$(SAY) no tests
+	@$(SAY) "no tests"
 
 .PHONY: doc test
 
@@ -84,13 +95,19 @@ include:
 lib:
 	$(LN) ../../lib $@
 
+lib/%: lib
+	mkdir -p $@
+
 src:
 	$(LN) .. $@
+
+spec:
+	$(LN) ../../tests/swig $@
 
 ## patterns
 
 %_python_wrapper.c: %.i
-	$(SWIG) -python -outdir swagger -o $@ $+
+	$(SWIG) -python -o $@ $+
 
 %_python_wrapper.o: %_python_wrapper.c
 	$(CC) $(CFLAGS) $(CFLAGS_PYTHON) -c $+ -o $@
@@ -99,7 +116,7 @@ src:
 	$(LD) $(LDFLAGS) $(LDFLAGS_PYTHON) $+ -o $@
 
 %_ruby_wrapper.c: %.i
-	$(SWIG) -ruby -outdir swagger -o $@ $+
+	$(SWIG) -ruby -o $@ $+
 
 %_ruby_wrapper.o: %_ruby_wrapper.c
 	$(CC) $(CFLAGS) $(CFLAGS_RUBY) -c $+ -o $@

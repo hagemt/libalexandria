@@ -3,6 +3,9 @@
 puts "Hello, World!"
 puts "You're a gem!"
 
-require 'swagger'
-
-Kollab.oration
+begin
+	require 'swagger'
+	Kollab.oration
+rescue LoadError
+	puts "[error] 'swagger::kolla' (cannot load module)"
+end

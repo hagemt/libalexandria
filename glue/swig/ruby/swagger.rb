@@ -1,1 +1,1 @@
-require "swagger/kolla"
+require 'swagger/kolla'

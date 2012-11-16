@@ -16,44 +16,44 @@
 ### experimental
 
 label  := swagger
+type   := DEBUG
 prefix := .
 
-CC   := `which gcc`
-LD   := `which ld`
-LN   := `which ln` -s
-RM   := `which rm` -fv
-SWIG := `which swig`
-PYI  := PYTHONPATH=./lib `which python` -iSv
-RBI  := RUBYPATH=./lib `which ruby` -Sv
+CC   := $(shell which gcc)
+LD   := $(shell which ld)
+LN   := $(shell which ln) -s
+RM   := $(shell which rm) -fv
+PC   := $(shell which pkg-config)
+SWIG := $(shell which swig)
+PYI  := PYTHONPATH=./lib $(shell which python) -iSv
+RBI  := RUBYPATH=./lib   $(shell which ruby)    -Sv
 
 # TODO can do ln -st for lib SONAMEs?
-INSTALL := `which install` -st $(prefix)
-SAY     := >/dev/tty `which echo` -e '[$(label)]'
+INSTALL := $(shell which install) -st $(prefix)
+SAY     := $(shell which echo) >/dev/tty -e '[$(label)]'
 # TODO can make this text (label, here) red? ^
 
-CFLAGS_CALG    := `pkg-config --cflags libcalg-1.0`
 CFLAGS_DEBUG   := -g -pedantic
 CFLAGS_RELEASE := -O3 -DNDEBUG
-CFLAGS         := -Wall -Wextra -fPIC -I./include $(CFLAGS_CALG)
+
+CFLAGS_CALG    := $(shell $(PC) --cflags libcalg-1.0)
+CFLAGS_INCLUDE := $(CFLAGS_CALG) -I./include
+CFLAGS_EXTRA   := $(CFLAGS_INCLUDE) $(CFLAGS_$(type))
+CFLAGS         := -Wall -Wextra -fPIC $(CFLAGS_EXTRA)
 
 CFLAGS_PYTHON  := -I/usr/include/python2.6
 CFLAGS_RUBY    := -I/usr/include/ruby-1.9.1
 
-LDFLAGS_CALG   := `pkg-config --libs libcalg-1.0`
-LDFLAGS        := -shared $(LDFLAGS_CALG)
+LDFLAGS_CALG   := $(shell $(PC) pkg-config --libs libcalg-1.0)
+LDFLAGS_EXTRA  := $(LDFLAGS_CALG) -L./lib
+LDFLAGS        := -shared $(LDFLAGS_EXTRA)
+
+LDFLAGS_PYTHON := -L/usr/lib/python/2.6/config
+LDFLAGS_RUBY   := -L/usr/lib/ruby/1.9.1/x86_64-linux
 
 ### phony targets
 
 all: doc test
-	@touch ./lib/swagger/__init__.py
-	@cp kolla.py ./lib/swagger
-	@cp kolla.python.so ./lib/swagger/_kolla.so
-	@$(SAY) "running sample python script(s)"
-	$(PYI) ./spec/laPy_glue.py
-	@$(SAY) "running sample ruby script(s)"
-	@cp ruby/swagger.rb ./lib
-	@cp ruby/kolla.rb ./lib/swagger
-	$(RBI) ./spec/laRb_glue.rb
 
 swagger: lib/swagger swagger.i kolla
 
@@ -63,7 +63,8 @@ kolla: kolla.python.so kolla.ruby.so
 
 clean:
 	$(RM) *.py
-	$(RM) *_wrapper.c
+	$(RM) *.rb
+	$(RM) *_wrap.c
 	$(RM) *.o
 	$(RM) *.so
 	$(RM) -r lib/swagger
@@ -83,6 +84,17 @@ doc: configure
 	@$(SAY) "no documentation"
 
 test: configure swagger
+	@$(SAY) "no tests"
+	@touch $(prefix)/lib/swagger/__init__.py
+	@cp kolla.py $(prefix)/lib/swagger
+	@cp kolla.python.so ./lib/swagger/_kolla.so
+	@$(SAY) "running sample python script(s)"
+	$(PYI) ./spec/laPy_glue.py
+	@cp ruby/swagger.rb ./lib
+	@cp ruby/kolla.rb ./lib/swagger
+	@cp kolla.ruby.so ./lib/swagger/kolla.so
+	@$(SAY) "running sample ruby script(s)"
+	$(RBI) ./spec/laRb_glue.rb
 	@$(SAY) "no tests"
 
 .PHONY: doc test
@@ -108,24 +120,24 @@ spec:
 
 # for python
 
-%_python_wrapper.c: %.i
+%_python_wrap.c: %.i
 	$(SWIG) -python -o $@ $+
 
-%_python_wrapper.o: %_python_wrapper.c
+%_python_wrap.o: %_python_wrap.c
 	$(CC) $(CFLAGS) $(CFLAGS_PYTHON) -c $+ -o $@
 
-%.python.so: %_python_wrapper.o lib%.so
+%.python.so: %_python_wrap.o lib%.so
 	$(LD) $(LDFLAGS) $(LDFLAGS_PYTHON) $+ -o $@
 
 # for ruby
 
-%_ruby_wrapper.c: %.i
-	$(SWIG) -ruby -outdir ruby -o $@ $+
+%_ruby_wrap.c: %.i
+	$(SWIG) -ruby -o $@ $+
 
-%_ruby_wrapper.o: %_ruby_wrapper.c
+%_ruby_wrap.o: %_ruby_wrap.c
 	$(CC) $(CFLAGS) $(CFLAGS_RUBY) -c $+ -o $@
 
-%.ruby.so: %_ruby_wrapper.o lib%.so
+%.ruby.so: %_ruby_wrap.o lib%.so
 	$(LD) $(LDFLAGS) $(LDFLAGS_RUBY) $+ -o $@
 
 # for C

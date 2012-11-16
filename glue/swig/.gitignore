@@ -1,7 +1,5 @@
 # Ignore generated files
-*.py
 *.pyc
-*_wrap.c
-*_wrapper.c
-# But not usage samples
-!laPy_*.py
+./*.py
+./*.rb
+./*_wrap.c

@@ -1,22 +1,19 @@
-Gem::Specification.new do |s|
-	s.name              = "swagger"
-	s.version           = "0.0.1"
-	s.platform          = Gem::Platform::RUBY
-	s.authors           = ["Tor E Hagemann"]
-	s.email             = ["hagemt@rpi.edu"]
-	s.homepage          = "http://hagemt.github.com/libalexandria/"
-	s.summary           = "Ruby bindings for libalexandria"
-	s.description       = "A fast and easy-to-use library for machine learning."
-	s.rubyforge_project = "libalexandria"
+require 'rubygems'
 
-	s.required_rubygems_version = ">= 1.3.6"
+Gem::Specification.new do |gem|
+	gem.name        = "swagger"
+	gem.version     = "0.0.1"
+	gem.summary     = "Ruby bindings for libalexandria"
+	gem.description = "A fast and easy-to-use library for machine learning."
 
-	# s.add_runtime_dependency "other", "~> 1.2"
-	# s.add_development_dependency "another", "= 0.9"
+	gem.authors     = [ "Tor E Hagemann" ]
+	gem.email       = [ "hagemt@rpi.edu" ]
+	gem.homepage    = "http://hagemt.github.com/libalexandria/"
 
-	# s.files        = `git ls-files`.split("\n")
-	# s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
-	# s.extensions   = `git ls-files ext/extconf.rb`.split("\n")
-	s.require_path = 'lib'
-	# s.extensions   = "ext/extconf.rb"
+	gem.platform                  = Gem::Platform::RUBY
+	gem.rubyforge_project         = "libalexandria"
+	gem.required_rubygems_version = ">= 1.3.6"
+
+	gem.extensions   = 'extconf.rb'
+	gem.files        = `find ../lib -type f -iname *.rb -print0`.split("\0")
 end

@@ -17,33 +17,36 @@ C     -------------------------------------------------------------------------
 #include "la_constants.h"
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_POLY(V1,V2,C,D,K)
+      SUBROUTINE LAF_KPOLY(V1,V2,C,D,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
       REAL :: C,D,K
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
 C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
       K=(DOT_PRODUCT(V1,V2)+C)**D
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_KERN_POLY
+      END SUBROUTINE LAF_KPOLY
+C     -------------------------------------------------------------------------
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_GAUSS(V1,V2,GAM,SIG,K)
+      SUBROUTINE LAF_KGAUSS(V1,V2,GAM,SIG,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2,V
       REAL :: GAM,SIG,K
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2,V
       V=V1-V2
       IF (GAM .EQ. 0 .AND. SIG .NE. 0) GAM=1/(2*SIG**2)
 C     Gaussian kernel creates infinite-dimensional Hilbert space
       K=EXP(-GAM*SQRT(DOT_PRODUCT(V,V))**2)
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_KERN_GAUSS
+      END SUBROUTINE LAF_KGAUSS
+C     -------------------------------------------------------------------------
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KERN_TANH(V1,V2,KAP,C,K)
+      SUBROUTINE LAF_KTANH(V1,V2,KAP,C,K)
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
       REAL :: KAP,C,K
+      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
 C     Hyperbolic tangent kernel with positive parameters
       K=TANH(KAP*DOT_PRODUCT(V1,V2)-C);
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_KERN_TANH
+      END SUBROUTINE LAF_KTANH
+C     -------------------------------------------------------------------------

@@ -16,8 +16,19 @@ C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_WAVELET_TRANSFORM
+      SUBROUTINE LAF_FORWARD_DWT(I,L,O)
 C     -------------------------------------------------------------------------
-C     TODO implement wavelets
+      INTEGER L
+      REAL, DIMENSION(L) :: I,O
+      O=I*L
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_WAVELET_TRANSFORM
+      END SUBROUTINE LAF_FORWARD_DWT
+
+C     -------------------------------------------------------------------------
+      SUBROUTINE LAF_INVERSE_DWT(I,L,O)
+C     -------------------------------------------------------------------------
+      INTEGER L
+      REAL, DIMENSION(L) :: I,O
+      O=I/L
+C     -------------------------------------------------------------------------
+      END SUBROUTINE LAF_INVERSE_DWT

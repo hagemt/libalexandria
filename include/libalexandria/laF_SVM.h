@@ -23,9 +23,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* kernel functions for non-linear SVM */
-extern void laf_kern_gauss_();
-extern void laf_kern_poly_();
-extern void laf_kern_tanh_();
+extern void laf_kgauss_();
+extern void laf_kpoly_();
+extern void laf_ktanh_();
 /* TODO proper arguments */
 
 #ifdef __cplusplus

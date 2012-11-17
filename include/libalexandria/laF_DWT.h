@@ -21,7 +21,8 @@
 extern "C" {
 #endif /* __cpluscplus */
 
-extern void laf_wavelet_transform_;
+extern void laf_forward_dwt_;
+extern void laf_inverse_dwt_;
 
 #ifdef __cplusplus
 } /* extern "C" */

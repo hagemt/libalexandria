@@ -19,6 +19,36 @@ if(BUILD_EXAMPLES)
   add_subdirectory(examples)
 endif(BUILD_EXAMPLES)
 
+# Configure javadoc
+
+if(BUILD_JAVADOC)
+  set(JAVA_DOC_VERSION "<version>lib.alexandria.v${CMAKE_PROJECT_VERSION}</version>")
+  set(JAVA_DOC_MOTTO "<pre>What.Is.Your.Intent?</pre>")
+  set(JAVA_DOC_TITLE "${JAVA_DOC_VERSION}<br/>${JAVA_DOC_MOTTO}")
+  create_javadoc(javadoc
+    PACKAGES lib.alexandria
+      lib.alexandria.functional
+      lib.alexandria.functional.kernels
+      lib.alexandria.functional.params
+      lib.alexandria.functional.sigmoid
+      lib.alexandria.functional.wavelets
+      lib.alexandria.logging
+      lib.alexandria.naming
+      lib.alexandria.pipeline
+      lib.alexandria.reinforcement
+      lib.alexandria.reinforcement.nn
+      lib.alexandria.sampling
+      lib.alexandria.supervised
+      lib.alexandria.unsupervised
+    SOURCEPATH "${CMAKE_SOURCE_DIR}/bindings/java"
+    CLASSPATH "${CMAKE_JAVA_INCLUDE_PATH}"
+    INSTALLPATH "${CMAKE_SOURCE_DIR}/doc"
+    WINDOWTITLE "The Library of Alexandria"
+    DOCTITLE "${JAVA_DOC_TITLE}"
+    AUTHOR TRUE USE TRUE VERSION TRUE
+  )
+endif(BUILD_JAVADOC)
+
 ## Doxygen configuration
 
 if(BUILD_DOXYGEN)

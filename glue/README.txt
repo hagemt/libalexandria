@@ -13,7 +13,7 @@ pushd glue/libcalg; ./configure && make && make install; popd
 
 If you are working with C++, note that tclap is included. :)
 For wonderful header-only cmdline parsing, see: glue/tclap
-No compilation required! (just #include "tclap/tclap.h")
+No compilation required! (just #include "tclap/CmdLine.h")
 
 Please see ./android/README.txt, if you are an Android developer.
 Remember: git submodule update --init android/android-cmake

@@ -29,7 +29,8 @@ set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
 set(CMAKE_PROJECT_VERSION_SUFFIX "dev" CACHE STRING "A custom build label")
 mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX)
-set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME}${CMAKE_PROJECT_VERSION_SO}-${CMAKE_PROJECT_VERSION_SUFFIX}")
+set(CMAKE_PROJECT_VERSION_STRING "v${CMAKE_PROJECT_VERSION_SO}-${CMAKE_PROJECT_VERSION_SUFFIX}")
+set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION_STRING}")
 
 # Force a build type to be declared
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
@@ -47,16 +48,40 @@ add_definitions(-DLA_LOG_TAG=${PROJECT_LOG_TAG})
 ### Configuration
 
 ## Global build options
+# Fully-supported language bindings
 option(BIND_C              "Produce bindings for C"    OFF)
 option(BIND_CXX            "Produce bindings for C++"  OFF)
 option(BIND_JAVA           "Produce bindings for Java" OFF)
+# Formats / Testing / Documentation
+option(BUILD_EXAMPLES      "Produce examples"          OFF)
 option(BUILD_SHARED_LIBS   "Produce shared libraries"  OFF)
 option(BUILD_TESTING       "Produce testing tree"      OFF)
+option(BUILD_DOXYGEN       "Produce documentation"     OFF)
+if(BUILD_DOXYGEN)
+  option(FORMAT_HTML       "Produce manual (HTML)"     ON)
+  option(FORMAT_LATEX      "Produce manual (PDF)"      OFF)
+  option(FORMAT_MAN        "Produce manual (man.3)"    OFF)
+  option(FORMAT_RDF        "Produce manual (RDF)"      OFF)
+  option(FORMAT_XML        "Produce manual (XML)"      OFF)
+  mark_as_advanced(
+    FORMAT_HTML
+    FORMAT_LATEX
+    FORMAT_MAN
+    FORMAT_RDF
+    FORMAT_XML
+  )
+endif(BUILD_DOXYGEN)
+# Additional options for Java language bindings
 if(BIND_JAVA)
-option(BUILD_JAVADOC       "Produce a limited Javadoc" OFF)
-option(USE_ANDROID         "Produce Android options"   OFF)
+  option(BUILD_JAVADOC     "Produce a limited Javadoc" OFF)
+  option(USE_ANDROID       "Produce Android options"   OFF)
 endif(BIND_JAVA)
+# Additional options for additional language bindings
 option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
+if(USE_SWIG)
+  option(BIND_PYTHON       "Run SWIG with -python"     ON)
+  option(BIND_RUBY         "Run SWIG with -ruby"       ON)
+endif(USE_SWIG)
 
 ## Main library dependencies
 # TODO FUTURE other libraries? like LAPACK?
@@ -112,13 +137,14 @@ if(BIND_JAVA)
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
 endif(BIND_JAVA)
 
-## Prepare headers (and other development tools)
+## Prepare headers / development tools / documentation
 add_subdirectory(include)
 add_subdirectory(dev)
+add_subdirectory(doc)
 
 ### Build
 
-# Glue code
+# Glue code (libkolla)
 add_subdirectory(glue)
 # Fortran code
 add_subdirectory(fortran)
@@ -155,9 +181,11 @@ if(UNIX)
   list(APPEND CPACK_GENERATOR "DEB") # TODO get working
   list(APPEND CPACK_GENERATOR "RPM") # TODO get working
 endif(UNIX)
-if(WIN32 AND NOT UNIX)
-  list(APPEND CPACK_GENERATOR "NSIS") # TODO get working for non-Cygwin?
-endif(WIN32 AND NOT UNIX)
+if(WIN32)
+  if(NOT CYGWIN)
+    list(APPEND CPACK_GENERATOR "NSIS") # TODO get working
+  endif(NOT CYGWIN)
+endif(WIN32)
 
 ## Invoke CPack
 #include("${CPACK_PROJECT_CONFIG_FILE}")

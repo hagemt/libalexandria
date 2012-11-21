@@ -16,8 +16,8 @@
 ### experimental
 
 label  := swagger
-type   := DEBUG
-prefix := .
+type   := RELEASE
+prefix := $(shell readlink -f .)
 
 CC   := $(shell which gcc)
 LD   := $(shell which ld)
@@ -33,23 +33,22 @@ INSTALL := $(shell which install) -st $(prefix)
 SAY     := $(shell which echo) >/dev/tty -e '[$(label)]'
 # TODO can make this text (label, here) red? ^
 
-CFLAGS_DEBUG   := -g -pedantic
-CFLAGS_RELEASE := -O3 -DNDEBUG
+CFLAGS_DEBUG   := -g -pedantic -DLA_LOG_NAME=$(label)-dbg
+CFLAGS_RELEASE := -O3 -DNDEBUG -DLA_LOG_NAME=$(label)-dev
 
 CFLAGS_CALG    := $(shell $(PC) --cflags libcalg-1.0)
-CFLAGS_INCLUDE := $(CFLAGS_CALG) -I./include
-CFLAGS_EXTRA   := $(CFLAGS_INCLUDE) $(CFLAGS_$(type))
+CFLAGS_EXTRA   := -I./include $(CFLAGS_CALG) $(CFLAGS_$(type))
 CFLAGS         := -Wall -Wextra -fPIC $(CFLAGS_EXTRA)
 
 CFLAGS_PYTHON  := -I/usr/include/python2.6
 CFLAGS_RUBY    := -I/usr/include/ruby-1.9.1
 
 LDFLAGS_CALG   := $(shell $(PC) pkg-config --libs libcalg-1.0)
-LDFLAGS_EXTRA  := $(LDFLAGS_CALG) -L./lib
+LDFLAGS_EXTRA  := -L./lib $(LDFLAGS_CALG)
 LDFLAGS        := -shared $(LDFLAGS_EXTRA)
 
-LDFLAGS_PYTHON := -L/usr/lib/python/2.6/config
-LDFLAGS_RUBY   := -L/usr/lib/ruby/1.9.1/x86_64-linux
+LDFLAGS_PYTHON := -L/usr/lib/python/2.6/config -lpython2.6
+LDFLAGS_RUBY   := -L/usr/lib/ruby/1.9.1/x86_64-linux -lruby-1.9.1
 
 ### phony targets
 

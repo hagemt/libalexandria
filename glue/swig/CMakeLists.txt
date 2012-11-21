@@ -18,27 +18,37 @@ find_package(SWIG REQUIRED)
 if(SWIG_USE_FILE)
   include(UseSWIG)
 else(SWIG_USE_FILE)
-  message(FATAL_ERROR "SWIG could not be configured. Please address or disable USE_SWIG")
+  message(FATAL_ERROR "SWIG could not be configured!")
 endif(SWIG_USE_FILE)
 # Place everything we need right here
 set(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Create a cache entry so user can specify SWIG arguments
-set(SWIG_EXTRA_FLAGS "" CACHE STRING "Extra parameters for SWIG")
-mark_as_advanced(SWIG_EXTRA_FLAGS)
+set(CMAKE_SWIG_FLAGS "-Wall -outdir ${LIBRARY_OUTPUT_PATH}" CACHE STRING "Extra parameters for SWIG")
+set(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "Location to generate SWIG wrappers")
+mark_as_advanced(CMAKE_SWIG_FLAGS CMAKE_SWIG_OUTDIR)
 
-# Locate necessary python libs/includes
-find_package(PythonLibs REQUIRED)
-include_directories(${PYTHON_INCLUDE_PATH})
+if(BIND_PYTHON)
+  # Locate necessary python libs/includes
+  find_package(PythonLibs REQUIRED)
+  if(NOT PYTHONLIBS_FOUND)
+    message(FATAL_ERROR "Binding selection requires Python!")
+  endif(NOT PYTHONLIBS_FOUND)
+  include_directories(${PYTHON_INCLUDE_DIRS})
+  swig_add_module(laPy python swagger.i)
+  swig_link_libraries(laPy kolla calg ${PYTHON_LIBRARIES})
+endif(BIND_PYTHON)
 
-## Create python bindings for libkolla
-#swig_add_module(la_glue python la_glue.i ${SWIG_EXTRA_FLAGS})
-#swig_link_libraries(la_glue kolla calg ${PYTHON_LIBRARIES})
-#
-## Install the files generated this way
-#install(FILES
-#  "${CMAKE_CURRENT_BINARY_DIR}/_la_glue.so"
-#  "${CMAKE_CURRENT_BINARY_DIR}/la_glue.py"
-#  DESTINATION bin/python
-#  COMPONENT "Swagger" OPTIONAL
-#)
+if(BIND_RUBY)
+# Locate necessary ruby libs/includes
+  find_package(Ruby REQUIRED)
+  if(NOT RUBY_FOUND)
+    message(FATAL_ERROR "Binding selection requires Ruby!")
+  endif(NOT RUBY_FOUND)
+  include_directories(${RUBY_INCLUDE_DIRS})
+  swig_add_module(laRb ruby swagger.i)
+  swig_link_libraries(laRb kolla calg ${RUBY_LIBRARY})
+  set_target_properties(laRb PROPERTIES COMPILE_FLAGS -fPIC)
+endif(BIND_RUBY)
+
+## Install the files generated using egg/gem?

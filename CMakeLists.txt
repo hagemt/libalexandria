@@ -126,7 +126,7 @@ if(BIND_JAVA)
   endif(NOT JNI_FOUND)
   include(UseJava)
   # Set some Java arguments for safe building into correct location
-  set(CMAKE_JAVA_COMPILE_FLAGS -ea -Xlint:unchecked CACHE STRING "Additional flags passed to javac")
+  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac")
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${LIBRARY_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
   mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR FORCE)
 endif(BIND_JAVA)

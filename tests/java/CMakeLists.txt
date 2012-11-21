@@ -53,7 +53,7 @@ endif(USE_ANDROID)
 # Make it easy to add a variety of Java tests
 macro(add_java_test TEST_NAME JAR_FILE)
   add_test(${TEST_NAME}
-    "${Java_JAVA_EXECUTABLE}" -verbose
+    "${Java_JAVA_EXECUTABLE}" -ea
     -classpath "${CMAKE_JAVA_TARGET_OUTPUT_DIR}"
     -Djava.library.path=${LIBRARY_OUTPUT_PATH}
     -jar "${JAR_FILE}" ${ARGN})

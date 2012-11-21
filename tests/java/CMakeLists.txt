@@ -35,7 +35,7 @@ endif(USE_ANDROID)
 # Setup the library path, which all texts will need at run-time
 set(JAVA_CLASS_PATH ${CMAKE_JAVA_INCLUDE_PATH}:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
 set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
-mark_as_advanced(JAVA_CLASS_PATH JAVA_LIBRARY_PATH)
+mark_as_advanced(JAVA_CLASS_PATH JAVA_LIBRARY_PATH FORCE)
 
 # Make it easy to add a variety of Java tests
 macro(add_java_test TEST_NAME JAR_FILE)

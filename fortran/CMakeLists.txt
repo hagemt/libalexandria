@@ -13,7 +13,33 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+## Setup Fortran <---> C bridge
+
+#set(FortranCInterface_GLOBAL_SYMBOLS
+#  mysub_
+#  my_sub__
+#  MYSUB_
+#)
+#set(FortranCInterface_MODULE_SYMBOLS
+#  __mymodule_MOD_mysub
+#  __my_module_MOD_my_sub
+#)
+include(FortranCInterface)
+FortranCInterface_HEADER(laF_mangle.h
+	MACRO_NAMESPACE "LAF_"
+	SYMBOL_NAMESPACE "LAF_"
+	#SYMBOLS mysub [<module>:]<function> ...
+)
+# Run verification (data bridge)
+FortranCInterface_VERIFY(QUIET)
+if(BIND_CXX)
+FortranCInterface_VERIFY(CXX)
+endif(BIND_CXX)
+
+## Build the core library
+
 file(GLOB FORTRAN_SOURCES "*.F")
+# TODO does fixed format make sense?
 set_property(SOURCE ${FORTRAN_SOURCES} PROPERTY Fortran_FORMAT FIXED)
 
 add_library(alexandria ${FORTRAN_SOURCES})
@@ -24,7 +50,9 @@ set_target_properties(alexandria PROPERTIES
 )
 
 if(NOT BUILD_SHARED_LIBS)
-  target_link_libraries(alexandria gfortran)
+  if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+    target_link_libraries(alexandria gfortran)
+  endif(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   set_target_properties(alexandria PROPERTIES COMPILE_FLAGS -fPIC)
 endif(NOT BUILD_SHARED_LIBS)
 

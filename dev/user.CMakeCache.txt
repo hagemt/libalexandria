@@ -26,6 +26,9 @@ set(BIND_JAVA           TRUE  CACHE BOOL "java +bindings")
 #set(BUILD_SHARED_LIBS   TRUE  CACHE BOOL "all +sharedlibs")
 set(BUILD_TESTING       TRUE  CACHE BOOL "all +testing")
 set(USE_SWIG            TRUE  CACHE BOOL "all +swig")
+set(SWIG_PYTHON         TRUE  CACHE BOOL "swig +python")
+#set(SWIG_RUBY           TRUE  CACHE BOOL "swig +ruby")
+
 #set(USE_ANDROID         TRUE  CACHE BOOL "java +android")
 #set(ANDROID_TARGET_ARM  TRUE  CACHE BOOL "android +arm")
 #set(ANDROID_TARGET_MIPS TRUE  CACHE BOOL "android +mips")
@@ -44,47 +47,43 @@ set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +dbg")
 
 # Java options
 
-set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0")
-set(JAVA_NATIVE "${JAVA_PREFIX}/jre/lib/amd64")
+set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0"       CACHE PATH "Effective $JAVA_HOME")
+set(JAVA_LIBFIX "${JAVA_PREFIX}/jre/lib/amd64"             CACHE PATH "Location of libjava")
+set(JAVA_NATIVE_INCLUDE_DIR "${JAVA_PREFIX}/include/linux" CACHE PATH "Location of (.*)_md.h")
+mark_as_advanced(CLEAR JAVA_PREFIX JAVA_LIBFIX JAVA_NATIVE_INCLUDE_DIR)
 
 set(CMAKE_Java_ARCHIVE      "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "CMake jar")
 set(CMAKE_Java_COMPILER     "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "CMake javac")
 set(CMAKE_Java_RUNTIME      "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "CMake java")
-# TODO why are there two sets of these?
+set(JAVA_AWT_INCLUDE_PATH   "${JAVA_PREFIX}/include"          CACHE     PATH "Java AWT includes")
+set(JAVA_AWT_LIBRARY        "${JAVA_LIBFIX}/libjawt.so"       CACHE FILEPATH "Java libawt/jawt")
+set(JAVA_INCLUDE_PATH       "${JAVA_PREFIX}/include"          CACHE     PATH "Java global includes")
+set(JAVA_INCLUDE_PATH2      "${JAVA_NATIVE_INCLUDE_DIR}"      CACHE     PATH "Java platform includes")
+set(JAVA_JVM_LIBRARY        "${JAVA_LIBFIX}/server/libjvm.so" CACHE FILEPATH "Java libjvm")
 set(Java_JAR_EXECUTABLE     "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "jar command")
 set(Java_JAVAC_EXECUTABLE   "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "javac command")
 set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc"      CACHE FILEPATH "javadoc command")
 set(Java_JAVAH_EXECUTABLE   "${JAVA_PREFIX}/bin/javah"        CACHE FILEPATH "javah command")
 set(Java_JAVA_EXECUTABLE    "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "java command")
 
-set(JAVA_AWT_INCLUDE_PATH   "${JAVA_PREFIX}/include"          CACHE     PATH "Java AWT includes")
-set(JAVA_AWT_LIBRARY        "${JAVA_NATIVE}/libjawt.so"       CACHE FILEPATH "Java libawt/jawt")
-set(JAVA_INCLUDE_PATH       "${JAVA_PREFIX}/include"          CACHE     PATH "Java JDK includes")
-set(JAVA_INCLUDE_PATH2      "${JAVA_PREFIX}/include"          CACHE     PATH "Java JNI includes")
-set(JAVA_JVM_LIBRARY        "${JAVA_NATIVE}/server/libjvm.so" CACHE FILEPATH "Java libjvm")
-
-mark_as_advanced(
+mark_as_advanced(FORCE
   CMAKE_C_FLAGS
-  CMAKE_CXX_FLAGS
-  CMAKE_Fortran_FLAGS
-
   CMAKE_C_FLAGS_DEBUG
+  CMAKE_CXX_FLAGS
   CMAKE_CXX_FLAGS_DEBUG
+  CMAKE_Fortran_FLAGS
   CMAKE_Fortran_FLAGS_DEBUG
-
   CMAKE_Java_ARCHIVE
   CMAKE_Java_COMPILER
   CMAKE_Java_RUNTIME
-
-  Java_JAR_EXECUTABLE
-  Java_JAVA_EXECUTABLE
-  Java_JAVAC_EXECUTABLE
-  Java_JAVADOC_EXECUTABLE
-  Java_JAVAH_EXECUTABLE
-
   JAVA_AWT_INCLUDE_PATH
   JAVA_AWT_LIBRARY
   JAVA_INCLUDE_PATH
   JAVA_INCLUDE_PATH2
   JAVA_JVM_LIBRARY
+  Java_JAR_EXECUTABLE
+  Java_JAVA_EXECUTABLE
+  Java_JAVAC_EXECUTABLE
+  Java_JAVADOC_EXECUTABLE
+  Java_JAVAH_EXECUTABLE
 )

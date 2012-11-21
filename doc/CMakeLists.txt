@@ -22,10 +22,10 @@ endif(BUILD_EXAMPLES)
 # Configure javadoc
 
 if(BUILD_JAVADOC)
-  set(JAVA_DOC_VERSION "<version>lib.alexandria.v${CMAKE_PROJECT_VERSION}</version>")
+  set(JAVA_DOC_VERSION "<version>lib.alexandria.${CMAKE_PROJECT_VERSION_STRING}</version>")
   set(JAVA_DOC_MOTTO "<pre>What.Is.Your.Intent?</pre>")
   set(JAVA_DOC_TITLE "${JAVA_DOC_VERSION}<br/>${JAVA_DOC_MOTTO}")
-  create_javadoc(javadoc
+  create_javadoc(jalexandria
     PACKAGES lib.alexandria
       lib.alexandria.functional
       lib.alexandria.functional.kernels

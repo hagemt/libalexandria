@@ -37,7 +37,7 @@ option(ANDROID_TARGET_X86  "Target x86 devices"  OFF)
 #  list(APPEND LA_ANDROID_TARGETS "x86")
 #endif(ANDROID_TARGET_X86)
 set(ANDROID_TARGETS "arm" CACHE STRING "Selected Android architectures" FORCE)
-mark_as_advanced(ANDROID_TARGETS)
+mark_as_advanced(ANDROID_TARGETS FORCE)
 # Warn if all architectures are disabled
 if(NOT ANDROID_TARGETS)
   message(WARNING "You have disabled all supported Android architectures...")

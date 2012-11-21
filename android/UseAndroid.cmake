@@ -34,7 +34,7 @@ find_file(ANDROID_TOOLCHAIN_CMAKE_SCRIPT
 if(NOT EXISTS "${ANDROID_TOOLCHAIN_CMAKE_SCRIPT}")
   message(FATAL_ERROR "Cannot find android.toolchain.cmake in ${ANDROID_CMAKE_DIR}")
 endif(NOT EXISTS "${ANDROID_TOOLCHAIN_CMAKE_SCRIPT}")
-mark_as_advanced(ANDROID_TOOLCHAIN_CMAKE_SCRIPT)
+mark_as_advanced(ANDROID_TOOLCHAIN_CMAKE_SCRIPT FORCE)
 
 ### Step 2: find the ANDROID_NDK
 
@@ -77,7 +77,7 @@ if(NOT IS_DIRECTORY "${ANDROID_NDK}")
     message(FATAL_ERROR "Problem downloading NDK. See logs: ${CMAKE_CURRENT_SOURCE_DIR}/*-${LOG_SUFFIX}")
   endif(ANDROID_CMAKE_SCRIPT_RESULT)
 endif(NOT IS_DIRECTORY "${ANDROID_NDK}")
-mark_as_advanced(ANDROID_NDK)
+mark_as_advanced(ANDROID_NDK FORCE)
 
 ### Step 3: find a ANDROID_NDK_TOOLCHAIN_ROOT
 
@@ -111,7 +111,7 @@ endif(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 
 ## Cache the value for the user (it either exists, or we made it)
 set(ANDROID_NDK_TOOLCHAIN_ROOT "${ANDROID_NDK_TOOLCHAIN_ROOT}" CACHE PATH "The Android NDK toolchain to use" FORCE)
-mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT)
+mark_as_advanced(ANDROID_NDK_TOOLCHAIN_ROOT FORCE)
 
 ### Step 4: configure every script with these settings
 
@@ -211,7 +211,7 @@ include(${LOCATION}/${NAME}.jo.cmake OPTIONAL)
 # Specify some Android options
 set(ANDROID_APP_${NAME}_NAME "Android_${NAME}" CACHE STRING "The name of this app" FORCE)
 set(ANDROID_APP_${NAME}_ARCH "${CMAKE_LIBRARY_ARCHITECTURE}" CACHE STRING "The arch of this app" FORCE)
-mark_as_advanced(ANDROID_APP_${NAME}_NAME ANDROID_APP_${NAME}_ARCH)
+mark_as_advanced(ANDROID_APP_${NAME}_NAME ANDROID_APP_${NAME}_ARCH FORCE)
 # Force a build type to be declared (default to Debug)
 set(CMAKE_BUILD_TYPES "(None|Debug|Release|RelWithDebInfo|MinSizeRel)")
 if(NOT CMAKE_BUILD_TYPE MATCHES "${CMAKE_BUILD_TYPES}")

@@ -20,15 +20,16 @@ if(SWIG_USE_FILE)
 else(SWIG_USE_FILE)
   message(FATAL_ERROR "SWIG could not be configured!")
 endif(SWIG_USE_FILE)
-# Place everything we need right here
-set(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Create a cache entry so user can specify SWIG arguments
-set(CMAKE_SWIG_FLAGS "-Wall -outdir ${LIBRARY_OUTPUT_PATH}" CACHE STRING "Extra parameters for SWIG")
-set(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "Location to generate SWIG wrappers")
-mark_as_advanced(CMAKE_SWIG_FLAGS CMAKE_SWIG_OUTDIR)
+set(CMAKE_SWIG_OUTDIR "${LIBRARY_OUTPUT_PATH}/swagger" CACHE PATH "Location to generate SWIG wrappers")
+set(CMAKE_SWIG_FLAGS "-Wall" CACHE STRING "Extra parameters for SWIG")
+mark_as_advanced(CMAKE_SWIG_FLAGS CMAKE_SWIG_OUTDIR FORCE)
+if(NOT IS_DIRECTORY "${CMAKE_SWIG_OUTDIR}")
+  file(MAKE_DIRECTORY "${CMAKE_SWIG_OUTDIR}")
+endif(NOT IS_DIRECTORY "${CMAKE_SWIG_OUTDIR}")
 
-if(BIND_PYTHON)
+if(SWIG_PYTHON)
   # Locate necessary python libs/includes
   find_package(PythonLibs REQUIRED)
   if(NOT PYTHONLIBS_FOUND)
@@ -37,9 +38,9 @@ if(BIND_PYTHON)
   include_directories(${PYTHON_INCLUDE_DIRS})
   swig_add_module(laPy python swagger.i)
   swig_link_libraries(laPy kolla calg ${PYTHON_LIBRARIES})
-endif(BIND_PYTHON)
+endif(SWIG_PYTHON)
 
-if(BIND_RUBY)
+if(SWIG_RUBY)
 # Locate necessary ruby libs/includes
   find_package(Ruby REQUIRED)
   if(NOT RUBY_FOUND)
@@ -49,6 +50,6 @@ if(BIND_RUBY)
   swig_add_module(laRb ruby swagger.i)
   swig_link_libraries(laRb kolla calg ${RUBY_LIBRARY})
   set_target_properties(laRb PROPERTIES COMPILE_FLAGS -fPIC)
-endif(BIND_RUBY)
+endif(SWIG_RUBY)
 
 ## Install the files generated using egg/gem?

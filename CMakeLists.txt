@@ -28,7 +28,7 @@ set(CMAKE_PROJECT_VERSION_SO
 set(CMAKE_PROJECT_VERSION
   "${CMAKE_PROJECT_VERSION_HIGH}.${CMAKE_PROJECT_VERSION_LOW}")
 set(CMAKE_PROJECT_VERSION_SUFFIX "dev" CACHE STRING "A custom build label")
-mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX)
+mark_as_advanced(CMAKE_PROJECT_VERSION_SUFFIX FORCE)
 set(CMAKE_PROJECT_VERSION_STRING "v${CMAKE_PROJECT_VERSION_SO}-${CMAKE_PROJECT_VERSION_SUFFIX}")
 set(PROJECT_LOG_TAG "${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_VERSION_STRING}")
 
@@ -63,13 +63,7 @@ if(BUILD_DOXYGEN)
   option(FORMAT_MAN        "Produce manual (man.3)"    OFF)
   option(FORMAT_RDF        "Produce manual (RDF)"      OFF)
   option(FORMAT_XML        "Produce manual (XML)"      OFF)
-  mark_as_advanced(
-    FORMAT_HTML
-    FORMAT_LATEX
-    FORMAT_MAN
-    FORMAT_RDF
-    FORMAT_XML
-  )
+  mark_as_advanced(FORMAT_HTML FORMAT_LATEX FORMAT_MAN FORMAT_RDF FORMAT_XML)
 endif(BUILD_DOXYGEN)
 # Additional options for Java language bindings
 if(BIND_JAVA)
@@ -79,8 +73,8 @@ endif(BIND_JAVA)
 # Additional options for additional language bindings
 option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
 if(USE_SWIG)
-  option(BIND_PYTHON       "Run SWIG with -python"     ON)
-  option(BIND_RUBY         "Run SWIG with -ruby"       ON)
+  option(SWIG_PYTHON       "Run SWIG with -python"     ON)
+  option(SWIG_RUBY         "Run SWIG with -ruby"       OFF)
 endif(USE_SWIG)
 
 ## Main library dependencies
@@ -108,7 +102,7 @@ link_directories(${CALG_LIBRARY_DIRS})
 ## Requirements for Java bindings
 if(BIND_JAVA)
   set(JAVA_VERSION_MINIMUM 6 CACHE STRING "Minimum Java version")
-  mark_as_advanced(JAVA_VERSION_MINIMUM)
+  mark_as_advanced(JAVA_VERSION_MINIMUM FORCE)
   list(APPEND JAVA_COMPONENTS "Development")
   if(BUILD_TESTING)
     list(APPEND JAVA_COMPONENTS "Runtime")
@@ -132,9 +126,9 @@ if(BIND_JAVA)
   endif(NOT JNI_FOUND)
   include(UseJava)
   # Set some Java arguments for safe building into correct location
-  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac" FORCE)
+  set(CMAKE_JAVA_COMPILE_FLAGS -Xlint:unchecked CACHE STRING "Additional flags passed to javac")
   set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${LIBRARY_OUTPUT_PATH}/jar" CACHE PATH "Location to place .jar files")
-  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR)
+  mark_as_advanced(CMAKE_JAVA_COMPILE_FLAGS CMAKE_JAVA_TARGET_OUTPUT_DIR FORCE)
 endif(BIND_JAVA)
 
 ## Prepare headers / development tools / documentation
@@ -186,6 +180,7 @@ if(WIN32)
     list(APPEND CPACK_GENERATOR "NSIS") # TODO get working
   endif(NOT CYGWIN)
 endif(WIN32)
+set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY 1)
 
 ## Invoke CPack
 #include("${CPACK_PROJECT_CONFIG_FILE}")

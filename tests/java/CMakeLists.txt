@@ -13,17 +13,35 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-list(APPEND CMAKE_JAVA_INCLUDE_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.jar")
-#set(CMAKE_JAVA_TARGET_OUTPUT_DIR "${EXECUTABLE_OUTPUT_PATH}/jar")
+# FIXME I hate this kludge
+set(LAJ_JAR_NAME "lib.alexandria-${CMAKE_PROJECT_VERSION_SO}.jar")
+set(LAJ_JAR_FILE "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/${LAJ_JAR_NAME}" CACHE FILEPATH "Path to ${LAJ_JAR_NAME}")
+#if(NOT EXISTS "${LAJ_JAR_FILE}")
+#  message(FATAL_ERROR "Unable to find ${LAJ_JAR_NAME}!")
+#endif(NOT EXISTS "${LAJ_JAR_FILE}")
+set(LAJ_POC_JAR_NAME "lib.alexandria.poc-${CMAKE_PROJECT_VERSION_SO}.jar")
+set(LAJ_POC_JAR_FILE "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/${LAJ_POC_JAR_NAME}" CACHE FILEPATH "Path to ${LAJ_POC_JAR_NAME}")
+#if(NOT EXISTS "${LAJ_POC_JAR_FILE}")
+#  message(FATAL_ERROR "Unable to find ${LAJ_POC_JAR_NAME}!")
+#endif(NOT EXISTS "${LAJ_POC_JAR_FILE}")
+set(LAJ_MANIFEST_FILE "${CMAKE_SOURCE_DIR}/dev/java-extras.txt")
 
 # Build Java proof-of-concept
+file(GLOB LAJ_PROOF_SOURCES   lib/alexandria/proof/*.java)
+file(GLOB LAJ_TESTING_SOURCES lib/alexandria/testing/*.java)
 set(CMAKE_JNI_TARGET TRUE)
 set(CMAKE_JAVA_TARGET_VERSION "${CMAKE_PROJECT_VERSION_SO}")
+set(CMAKE_JAVA_INCLUDE_PATH "${LAJ_JAR_FILE}")
 set(CMAKE_JAVA_JAR_ENTRY_POINT lib/alexandria/proof/POC)
-file(GLOB LAJ_PROOF_SOURCES lib/alexandria/proof/*.java)
-add_jar(lib.alexandria.poc ${LAJ_PROOF_SOURCES})
+add_jar(lib.alexandria.poc
+  ${LAJ_PROOF_SOURCES}
+  ${LAJ_TESTING_SOURCES}
+)
 add_dependencies(lib.alexandria.poc lib.alexandria)
-#set_target_properties(lib.alexandria.poc PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
+add_custom_command(TARGET lib.alexandria.poc POST_BUILD
+  COMMAND "${Java_JAR_EXECUTABLE}" umf "${LAJ_MANIFEST_FILE}" "${LAJ_POC_JAR_FILE}"
+  COMMENT "       Adding extra entries to the manifest..." VERBATIM
+)
 
 # Make sure native interfaces are built
 add_definitions(-DLA_JNI)
@@ -32,23 +50,22 @@ if(USE_ANDROID)
   add_subdirectory(android)
 endif(USE_ANDROID)
 
-# Setup the library path, which all texts will need at run-time
-set(JAVA_CLASS_PATH ${CMAKE_JAVA_INCLUDE_PATH}:$ENV{CLASSPATH} CACHE STRING "Default Java classpath")
-set(JAVA_LIBRARY_PATH ${LIBRARY_OUTPUT_PATH}:$ENV{LD_LIBRARY_PATH} CACHE STRING "Default java.library.path")
-mark_as_advanced(JAVA_CLASS_PATH JAVA_LIBRARY_PATH FORCE)
-
 # Make it easy to add a variety of Java tests
 macro(add_java_test TEST_NAME JAR_FILE)
   add_test(${TEST_NAME}
     "${Java_JAVA_EXECUTABLE}" -verbose
-    -classpath "${JAVA_CLASS_PATH}"
-    -Djava.library.path=${JAVA_LIBRARY_PATH}
+    -classpath "${CMAKE_JAVA_TARGET_OUTPUT_DIR}"
+    -Djava.library.path=${LIBRARY_OUTPUT_PATH}
     -jar "${JAR_FILE}" ${ARGN})
 endmacro(add_java_test)
 
 # Proof-of-concept test(s)
-set(JAVA_POC_PATH "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/lib.alexandria.poc.jar")
-add_java_test(simple_java_poc "${JAVA_POC_PATH}" "'Hello, World!'")
-set_tests_properties(simple_java_poc PROPERTIES PASS_REGULAR_EXPRESSION "Hello, World!")
-add_java_test(complex_java_poc "${JAVA_POC_PATH}")
-set_tests_properties(simple_java_poc complex_java_poc PROPERTIES LABELS "java;poc")
+add_java_test(simple_java_poc "${LAJ_POC_JAR_FILE}" "'Hello, World!'")
+add_java_test(complex_java_poc "${LAJ_POC_JAR_FILE}")
+set_tests_properties(simple_java_poc PROPERTIES
+  LABELS "java;poc"
+  PASS_REGULAR_EXPRESSION "Hello, World!"
+)
+set_tests_properties(complex_java_poc PROPERTIES
+  LABELS "java;poc;long"
+)

@@ -14,3 +14,34 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 message(STATUS "No SWIG tests have been written, yet.")
+
+if(SWIG_PYTHON)
+  find_package(PythonInterp)
+  # TODO check PYTHON_VERSION_STRING?
+  if(NOT PYTHONINTERP_FOUND)
+    message(FATAL_ERROR "Cannot locate Python interpreter!")
+  endif(NOT PYTHONINTERP_FOUND)
+  set(ENV{PYTHONPATH} "${LIBRARY_OUTPUT_PATH}")
+  # Small POC script
+  configure_file(laPy_glue.py "${LIBRARY_OUTPUT_PATH}/__main__.py")
+  add_test(swig_laPy_glue ${PYTHON_EXECUTABLE} -S ${LIBRARY_OUTPUT_PATH})
+  set_tests_properties(swig_laPy_glue PROPERTIES
+    LABELS "swig;python;poc"
+    PASS_REGULAR_EXPRESSION "feature not yet complete"
+  )
+endif(SWIG_PYTHON)
+
+if(SWIG_RUBY)
+  find_package(Ruby)
+  # TODO check RUBY_VERSION?
+  if(NOT RUBY_FOUND)
+    message(FATAL_ERROR "Cannot locate Ruby interpreter!")
+  endif(NOT RUBY_FOUND)
+  set(ENV{RUBYPATH} "${LIBRARY_OUTPUT_PATH}")
+  # Small POC script
+  add_test(swig_laRb_glue ${RUBY_EXECUTABLE} -S laRb_glue.rb)
+  set_tests_properties(swig_laRb_glue PROPERTIES
+    LABELS "swig;ruby;poc"
+    PASS_REGULAR_EXPRESSION "feature not yet complete"
+  )
+endif(SWIG_RUBY)

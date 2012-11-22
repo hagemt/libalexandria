@@ -14,9 +14,9 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # C proof-of-concept
-add_definitions(-DLA_M)
+add_definitions(-DLA_C)
 add_executable(simple_c_poc simple_poc.c)
-target_link_libraries(simple_c_poc calg alexandriam)
+target_link_libraries(simple_c_poc alexandria)
 
 # C Interface test
 add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc" "Hello, World!")

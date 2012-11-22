@@ -13,19 +13,19 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-add_definitions(-DLA_M)
+add_definitions(-DLA_C)
 file(GLOB LAC_SOURCES "laC_*.c")
 
-# TODO rename library? or is consisent with C++ convension?
-add_library(alexandriam ${LAC_SOURCES})
-target_link_libraries(alexandriam alexandria)
-set_target_properties(alexandriam PROPERTIES
+# Build the C bindings into a library
+add_library(alexandria ${LAC_SOURCES})
+target_link_libraries(alexandria alexander)
+set_target_properties(alexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
 
 install(
-  TARGETS alexandriam
+  TARGETS alexandria
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   COMPONENT "C Bindings" OPTIONAL

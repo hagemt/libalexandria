@@ -13,6 +13,8 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
+include_directories("${BASE_INCLUDE_PATH}")
+
 if(BIND_C)
   add_subdirectory(c)
 endif(BIND_C)

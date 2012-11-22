@@ -16,12 +16,8 @@
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
   message(FATAL_ERROR "Where did the JNI headers/libraries go?")
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
-
-include_directories(
-  "${BASE_INCLUDE_PATH}"
-  #"${BASE_INCLUDE_PATH}/libalexandria/laJ"
-  ${JNI_INCLUDE_DIRS}
-)
+include_directories(${JNI_INCLUDE_DIRS})
+add_definitions(-DLA_JNI)
 
 # TODO make macro for building JNI lib?
 add_library(jpoc SHARED laJ_print.c)
@@ -30,7 +26,6 @@ target_link_libraries(jpoc
   jalexandria
   ${JNI_LIBRARIES}
 )
-
 set_target_properties(jpoc PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

@@ -23,15 +23,15 @@
 /* fortran headers*/
 @LAF_INCLUDES@
 
-#ifdef LA_M
+#ifdef LA_C
 /* c headers */
 @LAC_INCLUDES@
-#endif /* LA_M */
+#endif /* LA_C */
 
-#ifdef LA_MM
+#ifdef LA_CXX
 /* c++ headers */
 @LACXX_INCLUDES@
-#endif /* LA_MM */
+#endif /* LA_CXX */
 
 #ifdef LA_JNI
 /* jni headers */

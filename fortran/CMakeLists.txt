@@ -42,22 +42,22 @@ file(GLOB FORTRAN_SOURCES "*.F")
 # TODO does fixed format make sense?
 set_property(SOURCE ${FORTRAN_SOURCES} PROPERTY Fortran_FORMAT FIXED)
 
-add_library(alexandria ${FORTRAN_SOURCES})
-target_link_libraries(alexandria kolla ${CALG_LIBRARIES})
-set_target_properties(alexandria PROPERTIES
+add_library(alexander ${FORTRAN_SOURCES})
+target_link_libraries(alexander kolla ${CALG_LIBRARIES})
+set_target_properties(alexander PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
 
 if(NOT BUILD_SHARED_LIBS)
   if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-    target_link_libraries(alexandria gfortran)
+    target_link_libraries(alexander gfortran)
   endif(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-  set_target_properties(alexandria PROPERTIES COMPILE_FLAGS -fPIC)
+  set_target_properties(alexander PROPERTIES COMPILE_FLAGS -fPIC)
 endif(NOT BUILD_SHARED_LIBS)
 
 install(
-  TARGETS alexandria
+  TARGETS alexander
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   COMPONENT "Base Library"

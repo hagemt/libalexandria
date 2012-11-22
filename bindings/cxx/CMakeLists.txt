@@ -13,11 +13,11 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-add_definitions(-DLA_MM)
+add_definitions(-DLA_CXX)
 file(GLOB LACXX_SOURCES "laCXX_*.cxx")
 
 add_library(alexandriamm ${LACXX_SOURCES})
-target_link_libraries(alexandriamm alexandria)
+target_link_libraries(alexandriamm alexander)
 set_target_properties(alexandriamm PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

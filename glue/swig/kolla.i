@@ -17,7 +17,7 @@
 
 %module kolla
 %{
-/* #include "la_glue.h" */
+#include "la_glue.h"
 %}
 
 extern void la_initialize(unsigned long long int);

@@ -2,7 +2,6 @@
 
 function la_complete_bootstrap
 {
-	COMPREPLY=()
 	local cur="${COMP_WORDS[COMP_CWORD]}"
 	local opts="help build Nightly Continuous Experimental"
 	COMPREPLY=($(compgen -W "${opts}" -- ${cur}))

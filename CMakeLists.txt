@@ -58,12 +58,18 @@ option(BUILD_SHARED_LIBS   "Produce shared libraries"  OFF)
 option(BUILD_TESTING       "Produce testing tree"      OFF)
 option(BUILD_DOXYGEN       "Produce documentation"     OFF)
 if(BUILD_DOXYGEN)
-  option(FORMAT_HTML       "Produce manual (HTML)"     ON)
-  option(FORMAT_LATEX      "Produce manual (PDF)"      OFF)
-  option(FORMAT_MAN        "Produce manual (man.3)"    OFF)
-  option(FORMAT_RDF        "Produce manual (RDF)"      OFF)
-  option(FORMAT_XML        "Produce manual (XML)"      OFF)
-  mark_as_advanced(FORMAT_HTML FORMAT_LATEX FORMAT_MAN FORMAT_RDF FORMAT_XML)
+  option(DOXYGEN_FORMAT_HTML  "Produce manual (HTML)"  ON)
+  option(DOXYGEN_FORMAT_MAN   "Produce manual (man3)"  OFF)
+  option(DOXYGEN_FORMAT_LATEX "Produce manual (PDF)"   OFF)
+  option(DOXYGEN_FORMAT_RDF   "Produce manual (RDF)"   OFF)
+  option(DOXYGEN_FORMAT_XML   "Produce manual (XML)"   OFF)
+  mark_as_advanced(FORCE
+    DOXYGEN_FORMAT_HTML
+    DOXYGEN_FORMAT_MAN
+    DOXYGEN_FORMAT_LATEX
+    DOXYGEN_FORMAT_RDF
+    DOXYGEN_FORMAT_XML
+  )
 endif(BUILD_DOXYGEN)
 # Additional options for Java language bindings
 if(BIND_JAVA)
@@ -74,7 +80,7 @@ endif(BIND_JAVA)
 option(USE_SWIG            "Produce bindings w/ SWIG"  OFF)
 if(USE_SWIG)
   option(SWIG_PYTHON       "Run SWIG with -python"     ON)
-  option(SWIG_RUBY         "Run SWIG with -ruby"       OFF)
+  option(SWIG_RUBY         "Run SWIG with -ruby"       ON)
 endif(USE_SWIG)
 
 ## Main library dependencies

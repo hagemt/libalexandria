@@ -17,41 +17,56 @@
 # You can copy this file to ./user.CMakeCache.txt and modify as you like.
 # Note that user.CMakeCache.txt is in ./.gitignore, but is loaded if present.
 
-# Build options
+### Build options
 
-set(BIND_C              TRUE  CACHE BOOL "c +bindings")
-set(BIND_CXX            TRUE  CACHE BOOL "cxx +bindings")
-set(BIND_JAVA           TRUE  CACHE BOOL "java +bindings")
-#set(BUILD_JAVADOC       TRUE  CACHE BOOL "java +doc")
-#set(BUILD_SHARED_LIBS   TRUE  CACHE BOOL "all +sharedlibs")
-set(BUILD_TESTING       TRUE  CACHE BOOL "all +testing")
-set(USE_SWIG            TRUE  CACHE BOOL "all +swig")
-set(SWIG_PYTHON         TRUE  CACHE BOOL "swig +python")
-#set(SWIG_RUBY           TRUE  CACHE BOOL "swig +ruby")
+## Global options (override any default values)
 
-#set(USE_ANDROID         TRUE  CACHE BOOL "java +android")
-#set(ANDROID_TARGET_ARM  TRUE  CACHE BOOL "android +arm")
-#set(ANDROID_TARGET_MIPS TRUE  CACHE BOOL "android +mips")
-#set(ANDROID_TARGET_X86  TRUE  CACHE BOOL "android +x86")
-#set(ANDROID_API_LEVEL   8   CACHE STRING "android +apilvl")
+# Binding category (language interface provisions)
+set(BIND_C               TRUE  CACHE BOOL "bindings +c")
+set(BIND_CXX             TRUE  CACHE BOOL "bindings +cxx")
+set(BIND_JAVA            TRUE  CACHE BOOL "bindings +java")
+# Documentation category (automatic generation)
+set(BUILD_JAVADOC        FALSE CACHE BOOL "doc +javadoc")
+set(BUILD_DOXYGEN        FALSE CACHE BOOL "doc +doxygen")
+#set(DOXYGEN_FORMAT_HTML  TRUE  CACHE BOOL "doxygen +html")
+#set(DOXYGEN_FORMAT_MAN   TRUE  CACHE BOOL "doxygen +man")
+#set(DOXYGEN_FORMAT_LATEX TRUE  CACHE BOOL "doxygen +pdf")
+#set(DOXYGEN_FORMAT_RDF   TRUE  CACHE BOOL "doxygen +rdf")
+#set(DOXYGEN_FORMAT_XML   TRUE  CACHE BOOL "doxygen +xml")
+# Miscellaneous category (other settings)
+set(BUILD_EXAMPLES       TRUE  CACHE BOOL "all +examples")
+set(BUILD_SHARED_LIBS    TRUE  CACHE BOOL "all +sharedlibs")
+set(BUILD_TESTING        TRUE  CACHE BOOL "all +testing")
+# for SWIG settings (swagger)
+set(USE_SWIG             FALSE CACHE BOOL "all +swig")
+#set(SWIG_PYTHON          TRUE  CACHE BOOL "swig +python")
+#set(SWIG_RUBY            TRUE  CACHE BOOL "swig +ruby")
+# for Android subprojects (lannister)
+set(USE_ANDROID          FALSE CACHE BOOL "java +android")
+#set(ANDROID_TARGET_ARM   TRUE  CACHE BOOL "android +arm")
+#set(ANDROID_TARGET_MIPS  TRUE  CACHE BOOL "android +mips")
+#set(ANDROID_TARGET_X86   TRUE  CACHE BOOL "android +x86")
+#set(ANDROID_DOWNLOAD_NDK TRUE  CACHE BOOL "android +ndk")
+#set(ANDROID_API_LEVEL    8  CACHE  STRING "android +apilvl")
 
-# C/C++/Fortran options
+## C/C++/Fortran options
 
-set(CMAKE_C_FLAGS       "-Wall -Wextra -Wno-variadic-macros" CACHE STRING "c +warnings")
-set(CMAKE_CXX_FLAGS     "-Wall -Wextra -Wno-variadic-macros" CACHE STRING "cxx +warnings")
+# All configurations
+set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings")
 set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
-
+# Debug configurations
 set(CMAKE_C_FLAGS_DEBUG       "-g -pedantic" CACHE STRING "c +dbg")
 set(CMAKE_CXX_FLAGS_DEBUG     "-g -pedantic" CACHE STRING "cxx +dbg")
 set(CMAKE_Fortran_FLAGS_DEBUG "-g -pedantic" CACHE STRING "fortran +dbg")
 
-# Java options
+## Java options
 
 set(JAVA_PREFIX "$ENV{HOME}/Downloads/Code/jdk1.8.0"       CACHE PATH "Effective $JAVA_HOME")
 set(JAVA_LIBFIX "${JAVA_PREFIX}/jre/lib/amd64"             CACHE PATH "Location of libjava")
 set(JAVA_NATIVE_INCLUDE_DIR "${JAVA_PREFIX}/include/linux" CACHE PATH "Location of (.*)_md.h")
 mark_as_advanced(CLEAR JAVA_PREFIX JAVA_LIBFIX JAVA_NATIVE_INCLUDE_DIR)
-
+# These should not require modification:
 set(CMAKE_Java_ARCHIVE      "${JAVA_PREFIX}/bin/jar"          CACHE FILEPATH "CMake jar")
 set(CMAKE_Java_COMPILER     "${JAVA_PREFIX}/bin/javac"        CACHE FILEPATH "CMake javac")
 set(CMAKE_Java_RUNTIME      "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "CMake java")
@@ -66,6 +81,7 @@ set(Java_JAVADOC_EXECUTABLE "${JAVA_PREFIX}/bin/javadoc"      CACHE FILEPATH "ja
 set(Java_JAVAH_EXECUTABLE   "${JAVA_PREFIX}/bin/javah"        CACHE FILEPATH "javah command")
 set(Java_JAVA_EXECUTABLE    "${JAVA_PREFIX}/bin/java"         CACHE FILEPATH "java command")
 
+# Several of these are only for advanced configurations
 mark_as_advanced(FORCE
   CMAKE_C_FLAGS
   CMAKE_C_FLAGS_DEBUG

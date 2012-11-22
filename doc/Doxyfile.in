@@ -809,7 +809,7 @@ IGNORE_PREFIX          =
 # If the GENERATE_HTML tag is set to YES (the default) Doxygen will 
 # generate HTML output.
 
-GENERATE_HTML          = @@FORMAT_HTML@@
+GENERATE_HTML          = @@DOXYGEN_FORMAT_HTML@@
 
 # The HTML_OUTPUT tag is used to specify where the HTML docs will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
@@ -874,7 +874,7 @@ HTML_DYNAMIC_SECTIONS  = NO
 # it at startup. 
 # See http://developer.apple.com/tools/creatingdocsetswithdoxygen.html for more information.
 
-GENERATE_DOCSET        = @@FORMAT_HTML@@
+GENERATE_DOCSET        = @@DOXYGEN_FORMAT_HTML@@
 
 # When GENERATE_DOCSET tag is set to YES, this tag determines the name of the 
 # feed. A documentation feed provides an umbrella under which multiple 
@@ -895,7 +895,7 @@ DOCSET_BUNDLE_ID       = org.doxygen.Project
 # Microsoft HTML help workshop to generate a compiled HTML help file (.chm) 
 # of the generated HTML documentation.
 
-GENERATE_HTMLHELP      = @@FORMAT_HTML@@
+GENERATE_HTMLHELP      = @@DOXYGEN_FORMAT_HTML@@
 
 # If the GENERATE_HTMLHELP tag is set to YES, the CHM_FILE tag can 
 # be used to specify the file name of the resulting .chm file. You 
@@ -992,7 +992,7 @@ QHG_LOCATION           =
 # the ECLIPSE_DOC_ID value. After copying Eclipse needs to be restarted before
 # the help appears.
 
-GENERATE_ECLIPSEHELP   = @@FORMAT_HTML@@
+GENERATE_ECLIPSEHELP   = @@DOXYGEN_FORMAT_HTML@@
 
 # A unique identifier for the eclipse help plugin. When installing the plugin 
 # the directory name containing the HTML and XML files should also have 
@@ -1067,7 +1067,7 @@ SERVER_BASED_SEARCH    = NO
 # If the GENERATE_LATEX tag is set to YES (the default) Doxygen will 
 # generate Latex output.
 
-GENERATE_LATEX         = @@FORMAT_LATEX@@
+GENERATE_LATEX         = @@DOXYGEN_FORMAT_LATEX@@
 
 # The LATEX_OUTPUT tag is used to specify where the LaTeX docs will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
@@ -1154,7 +1154,7 @@ LATEX_SOURCE_CODE      = NO
 # The RTF output is optimized for Word 97 and may not look very pretty with 
 # other RTF readers or editors.
 
-GENERATE_RTF           = @@FORMAT_RTF@@
+GENERATE_RTF           = @@DOXYGEN_FORMAT_RTF@@
 
 # The RTF_OUTPUT tag is used to specify where the RTF docs will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
@@ -1195,7 +1195,7 @@ RTF_EXTENSIONS_FILE    =
 # If the GENERATE_MAN tag is set to YES (the default) Doxygen will 
 # generate man pages
 
-GENERATE_MAN           = @@FORMAT_MAN@@
+GENERATE_MAN           = @@DOXYGEN_FORMAT_MAN@@
 
 # The MAN_OUTPUT tag is used to specify where the man pages will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
@@ -1224,7 +1224,7 @@ MAN_LINKS              = NO
 # generate an XML file that captures the structure of 
 # the code including all documentation.
 
-GENERATE_XML           = @@FORMAT_XML@@
+GENERATE_XML           = @@DOXYGEN_FORMAT_XML@@
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put. 
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
@@ -1550,7 +1550,7 @@ DOT_PATH               = @@DOXYGEN_DOT_PATH@@
 # contain dot files that are included in the documentation (see the 
 # \dotfile command).
 
-DOTFILE_DIRS           = @@CMAKE_SOURCE_DIR@@/doxygen/dot
+DOTFILE_DIRS           = @@CMAKE_SOURCE_DIR@@/doc/doxygen/dot
 
 # The DOT_GRAPH_MAX_NODES tag can be used to set the maximum number of 
 # nodes that will be shown in the graph. If the number of nodes in a graph 

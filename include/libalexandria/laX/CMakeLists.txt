@@ -14,11 +14,12 @@
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
 # These are experimental headers, for a variety of languages
-collect_headers("*.h" SWIG_HEADER_FILES SWIG_INCLUDES PARENT_SCOPE)
+collect_headers("*.h" SWAGGER_HEADER_FILES SWAGGER_INCLUDES PARENT_SCOPE)
+message(STATUS "Headers: ${SWAGGER_HEADER_FILES}")
 
 # Install these (if possible)
 install(
-  FILES ${SWIG_HEADER_FILES}
+  FILES ${SWAGGER_HEADER_FILES}
   PUBLIC_HEADER DESTINATION include/libalexandria/laX
   COMPONENT "Swagger" OPTIONAL
 )

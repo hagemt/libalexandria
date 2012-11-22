@@ -38,8 +38,9 @@
 @LAJ_INCLUDES@
 #endif /* LA_JNI */
 
-#ifdef LA_SWIG
-@SWIG_INCLUDES@
-#endif /* LA_SWIG */
+#ifdef LA_SWAGGER
+/* swig headers */
+@SWAGGER_INCLUDES@
+#endif /* LA_SWAGGER */
 
 #endif /* LIBALEXANDRIA_H */

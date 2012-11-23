@@ -15,7 +15,6 @@
 
 # These are experimental headers, for a variety of languages
 collect_headers("*.h" SWAGGER_HEADER_FILES SWAGGER_INCLUDES PARENT_SCOPE)
-message(STATUS "Headers: ${SWAGGER_HEADER_FILES}")
 
 # Install these (if possible)
 install(

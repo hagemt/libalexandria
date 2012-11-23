@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+# extconf?
+require 'mkmf'
+@@RUBY_REQUIRES@@
+
+# Do this for each included module
+create_makefile('kolla')
+
+# Add any additional rules here
+#open("Makefile", "a") { |mf| puts EOM }

@@ -15,6 +15,8 @@
 
 ### experimental
 
+SHELL = /bin/sh
+
 label  := swagger
 type   := RELEASE
 prefix := $(shell readlink -f .)

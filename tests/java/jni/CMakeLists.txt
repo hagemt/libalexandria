@@ -26,7 +26,14 @@ target_link_libraries(jpoc
   jalexandria
   ${JNI_LIBRARIES}
 )
+
 set_target_properties(jpoc PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
+# GCC should be able to discard these warnings
+if(CMAKE_COMPILER_IS_GNUCC)
+  set_target_properties(jpoc PROPERTIES
+    COMPILE_FLAGS "-Wno-unused-parameter"
+  )
+endif(CMAKE_COMPILER_IS_GNUCC)

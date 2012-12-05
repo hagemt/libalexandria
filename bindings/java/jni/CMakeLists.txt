@@ -17,10 +17,11 @@
 if(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
   message(FATAL_ERROR "Where did the JNI headers/libraries go?")
 endif(NOT JNI_INCLUDE_DIRS OR NOT JNI_LIBRARIES)
-
-file(GLOB LAJ_LIBRARY_SOURCES "laJ_*.c" "laJ_*.cxx")
-# Build native library code, bound using JNI
 include_directories(${JNI_INCLUDE_DIRS})
+add_definitions(-DLA_JNI)
+
+# Build native library code, bound using JNI
+file(GLOB LAJ_LIBRARY_SOURCES "laJ_*.c")
 # This is what gets System.loadLibrary(String)'d
 add_library(jalexandria SHARED ${LAJ_LIBRARY_SOURCES})
 # Make sure javah was invoked (see ./include/libalexandria/laJ/CMakeLists.txt
@@ -30,12 +31,19 @@ target_link_libraries(jalexandria
   alexandria
   ${JNI_LIBRARIES}
 )
-# Don't forget the version information
-set_target_properties(
-  jalexandria PROPERTIES
+
+# Advanced target information
+set_target_properties(jalexandria PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}
 )
+# GCC should be able to discard these warnings
+if(CMAKE_COMPILER_IS_GNUCC)
+  set_target_properties(jalexandria PROPERTIES
+    COMPILE_FLAGS "-Wno-unused-parameter"
+  )
+endif(CMAKE_COMPILER_IS_GNUCC)
+
 # Lastly, the install
 install(
   TARGETS jalexandria

@@ -19,7 +19,7 @@ add_executable(simple_c_poc simple_poc.c)
 target_link_libraries(simple_c_poc alexandria)
 
 # C Interface test
-add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc" "Hello, World!")
+add_test(simple_c_poc "${EXECUTABLE_OUTPUT_PATH}/simple_c_poc" "'Hello, World!'")
 set_tests_properties(simple_c_poc PROPERTIES
   LABELS "c;poc"
   PASS_REGULAR_EXPRESSION "Hello, World!"

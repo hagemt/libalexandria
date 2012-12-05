@@ -52,8 +52,8 @@ set(USE_ANDROID          FALSE CACHE BOOL "java +android")
 ## C/C++/Fortran options
 
 # All configurations
-set(CMAKE_C_FLAGS "-Wall -Wextra" CACHE STRING "c +warnings")
-set(CMAKE_CXX_FLAGS "-Wall -Wextra" CACHE STRING "cxx +warnings")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-variadic-macros -Wno-long-long" CACHE STRING "c +warnings")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-variadic-macros -Wno-long-long" CACHE STRING "cxx +warnings")
 set(CMAKE_Fortran_FLAGS "-Wall -Wextra" CACHE STRING "fortran +warnings")
 # Debug configurations
 set(CMAKE_C_FLAGS_DEBUG       "-g -pedantic" CACHE STRING "c +dbg")

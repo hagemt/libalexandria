@@ -65,16 +65,15 @@ if(NOT IS_DIRECTORY "${ANDROID_NDK}")
     message(FATAL_ERROR "Please locate Android NDK directory, or activate ANDROID_DOWNLOAD_NDK")
   endif(NOT ANDROID_DOWNLOAD_NDK)
   # Fetch the NDK, by now it's necessary and approved
-  set(LOG_SUFFIX "download-ndk.log")
   execute_process(
     COMMAND "${ANDROID_CMAKE_SCRIPT}" "${CMAKE_CURRENT_SOURCE_DIR}"
-    OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/output-${LOG_SUFFIX}"
-    ERROR_FILE "${CMAKE_CURRENT_SOURCE_DIR}/error-${LOG_SUFFIX}"
+    OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/android-download-ndk-output.log"
+    ERROR_FILE "${CMAKE_CURRENT_SOURCE_DIR}/android-download-ndk-error.log"
     RESULT_VARIABLE ANDROID_CMAKE_SCRIPT_RESULT
     TIMEOUT 600)
   # Catch failures
   if(ANDROID_CMAKE_SCRIPT_RESULT)
-    message(FATAL_ERROR "Problem downloading NDK. See logs: ${CMAKE_CURRENT_SOURCE_DIR}/*-${LOG_SUFFIX}")
+    message(FATAL_ERROR "Problem downloading NDK. See logs: ${CMAKE_CURRENT_SOURCE_DIR}")
   endif(ANDROID_CMAKE_SCRIPT_RESULT)
 endif(NOT IS_DIRECTORY "${ANDROID_NDK}")
 mark_as_advanced(ANDROID_NDK FORCE)
@@ -89,7 +88,6 @@ endif(NOT ANDROID_NDK_TOOLCHAIN_ROOT)
 ## Generate a toolchain if one does not already exist
 if(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
   set(MAKE_TOOLCHAIN_SCRIPT "./build/tools/make-standalone-toolchain.sh")
-  set(LOG_SUFFIX "make-standalone-toolchain.log")
   set(ANDROID_NDK_TOOLCHAIN_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/android-toolchain")
   message(STATUS "Generating Android toolchain in: ${ANDROID_NDK_TOOLCHAIN_ROOT}")
   # FIXME how to specify architectures? unnecessary?
@@ -98,14 +96,14 @@ if(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
       --platform="android-${ANDROID_API_LEVEL}"
       --install-dir="${ANDROID_NDK_TOOLCHAIN_ROOT}"
     WORKING_DIRECTORY "${ANDROID_NDK}"
-    OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/output-${LOG_SUFFIX}"
-    ERROR_FILE "${CMAKE_CURRENT_SOURCE_DIR}/error-${LOG_SUFFIX}"
+    OUTPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/android-toolchain-make-standalone-output.log"
+    ERROR_FILE "${CMAKE_CURRENT_SOURCE_DIR}/android-toolchain-make-standalone-error.log"
     RESULT_VARIABLE MAKE_TOOLCHAIN_SCRIPT_RESULT
     TIMEOUT 60)
   # Catch failures
   if(MAKE_TOOLCHAIN_SCRIPT_RESULT)
     set(ANDROID_NDK_TOOLCHAIN_ROOT)
-    message(FATAL_ERROR "Problem generating NDK toolchain. See logs: ${CMAKE_CURRENT_SOURCE_DIR}/*-${LOG_SUFFIX}")
+    message(FATAL_ERROR "Problem generating android toolchain. See logs: ${CMAKE_CURRENT_SOURCE_DIR}")
   endif(MAKE_TOOLCHAIN_SCRIPT_RESULT)
 endif(NOT IS_DIRECTORY "${ANDROID_NDK_TOOLCHAIN_ROOT}")
 

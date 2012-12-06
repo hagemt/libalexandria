@@ -15,20 +15,24 @@ C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 
+#include "la_constants.h"
+
+C     TODO implement discrete wavelet transform (forward direction)
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_FORWARD_DWT(I,L,O)
+      SUBROUTINE LAF_FORWARD_DWT(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-      INTEGER L
-      REAL, DIMENSION(L) :: I,O
-      O=I*L
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_FORWARD_DWT
+C     -------------------------------------------------------------------------
 
+C     TODO implement discrete wavelet transform inverse
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_INVERSE_DWT(I,L,O)
+      SUBROUTINE LAF_INVERSE_DWT(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-      INTEGER L
-      REAL, DIMENSION(L) :: I,O
-      O=I/L
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_INVERSE_DWT
+C     -------------------------------------------------------------------------

@@ -21,5 +21,5 @@
 
 void
 println(const char *msg) {
-	laf_print_(msg, strnlen(msg, LA_MAX_LEN));
+	laf_print_(msg, strnlen(msg, LA_SIZEMAX));
 }

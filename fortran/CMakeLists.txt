@@ -32,9 +32,9 @@ FortranCInterface_HEADER(laF_mangle.h
 )
 # Run verification (data bridge)
 FortranCInterface_VERIFY(QUIET)
-if(BIND_CXX)
-FortranCInterface_VERIFY(CXX)
-endif(BIND_CXX)
+#if(BIND_CXX)
+#FortranCInterface_VERIFY(CXX)
+#endif(BIND_CXX)
 
 ## Build the core library
 

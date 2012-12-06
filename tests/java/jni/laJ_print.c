@@ -28,7 +28,7 @@ JNIEXPORT void JNICALL
 Java_lib_alexandria_proof_POC_initialize
 	(JNIEnv *env, jclass jc, jlong seed)
 {
-	LOGD("%p (initializing libalexandria through JNI)", (void *)(jc));
+	LOGD("%p (initializing libalexandria through JNI)", (void *)(*env));
 	la_initialize(seed);
 }
 
@@ -41,7 +41,7 @@ JNIEXPORT void JNICALL
 Java_lib_alexandria_proof_POC_finalize
 	(JNIEnv *env, jclass jc, jlong seed)
 {
-	LOGD("%p (finalizing libalexandria through JNI)", (void *)(jc));
+	LOGD("%p (finalizing libalexandria through JNI)", (void *)(*env));
 	la_finalize(seed);
 }
 
@@ -56,11 +56,9 @@ Java_lib_alexandria_proof_POC_println
 {
 	/* Fetch/release modified UTF-8 characters */
 	const char *cstr = (*env)->GetStringUTFChars(env, jstr, NULL);
-	LOGD("%p (class received '%s' through JNI)", (void *)(jc), cstr);
-	laf_print_(cstr, strnlen(cstr, LA_MAX_LEN));
+	LOGD("%p (received '%s' through JNI)", (void *)(*env), cstr);
+	laf_print_(cstr, strnlen(cstr, LA_SIZEMAX));
 	(*env)->ReleaseStringUTFChars(env, jstr, cstr);
-
 	/* Most basic command possible */
-	LOGD("%p (class printing printing 'i')", (void *)(jc));
 	laf_printi_();
 }

@@ -16,36 +16,37 @@ C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 #include "la_constants.h"
 
+C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KPOLY(V1,V2,C,D,K)
-C     -------------------------------------------------------------------------
+      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2
       REAL :: C,D,K
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
-C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
+C     -------------------------------------------------------------------------
       K=(DOT_PRODUCT(V1,V2)+C)**D
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_KPOLY
 C     -------------------------------------------------------------------------
 
+C     Gaussian kernel creates infinite-dimensional Hilbert space
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KGAUSS(V1,V2,GAM,SIG,K)
-C     -------------------------------------------------------------------------
+      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2,V
       REAL :: GAM,SIG,K
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2,V
+C     -------------------------------------------------------------------------
       V=V1-V2
-      IF (GAM .EQ. 0 .AND. SIG .NE. 0) GAM=1/(2*SIG**2)
-C     Gaussian kernel creates infinite-dimensional Hilbert space
+      IF (GAM .LT. LA_MACHEPS) GAM=1/(2*SIG**2 + LA_MACHEPS)
+C     FIXME There is something wrong here...
       K=EXP(-GAM*SQRT(DOT_PRODUCT(V,V))**2)
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_KGAUSS
 C     -------------------------------------------------------------------------
 
+C     Hyperbolic tangent kernel (with positive parameters)
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_KTANH(V1,V2,KAP,C,K)
-C     -------------------------------------------------------------------------
+      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2
       REAL :: KAP,C,K
-      REAL, DIMENSION(LA_MAX_LEN) :: V1,V2
-C     Hyperbolic tangent kernel with positive parameters
+C     -------------------------------------------------------------------------
       K=TANH(KAP*DOT_PRODUCT(V1,V2)-C);
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_KTANH

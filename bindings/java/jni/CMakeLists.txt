@@ -28,7 +28,7 @@ add_library(jalexandria SHARED ${LAJ_LIBRARY_SOURCES})
 add_dependencies(jalexandria javah_lib.alexandria)
 # TODO also specify android dependencies? Later... if necessary?
 target_link_libraries(jalexandria
-  alexandria
+  alexander
   ${JNI_LIBRARIES}
 )
 

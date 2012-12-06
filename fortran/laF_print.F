@@ -14,23 +14,28 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
+
 #include "la_constants.h"
 
+C     Print some information about the given string to standard output
+C     -------------------------------------------------------------------------
+      SUBROUTINE LAF_PRINT(STR)
+      CHARACTER STR*(*)
+      INTEGER LENGTH
+C     -------------------------------------------------------------------------
+      LENGTH=LEN(STR)
+      IF (LENGTH .LE. LA_SIZEMAX) THEN
+        PRINT *,'This string: "',STR,'" has length ',LENGTH,'.'
+      ENDIF
+C     -------------------------------------------------------------------------
+      END SUBROUTINE LAF_PRINT
+C     -------------------------------------------------------------------------
+
+C     Print the complex unit (i) to standard output
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_PRINTI
 C     -------------------------------------------------------------------------
       PRINT *,LAF_COMPLEX_UNIT
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_PRINTI
-
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_PRINT(STR)
-C     -------------------------------------------------------------------------
-      CHARACTER STR*(*)
-      INTEGER LENGTH
-      LENGTH=LEN(STR)
-      IF (LENGTH .LE. LA_MAX_LEN) THEN
-        PRINT *,'This string: "',STR,'" has length ',LENGTH,'.'
-      ENDIF
-C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_PRINT

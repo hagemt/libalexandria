@@ -23,7 +23,7 @@ macro(javah JAVA_TARGET)
 add_custom_target(javah_${JAVA_TARGET} DEPENDS ${JAVA_TARGET}
   COMMAND "${Java_JAVAH_EXECUTABLE}" -jni -d "${CMAKE_CURRENT_SOURCE_DIR}" ${ARGN}
   #COMMAND "cmake -E touch ${CMAKE_CURRENT_LIST_FILE}"
-  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}/CMakeFiles/${JAVA_TARGET}.dir"
+  WORKING_DIRECTORY "${CMAKE_JAVA_TARGET_OUTPUT_DIR}${CMAKE_FILES_DIRECTORY}/${JAVA_TARGET}.dir"
   COMMENT "Updating JNI headers for ${JAVA_TARGET}" VERBATIM
 )
 # TODO fix problem where this isn't properly configured

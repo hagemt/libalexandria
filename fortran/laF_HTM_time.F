@@ -15,26 +15,34 @@ C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 
-C     Phase 1: compute the active state, activeState(t), for each cell
+#include "la_constants.h"
+
+C     Phase 1: TODO compute activeState(t) for each cell
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_TIME_PHASE1
+      SUBROUTINE LAF_HTM_TIME_PHASE1(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase one for temporal pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_TIME_PHASE1
+C     -------------------------------------------------------------------------
 
-C     Phase 2: compute the predicted state, predictiveState(t), for each cell
+C     Phase 2: TODO compute predictiveState(t) for each cell
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_TIME_PHASE2
+      SUBROUTINE LAF_HTM_TIME_PHASE2(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase two for temporal pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_TIME_PHASE2
+C     -------------------------------------------------------------------------
 
-C     Phase 3: update synapses
+C     Phase 3: TODO update synapses
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_TIME_PHASE3
+      SUBROUTINE LAF_HTM_TIME_PHASE3(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase three for temporal pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_TIME_PHASE3
+C     -------------------------------------------------------------------------

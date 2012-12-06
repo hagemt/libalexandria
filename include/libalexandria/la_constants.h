@@ -18,8 +18,9 @@
 #ifndef LA_CONSTANTS_H
 #define LA_CONSTANTS_H
 
+#define LA_SIZEMAX 80
+#define LA_MACHEPS 0.00000001
 #define LA_VERSION 0x00000001
-#define LA_MAX_LEN 80
 
 #define LAF_COMPLEX_UNIT CMPLX(0,1)
 

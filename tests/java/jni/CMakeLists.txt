@@ -23,7 +23,7 @@ add_definitions(-DLA_JNI)
 add_library(jpoc SHARED laJ_print.c)
 add_dependencies(jpoc javah_lib.alexandria.poc)
 target_link_libraries(jpoc
-  jalexandria
+  alexander
   ${JNI_LIBRARIES}
 )
 

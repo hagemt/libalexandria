@@ -54,5 +54,4 @@ install_jni_symlink(lib.alexandria "${CMAKE_INSTALL_PREFIX}/lib")
 #set_target_properties(lib.alexandria PROPERTIES JAR_LOCATION "${CMAKE_JAVA_TARGET_OUTPUT_DIR}")
 
 # Make sure native interfaces are built
-add_definitions(-DLA_JNI)
 add_subdirectory(jni)

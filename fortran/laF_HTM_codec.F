@@ -15,16 +15,24 @@ C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 
-C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_CODEC_ENCODE
-C     -------------------------------------------------------------------------
+#include "la_constants.h"
+
 C     TODO implement forward coder, research specific I/O
 C     -------------------------------------------------------------------------
+      SUBROUTINE LAF_HTM_CODEC_ENCODE(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
+C     -------------------------------------------------------------------------
+      O=I
+C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_CODEC_ENCODE
+C     -------------------------------------------------------------------------
 
-C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_CODEC_DECODE
-C     -------------------------------------------------------------------------
 C     TODO implement backward coder, research specific I/O
 C     -------------------------------------------------------------------------
+      SUBROUTINE LAF_HTM_CODEC_DECODE(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
+C     -------------------------------------------------------------------------
+      O=I
+C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_CODEC_DECODE
+C     -------------------------------------------------------------------------

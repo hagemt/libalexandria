@@ -15,26 +15,34 @@ C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 
+#include "la_constants.h"
+
 C     Phase 1: compute the overlap with the current input for each column
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_SPACE_PHASE1
+      SUBROUTINE LAF_HTM_SPACE_PHASE1(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase one for spacial pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_SPACE_PHASE1
+C     -------------------------------------------------------------------------
 
 C     Phase 2: compute the winning columns after inhibition
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_SPACE_PHASE2
+      SUBROUTINE LAF_HTM_SPACE_PHASE2(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase two for spacial pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_SPACE_PHASE2
+C     -------------------------------------------------------------------------
 
 C     Phase 3: update synapse permanence and internal variables
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_HTM_SPACE_PHASE3
+      SUBROUTINE LAF_HTM_SPACE_PHASE3(I,O)
+      REAL, DIMENSION(LA_SIZEMAX) :: I,O
 C     -------------------------------------------------------------------------
-C     TODO implement phase three for spacial pattern recognition
+      O=I
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_HTM_SPACE_PHASE3
+C     -------------------------------------------------------------------------

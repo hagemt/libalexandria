@@ -14,39 +14,45 @@ C
 C     You should have received a copy of the GNU Lesser General Public License
 C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
+
 #include "la_constants.h"
 
+C     TODO implement Haar wavelet (standard definition)
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_WHAAR
+      SUBROUTINE LAF_WHAAR(T,FT)
+      REAL, DIMENSION(LA_SIZEMAX) :: T, FT
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: T, FT
       FT=T
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_WHAAR
 C     -------------------------------------------------------------------------
 
+C     TODO implement Meyer wavelet (standard definition)
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_WMEYER
+      SUBROUTINE LAF_WMEYER(T,FT)
+      REAL, DIMENSION(LA_SIZEMAX) :: T, FT
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: T, FT
       FT=T
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_WMEYER
 C     -------------------------------------------------------------------------
 
+C     TODO implement Morlet wavelet (standard definition)
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_WMORLET
+      SUBROUTINE LAF_WMORLET(T,FT)
+      REAL, DIMENSION(LA_SIZEMAX) :: T, FT
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: T, FT
       FT=T
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_WMORLET
 C     -------------------------------------------------------------------------
 
+C     TODO implement Ricker wavelet (standard definition)
 C     -------------------------------------------------------------------------
       SUBROUTINE LAF_WRICKER(T,FT)
+      REAL, DIMENSION(LA_SIZEMAX) :: T, FT
 C     -------------------------------------------------------------------------
-      REAL, DIMENSION(LA_MAX_LEN) :: T, FT
       FT=T
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_WRICKER
+C     -------------------------------------------------------------------------

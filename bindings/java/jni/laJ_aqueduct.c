@@ -40,7 +40,7 @@ JNIEXPORT jobject JNICALL Java_lib_alexandria_pipeline_Aqueduct_alloc
 	la_key_t *key;
 	la_value_t *value;
 	HashTableValue v;
-	const size_t len = LA_MAX_LEN * sizeof(jdouble);
+	const size_t len = LA_SIZEMAX * sizeof(jdouble);
 	if (la_buffer_table == LA_NULL) {
 		LOGE("%s (call missing)", "la_initialize(jlong)");
 		return NULL;

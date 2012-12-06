@@ -13,8 +13,6 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 
-message(STATUS "No SWIG tests have been written, yet.")
-
 if(SWIG_PYTHON)
   find_package(PythonInterp)
   # TODO check PYTHON_VERSION_STRING?
@@ -39,9 +37,9 @@ if(SWIG_RUBY)
   endif(NOT RUBY_FOUND)
   set(ENV{RUBYPATH} "${LIBRARY_OUTPUT_PATH}")
   # Small POC script
-  add_test(swig_laRb_glue ${RUBY_EXECUTABLE} -S laRb_glue.rb)
+  add_test(swig_laRb_glue ${RUBY_EXECUTABLE} -S "${CMAKE_CURRENT_SOURCE_DIR}/laRb_glue.rb")
   set_tests_properties(swig_laRb_glue PROPERTIES
     LABELS "swig;ruby;poc"
-    PASS_REGULAR_EXPRESSION "feature not yet complete"
+    PASS_REGULAR_EXPRESSION "cannot load module"
   )
 endif(SWIG_RUBY)

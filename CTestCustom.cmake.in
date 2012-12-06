@@ -1,5 +1,3 @@
 set(CTEST_CUSTOM_WARNING_EXCEPTION
-	"(PYTHON|RUBY)_wrap"
-	"laJ_(.*)unused parameter"
-	"ISO C(.*) does not support ‘long long’"
+	"kolla(PYTHON|RUBY)_wrap"
 )

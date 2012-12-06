@@ -37,8 +37,11 @@ if(SWIG_PYTHON)
     message(FATAL_ERROR "Binding selection requires Python!")
   endif(NOT PYTHONLIBS_FOUND)
   include_directories(${PYTHON_INCLUDE_DIRS})
+  # FIXME the underscore thing is a pain
   swig_add_module(kolla python kolla.i)
   swig_link_libraries(kolla kolla calg ${PYTHON_LIBRARIES})
+  list(APPEND SWIG_TARGETS _kolla)
+  # Make the folder recognized as a module
   configure_file("python/__init__.py.in" "${CMAKE_SWIG_OUTDIR}/__init__.py" @ONLY)
 endif(SWIG_PYTHON)
 
@@ -49,8 +52,16 @@ if(SWIG_RUBY)
     message(FATAL_ERROR "Binding selection requires Ruby!")
   endif(NOT RUBY_FOUND)
   include_directories(${RUBY_INCLUDE_DIRS})
+  # TODO work out better language-specific names
   swig_add_module(swagger ruby kolla.i)
   swig_link_libraries(swagger kolla calg ${RUBY_LIBRARY})
+  list(APPEND SWIG_TARGETS swagger)
 endif(SWIG_RUBY)
+
+if(SWIG_TARGETS AND CMAKE_COMPILER_IS_GNUCC)
+  set_target_properties(${SWIG_TARGETS} PROPERTIES
+    COMPILE_FLAGS "-w"
+  )
+endif(SWIG_TARGETS AND CMAKE_COMPILER_IS_GNUCC)
 
 ## Install the files generated using egg/gem?

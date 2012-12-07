@@ -40,16 +40,16 @@
 #define LA_LOG_FATAL   0xFF
 #endif /* ANDROID */
 
-/* Setup LOG_LEVEL */
-#define LA_NAME(NAME)  #NAME
-#define LA_QUOTE(NAME) LA_NAME(NAME)
+/* Setup LOG_TAG */
 #undef LOG_TAG
 #ifdef NDEBUG
-#ifndef LA_LOG_NAME
-#pragma message("WARNING: LA_LOG_NAME should be set in releases")
-#endif /* !LA_LOG_NAME */
-#define LOG_TAG LA_QUOTE(LA_LOG_NAME)
-#else /* !NDEBUG */
+#ifndef LA_LOG_TAG
+#pragma message("WARNING: LA_LOG_TAG should be set in releases")
+#define LA_LOG_TAG la
+#endif /* !LA_LOG_TAG */
+#define LA_QUOTE(NAME) #NAME
+#define LOG_TAG LA_QUOTE(LA_LOG_TAG)
+#else /* DEBUG */
 #define LOG_TAG __PRETTY_FUNCTION__
 #endif /* NDEBUG */
 /* Setup LOG_LIMIT */

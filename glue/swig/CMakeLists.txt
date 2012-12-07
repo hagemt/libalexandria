@@ -56,6 +56,8 @@ if(SWIG_RUBY)
   swig_add_module(swagger ruby kolla.i)
   swig_link_libraries(swagger kolla calg ${RUBY_LIBRARY})
   list(APPEND SWIG_TARGETS swagger)
+  # FIXME do we have an actual script?
+  configure_file("ruby/kolla.rb" "${CMAKE_SWIG_OUTDIR}/swagger/kolla.rb" @ONLY)
 endif(SWIG_RUBY)
 
 if(SWIG_TARGETS AND CMAKE_COMPILER_IS_GNUCC)

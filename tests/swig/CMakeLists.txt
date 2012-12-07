@@ -25,7 +25,9 @@ if(SWIG_PYTHON)
   add_test(swig_laPy_glue ${PYTHON_EXECUTABLE} -S ${LIBRARY_OUTPUT_PATH})
   set_tests_properties(swig_laPy_glue PROPERTIES
     LABELS "swig;python;poc"
-    PASS_REGULAR_EXPRESSION "feature not yet complete"
+    PASS_REGULAR_EXPRESSION "la_initialize"
+    PASS_REGULAR_EXPRESSION "la_finalize"
+    PASS_REGULAR_EXPRESSION "la_mark_incomplete"
   )
 endif(SWIG_PYTHON)
 

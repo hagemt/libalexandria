@@ -39,7 +39,7 @@ Java_lib_alexandria_reinforcement_nn_NativeWorker_operate
 	a2 = (*env)->GetPrimitiveArrayCritical(env, arr2, 0);
 	assert(a1 && a2);
 	/* Do an operation */
-	for (i = 0; i < len1; ++i) {
+	for (i = 0; i < len1 && i < len2; ++i) {
 		a1[i] ^= a2[i];
 	}
 	/* Release all resources */

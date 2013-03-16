@@ -1,4 +1,4 @@
-package lib.alexandria.annotation;
+package lib.alexandria.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

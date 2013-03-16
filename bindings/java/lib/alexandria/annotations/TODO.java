@@ -1,4 +1,4 @@
-package lib.alexandria.annotation;
+package lib.alexandria.annotations;
 
 /**
  * Marks an entity as needing work.

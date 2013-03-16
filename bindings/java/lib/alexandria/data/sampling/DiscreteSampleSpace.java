@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
+package lib.alexandria.data.sampling;
 
 public abstract class DiscreteSampleSpace extends SampleSpace {
 	protected DiscreteSampleSpace(String label) {

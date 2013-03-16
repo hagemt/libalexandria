@@ -14,10 +14,33 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
+package lib.alexandria.data.sampling;
 
-public abstract class ContinuousSampleSpace extends SampleSpace {
-	protected ContinuousSampleSpace(String label) {
+import java.util.Vector;
+
+import lib.alexandria.data.Feature;
+import lib.alexandria.data.Ordinal;
+import lib.alexandria.naming.LabelledEntity;
+
+public abstract class SampleSpace extends LabelledEntity {
+	protected Ordinal cardinality;
+	protected Vector<Feature> features;
+	
+	protected SampleSpace(String label) {
+		this(3, label);
+	}
+	
+	protected SampleSpace(int dimension, String label) {
 		super(label);
+		features = new Vector<Feature>(dimension);
+		cardinality = new Cardinal(0);
+	}
+
+	public boolean isFinite() {
+		return cardinality.isFinite();
+	}
+
+	public boolean isEnumerable() {
+		return cardinality.isCountable();
 	}
 }

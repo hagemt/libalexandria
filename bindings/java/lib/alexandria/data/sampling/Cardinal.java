@@ -14,48 +14,61 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
+package lib.alexandria.data.sampling;
+
+import lib.alexandria.data.Ordinal;
 
 /**
  * TODO maybe this was just a bad idea?
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-final class Cardinal extends Ordinal<Integer> {
-	public static final Cardinal ALEPH_NULL, ALEPH_ONE, ALEPH_TWO;
+public class Cardinal extends Number implements Ordinal {
+	private static final long serialVersionUID = -5795733060070247157L;
+	public static final Cardinal ALEPH_NULL, ALEPH_ONE;
 	static {
-		ALEPH_NULL = new Cardinal(0, false);
-		ALEPH_ONE = new Cardinal(1, false);
-		ALEPH_TWO = new Cardinal(2, false);
+		ALEPH_NULL = new Cardinal(0, true);
+		ALEPH_ONE = new Cardinal(1, true);
 	}
 	
-	private boolean finite;
+	private final int value;
+	private final boolean aleph;
 
-	public Cardinal(Integer value) {
-		this(value, true);
+	public Cardinal(int value) {
+		this(value, false);
 	}
 	
-	public Cardinal(Integer value, boolean finite) {
-		super(value);
-		this.finite = finite;
+	protected Cardinal(int value, boolean aleph) {
+		this.value = value;
+		this.aleph = aleph;
 	}
 
 	@Override
 	public boolean isCountable() {
-		return finite || (value == 0);
+		return aleph ? (value == 0) : true;
 	}
 
 	@Override
 	public boolean isFinite() {
-		return finite;
+		return !aleph;
 	}
 
 	@Override
-	public Integer value() {
-		return (finite) ? value : Integer.MAX_VALUE;
+	public int intValue() {
+		return value;
 	}
 
 	@Override
-	public int compareTo(Integer o) {
-		return -o.compareTo(value());
+	public long longValue() {
+		return new Long(value);
+	}
+
+	@Override
+	public float floatValue() {
+		return new Float(value);
+	}
+
+	@Override
+	public double doubleValue() {
+		return new Double(value);
 	}
 }

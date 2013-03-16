@@ -14,19 +14,19 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
+package lib.alexandria.data.sampling;
 
 import java.util.Comparator;
 
 public class MetricSpace {
-	public static final MetricSpace INTEGERS, RATIONALS, IRRATIONALS, REAL_NUMBERS, COMPLEX_NUMBERS;
+	public static final MetricSpace INTEGERS, RATIONALS, IRRATIONALS, REAL_NUMBERS;
 	static {
 		INTEGERS = new MetricSpace(Cardinal.ALEPH_NULL);
 		RATIONALS = new MetricSpace(Cardinal.ALEPH_NULL);
 		IRRATIONALS = new MetricSpace(Cardinal.ALEPH_ONE);
 		REAL_NUMBERS = new MetricSpace(Cardinal.ALEPH_ONE);
 		/* Not exactly sure what to do here. Oh well, to hell with rigor. */
-		COMPLEX_NUMBERS = new MetricSpace(Cardinal.ALEPH_TWO);
+		//COMPLEX_NUMBERS = new MetricSpace(Cardinal.ALEPH_TWO);
 	}
 
 	protected final Cardinal intrinsic;

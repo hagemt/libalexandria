@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.params;
+package lib.alexandria.functions.params;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +23,7 @@ import lib.alexandria.naming.LabelledEntity;
 
 /**
  * A convenient, generic, and efficient default implementation of a type with parameters.
- * @see lib.alexandria.functional.params.Parameterized
+ * @see lib.alexandria.functions.params.Parameterized
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @param <N> a numeric type
  */

@@ -16,6 +16,6 @@
  */
 
 /**
- * Provides classes for implementation of the "Kernel Trick."
+ * Provides classes and interfaces for encapsulating parameterization.
  */
-package lib.alexandria.functional.kernels;
+package lib.alexandria.functions.params;

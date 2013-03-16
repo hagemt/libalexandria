@@ -14,9 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.wavelets;
+package lib.alexandria.functions.wavelets;
 
-import lib.alexandria.functional.RealParameterizedFunction;
+import lib.alexandria.functions.RealParameterizedFunction;
 
 /**
  * Describes an orthogonal function (group)

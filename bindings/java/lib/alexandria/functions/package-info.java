@@ -14,32 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.kernels;
-
-import static lib.alexandria.Generate.Some;
 
 /**
- * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
- * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
+ * Provides certain functional abstractions for use in models.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @since libalexandria v0.1
  */
-public class HyperbolicKernel extends Kernel implements Some<TrigFlavor> {
-	private TrigFlavor flavor;
-	
-	public HyperbolicKernel(String label, TrigFlavor flavor, double kappa, double constant) {
-		super(label, KernelType.HYPER);
-		if (kappa <= 0 || -constant <= 0) {
-			throw new IllegalArgumentException("parameters must be positive");
-		}
-		this.flavor = flavor;
-		this.addParameter("kappa", kappa);
-		this.addParameter("constant", constant);
-	}
-	
-	public TrigFlavor getFlavor() {
-		return flavor;
-	}
-}
-
-
+package lib.alexandria.functions;

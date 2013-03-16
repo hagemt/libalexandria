@@ -14,43 +14,47 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.kernels;
+package lib.alexandria.functions.wavelets;
 
-import lib.alexandria.functional.RealParameterizedFunction;
+import java.util.TreeMap;
+
+import lib.alexandria.Generate;
 
 /**
- * Does not encapsulate computation of a kernel function, instead, provides metadata concerning parameters and such.
+ * Indicates whether or not a wavelet's form is continuous
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class Kernel extends RealParameterizedFunction<Double> {
-	/**
-	 * Describes this kernel's family (category)
-	 */
-	private final KernelType type;
+public enum WaveletType implements Generate.A<Wavelet> {
+	CONTINUOUS, DISCRETE;
 	
-	protected Kernel(KernelType type) {
-		this(type.toString(), type);
-	}
+	private TreeMap<String, Wavelet> known_wavelets;
 	
-	public Kernel(String label, KernelType type) {
-		super(label);
-		this.type = type;
+	private WaveletType(Wavelet... wavelets) {
+		known_wavelets = new TreeMap<String, Wavelet>();
+		for (Wavelet w : wavelets) {
+			known_wavelets.put(w.getLabel(), w);
+		}
+		known_wavelets.put(this.toString(), new Wavelet(this));
 	}
 
 	@Override
-	public int getArity() {
-		return 2;
+	public Wavelet knownAs(String label) {
+		return known_wavelets.get(label);
 	}
 
 	@Override
-	protected native void sync();
+	public Wavelet getDefault() {
+		return knownAs(this.toString());
+	}
 
 	@Override
-	public native void benchmark();
+	public boolean knows(String label) {
+		return known_wavelets.containsKey(label);
+	}
 
 	@Override
-	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
-		return category.cast(type);
+	public String toString() {
+		return this.name() + "WAVELET";
 	}
 }

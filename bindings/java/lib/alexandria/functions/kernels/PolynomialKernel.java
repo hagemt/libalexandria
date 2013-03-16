@@ -14,25 +14,26 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.kernels;
+package lib.alexandria.functions.kernels;
 
 /**
- * Hyperbolic kernel are defined using one of six
- * trigonometric functions. They have no default flavor.
+ * A polynomial kernel has the form K(A,B) = (DOT(A,B)+C)^D
+ * where D is a positive number TODO what type of number?
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.functional.kernels.HyperbolicKernel
- * @since libalexandria v0.1
  */
-public enum TrigFlavor {
-	SIN, COS, TAN, CSC, SEC, COT;
-	
-	public boolean isHyperbolic() {
-		// TODO Auto-generated method stub
-		return true;
+public class PolynomialKernel extends Kernel {
+	public PolynomialKernel(String label, double degree, double constant) {
+		super(label, KernelType.POLY);
+		if (degree <= 0) {
+			throw new IllegalArgumentException("degree must be positive");
+		}
+		this.addParameter("degree", degree);
+		this.addParameter("constant", constant);
 	}
 	
-	@Override
-	public String toString() {
-		return name().toLowerCase();
+	/* By default, make kernel homogeneous (C = 0) */
+	public PolynomialKernel(String label, double degree) {
+		this(label, degree, 0);
 	}
 }
+

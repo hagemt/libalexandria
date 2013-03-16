@@ -16,6 +16,6 @@
  */
 
 /**
- * Provides classes for models using Wavelet methods.
+ * Provides classes for implementation of the "Kernel Trick."
  */
-package lib.alexandria.functional.wavelets;
+package lib.alexandria.functions.kernels;

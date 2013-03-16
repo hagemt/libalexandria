@@ -16,6 +16,6 @@
  */
 
 /**
- * Provides classes and interfaces for encapsulating parameterization.
+ * Provides classes for models using Wavelet methods.
  */
-package lib.alexandria.functional.params;
+package lib.alexandria.functions.wavelets;

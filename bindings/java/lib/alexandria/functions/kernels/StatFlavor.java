@@ -14,13 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.kernels;
+package lib.alexandria.functions.kernels;
 
 /**
  * Gaussian kernel functions are expressed in one of two styles
  * The "gamma" style is default, but it is convertable.
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @see lib.alexandria.functional.kernels.GaussianKernel
+ * @see lib.alexandria.functions.kernels.GaussianKernel
  * @since libalexandria v0.1
  */
 public enum StatFlavor {

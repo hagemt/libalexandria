@@ -14,48 +14,43 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.params;
+package lib.alexandria.functions.kernels;
 
-import java.util.Map.Entry;
-
-import lib.alexandria.naming.LabelledEntity;
+import lib.alexandria.functions.RealParameterizedFunction;
 
 /**
- * Parameters are pairs of strings and some numeric type
+ * Does not encapsulate computation of a kernel function, instead, provides metadata concerning parameters and such.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public class Parameter<N extends Number> extends LabelledEntity implements Entry<String, N> {
-	private N value;
+public class Kernel extends RealParameterizedFunction<Double> {
+	/**
+	 * Describes this kernel's family (category)
+	 */
+	private final KernelType type;
 	
-	protected Parameter(String key, N value) {
-		super(key);
-		this.value = value;
+	protected Kernel(KernelType type) {
+		this(type.toString(), type);
 	}
 	
-	protected Parameter(Entry<String, ? extends N> e) {
-		this(e.getKey(), e.getValue());
-	}
-	
-	@Override
-	public String getKey() {
-		return getLabel();
+	public Kernel(String label, KernelType type) {
+		super(label);
+		this.type = type;
 	}
 
 	@Override
-	public N getValue() {
-		return value;
+	public int getArity() {
+		return 2;
 	}
 
 	@Override
-	public N setValue(N value) {
-		N old = this.value;
-		this.value = value;
-		return old;
-	}
-	
+	protected native void sync();
+
 	@Override
-	public String setLabel(String label) {
-		throw new UnsupportedOperationException("cannot change parameter labels");
+	public native void benchmark();
+
+	@Override
+	public <E extends Enum<E>> E getType(Class<E> category) throws ClassCastException {
+		return category.cast(type);
 	}
 }

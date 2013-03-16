@@ -14,26 +14,32 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.kernels;
+package lib.alexandria.functions.kernels;
+
+import static lib.alexandria.Generate.Some;
 
 /**
- * A polynomial kernel has the form K(A,B) = (DOT(A,B)+C)^D
- * where D is a positive number TODO what type of number?
+ * A Hyperbolic kernel has the form K(A,B) = TANH(KAPPA*DOT(A,B)-C)
+ * where KAPPA > 0, C < 0, which influence the rate of growth, note ^
  * @author Tor E Hagemann <hagemt@rpi.edu>
+ * @since libalexandria v0.1
  */
-public class PolynomialKernel extends Kernel {
-	public PolynomialKernel(String label, double degree, double constant) {
-		super(label, KernelType.POLY);
-		if (degree <= 0) {
-			throw new IllegalArgumentException("degree must be positive");
+public class HyperbolicKernel extends Kernel implements Some<TrigFlavor> {
+	private TrigFlavor flavor;
+	
+	public HyperbolicKernel(String label, TrigFlavor flavor, double kappa, double constant) {
+		super(label, KernelType.HYPER);
+		if (kappa <= 0 || -constant <= 0) {
+			throw new IllegalArgumentException("parameters must be positive");
 		}
-		this.addParameter("degree", degree);
+		this.flavor = flavor;
+		this.addParameter("kappa", kappa);
 		this.addParameter("constant", constant);
 	}
 	
-	/* By default, make kernel homogeneous (C = 0) */
-	public PolynomialKernel(String label, double degree) {
-		this(label, degree, 0);
+	public TrigFlavor getFlavor() {
+		return flavor;
 	}
 }
+
 

@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional;
+package lib.alexandria.functions;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -52,5 +52,5 @@ public interface Function<R> extends Callable<R>, Profileable {
 	 * @return the result of this Function
 	 */
 	@Override
-	R call() throws Exception;
+	public R call() throws Exception;
 }

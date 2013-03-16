@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional;
+package lib.alexandria.functions;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import static lib.alexandria.Generate.LOG;
-import lib.alexandria.functional.params.ParameterMap;
+import lib.alexandria.functions.params.ParameterMap;
 import lib.alexandria.pipeline.Aqueduct;
 
 /**

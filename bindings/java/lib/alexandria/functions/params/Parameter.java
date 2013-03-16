@@ -14,42 +14,48 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.functional.params;
+package lib.alexandria.functions.params;
 
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
+
+import lib.alexandria.naming.LabelledEntity;
 
 /**
- * A specialized iterator that disallows manipulation of Parameters.
+ * Parameters are pairs of strings and some numeric type
  * @author Tor E Hagemann <hagemt@rpi.edu>
- * @param <N> the type over which each Parameter is templated
- * @see lib.alexandria.functional.params.Parameter
+ * @since libalexandria v0.1
  */
-public class Paramiterator<N extends Number> implements Iterator<Parameter<N>> {
-	private final Iterator<Entry<String, N>> iterator;
+public class Parameter<N extends Number> extends LabelledEntity implements Entry<String, N> {
+	private N value;
 	
-	public Paramiterator(Map<String, N> m) {
-		iterator = m.entrySet().iterator();
+	protected Parameter(String key, N value) {
+		super(key);
+		this.value = value;
+	}
+	
+	protected Parameter(Entry<String, ? extends N> e) {
+		this(e.getKey(), e.getValue());
+	}
+	
+	@Override
+	public String getKey() {
+		return getLabel();
 	}
 
 	@Override
-	public boolean hasNext() {
-		return iterator.hasNext();
+	public N getValue() {
+		return value;
 	}
 
 	@Override
-	public Parameter<N> next() {
-		if (!iterator.hasNext()) {
-			throw new NoSuchElementException();
-		}
-		Entry<String, N> e = iterator.next();
-		return new Parameter<N>(e);
+	public N setValue(N value) {
+		N old = this.value;
+		this.value = value;
+		return old;
 	}
-
+	
 	@Override
-	public void remove() {
-		throw new UnsupportedOperationException();
+	public String setLabel(String label) {
+		throw new UnsupportedOperationException("cannot change parameter labels");
 	}
 }

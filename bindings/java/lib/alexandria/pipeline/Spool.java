@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 import static lib.alexandria.Generate.LOG;
 import static lib.alexandria.Generate.randomString;
 
-import static lib.alexandria.ModelConstants.DEFAULT_TASK_PRIORITY;
+import static lib.alexandria.models.ModelConstants.DEFAULT_TASK_PRIORITY;
 
 import lib.alexandria.naming.LabelledEntity;
 

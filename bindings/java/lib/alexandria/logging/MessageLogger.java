@@ -30,8 +30,8 @@ import java.util.logging.XMLFormatter;
 
 import lib.alexandria.naming.Labelled;
 
-import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
-import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LOG_FORMAT;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LOG_LEVEL;
 
 /**
  * A facility for logging messages via lib.alexandria

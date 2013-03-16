@@ -16,8 +16,8 @@
  */
 package lib.alexandria.naming;
 
-import static lib.alexandria.ModelConstants.LAJ_LABEL_POOL;
-import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.models.ModelConstants.LAJ_LABEL_POOL;
 
 import java.util.HashMap;
 import java.util.Map;

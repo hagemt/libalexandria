@@ -39,7 +39,7 @@ public interface Profileable extends Closeable, Labelled {
 	 * @param category Specifies the type of "flavor" information requested
 	 * @return a "flavor" by which a profiler can identify this object
 	 * @throws ClassCastException if a matching "flavor" cannot be found
-	 * @see lib.alexandria.ModelConstants.ModelType
+	 * @see lib.alexandria.models.ModelConstants.ModelType
 	 */
 	<E extends Enum<E>> E getType(Class<E> category) throws ClassCastException;
 }

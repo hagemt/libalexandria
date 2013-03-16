@@ -20,13 +20,13 @@ package lib.alexandria;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static lib.alexandria.ModelConstants.LAJ_FQN;
-import static lib.alexandria.ModelConstants.LAJ_PREFIX;
-import static lib.alexandria.ModelConstants.LAJ_LABEL_POOL;
-import static lib.alexandria.ModelConstants.DEFAULT_LABEL_LENGTH;
-import static lib.alexandria.ModelConstants.DEFAULT_LOG_FORMAT;
-import static lib.alexandria.ModelConstants.DEFAULT_LOG_LEVEL;
-import static lib.alexandria.ModelConstants.DEFAULT_SEED;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LABEL_LENGTH;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LOG_FORMAT;
+import static lib.alexandria.models.ModelConstants.DEFAULT_LOG_LEVEL;
+import static lib.alexandria.models.ModelConstants.DEFAULT_SEED;
+import static lib.alexandria.models.ModelConstants.LAJ_FQN;
+import static lib.alexandria.models.ModelConstants.LAJ_LABEL_POOL;
+import static lib.alexandria.models.ModelConstants.LAJ_PREFIX;
 
 import lib.alexandria.logging.FormatType;
 import lib.alexandria.logging.Log;
@@ -83,7 +83,7 @@ public class Generate {
 	 * This is used to provide a shared interface for many functions.
 	 * @author Tor E Hagemann <hagemt@rpi.edu>
 	 * @param <L> a type with an intrinsic label
-	 * @see lib.alexandria.functional
+	 * @see lib.alexandria.functions
 	 */
 	public static interface A<L extends LabelledEntity> {
 		/**
@@ -143,7 +143,7 @@ public class Generate {
 	/**
 	 * Generate a random label of the default length.
 	 * @return text that can be used to identify an entity easily
-	 * @see lib.alexandria.ModelConstants#DEFAULT_LABEL_LENGTH
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_LABEL_LENGTH
 	 */
 	public static String randomString() {
 		return randomString(DEFAULT_LABEL_LENGTH);

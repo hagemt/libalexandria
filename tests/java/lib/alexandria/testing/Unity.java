@@ -25,8 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.Executors.defaultThreadFactory;
 
-import static lib.alexandria.ModelConstants.DEFAULT_TIME_TEST;
-import static lib.alexandria.ModelConstants.DEFAULT_TIME_UNIT;
+import static lib.alexandria.models.ModelConstants.DEFAULT_TIME_TEST;
+import static lib.alexandria.models.ModelConstants.DEFAULT_TIME_UNIT;
 
 import static lib.alexandria.Generate.LOG;
 

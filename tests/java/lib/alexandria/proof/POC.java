@@ -17,12 +17,12 @@
 package lib.alexandria.proof;
 
 import static lib.alexandria.Generate.reseed;
-import static lib.alexandria.functional.kernels.KernelType.GAUSS;
-import static lib.alexandria.functional.kernels.KernelType.POLY;
+import static lib.alexandria.functions.kernels.KernelType.GAUSS;
+import static lib.alexandria.functions.kernels.KernelType.POLY;
 
-import lib.alexandria.LearningModel;
-import lib.alexandria.reinforcement.nn.Cortex;
-import lib.alexandria.supervised.KSVM;
+import lib.alexandria.models.LearningModel;
+import lib.alexandria.models.reinforcement.nn.Cortex;
+import lib.alexandria.models.supervised.KSVM;
 import lib.alexandria.testing.UnityHarness;
 
 /**
@@ -62,7 +62,7 @@ public class POC {
 			Cortex native_cortex = new Cortex("native", true);
 			// Kernel Support Vector Machine models
 			KSVM java_ksvm = new KSVM("polynomial", POLY.getDefault());
-			KSVM native_ksvm = new KSVM("guassian", GAUSS.getDefault());
+			KSVM native_ksvm = new KSVM("gaussian", GAUSS.getDefault());
 			// Add both groups and run a proof-of-concept
 			model_harness.addGroup("cortex", java_cortex, native_cortex);
 			model_harness.addGroup("ksvm", java_ksvm, native_ksvm);

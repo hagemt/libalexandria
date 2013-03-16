@@ -15,6 +15,8 @@
 
 include_directories("${BASE_INCLUDE_PATH}")
 
+add_subdirectory(fortran)
+
 if(BIND_C)
   add_subdirectory(c)
 endif(BIND_C)

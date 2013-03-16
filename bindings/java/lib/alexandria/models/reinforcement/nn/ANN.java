@@ -14,8 +14,14 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+package lib.alexandria.models.reinforcement.nn;
 
-/**
- * Provides classes used for supervised learning.
- */
-package lib.alexandria.supervised;
+import lib.alexandria.models.LearningModel;
+
+import static lib.alexandria.models.ModelConstants.ModelType;
+
+public abstract class ANN extends LearningModel {
+	protected ANN(String label) {
+		super(label, ModelType.REINFORCEMENT, false);
+	}
+}

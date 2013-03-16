@@ -14,32 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.supervised;
+package lib.alexandria.models.unsupervised;
 
-import java.io.IOException;
+import lib.alexandria.models.LearningModel;
+import lib.alexandria.models.ModelConstants;
 
-import lib.alexandria.functional.kernels.Kernel;
-import lib.alexandria.functional.kernels.KernelType;
-
-public class KSVM extends SupportVectorMachine {
-	private final Kernel kernel;
-	
-	public KSVM(String label, KernelType type) {
-		this(label, type.getDefault());
-	}
-	
-	public KSVM(String label, Kernel k) {
-		super(label);
-		this.kernel = k;
-	}
-	
-	@Override
-	public void benchmark() {
-		kernel.benchmark();
-	}
-	
-	@Override
-	public void close() throws IOException {
-		kernel.close();
+public abstract class SeparationAlgorithm extends LearningModel {
+	protected SeparationAlgorithm(String label) {
+		super(label, ModelConstants.ModelType.UNSUPERVISED);
 	}
 }

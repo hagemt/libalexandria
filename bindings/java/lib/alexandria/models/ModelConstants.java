@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria;
+package lib.alexandria.models;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Formatter;
@@ -56,31 +56,31 @@ public class ModelConstants {
 	/**
 	 * A testing constant specifying the time to wait for jobs.
 	 * Its standard value is: 10000 (DEFAULT_TIME_UNITs)
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_TIME_RUN;
 
 	/**
 	 * A testing constant specifying the time to wait for joins.
 	 * Its standard value is: 1000 (DEFAULT_TIME_UNITs)
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_TIME_JOIN;
 	
 	/**
 	 * A testing constant specifying the time to train.
 	 * Its standard value is: DEFAULT_TIME_RUN (DEFAULT_TIME_UNITs)
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_TIME_TRAIN;
 
 	/**
 	 * A testing constant specifying the time to test.
 	 * Its standard value is: DEFAULT_TIME_RUN + DEFAULT_TIME_JOIN (DEFAULT_TIME_UNITs)
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_JOIN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_UNIT
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_JOIN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_UNIT
 	 */
 	public static final int DEFAULT_TIME_TEST;
 
@@ -88,10 +88,10 @@ public class ModelConstants {
 	 * A testing constant specifying the time unit for various other testing constants.
 	 * Its standard value is: TimeUnit.MILLISECONDS (from java.util.concurrent)
 	 * @see java.util.concurrent.TimeUnit
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_RUN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_JOIN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_TRAIN
-	 * @see lib.alexandria.ModelConstants#DEFAULT_TIME_TEST
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_RUN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_JOIN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_TRAIN
+	 * @see lib.alexandria.models.ModelConstants#DEFAULT_TIME_TEST
 	 */
 	public static final TimeUnit DEFAULT_TIME_UNIT;
 

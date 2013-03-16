@@ -14,18 +14,10 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.unsupervised;
 
-public class JavaWorker extends Worker {
-	public JavaWorker(Cortex cortex) {
-		super(cortex);
-	}
-
-	@Override
-	public void operate(byte[] a, byte[] b) {
-		assert(a.length == b.length) : "lengths do not match";
-		for (int i = 0; i < a.length; ++i) {
-			a[i] ^= b[i];
-		}
+public abstract class KMeans extends ClusteringAlgorithm {
+	protected KMeans(String label) {
+		super(label);
 	}
 }

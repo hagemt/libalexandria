@@ -14,10 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.unsupervised;
+package lib.alexandria.models.reinforcement.nn;
 
-public abstract class KMeans extends ClusteringAlgorithm {
-	protected KMeans(String label) {
-		super(label);
+public class NativeWorker extends Worker {
+	public NativeWorker(Cortex cortex) {
+		super(cortex);
 	}
+
+	@Override
+	public native void operate(byte[] a, byte[] b);
 }

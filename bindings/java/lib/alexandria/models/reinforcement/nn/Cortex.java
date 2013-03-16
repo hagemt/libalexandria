@@ -14,20 +14,20 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.reinforcement.nn;
 
 import java.io.IOException;
 import static java.util.Arrays.fill;
 
-import lib.alexandria.LearningModel;
+import lib.alexandria.models.LearningModel;
 
 import static lib.alexandria.Generate.LOG;
 
-import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION;
-import static lib.alexandria.ModelConstants.DEFAULT_HTM_DIMENSION_MIN;
-import static lib.alexandria.ModelConstants.DEFAULT_TIME_JOIN;
-import static lib.alexandria.ModelConstants.DEFAULT_TIME_RUN;
-import static lib.alexandria.ModelConstants.ModelType;
+import static lib.alexandria.models.ModelConstants.DEFAULT_HTM_DIMENSION;
+import static lib.alexandria.models.ModelConstants.DEFAULT_HTM_DIMENSION_MIN;
+import static lib.alexandria.models.ModelConstants.DEFAULT_TIME_JOIN;
+import static lib.alexandria.models.ModelConstants.DEFAULT_TIME_RUN;
+import static lib.alexandria.models.ModelConstants.ModelType;
 
 public class Cortex extends LearningModel {
 	/* Each column on an NxN grid */
@@ -90,5 +90,10 @@ public class Cortex extends LearningModel {
 		} catch (InterruptedException ie) {
 			throw new IOException(ie);
 		}
+	}
+
+	@Override
+	public void visit() {
+		// TODO Auto-generated method stub
 	}
 }

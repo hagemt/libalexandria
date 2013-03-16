@@ -14,8 +14,17 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+package lib.alexandria.models.reinforcement;
 
-/**
- * Provides classes used for reinforcement learning.
- */
-package lib.alexandria.reinforcement;
+import lib.alexandria.annotations.TODO;
+import lib.alexandria.models.LearningModel;
+
+
+import static lib.alexandria.models.ModelConstants.ModelType;
+
+@TODO(priority = TODO.Priority.NORMAL)
+public abstract class MarkovDecisionProcess extends LearningModel {
+	protected MarkovDecisionProcess(String label) {
+		super(label, ModelType.REINFORCEMENT, true);
+	}
+}

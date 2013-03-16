@@ -14,13 +14,8 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.supervised;
 
-import lib.alexandria.LearningModel;
-import lib.alexandria.ModelConstants;
-
-public abstract class RegressionAlgorithm extends LearningModel {
-	protected RegressionAlgorithm(String label) {
-		super(label, ModelConstants.ModelType.SUPERVISED);
-	}
-}
+/**
+ * Provides classes used for reinforcement learning.
+ */
+package lib.alexandria.models.reinforcement;

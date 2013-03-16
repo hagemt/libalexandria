@@ -14,13 +14,10 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.unsupervised;
+package lib.alexandria.models.supervised;
 
-import lib.alexandria.LearningModel;
-import lib.alexandria.ModelConstants;
-
-public abstract class ClusteringAlgorithm extends LearningModel {
-	protected ClusteringAlgorithm(String label) {
-		super(label, ModelConstants.ModelType.UNSUPERVISED);
+public abstract class SupportVectorMachine extends ClassificationAlgorithm {
+	protected SupportVectorMachine(String label) {
+		super(label);
 	}
 }

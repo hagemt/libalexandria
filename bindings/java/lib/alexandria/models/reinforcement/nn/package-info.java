@@ -18,4 +18,4 @@
 /**
  * Provides classes to drive neural-network models.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.reinforcement.nn;

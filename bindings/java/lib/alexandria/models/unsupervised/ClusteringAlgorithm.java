@@ -14,13 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.unsupervised;
 
-public class NativeWorker extends Worker {
-	public NativeWorker(Cortex cortex) {
-		super(cortex);
+import lib.alexandria.models.LearningModel;
+import lib.alexandria.models.ModelConstants;
+
+public abstract class ClusteringAlgorithm extends LearningModel {
+	protected ClusteringAlgorithm(String label) {
+		super(label, ModelConstants.ModelType.UNSUPERVISED);
 	}
-
-	@Override
-	public native void operate(byte[] a, byte[] b);
 }

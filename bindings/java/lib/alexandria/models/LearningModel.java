@@ -14,10 +14,12 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria;
+package lib.alexandria.models;
 
-import static lib.alexandria.ModelConstants.ModelType;
+import static lib.alexandria.models.ModelConstants.ModelType;
+import lib.alexandria.Profileable;
 import lib.alexandria.naming.LabelledEntity;
+import lib.alexandria.pipeline.Step;
 
 /**
  * A general template from which all learning models inherit;
@@ -25,7 +27,7 @@ import lib.alexandria.naming.LabelledEntity;
  * @author Tor E Hagemann <hagemt@rpi.edu>
  * @since libalexandria v0.1
  */
-public abstract class LearningModel extends LabelledEntity implements Profileable {
+public abstract class LearningModel extends LabelledEntity implements Profileable, Step {
 	/**
 	 * Represents the mechanism of this model's operation
 	 */

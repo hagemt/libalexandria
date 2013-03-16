@@ -18,4 +18,4 @@
 /**
  * Provides classes used for unsupervised learning.
  */
-package lib.alexandria.unsupervised;
+package lib.alexandria.models.unsupervised;

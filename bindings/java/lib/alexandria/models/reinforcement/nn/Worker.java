@@ -14,7 +14,7 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.reinforcement.nn;
 
 import java.io.IOException;
 import java.io.InputStream;

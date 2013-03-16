@@ -14,14 +14,13 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.reinforcement.nn;
+package lib.alexandria.models.supervised;
 
-import lib.alexandria.LearningModel;
+import lib.alexandria.models.LearningModel;
+import lib.alexandria.models.ModelConstants;
 
-import static lib.alexandria.ModelConstants.ModelType;
-
-public abstract class ANN extends LearningModel {
-	protected ANN(String label) {
-		super(label, ModelType.REINFORCEMENT, false);
+public abstract class RegressionAlgorithm extends LearningModel {
+	protected RegressionAlgorithm(String label) {
+		super(label, ModelConstants.ModelType.SUPERVISED);
 	}
 }

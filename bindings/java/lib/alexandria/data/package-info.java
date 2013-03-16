@@ -14,16 +14,9 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
 
-import lib.alexandria.naming.LabelledEntity;
-
-public abstract class Feature extends LabelledEntity {
-	protected MetricSpace space;
-
-	protected Feature(String label) {
-		super(label);
-	}
-	
-	public abstract boolean isClosed();
-}
+/**
+ * Provides classes for gathering and organizing data samples.
+ * @author Tor E Hagemann <hagemt@rpi.edu>
+ */
+package lib.alexandria.data;

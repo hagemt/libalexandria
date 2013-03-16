@@ -14,8 +14,27 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
+package lib.alexandria.data;
 
-/**
- * Provides classes for gathering and organizing data samples.
- */
-package lib.alexandria.sampling;
+import lib.alexandria.data.sampling.MetricSpace;
+
+public class ClosedInterval<E extends Comparable<E>> extends MetricSpace {
+	private E greatest_lower_bound, least_upper_bound;
+	
+	public ClosedInterval(E a, E b) {
+		super(null);
+		if (a.compareTo(b) > 0) {
+			throw new IllegalArgumentException("lower bound cannot be greater than upper bound");
+		}
+		this.greatest_lower_bound = a;
+		this.least_upper_bound = b;
+	}
+	
+	public E getLowerBound() {
+		return greatest_lower_bound;
+	}
+	
+	public E getUpperBound() {
+		return least_upper_bound;
+	}
+}

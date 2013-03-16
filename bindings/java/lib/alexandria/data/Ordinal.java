@@ -14,22 +14,28 @@
  *    You should have received a copy of the GNU Lesser General Public License
  *    along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
  */
-package lib.alexandria.sampling;
+package lib.alexandria.data;
 
-public abstract class Ordinal<N extends Number> implements Comparable<N> {
-	protected final N value;
+public interface Ordinal {
+	static enum Named implements Ordinal {
+		OMEGA {
+			public boolean isFinite() {
+				return false;
+			}
+			public boolean isCountable() {
+				return true;
+			}
+		},
+		EPSILON {
+			public boolean isFinite() {
+				return false;
+			}
+			public boolean isCountable() {
+				return false;
+			}
+		};
+	};
 	
-	protected Ordinal(N value) {
-		if (value.intValue() < 0) {
-			throw new IllegalArgumentException("ordinals are not negative");
-		}
-		this.value = value;
-	}
-	
-	public abstract boolean isFinite();
-	public abstract boolean isCountable();
-
-	public N value() {
-		return value;
-	}
+	boolean isFinite();
+	boolean isCountable();
 }

@@ -18,7 +18,7 @@ import matlabcontrol.MatlabProxy;
 import matlabcontrol.MatlabProxy.DisconnectionListener;
 import matlabcontrol.MatlabProxyFactory;
 import matlabcontrol.MatlabProxyFactoryOptions;
-import matlabcontrol.extensions.MatlabTypeConverter;
+//import matlabcontrol.extensions.MatlabTypeConverter;
 
 public class MATLABHarness extends Harness implements DisconnectionListener {
 	private static MatlabProxyFactoryOptions options;
@@ -38,13 +38,13 @@ public class MATLABHarness extends Harness implements DisconnectionListener {
 
 	private MatlabProxy proxy;
 	private boolean expected;
-	private MatlabTypeConverter processor;
+	//private MatlabTypeConverter processor;
 
 	public MATLABHarness(String label) throws MatlabConnectionException {
 		super(label);
 		proxy = new LoggingMatlabProxy(factory.getProxy());
 		proxy.addDisconnectionListener(this);
-		processor = new MatlabTypeConverter(proxy);
+		//processor = new MatlabTypeConverter(proxy);
 		expected = false;
 	}
 

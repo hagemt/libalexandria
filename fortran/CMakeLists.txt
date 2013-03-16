@@ -43,7 +43,7 @@ file(GLOB FORTRAN_SOURCES "*.F")
 set_property(SOURCE ${FORTRAN_SOURCES} PROPERTY Fortran_FORMAT FIXED)
 
 add_library(alexander ${FORTRAN_SOURCES})
-target_link_libraries(alexander kolla ${CALG_LIBRARIES})
+target_link_libraries(alexander kolla ${CALG_LIBRARIES} ${BLAS_LIBRARIES})
 set_target_properties(alexander PROPERTIES
   SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
   VERSION   ${CMAKE_PROJECT_VERSION_SO}

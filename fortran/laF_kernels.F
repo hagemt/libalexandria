@@ -16,38 +16,55 @@ C     along with libalexandria.  If not, see <http://www.gnu.org/licenses/>.
 C     -------------------------------------------------------------------------
 #include "la_constants.h"
 
-C     Inhomogenous kernel is V1 dot V2 + C raised to the D power
+C     Inhomogenous kernel is V1 dot V2 plus C raised to the D power
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KPOLY(V1,V2,C,D,K)
-      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2
-      REAL :: C,D,K
+      REAL FUNCTION LAF_KPOLY(V1, V2, C, D, I)
+C      USE ISO_C_BINDING
+      REAL, DIMENSION(LA_SIZEMAX) :: V1, V2
+      REAL :: C, D
+      INTEGER :: I
 C     -------------------------------------------------------------------------
-      K=(DOT_PRODUCT(V1,V2)+C)**D
+      REAL :: BASE
+      BASE = DOT_PRODUCT(V1, V2) + C
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_KPOLY
+      IF (I .EQ. 0)
+        LAF_KPOLY = BASE ** I
+      ELSE
+        LAF_KPOLY = BASE ** D
+      ENDIF
+      END FUNCTION LAF_KPOLY
 C     -------------------------------------------------------------------------
 
 C     Gaussian kernel creates infinite-dimensional Hilbert space
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KGAUSS(V1,V2,GAM,SIG,K)
-      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2,V
-      REAL :: GAM,SIG,K
+      REAL FUNCTION LAF_KGAUSS(V1, V2, GAM, SIG)
+C      USE ISO_C_BINDING
+      REAL, DIMENSION(LA_SIZEMAX) :: V1, V2
+      REAL :: GAM, SIG
 C     -------------------------------------------------------------------------
-      V=V1-V2
-      IF (GAM .LT. LA_MACHEPS) GAM=1/(2*SIG**2 + LA_MACHEPS)
-C     FIXME There is something wrong here...
-      K=EXP(-GAM*SQRT(DOT_PRODUCT(V,V))**2)
+      REAL, DIMENSION(LA_SIZEMAX) :: V
+      V = V1 - V2
+C     Ensure unitary result for near-identical V1 and V2
+      IF (ALL(V .LT. EPSILON(GAM))) THEN
+        V = 0
+      ENDIF
+C     Ensure that GAM is acceptably above zero
+      IF (GAM .LT. LA_MACHEPS) THEN
+        GAM = 1 / (2 * SIG ** 2 + LA_MACHEPS)
+      ENDIF
 C     -------------------------------------------------------------------------
-      END SUBROUTINE LAF_KGAUSS
+      LAF_KGAUSS = EXP(-GAM * DOT_PRODUCT(V, V))
+      END FUNCTION LAF_KGAUSS
 C     -------------------------------------------------------------------------
 
 C     Hyperbolic tangent kernel (with positive parameters)
 C     -------------------------------------------------------------------------
-      SUBROUTINE LAF_KTANH(V1,V2,KAP,C,K)
-      REAL, DIMENSION(LA_SIZEMAX) :: V1,V2
-      REAL :: KAP,C,K
+      SUBROUTINE LAF_KTANH(V1, V2, KAP, C, K)
+C      USE ISO_C_BINDING
+      REAL, DIMENSION(LA_SIZEMAX) :: V1, V2
+      REAL :: KAP, C, K
 C     -------------------------------------------------------------------------
-      K=TANH(KAP*DOT_PRODUCT(V1,V2)-C);
+      K = TANH(KAP * DOT_PRODUCT(V1,V2) - C);
 C     -------------------------------------------------------------------------
       END SUBROUTINE LAF_KTANH
 C     -------------------------------------------------------------------------

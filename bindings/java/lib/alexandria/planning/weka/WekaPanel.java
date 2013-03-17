@@ -6,27 +6,31 @@ import java.beans.PropertyChangeSupport;
 import javax.swing.JPanel;
 
 import weka.core.Instances;
+import weka.gui.Logger;
 import weka.gui.explorer.Explorer;
 import weka.gui.explorer.Explorer.ExplorerPanel;
+import weka.gui.explorer.Explorer.LogHandler;
 
 /**
  * 
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
-public class WekaPanel extends JPanel implements ExplorerPanel {
+public class WekaPanel extends JPanel implements ExplorerPanel, LogHandler {
 	private static final long serialVersionUID = -5110298140815360991L;	
 	private static final String TOOLTIP;
 	static {
 		TOOLTIP = "";
 	}
 	
-	protected final String title;
-	protected Explorer m_Explorer; 
-	protected PropertyChangeSupport m_Support;
+	private final String title;
+	private Explorer m_Explorer; 
+	private PropertyChangeSupport m_Support;
+	private Logger m_Logger;
 	
 	public WekaPanel(final String name) {
-		title = name;
+		setName(title = name);
 		m_Explorer = null;
+		m_Logger = null;
 		m_Support = new PropertyChangeSupport(this);
 	}
 
@@ -80,18 +84,16 @@ public class WekaPanel extends JPanel implements ExplorerPanel {
 		m_Support.removePropertyChangeListener(l);
 	}
 
-	public static void main(String[] args) {
-		final String name = "Test";
-		final javax.swing.JFrame window = new javax.swing.JFrame(name);
-		window.getContentPane().add(new WekaPanel(name));
-		window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-		window.pack();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				window.setVisible(true);
-			}
-		});
+	@Override
+	public void setLog(Logger newLog) {
+		m_Logger = newLog;
 	}
-
+	
+	protected void log(String s) {
+		m_Logger.logMessage(s);
+	}
+	
+	protected void status(String s) {
+		m_Logger.statusMessage(s);
+	}
 }

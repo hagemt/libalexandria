@@ -9,7 +9,7 @@ public class WekaHarness extends Harness {
 
 	public WekaHarness(String label) {
 		super(label);
-		// TODO Auto-generated constructor stub
+		setParallelism(Runtime.getRuntime().availableProcessors());
 	}
 
 	@Override

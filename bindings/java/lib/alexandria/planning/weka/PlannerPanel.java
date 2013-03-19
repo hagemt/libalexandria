@@ -4,21 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -28,12 +38,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import lib.alexandria.planning.MATLABHarness;
 import lib.alexandria.planning.Objective;
 import lib.alexandria.planning.Planner;
 import lib.alexandria.planning.Stream;
 import lib.alexandria.planning.Trainer;
 
+import weka.classifiers.Classifier;
+import weka.experiment.ClassifierSplitEvaluator;
+import weka.experiment.CrossValidationResultProducer;
+import weka.experiment.Experiment;
+import weka.experiment.PropertyNode;
+import weka.experiment.SplitEvaluator;
 import weka.gui.SysErrLog;
 import weka.gui.explorer.Explorer.CapabilitiesFilterChangeEvent;
 import weka.gui.explorer.Explorer.CapabilitiesFilterChangeListener;
@@ -45,14 +64,19 @@ import weka.gui.explorer.Explorer.CapabilitiesFilterChangeListener;
 public class PlannerPanel extends WekaPanel implements
 	ActionListener,
 	CapabilitiesFilterChangeListener,
+	ChangeListener,
 	ClipboardOwner,
 	Planner {
 	private static final long serialVersionUID = 3409476524444377128L;
 	private static final int DEFAULT_GAP = 3;
 
+	private MATLABHarness m_harness;
 	private final WekaHarness harness;
 	private final JProgressBar bar;
 	private final Timer timer;
+	private final JTextArea output;
+	final DefaultListModel<String> m_model;
+	final JTextField m_input;
 
 	public static class ButtonBox extends JPanel {
 		private static final long serialVersionUID = 3905814695438407077L;
@@ -89,42 +113,14 @@ public class PlannerPanel extends WekaPanel implements
 		harness = new WekaHarness(this.getName());
 		timer = new Timer(1000, this);
 
-		JPanel hyper = new NeatPanel("Hyperparameters");
-		hyper.setLayout(new BoxLayout(hyper, BoxLayout.PAGE_AXIS));
-		JPanel k = new NeatPanel("k");
-		k.setLayout(new FlowLayout(FlowLayout.LEFT, DEFAULT_GAP, DEFAULT_GAP));
-		k.add(new JLabel("SVM with c = 10^k, where k = "));
-		SpinnerNumberModel model1 = new SpinnerNumberModel(0, 0, 4, 1);
-		SpinnerNumberModel model2 = new SpinnerNumberModel(5, 5, 9, 1);
-		k.add(new JSpinner(model1));
-		k.add(new JSpinner(model2));
-		hyper.add(new JLabel("('c' controls the SVM's behavior)"));
-		hyper.add(k);
-		hyper.add(bar = new JProgressBar(0));
-
-		JPanel arbiter = new NeatPanel("Arbitration");
-		arbiter.setLayout(new GridLayout(2, 3, DEFAULT_GAP, DEFAULT_GAP));
-		arbiter.add(new JLabel("Data split(s):"));
-		arbiter.add(new JComboBox<Integer>(new Integer[] { 1, 2, 3, 5, 10 }));
-		arbiter.add(new JButton("Run..."));
-		arbiter.add(new JLabel("Mechanism:"));
-		arbiter.add(new JComboBox<String>(new String[] { "Naive", "SRM" }));
-		arbiter.add(new JButton("About..."));
-
-		JPanel svms = new JPanel(new BorderLayout());
-		svms.add(hyper, BorderLayout.CENTER);
-		svms.add(arbiter, BorderLayout.SOUTH);
-		JTabbedPane tabs = new JTabbedPane();
-		tabs.addTab("SVMs", svms);
-		add(tabs);
-
+		// Results pane sits on the right
 		JPanel results = new NeatPanel("Results");
 		results.setLayout(new BorderLayout());
-		final JTextArea output = new JTextArea("...");
+		output = new JTextArea("...");
 		output.setEditable(false);
 		JScrollPane pane = new JScrollPane(output);
 		results.add(pane, BorderLayout.CENTER);
-		ButtonBox box = new ButtonBox("Spin!", "Copy", "Clear");
+		ButtonBox box = new ButtonBox("Copy", "Clear", "Demo");
 		box.bindFunction("Copy", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -139,9 +135,148 @@ public class PlannerPanel extends WekaPanel implements
 				output.setText("");
 			}
 		});
-		box.bindFunction("Spin!", this);
+		box.bindFunction("Demo", this);
 		results.add(box, BorderLayout.SOUTH);
+		
+		// 
+		JPanel hyper = new NeatPanel("Hyperparameters");
+		hyper.setLayout(new BoxLayout(hyper, BoxLayout.PAGE_AXIS));
+		JPanel simple = new NeatPanel("c");
+		simple.setLayout(new FlowLayout(FlowLayout.LEFT, DEFAULT_GAP, DEFAULT_GAP));
+		simple.add(new JLabel("SVM with c = 10^k, where k = "));
+		final SpinnerNumberModel model1 = new SpinnerNumberModel(0, 0, 4, 1);
+		final SpinnerNumberModel model2 = new SpinnerNumberModel(5, 5, 9, 1);
+		simple.add(new JSpinner(model1));
+		simple.add(new JSpinner(model2));
+		hyper.add(new JLabel("('c' controls the SVM's behavior)"));
+		hyper.add(simple);
+		hyper.add(bar = new JProgressBar(0));
+
+		JPanel arbiter = new NeatPanel("Arbitration");
+		arbiter.setLayout(new GridLayout(3, 3, DEFAULT_GAP, DEFAULT_GAP));
+		arbiter.add(new JLabel("Data split(s):"));
+		arbiter.add(new JComboBox<Integer>(new Integer[] { 1, 2, 3, 5, 10 }));
+		arbiter.add(new JLabel("-fold"));
+		arbiter.add(new JLabel("Iterations:"));
+		arbiter.add(new JComboBox<Integer>(new Integer[] { 1, 2, 3, 5, 10 }));
+		JButton run_button = new JButton("Run...");
+		run_button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlannerPanel.this.LibSVM(1, 1, model1.getNumber(), model2.getNumber());
+			}
+		});
+		arbiter.add(run_button);
+		arbiter.add(new JLabel("Mechanism:"));
+		arbiter.add(new JComboBox<String>(new String[] { "Naive", "SRM" }));
+		JButton about_button = new JButton("About...");
+		about_button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final String message = "This will give information to the user about their options.";
+				JOptionPane.showMessageDialog(PlannerPanel.this, message,
+						"About SVMs", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		arbiter.add(about_button);
+
+		JPanel svms = new JPanel(new BorderLayout());
+		svms.add(hyper, BorderLayout.CENTER);
+		svms.add(arbiter, BorderLayout.SOUTH);
+
+		JPanel m_history = new NeatPanel("Commands");
+		m_history.setLayout(new BorderLayout(DEFAULT_GAP, DEFAULT_GAP));
+		m_model = new DefaultListModel<String>();
+		final JList<String> m_list = new JList<String>(m_model);
+		JScrollPane m_commands = new JScrollPane(m_list);
+		m_history.add(m_commands, BorderLayout.CENTER);
+
+		JPanel m_prompt = new JPanel();
+		m_prompt.setLayout(new BoxLayout(m_prompt, BoxLayout.LINE_AXIS));
+		m_prompt.add(new JLabel(">> "));
+		m_input = new JTextField("# Enter MATLAB commands here");
+		m_input.setEnabled(false);
+		m_input.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) { }
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					String text = m_input.getText();
+					m_model.addElement(text);
+					m_input.setText("");
+					e.consume();
+					PlannerPanel.this.MATLAB(text);
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) { }
+		});
+		m_input.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				m_input.selectAll();
+			}
+			@Override
+			public void focusLost(FocusEvent e) { }
+		});
+		m_prompt.add(m_input);
+
+		JPanel m_panel = new JPanel(new BorderLayout());
+		m_panel.add(m_history, BorderLayout.CENTER);
+		m_panel.add(m_prompt, BorderLayout.SOUTH);
+
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.addChangeListener(this);
+		tabs.addTab("SVMs", svms);
+		tabs.addTab("MATLAB", m_panel);
+		add(tabs);
 		add(results);
+	}
+
+	protected void LibSVM(int splits, int iterations, Number low, Number high) {
+		/*
+		Experiment exp = new Experiment();
+		exp.setPropertyArray(new Classifier[0]);
+		exp.setUsePropertyIterator(true);
+		SplitEvaluator se = new ClassifierSplitEvaluator();
+		CrossValidationResultProducer cvrp = new CrossValidationResultProducer();
+		cvrp.setNumFolds(splits);
+		cvrp.setSplitEvaluator(se);
+		Classifier sec = ((ClassifierSplitEvaluator) se).getClassifier();
+		// Is this really necessary?
+		PropertyNode[] propertyPath = new PropertyNode[2];
+		try {
+			PropertyDescriptor sepd = new PropertyDescriptor("splitEvaluator", cvrp.getClass());
+			propertyPath[0] = new PropertyNode(se, sepd, cvrp.getClass());
+			PropertyDescriptor secpd = new PropertyDescriptor("classifier", se.getClass());
+			propertyPath[1] = new PropertyNode(sec, secpd, se.getClass());
+		}
+		catch (IntrospectionException e) {
+			e.printStackTrace();
+		}
+		exp.setResultProducer(cvrp);
+		exp.setPropertyPath(propertyPath);
+	    exp.setRunLower(1);
+	    exp.setRunUpper(iterations);
+	    // Run experiments...
+	    try {
+			exp.initialize();
+		    exp.runExperiment();
+		    exp.postProcess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    */
+	    output.setText("");
+	}
+
+	protected void MATLAB(String text) {
+		if (m_harness == null || !m_harness.isConnected()) {
+			output.setText("ERROR: problem communicating with MATLAB");
+			return;
+		}
+		output.setText(m_harness.result(text));
 	}
 
 	/* (non-Javadoc)
@@ -195,6 +330,7 @@ public class PlannerPanel extends WekaPanel implements
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		// TODO Auto-generated method stub, do nothing?
+		System.out.println(clipboard + ":\n" + contents);
 	}
 
 	@Override
@@ -206,5 +342,31 @@ public class PlannerPanel extends WekaPanel implements
 	public void actionPerformed(ActionEvent e) {
 		bar.setValue((bar.getValue() + 1) % 100);
 		timer.restart();
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent event) {
+		output.setText("");
+		Object src = event.getSource();
+		if (src instanceof JTabbedPane) {
+			JTabbedPane pane = (JTabbedPane) src;
+			if (pane.getTitleAt(pane.getSelectedIndex()).equals("MATLAB")) {
+				try {
+					m_harness = new MATLABHarness("WEKA");
+					m_model.addElement("### MATLAB: " + new Date().toString());
+					m_input.setEnabled(true);
+				} catch (Exception e) {
+					output.setText(e.toString());
+				}
+			} else if (m_harness != null && m_harness.isConnected()) {
+				try {
+					m_input.setEnabled(false);
+					m_harness.close();
+					m_model.addElement("### CLOSED: " + new Date().toString());
+				} catch (Exception e) {
+					output.setText(e.toString());
+				}
+			}
+		}
 	}
 }

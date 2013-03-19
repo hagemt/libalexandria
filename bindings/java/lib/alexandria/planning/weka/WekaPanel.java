@@ -12,26 +12,26 @@ import weka.gui.explorer.Explorer.ExplorerPanel;
 import weka.gui.explorer.Explorer.LogHandler;
 
 /**
- * 
+ * A Weka explorer panel with logging capabilities.
  * @author Tor E Hagemann <hagemt@rpi.edu>
  */
 public class WekaPanel extends JPanel implements ExplorerPanel, LogHandler {
 	private static final long serialVersionUID = -5110298140815360991L;	
 	private static final String TOOLTIP;
 	static {
-		TOOLTIP = "";
+		TOOLTIP = "libalexandria";
 	}
 	
 	private final String title;
-	private Explorer m_Explorer; 
-	private PropertyChangeSupport m_Support;
+	private final PropertyChangeSupport m_Support;
+	private Explorer m_Explorer;
 	private Logger m_Logger;
 	
 	public WekaPanel(final String name) {
 		setName(title = name);
+		m_Support = new PropertyChangeSupport(this);
 		m_Explorer = null;
 		m_Logger = null;
-		m_Support = new PropertyChangeSupport(this);
 	}
 
 	/* (non-Javadoc)

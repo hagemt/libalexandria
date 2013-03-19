@@ -1,6 +1,7 @@
 package lib.alexandria.planning.weka;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -23,14 +24,17 @@ import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
@@ -81,13 +85,12 @@ public class PlannerPanel extends WekaPanel implements
 	public static class ButtonBox extends JPanel {
 		private static final long serialVersionUID = 3905814695438407077L;
 		private final HashMap<String, JButton> buttons;
-		private final JTextField field;
 		public ButtonBox(String... labels) {
 			setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 			add(Box.createHorizontalGlue());
-			field = new JTextField("Quick Feedback");
-			field.setEnabled(false);
-			add(field);
+			JLabel status = new JLabel("Status: Ready");
+			status.setEnabled(false);
+			add(status);
 			buttons = new HashMap<String, JButton>();
 			for (String label : labels) {
 				JButton button = new JButton(label);
@@ -138,9 +141,6 @@ public class PlannerPanel extends WekaPanel implements
 		box.bindFunction("Demo", this);
 		results.add(box, BorderLayout.SOUTH);
 		
-		// 
-		JPanel hyper = new NeatPanel("Hyperparameters");
-		hyper.setLayout(new BoxLayout(hyper, BoxLayout.PAGE_AXIS));
 		JPanel simple = new NeatPanel("c");
 		simple.setLayout(new FlowLayout(FlowLayout.LEFT, DEFAULT_GAP, DEFAULT_GAP));
 		simple.add(new JLabel("SVM with c = 10^k, where k = "));
@@ -148,15 +148,48 @@ public class PlannerPanel extends WekaPanel implements
 		final SpinnerNumberModel model2 = new SpinnerNumberModel(5, 5, 9, 1);
 		simple.add(new JSpinner(model1));
 		simple.add(new JSpinner(model2));
+
+		JPanel next = new NeatPanel("Kernel");
+		next.setLayout(new FlowLayout(FlowLayout.CENTER, DEFAULT_GAP, DEFAULT_GAP));
+		JRadioButton kernel_none = new JRadioButton("None", true);
+		JRadioButton kernel_some = new JRadioButton("", false);
+		JPanel kernel_opts = new JPanel();
+		kernel_opts.setLayout(new BoxLayout(kernel_opts, BoxLayout.PAGE_AXIS));
+		JCheckBox kernel_lin = new JCheckBox("Linear", false);
+		JCheckBox kernel_ply = new JCheckBox("Polynomial", false);
+		JCheckBox kernel_rbf = new JCheckBox("RBF", false);
+		JCheckBox kernel_sig = new JCheckBox("Sigmoid", false);
+		ButtonGroup kernel_buttons = new ButtonGroup();
+		kernel_buttons.add(kernel_none);
+		kernel_buttons.add(kernel_some);
+		kernel_opts.add(kernel_lin);
+		kernel_opts.add(kernel_ply);
+		kernel_opts.add(kernel_rbf);
+		kernel_opts.add(kernel_sig);
+		next.add(kernel_none);
+		next.add(kernel_some);
+		next.add(kernel_opts);
+		next.setEnabled(false);
+		for (Component c : next.getComponents()) {
+			c.setEnabled(false);
+		}
+		for (Component c : kernel_opts.getComponents()) {
+			c.setEnabled(false);
+		}
+		
+		// SVM Hyperparameters
+		JPanel hyper = new NeatPanel("Hyperparameters");
+		hyper.setLayout(new BoxLayout(hyper, BoxLayout.PAGE_AXIS));		
 		hyper.add(new JLabel("('c' controls the SVM's behavior)"));
 		hyper.add(simple);
+		hyper.add(next);
 		hyper.add(bar = new JProgressBar(0));
 
 		JPanel arbiter = new NeatPanel("Arbitration");
 		arbiter.setLayout(new GridLayout(3, 3, DEFAULT_GAP, DEFAULT_GAP));
 		arbiter.add(new JLabel("Data split(s):"));
 		arbiter.add(new JComboBox<Integer>(new Integer[] { 1, 2, 3, 5, 10 }));
-		arbiter.add(new JLabel("-fold"));
+		arbiter.add(new JLabel("-fold, using CV"));
 		arbiter.add(new JLabel("Iterations:"));
 		arbiter.add(new JComboBox<Integer>(new Integer[] { 1, 2, 3, 5, 10 }));
 		JButton run_button = new JButton("Run...");
@@ -179,6 +212,11 @@ public class PlannerPanel extends WekaPanel implements
 			}
 		});
 		arbiter.add(about_button);
+		for (Component c : arbiter.getComponents()) {
+			if (c instanceof JComboBox) {
+				c.setEnabled(false);
+			}
+		}
 
 		JPanel svms = new JPanel(new BorderLayout());
 		svms.add(hyper, BorderLayout.CENTER);
@@ -268,7 +306,7 @@ public class PlannerPanel extends WekaPanel implements
 			e.printStackTrace();
 		}
 	    */
-	    output.setText("");
+	    output.setText("Running experiment(s)...");
 	}
 
 	protected void MATLAB(String text) {

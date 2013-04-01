@@ -33,6 +33,10 @@ public class KSVM extends SupportVectorMachine {
 		this.kernel = k;
 	}
 	
+	public KSVM(Kernel k) {
+		this(k.getLabel(), k);
+	}
+
 	@Override
 	public void benchmark() {
 		kernel.benchmark();

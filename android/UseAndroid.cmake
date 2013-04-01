@@ -228,7 +228,7 @@ endif(NOT ANDROID)
 include(${LOCATION}/${APP_NAME}.ha.cmake OPTIONAL)
 
 # Resource files
-add_subdirectory(${LOCATION}/res)
+add_subdirectory(${LOCATION}/assets)
 # Java source files
 add_subdirectory(${LOCATION}/src)
 # Native source files

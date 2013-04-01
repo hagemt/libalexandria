@@ -20,11 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lib.alexandria.Model;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 
 public class MLService extends IntentService {
@@ -36,11 +40,23 @@ public class MLService extends IntentService {
 	private static final String FAILURE = "lib.alexandria.lannister.work.invalid";
 	private static final String INTERNAL_NAME = "lib.alexandria.lannister.service";
 	
+	private final Model.Stub binding;
 	private Map<Bundle, Handler> pool;
 	
 	public MLService() {
 		super(INTERNAL_NAME);
 		pool = new HashMap<Bundle, Handler>();
+		binding = new Model.Stub() {
+			@Override
+			public void run() throws RemoteException {
+				// TODO Auto-generated method stub
+			}
+		};
+	}
+	
+	@Override
+	public IBinder onBind(Intent intent) {
+		return binding;
 	}
 
 	@Override

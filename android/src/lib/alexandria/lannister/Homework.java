@@ -18,8 +18,10 @@ package lib.alexandria.lannister;
 
 import java.util.concurrent.FutureTask;
 
-import lib.alexandria.LearningModel;
-import lib.alexandria.supervised.KSVM;
+import lib.alexandria.functions.kernels.Kernel;
+import lib.alexandria.functions.kernels.KernelType;
+import lib.alexandria.models.LearningModel;
+import lib.alexandria.models.supervised.KSVM;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -34,7 +36,15 @@ public class Homework extends FutureTask<Void> implements Parcelable, Pingable {
 	public static final Parcelable.Creator<Homework> CREATOR = new Parcelable.Creator<Homework>() {
 		public Homework createFromParcel(Parcel in) {
 			int mark = in.readInt();
-			LearningModel model = new KSVM(in.readString());
+			String label = in.readString();
+			LearningModel model = null;
+			for (KernelType kt : KernelType.values()) {
+				Kernel k = kt.knownAs(label);
+				if (k != null) {
+					model = new KSVM(k);
+					break;
+				}
+			}
 			return new Homework(mark, model);
 		}
 		public Homework[] newArray(int size) {

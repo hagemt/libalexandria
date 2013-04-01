@@ -123,7 +123,7 @@ public class PlannerPanel extends WekaPanel implements
 		output.setEditable(false);
 		JScrollPane pane = new JScrollPane(output);
 		results.add(pane, BorderLayout.CENTER);
-		ButtonBox box = new ButtonBox("Copy", "Clear", "Demo");
+		ButtonBox box = new ButtonBox("Copy", "Clear", "Save");
 		box.bindFunction("Copy", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -138,7 +138,7 @@ public class PlannerPanel extends WekaPanel implements
 				output.setText("");
 			}
 		});
-		box.bindFunction("Demo", this);
+		box.bindFunction("Save", this);
 		results.add(box, BorderLayout.SOUTH);
 		
 		JPanel simple = new NeatPanel("c");
@@ -390,7 +390,7 @@ public class PlannerPanel extends WekaPanel implements
 			JTabbedPane pane = (JTabbedPane) src;
 			if (pane.getTitleAt(pane.getSelectedIndex()).equals("MATLAB")) {
 				try {
-					m_harness = new MATLABHarness("WEKA");
+					m_harness = new MATLABHarness(this.getTabTitle());
 					m_model.addElement("### MATLAB: " + new Date().toString());
 					m_input.setEnabled(true);
 				} catch (Exception e) {

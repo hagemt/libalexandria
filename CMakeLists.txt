@@ -115,7 +115,7 @@ if(BIND_JAVA)
   endif(BUILD_TESTING)
   # Setup to compile/run Java sources/binaries
   if(NOT Java_FOUND)
-    message(STATUS "Looking for Java ${JAVA_VERSION_MINIMUM} (${JAVA_COMPONENTS};JNI)")
+    message(STATUS "Looking for Java ${JAVA_VERSION_MINIMUM}+ (${JAVA_COMPONENTS};JNI)")
     find_package(Java 1.${JAVA_VERSION_MINIMUM} COMPONENTS ${JAVA_COMPONENTS})
   endif(NOT Java_FOUND)
   if(NOT Java_Development_FOUND)

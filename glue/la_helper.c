@@ -53,7 +53,7 @@ __la_free_buffer_table_value(HashTableValue v)
 {
 	la_value_t *value = (la_value_t *)(v);
 	LOGV("%p (hash table: releasing value)", v);
-        assert(value);
+	assert(value);
 	LOGV("%p (hash table: releasing native array %p)", v, value->buffer);
 	assert(value->buffer);
 	free(value->buffer);

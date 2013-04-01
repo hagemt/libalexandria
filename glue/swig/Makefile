@@ -45,7 +45,7 @@ CFLAGS         := -Wall -Wextra -fPIC $(CFLAGS_EXTRA)
 CFLAGS_PYTHON  := -I/usr/include/python2.6
 CFLAGS_RUBY    := -I/usr/include/ruby-1.9.1
 
-LDFLAGS_CALG   := $(shell $(PC) pkg-config --libs libcalg-1.0)
+LDFLAGS_CALG   := $(shell $(PC) --libs libcalg-1.0)
 LDFLAGS_EXTRA  := -L./lib $(LDFLAGS_CALG)
 LDFLAGS        := -shared $(LDFLAGS_EXTRA)
 

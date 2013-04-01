@@ -35,11 +35,12 @@ endmacro(javah)
 collect_headers("*.h" LAJ_HEADER_FILES LAJ_INCLUDES PARENT_SCOPE)
 set_property(SOURCE ${LAJ_HEADER_FILES} PROPERTY GENERATED TRUE)
 javah(lib.alexandria
-  "lib.alexandria.functional.RealParameterizedFunction"
-  "lib.alexandria.functional.kernels.Kernel"
-  "lib.alexandria.functional.wavelets.Wavelet"
-  "lib.alexandria.pipeline.Aqueduct"
-  "lib.alexandria.reinforcement.nn.NativeWorker"
+	"lib.alexandria.functions.RealParameterizedFunction"
+	"lib.alexandria.functions.kernels.Kernel"
+	"lib.alexandria.functions.sigmoid.SigmoidFunction"
+	"lib.alexandria.functions.wavelets.Wavelet"
+	"lib.alexandria.models.reinforcement.nn.NativeWorker"
+	"lib.alexandria.pipeline.Aqueduct"
 )
 
 # Install these (if possible)

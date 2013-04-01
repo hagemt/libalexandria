@@ -4,10 +4,12 @@
 !.gitignore
 !CMakeLists.txt
 # Add known native headers to support easy build
-!lib_alexandria_functional_kernels_Kernel.h
-!lib_alexandria_functional_RealParameterizedFunction.h
-!lib_alexandria_functional_wavelets_Wavelet.h
+!lib_alexandria_functions_RealParameterizedFunction.h
+!lib_alexandria_functions_kernels_Kernel.h
+!lib_alexandria_functions_sigmoid_SigmoidFunction.h
+!lib_alexandria_functions_wavelets_Wavelet.h
 !lib_alexandria_pipeline_Aqueduct.h
-!lib_alexandria_reinforcement_nn_NativeWorker.h
+!lib_alexandria_pipeline_Aqueduct_State.h
+!lib_alexandria_models_reinforcement_nn_NativeWorker.h
 # For tests
 !lib_alexandria_proof_POC.h
